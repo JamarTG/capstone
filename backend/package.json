@@ -1,0 +1,44 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend of an AI Powered IT Tutor",
+  "keywords": [
+    "AI",
+    "Quiz",
+    "Capstone"
+  ],
+  "homepage": "https://github.com/JamarTG/capstone#readme",
+  "bugs": {
+    "url": "https://github.com/JamarTG/capstone/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamarTG/capstone.git"
+  },
+  "license": "ISC",
+  "author": "Jamari McFarlane",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts"
+  },
+  "dependencies": {
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "http": "^0.0.1-security",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/helmet": "^0.0.48",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.10",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
