@@ -4,6 +4,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import http from "http";
 import compression from "compression";
+import { config } from "dotenv";
+
+config();
 
 const app: Application = express();
 
@@ -20,6 +23,6 @@ app.get("/", (_request: Request, response: Response) => {
 
 const server = http.createServer(app);
 
-server.listen(5000, () => {
-  console.log("Server is running on port 5000 🚀");
+server.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT} 🚀`);
 });
