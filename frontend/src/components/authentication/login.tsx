@@ -87,7 +87,7 @@ export default function Login() {
             <div className="text-sm">
               <a
                 href="#"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                className="font-semibold text-blue-400 hover:text-blue-500"
               >
                 Forgot password?
               </a>
@@ -111,18 +111,18 @@ export default function Login() {
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign in
           </button>
         </div>
       </form>
 
-      <p className="mt-10 text-center text-sm/6 text-gray-500">
+      <p className="mt-10 text-center text-sm/6 text-gray-200">
         Not a member?{" "}
         <Link
           to={"/register"}
-          className="font-semibold text-indigo-600 hover:text-indigo-500"
+          className="font-semibold text-blue-400  hover:text-blue-500"
         >
           Start your Journey
         </Link>

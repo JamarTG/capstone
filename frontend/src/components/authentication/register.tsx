@@ -131,7 +131,7 @@ export default function Register() {
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Register
           </button>
@@ -142,7 +142,7 @@ export default function Register() {
         Already a member?{" "}
         <Link
           to={"/login"}
-          className="font-semibold text-indigo-600 hover:text-indigo-500"
+          className="font-semibold text-blue-400  hover:text-blue-500"
         >
           Sign in
         </Link>
