@@ -6,7 +6,7 @@ interface HomeLayoutProps {
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   return (
-    <div className="h-screen w-screen relative flex overflow-hidden">
+    <div className="h-screen w-screen relative flex">
       <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-gray-400">
         <Link
           to={"/"}
@@ -150,7 +150,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         </Link>
       </aside>
 
-      <main className="w-full h-full flex relative overflow-y-hidden justify-center items-center">{children}</main>
+      <main className="w-full h-full flex relative overflow-y-auto justify-center items-center">{children}</main>
     </div>
   );
 };
