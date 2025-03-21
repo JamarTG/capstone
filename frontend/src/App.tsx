@@ -1,9 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomeLayout from "./components/layout/home";
-import QuizResult from "./components/quiz/quiz-result";
+import SidebarLayout from "./components/layout/sidebar";
 import Login from "./components/authentication/login";
 import Register from "./components/authentication/register";
+import QuizHistory from "./pages/quiz-history";
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
         <Route
           path="/"
           element={
-            <HomeLayout>
-              <QuizResult />
-            </HomeLayout>
+            <SidebarLayout>
+              <QuizHistory/>
+            </SidebarLayout>
           }
         />
         <Route
@@ -35,7 +35,7 @@ function App() {
         />
         <Route
           path="/insights"
-          element={<HomeLayout><></></HomeLayout>}
+          element={<SidebarLayout><></></SidebarLayout>}
         />
       </Routes>
     </BrowserRouter>

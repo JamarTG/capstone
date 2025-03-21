@@ -3,7 +3,7 @@ interface HomeLayoutProps {
   children: ReactNode;
 }
 
-const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
+const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   return (
     <div className="h-screen w-screen relative flex overflow-hidden">
       <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-white">
@@ -124,4 +124,4 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   );
 };
 
-export default HomeLayout;
+export default SidebarLayout;
