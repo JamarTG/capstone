@@ -4,7 +4,7 @@ import SidebarLayout from "./components/layout/sidebar";
 import Login from "./components/authentication/login";
 import Register from "./components/authentication/register";
 import QuizHistory from "./pages/quiz-history";
-import Quiz from "./pages/Quiz";
+import Quiz from "./pages/quiz";
 import Settings from "./pages/settings";
 import StudyPlan from "./pages/study-plan";
 import Dashboard from "./pages/dashboard";

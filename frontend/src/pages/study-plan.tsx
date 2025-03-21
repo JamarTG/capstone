@@ -1,10 +1,7 @@
 import PageContent from "../components/layout/page-content";
 import { getWeaknessColor } from "../utils";
+import { WeakArea } from "../types/study-plan";
 
-interface WeakArea {
-  topic: string;
-  weakPercentage: number;
-}
 
 interface StudyPlanPageProps {
   weakAreas: WeakArea[];
