@@ -59,6 +59,3 @@ Now you’re all set up to run the project locally!
 3. **Review Your Study Plan**: AI will generate a personalized learning path based on your quiz results.
 4. **Engage with Learning Materials**: Dive into the recommended study resources, practice questions, and explanations.
 5. **Track Your Progress**: Monitor your improvement over time and adjust your learning strategy as needed.
-
-## Supervisor 👨‍🏫
-Professor Gunjan Mansingh
