@@ -72,7 +72,6 @@ function App() {
                 ]}
                 onRetakeQuiz={(topic: string) => {
                   console.log(`Retaking quiz for topic: ${topic}`);
-                  // Add your logic here to handle quiz retake
                 }}
               />
             </SidebarLayout>
