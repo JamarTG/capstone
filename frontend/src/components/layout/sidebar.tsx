@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 interface HomeLayoutProps {
   children?: ReactNode;
 }
@@ -8,14 +8,18 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   return (
     <div className="h-screen w-screen relative flex">
       <aside className="h-full w-16 flex flex-col items-center justify-between relative bg-gray-800 text-gray-400 py-4">
-        <Link to={"/"} className="">
+        <NavLink to={"/"}>
           <img src="/croppedAppLogoIcon.png" />
-        </Link>
+        </NavLink>
 
         <div className="flex flex-col space-y-10 ">
-          <Link
+          <NavLink
             to={"/"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -32,11 +36,15 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to={"/quiz"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,11 +61,15 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
             </svg>
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to={"/quiz-history"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -71,18 +83,18 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               stroke-linejoin="round"
               className="feather feather-clock"
             >
-              <circle
-                cx="12"
-                cy="12"
-                r="10"
-              ></circle>
+              <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to={"/study-plan"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,13 +111,17 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
-          </Link>
+          </NavLink>
         </div>
 
         <div className="flex flex-col space-y-2">
-          <Link
+          <NavLink
             to={"/settings"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -127,11 +143,15 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to={"/logout"}
-            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+            className={({ isActive }) =>
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
+                isActive ? "bg-white text-gray-800" : ""
+              }`
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -147,14 +167,9 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             >
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16 17 21 12 16 7"></polyline>
-              <line
-                x1="21"
-                y1="12"
-                x2="9"
-                y2="12"
-              ></line>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
             </svg>
-          </Link>
+          </NavLink>
         </div>
       </aside>
 
