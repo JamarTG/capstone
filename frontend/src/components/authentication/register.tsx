@@ -64,7 +64,7 @@ export default function Register() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm/6 font-medium text-gray-900"
+            className="block text-sm/6 font-medium text-gray-300"
           >
             Email address
           </label>
@@ -87,7 +87,7 @@ export default function Register() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm/6 font-medium text-gray-900"
+            className="block text-sm/6 font-medium text-gray-300"
           >
             Password
           </label>
@@ -109,7 +109,7 @@ export default function Register() {
         <div>
           <label
             htmlFor="confirmPassword"
-            className="block text-sm/6 font-medium text-gray-900"
+            className="block text-sm/6 font-medium text-gray-300"
           >
             Confirm Password
           </label>
