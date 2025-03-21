@@ -12,7 +12,7 @@ const Settings = () => {
           <p className="text-slate-500">{user.email}</p>
           <small className="text-slate-500">Joined on {user.joinedDate}</small>
           <hr className="my-4 border-slate-200" />
-          <h2 className="text-xl font-semibold mb-4">Update Username</h2>
+          <h2 className="text-md text-slate-800 font-semibold mb-4">Update Your Username</h2>
           <input
             className="w-full p-2 border border-gray-300 rounded mb-4"
             type="text"
@@ -22,11 +22,12 @@ const Settings = () => {
             variant="primary"
             className="py-2 w-full"
           >
-            Update Username
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Save Username
           </Button>
         </div>
         <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
-          <h2 className="text-2xl font-semibold mb-4">Update Your Password</h2>
+          <h2 className="text-md text-slate-800 font-semibold mb-4">Update Your Password</h2>
           <input
             className="w-full p-2 border border-gray-300 rounded mb-4"
             type="password"
@@ -41,7 +42,8 @@ const Settings = () => {
             variant="primary"
             className="py-2 w-full"
           >
-            Update Password
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Save New Password
           </Button>
           <hr className="my-4 border-slate-200" />
           <Button
