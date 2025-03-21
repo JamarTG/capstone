@@ -21,7 +21,10 @@ const StudyPlan: React.FC<StudyPlanPageProps> = ({ weakAreas, onRetakeQuiz }) =>
           </thead>
           <tbody>
             {weakAreas.map((area, index) => (
-              <tr key={index} className="hover:bg-gray-100">
+              <tr
+                key={index}
+                className="hover:bg-gray-100"
+              >
                 <td className="py-2 px-4 text-slate-600 border-b border-gray-200">{area.topic}</td>
                 <td className="py-2 px-4 text-slate-600 border-b border-gray-200">
                   <div className="mb-2">{area.weakPercentage}%</div>

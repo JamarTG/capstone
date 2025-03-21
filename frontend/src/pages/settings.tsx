@@ -1,13 +1,8 @@
 import PageContent from "../components/layout/page-content";
 import Button from "../components/ui/button";
+import { user } from "../data/user";
 
 const Settings = () => {
-  const user = {
-    username: "john_doe",
-    email: "john.doe@example.com",
-    joinedDate: "January 1, 2020",
-  };
-
   return (
     <PageContent title="Settings">
       <div className="flex flex-col items-center gap-4">
@@ -17,22 +12,17 @@ const Settings = () => {
           <p className="text-slate-500">{user.email}</p>
           <small className="text-slate-500">Joined on {user.joinedDate}</small>
           <hr className="my-4 border-slate-200" />
-          <h2 className="text-xl font-semibold mb-4">Update Username/Email</h2>
+          <h2 className="text-xl font-semibold mb-4">Update Username</h2>
           <input
             className="w-full p-2 border border-gray-300 rounded mb-4"
             type="text"
             placeholder="Enter your username"
           />
-          <input
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-            type="email"
-            placeholder="Enter your email"
-          />
           <Button
             variant="primary"
             className="py-2 w-full"
           >
-            Update Username/Email
+            Update Username
           </Button>
         </div>
         <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">

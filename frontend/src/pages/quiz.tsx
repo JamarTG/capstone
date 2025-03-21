@@ -1,12 +1,11 @@
 import { useState } from "react";
 import PageContent from "../components/layout/page-content";
-
-const sections = ["Mathematics", "Science", "History", "Geography", "English", "Computing", "Physics", "Chemistry"];
+import { sections } from "../data/section";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [quizStarted, setQuizStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60); // Example timer (60 sec)
+  const [timeLeft, setTimeLeft] = useState(60); 
   const [showResults, setShowResults] = useState(false);
 
   const handleStartQuiz = () => {
@@ -55,7 +54,7 @@ const QuizPage = () => {
             <h2 className="text-xl font-bold mb-4">{selectedSection} Quiz</h2>
             <p className="text-lg font-semibold text-red-500">Time Left: {timeLeft}s</p>
             <div className="mt-4">
-              {/* Quiz questions would be displayed here */}
+           
               <p>Question 1: Example question?</p>
               <div className="flex gap-2 mt-2">
                 <button className="px-4 py-2 bg-gray-200 rounded">Option A</button>
