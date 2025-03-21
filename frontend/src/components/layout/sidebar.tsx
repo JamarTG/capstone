@@ -8,7 +8,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   return (
     <div className="h-screen w-screen relative flex">
       <aside className="h-full w-16 flex flex-col items-center justify-between relative bg-gray-800 text-gray-400 py-4">
-        <Link to={"/"}>
+        <Link to={"/"} className="">
           <img src="/croppedAppLogoIcon.png" />
         </Link>
 
