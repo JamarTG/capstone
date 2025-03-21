@@ -1,5 +1,5 @@
 import PageContent from "../components/layout/page-content";
-import Button from "../components/ui/button";
+import { getWeaknessColor } from "../utils";
 
 interface WeakArea {
   topic: string;
@@ -12,43 +12,45 @@ interface StudyPlanPageProps {
 }
 
 const StudyPlan: React.FC<StudyPlanPageProps> = ({ weakAreas, onRetakeQuiz }) => {
-  // Function to determine color based on weakness percentage
-  const getWeaknessColor = (percentage: number) => {
-    if (percentage >= 80) return "bg-red-500";
-    if (percentage >= 50) return "bg-yellow-500";
-    return "bg-green-500";
-  };
+
 
   return (
     <PageContent title="Study Plan">
       <div className="p-6">
         <h2 className="text-xl font-medium mb-4 text-gray-800">Weak Areas Breakdown</h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {weakAreas.map((area, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 border border-slate-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-            >
-              <h3 className="text-md font-bold text-gray-800">{area.topic}</h3>
-              <p className="text-sm text-gray-600">Weakness: {area.weakPercentage}%</p>
-
-              <div className="mt-4 h-2 w-full bg-gray-200 rounded-full">
-                <div
-                  className={`h-full rounded-full ${getWeaknessColor(area.weakPercentage)}`}
-                  style={{ width: `${area.weakPercentage}%` }}
-                />
-              </div>
-
-              <Button
-                variant="primary"
-                onClick={() => onRetakeQuiz(area.topic)}
-                className="mt-4 w-full"
-              >
-                Retake Quiz
-              </Button>
-            </div>
-          ))}
-        </div>
+        <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+          <thead>
+            <tr>
+              <th className="text-left py-2 px-4 border-b border-gray-200">Topic</th>
+              <th className="text-left py-2 px-4 border-b border-gray-200">Weakness</th>
+              <th className="text-left py-2 px-4 border-b border-gray-200">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {weakAreas.map((area, index) => (
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="py-2 px-4 text-slate-600 border-b border-gray-200">{area.topic}</td>
+                <td className="py-2 px-4 text-slate-600 border-b border-gray-200">
+                  <div className="mb-2">{area.weakPercentage}%</div>
+                  <div className="h-2 w-full rounded-full">
+                    <div
+                      className={`h-full rounded-full ${getWeaknessColor(area.weakPercentage)}`}
+                      style={{ width: `${area.weakPercentage}%` }}
+                    />
+                  </div>
+                </td>
+                <td className="py-2 px-4 border-b border-gray-200">
+                  <a
+                    className="text-indigo-600 hover:text-indigo-900 underline cursor-pointer"
+                    onClick={() => onRetakeQuiz(area.topic)}
+                  >
+                    Take Quiz
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </PageContent>
   );
