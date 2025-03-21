@@ -2,20 +2,16 @@ import PageContent from "../components/layout/page-content";
 import { getWeaknessColor } from "../utils";
 import { WeakArea } from "../types/study-plan";
 
-
 interface StudyPlanPageProps {
   weakAreas: WeakArea[];
   onRetakeQuiz: (topic: string) => void;
 }
 
 const StudyPlan: React.FC<StudyPlanPageProps> = ({ weakAreas, onRetakeQuiz }) => {
-
-
   return (
     <PageContent title="Study Plan">
       <div className="p-6">
-        <h2 className="text-xl font-medium mb-4 text-gray-800">Weak Areas Breakdown</h2>
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+        <table className="min-w-full border border-gray-200 rounded-lg">
           <thead>
             <tr>
               <th className="text-left py-2 px-4 border-b border-gray-200">Topic</th>
