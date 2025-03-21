@@ -12,7 +12,7 @@ const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
         <header className="flex flex-col gap-0 justify-center items-center">
           <img
             src="/croppedAppLogoIcon.png"
-            className="w-24"
+            className="w-20"
             alt=""
           />
 
