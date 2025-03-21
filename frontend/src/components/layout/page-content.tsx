@@ -36,8 +36,8 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
         {title.toLocaleUpperCase()}
       </h1>
       <section
-        style={{ width: "90vw", height: "85vh" }}
-        className=" border-slate-200 rounded-lg  flex flex-col h-full p-4 gap-5 "
+        style={{ width: "90vw", height: "90vh" }}
+        className="border border-slate-200 rounded-lg  flex flex-col h-full p-4 gap-5 "
       >
         {children}
       </section>
