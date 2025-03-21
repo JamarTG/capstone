@@ -1,8 +1,10 @@
+import PageContent from "../components/layout/page-content"
+
 const Settings = () => {
   return (
-    <div>
+    <PageContent title="Settings">
         Settings
-    </div>
+    </PageContent>
   )
 }
 

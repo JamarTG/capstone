@@ -1,8 +1,10 @@
+import PageContent from "../components/layout/page-content"
+
 const Quiz = () => {
   return (
-    <div>
+    <PageContent title="Quiz">
       Quiz
-    </div>
+    </PageContent>
   )
 }
 

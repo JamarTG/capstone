@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as z from "zod";
-import AuthLayout from "../layout/Auth";
 import { Link } from "react-router-dom";
+import AuthLayout from "../layout/auth";
 
 interface FormFields {
   email: string;
@@ -56,7 +56,7 @@ export default function Register() {
   };
 
   return (
-    <AuthLayout formTitle="Create a New Account">
+    <AuthLayout title="Create an Account">
       <form
         onSubmit={handleSubmit}
         className="space-y-6"

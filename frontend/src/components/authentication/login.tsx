@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as z from "zod";
-import AuthLayout from "../layout/Auth";
 import { Link } from "react-router-dom";
+import AuthLayout from "../layout/auth";
 
 interface FormFields {
   email: string;
@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   return (
-    <AuthLayout formTitle="Sign in to your account">
+    <AuthLayout title="Sign in to your account">
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
@@ -98,7 +98,6 @@ export default function Login() {
               id="password"
               name="password"
               type="password"
-        
               value={formData.password}
               onChange={handleChange}
               required

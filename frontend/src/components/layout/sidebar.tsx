@@ -1,13 +1,17 @@
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 interface HomeLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   return (
     <div className="h-screen w-screen relative flex overflow-hidden">
-      <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-white">
-        <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white">
+      <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-gray-400">
+        <Link
+          to={"/"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -23,9 +27,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
-        </div>
+        </Link>
 
-        <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white">
+        <Link
+          to={"/quiz"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -41,9 +48,14 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
           </svg>
-        </div>
+        </Link>
 
-        <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white">
+        
+
+        <Link
+          to={"/quiz-history"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -54,30 +66,28 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            className="feather feather-bar-chart"
+            className="feather feather-clock"
           >
-            <line
-              x1="12"
-              y1="20"
-              x2="12"
-              y2="10"
-            ></line>
-            <line
-              x1="18"
-              y1="20"
-              x2="18"
-              y2="4"
-            ></line>
-            <line
-              x1="6"
-              y1="20"
-              x2="6"
-              y2="16"
-            ></line>
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            ></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-        </div>
+        </Link>
 
-        <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white">
+        <Link
+          to={"/study-plan"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        </Link>
+
+        <Link
+          to={"/settings"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -98,28 +108,22 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-        </div>
+        </Link>
+
+
+        <Link
+          to={"/logout"}
+          className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white"
+        >
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </Link>
+
+       
+
+        
       </aside>
 
-      <div className="w-full h-full flex flex-col justify-between">
-        <header className="h-16 w-full flex items-center relative justify-between px-5 space-x-10 text-black">
-          <h1 className="text-white text-4xl">LOGO</h1>
-          <div className="flex flex-shrink-0 items-center space-x-4 text-gray-700">
-            <div className="flex flex-col items-end ">
-              <div className="text-md font-medium ">Jamari McFarlane</div>
-              <div className="text-sm font-regular">Year 4</div>
-            </div>
-
-            <img
-              className="h-10 w-10 rounded-full cursor-pointer bg-gray-200 border-2 border-blue-400"
-              src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
-              alt=""
-            />
-          </div>
-        </header>
-
-        <main className="max-w-full h-full flex relative overflow-y-hidden justify-center items-center">{children}</main>
-      </div>
+      <main className="max-w-full h-full flex relative overflow-y-hidden justify-center items-center">{children}</main>
     </div>
   );
 };
