@@ -2,6 +2,11 @@ import { useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
 import AuthLayout from "../layout/auth";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../utils/api";
+import { SuccessfulAuthResponse } from "../../types/auth";
+import { setToken } from "../../utils/auth";
 
 interface FormFields {
   email: string;
@@ -16,6 +21,19 @@ const loginSchema = z.object({
 export default function Login() {
   const [formData, setFormData] = useState<FormFields>({ email: "", password: "" });
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+
+  const navigate = useNavigate();
+
+  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {
+    setToken(token);
+    navigate("/");
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: loginUser,
+    mutationKey: ["login"],
+    onSuccess: handleSuccessfulLoginResponse,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,7 +61,7 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate(formData)) {
-      console.log(formData);
+      mutate(formData);
     }
   };
 

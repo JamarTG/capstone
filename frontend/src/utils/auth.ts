@@ -6,4 +6,6 @@ const getToken = (): SuccessfulAuthResponse["token"] | null => localStorage.getI
 const getUser = (token: SuccessfulAuthResponse["token"]) => (token ? jwtDecode(token) : null);
 const logout = () => localStorage.removeItem("token");
 
+
+
 export { setToken, getToken, getUser, logout };

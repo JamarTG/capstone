@@ -8,5 +8,9 @@ const registerUser = async (userData: FormFields) => {
   return data;
 };
 
+const loginUser = async (userData: FormFields) => {
+  const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);
+  return data;
+};
 
-export {registerUser}
+export { registerUser, loginUser };

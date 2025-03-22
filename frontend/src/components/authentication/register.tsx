@@ -31,7 +31,7 @@ export default function Register() {
     navigate("/");
   };
 
-  const { mutate } = useMutation({ mutationFn: registerUser, onSuccess: handleSuccessfulRegistrationResponse });
+  const { mutate } = useMutation({ mutationFn: registerUser, mutationKey: ["register"], onSuccess: handleSuccessfulRegistrationResponse });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
