@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import AuthLayout from "../layout/auth";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../utils/api";
+import { SuccessfulAuthResponse } from "../../types/auth";
 import { FormFields } from "../../types/auth";
+import { setToken } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = z
   .object({
@@ -21,9 +24,14 @@ export default function Register() {
   const [formData, setFormData] = useState<FormFields>({ email: "", password: "", confirmPassword: "" });
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
 
-  const {
-    mutate,
-  } = useMutation({ mutationFn: registerUser });
+  const navigate = useNavigate();
+
+  const handleSuccessfulRegistrationResponse = ({ token }: SuccessfulAuthResponse) => {
+    setToken(token);
+    navigate("/");
+  };
+
+  const { mutate } = useMutation({ mutationFn: registerUser, onSuccess: handleSuccessfulRegistrationResponse });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,11 +57,12 @@ export default function Register() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate(formData)) {
-      mutate(formData);
+    if (!validate(formData)) {
+      return;
     }
+    mutate(formData);
   };
 
   return (
@@ -61,7 +70,7 @@ export default function Register() {
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
-      >    
+      >
         <div>
           <label
             htmlFor="email"

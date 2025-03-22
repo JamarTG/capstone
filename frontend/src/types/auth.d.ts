@@ -3,3 +3,8 @@ export interface FormFields {
   password: string;
   confirmPassword?: string;
 }
+
+export interface SuccessfulAuthResponse  {
+    token : string,
+    message: string
+}
