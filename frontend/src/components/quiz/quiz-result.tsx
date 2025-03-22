@@ -1,5 +1,6 @@
 import Button from "../ui/button";
 
+
 const QuizCard = () => {
   return (
     <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96">
@@ -8,11 +9,11 @@ const QuizCard = () => {
           <span className="text-2xl text-green-600">95%</span>{" "}
         </h1>
 
-        <div className="flex flex-wrap">
-          <span className="bg-gray-100 text-gray-600 text-sm font-medium px-2.5 py-0.5 rounded-full">Excel</span>
-          <span className="bg-gray-100 text-gray-600 text-sm font-medium px-2.5 py-0.5 rounded-full">Computer Systems</span>
-          <span className="bg-gray-100 text-gray-600 text-sm font-medium px-2.5 py-0.5 rounded-full">SBA</span>
-          <span className="bg-gray-100 text-gray-600 text-sm font-medium px-2.5 py-0.5 rounded-full">Devices</span>
+        <div className="flex flex-wrap gap-2 mt-2">
+          <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">5.6</span>
+          <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">1.4</span>
+          <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">2.3</span>
+          <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">4.5</span>
         </div>
 
         <div className="flex  items-center gap-5">

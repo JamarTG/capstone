@@ -12,11 +12,11 @@ const Settings = () => {
           <p className="text-slate-500">{user.email}</p>
           <small className="text-slate-500">Joined on {user.joinedDate}</small>
           <hr className="my-4 border-slate-200" />
-          <h2 className="text-md text-slate-800 font-semibold mb-4">Update Your Username</h2>
+          <h2 className="text-md text-slate-800 font-semibold mb-4">Username</h2>
           <input
             className="w-full p-2 border border-gray-300 rounded mb-4"
             type="text"
-            placeholder="Enter your username"
+            placeholder="Enter new username"
           />
           <Button
             variant="primary"
@@ -27,7 +27,7 @@ const Settings = () => {
           </Button>
         </div>
         <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
-          <h2 className="text-md text-slate-800 font-semibold mb-4">Update Your Password</h2>
+          <h2 className="text-md text-slate-800 font-semibold mb-4">Password</h2>
           <input
             className="w-full p-2 border border-gray-300 rounded mb-4"
             type="password"
