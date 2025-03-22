@@ -1,70 +1,25 @@
 import "./App.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SidebarLayout from "./components/layout/sidebar";
-import Login from "./components/authentication/login";
-import Register from "./components/authentication/register";
-import QuizHistory from "./pages/quiz-history";
-import Quiz from "./pages/quiz";
-import Settings from "./pages/settings";
-import StudyPlan from "./pages/study-plan";
-import Dashboard from "./pages/dashboard";
+import routes from "./data/routes";
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <SidebarLayout>
-              <Dashboard />
-            </SidebarLayout>
-          }
-        />
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-          path="/quiz-history"
-          element={
-            <SidebarLayout>
-              <QuizHistory />
-            </SidebarLayout>
-          }
-        />
-        <Route
-          path="/quiz"
-          element={
-            <SidebarLayout>
-              <Quiz />
-            </SidebarLayout>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <SidebarLayout>
-              <Settings />
-            </SidebarLayout>
-          }
-        />
-
-        <Route
-          path="/study-plan"
-          element={
-            <SidebarLayout>
-              <StudyPlan />
-            </SidebarLayout>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          {routes.map(({ path, element, layout: Layout }) => (
+            <Route
+              key={path}
+              path={path}
+              element={Layout ? <Layout>{element}</Layout> : element}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
