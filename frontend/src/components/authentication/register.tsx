@@ -2,12 +2,9 @@ import { useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
 import AuthLayout from "../layout/auth";
-
-interface FormFields {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "../../utils/api";
+import { FormFields } from "../../types/auth";
 
 const registerSchema = z
   .object({
@@ -23,6 +20,10 @@ const registerSchema = z
 export default function Register() {
   const [formData, setFormData] = useState<FormFields>({ email: "", password: "", confirmPassword: "" });
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
+
+  const {
+    mutate,
+  } = useMutation({ mutationFn: registerUser });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,7 +52,7 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate(formData)) {
-      console.log(formData);
+      mutate(formData);
     }
   };
 
@@ -60,7 +61,7 @@ export default function Register() {
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
-      >
+      >    
         <div>
           <label
             htmlFor="email"
