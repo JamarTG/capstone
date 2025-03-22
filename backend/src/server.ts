@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application} from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -22,10 +22,6 @@ app.use(morgan("dev"));
 connectDB();
 
 app.use("/api/auth", authRoutes);
-
-// app.get("/", (_request: Request, response: Response) => {
-//   response.json({ message: "Hello World" });
-// });
 
 http.createServer(app).listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);
