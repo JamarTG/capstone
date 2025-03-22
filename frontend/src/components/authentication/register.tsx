@@ -64,7 +64,7 @@ export default function Register() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm/6 font-medium text-gray-300"
+            className="block text-lg/6 font-medium text-gray-300"
           >
             Email address
           </label>
@@ -78,16 +78,16 @@ export default function Register() {
               onChange={handleChange}
               required
               autoComplete="email"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-lg">{errors.email}</p>}
           </div>
         </div>
 
         <div>
           <label
             htmlFor="password"
-            className="block text-sm/6 font-medium text-gray-300"
+            className="block text-lg/6 font-medium text-gray-300"
           >
             Password
           </label>
@@ -96,20 +96,21 @@ export default function Register() {
               id="password"
               name="password"
               type="password"
+              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
               required
               autoComplete="new-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-lg">{errors.password}</p>}
           </div>
         </div>
 
         <div>
           <label
             htmlFor="confirmPassword"
-            className="block text-sm/6 font-medium text-gray-300"
+            className="block text-lg/6 font-medium text-gray-300"
           >
             Confirm Password
           </label>
@@ -117,28 +118,29 @@ export default function Register() {
             <input
               id="confirmPassword"
               name="confirmPassword"
+              placeholder="Confirm Password"
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
               autoComplete="new-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
             />
-            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+            {errors.confirmPassword && <p className="text-red-500 text-lg">{errors.confirmPassword}</p>}
           </div>
         </div>
 
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Register
           </button>
         </div>
       </form>
 
-      <p className="mt-10 text-center text-sm/6 text-gray-500">
+      <p className="mt-10 text-center text-lg/6 text-gray-500">
         Already a member?{" "}
         <Link
           to={"/login"}

@@ -56,7 +56,7 @@ export default function Login() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm/6 font-medium text-gray-200"
+            className="block text-lg/6 font-medium text-gray-200"
           >
             Email address
           </label>
@@ -70,9 +70,9 @@ export default function Login() {
               onChange={handleChange}
               required
               autoComplete="email"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-lg">{errors.email}</p>}
           </div>
         </div>
 
@@ -80,11 +80,11 @@ export default function Login() {
           <div className="flex items-center justify-between">
             <label
               htmlFor="password"
-              className="block text-sm/6 font-medium text-gray-300"
+              className="block text-lg/6 font-medium text-gray-300"
             >
               Password
             </label>
-            <div className="text-sm">
+            <div className="text-lg">
               <a
                 href="#"
                 className="font-semibold text-blue-400 hover:text-blue-500"
@@ -98,27 +98,28 @@ export default function Login() {
               id="password"
               name="password"
               type="password"
+              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
               required
               autoComplete="current-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-lg">{errors.password}</p>}
           </div>
         </div>
 
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign in
           </button>
         </div>
       </form>
 
-      <p className="mt-10 text-center text-sm/6 text-gray-200">
+      <p className="mt-10 text-center text-lg/6 text-gray-200">
         Not a member?{" "}
         <Link
           to={"/register"}
