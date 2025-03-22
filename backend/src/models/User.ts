@@ -1,13 +1,6 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
-
-interface IUser extends Document {
-  email: string;
-  password: string;
-  salt: string;
-  comparePassword: (password: IUser["password"]) => boolean;
-  createdAt: Date;
-}
+import { IUser } from "../types/model";
 
 const userSchema = new mongoose.Schema<IUser>({
   email: { type: String, required: true, unique: true },
@@ -17,9 +10,7 @@ const userSchema = new mongoose.Schema<IUser>({
 });
 
 userSchema.pre("save", function (next) {
-  if (!this.isModified("password")) return next();
-
-  
+  if (!this.isModified("password")) return next();    
   this.salt = crypto.randomBytes(16).toString("hex");
   this.password = crypto
     .pbkdf2Sync(this.password, this.salt, 1000, 64, "sha512")
