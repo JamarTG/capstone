@@ -16,8 +16,6 @@ const StudyPlan = () => {
             activeTab === "weakAreas" ? "border-blue-500 text-blue-600" : "border-transparent text-slate-600"
           } pb-2 border-b-2 font-semibold px-4 text-lg`}
         >
-
-{/* text-left px-3 text-lg text-slate-600 font-semibold */}
           Weak Areas
         </button>
         <button
