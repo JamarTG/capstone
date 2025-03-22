@@ -1,52 +1,45 @@
+import { useState } from "react";
 import PageContent from "../components/layout/page-content";
-import { getWeaknessColor } from "../utils";
-import { WeakArea } from "../types/study-plan";
+import WeakAreaTable from "../components/weak-area-table";
+import UserObjectives from "../components/user-objectives";
+import weakAreas from "../data/weakAreas";
 
-interface StudyPlanPageProps {
-  weakAreas: WeakArea[];
-  onRetakeQuiz: (topic: string) => void;
-}
+const StudyPlan = () => {
+  const [activeTab, setActiveTab] = useState("weakAreas");
 
-const StudyPlan: React.FC<StudyPlanPageProps> = ({ weakAreas, onRetakeQuiz }) => {
   return (
     <PageContent title="Study Plan">
-      <div className="p-6">
-        <table className="min-w-full border border-gray-200 rounded-lg">
-          <thead>
-            <tr>
-              <th className="text-left py-2 px-4 border-b border-gray-200">Topic</th>
-              <th className="text-left py-2 px-4 border-b border-gray-200">Weakness</th>
-              <th className="text-left py-2 px-4 border-b border-gray-200">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {weakAreas.map((area, index) => (
-              <tr
-                key={index}
-                className="hover:bg-gray-100"
-              >
-                <td className="py-2 px-4 text-slate-600 border-b border-gray-200">{area.topic}</td>
-                <td className="py-2 px-4 text-slate-600 border-b border-gray-200">
-                  <div className="mb-2">{area.weakPercentage}%</div>
-                  <div className="h-2 w-full rounded-full">
-                    <div
-                      className={`h-full rounded-full ${getWeaknessColor(area.weakPercentage)}`}
-                      style={{ width: `${area.weakPercentage}%` }}
-                    />
-                  </div>
-                </td>
-                <td className="py-2 px-4 border-b border-gray-200">
-                  <a
-                    className="text-indigo-600 hover:text-indigo-900 underline cursor-pointer"
-                    onClick={() => onRetakeQuiz(area.topic)}
-                  >
-                    Take Quiz
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mb-4 flex space-x-4 border-b border-slate-200">
+        <button
+          onClick={() => setActiveTab("weakAreas")}
+          className={`${
+            activeTab === "weakAreas" ? "border-blue-500 text-blue-600" : "border-transparent text-slate-600"
+          } pb-2 border-b-2 font-semibold px-4 text-lg`}
+        >
+
+{/* text-left px-3 text-lg text-slate-600 font-semibold */}
+          Weak Areas
+        </button>
+        <button
+          onClick={() => setActiveTab("userObjectives")}
+          className={`${
+            activeTab === "userObjectives" ? "border-blue-500 text-blue-600" : "border-transparent text-slate-600"
+          } pb-2 border-b-2 font-semibold px-4 text-lg`}
+        >
+          User Objectives
+        </button>
+      </div>
+
+      <div className="relative h-full overflow-auto">
+        {activeTab === "weakAreas" && (
+          <WeakAreaTable
+            weakAreas={weakAreas}
+            onRetakeQuiz={() => {
+              console.log("retake quiz");
+            }}
+          />
+        )}
+        {activeTab === "userObjectives" && <UserObjectives />}
       </div>
     </PageContent>
   );

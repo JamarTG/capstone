@@ -8,8 +8,8 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
 
   const navigate = useNavigate();
   return (
-    <div>
-      <h1 className="mb-2 text-2xl font-bold flex items-center">
+    <div >
+      <h1 className=" text-2xl font-bold flex items-center">
         <svg
           onClick={() => {
             navigate(-1);
@@ -37,7 +37,7 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
       </h1>
       <section
         style={{ width: "90vw", height: "90vh" }}
-        className="border border-slate-200 rounded-lg  flex flex-col h-full p-4 gap-5 "
+        className="flex flex-col h-full p-4 gap-5 "
       >
         {children}
       </section>
