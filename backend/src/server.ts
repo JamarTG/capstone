@@ -6,6 +6,7 @@ import http from "http";
 import compression from "compression";
 import { config } from "dotenv";
 import connectDB from "./db";
+import authRoutes from "./routes/auth";
 
 config();
 
@@ -20,12 +21,12 @@ app.use(morgan("dev"));
 
 connectDB();
 
-app.get("/", (_request: Request, response: Response) => {
-  response.json({ message: "Hello World" });
-});
+app.use("/api/auth", authRoutes);
 
-const server = http.createServer(app);
+// app.get("/", (_request: Request, response: Response) => {
+//   response.json({ message: "Hello World" });
+// });
 
-server.listen(process.env.PORT, () => {
+http.createServer(app).listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);
 });
