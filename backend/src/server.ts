@@ -5,6 +5,7 @@ import morgan from "morgan";
 import http from "http";
 import compression from "compression";
 import { config } from "dotenv";
+import connectDB from "./db";
 
 config();
 
@@ -16,6 +17,8 @@ app.use(compression());
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+
+connectDB();
 
 app.get("/", (_request: Request, response: Response) => {
   response.json({ message: "Hello World" });
