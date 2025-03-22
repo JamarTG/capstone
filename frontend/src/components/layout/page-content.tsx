@@ -33,7 +33,7 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
           ></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>{" "}
-        {title.toLocaleUpperCase()}
+        {title}
       </h1>
       <section
         style={{ width: "90vw", height: "90vh" }}

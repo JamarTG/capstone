@@ -3,7 +3,6 @@ import Button from "../ui/button";
 
 interface QuizCardProps {
   score: number;
-  questions: number;
   lastAttempt: string;
   tags: string[];
 }
@@ -15,11 +14,11 @@ const getScoreEmoji = (score: number) => {
   return "😢";
 };
 
-const QuizCard: React.FC<QuizCardProps> = ({ score, questions, lastAttempt, tags }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt, tags }) => {
   return (
     <div className={`relative flex flex-col my-6 ${getWeaknessColor(score)} bg-white shadow-sm border border-slate-200 rounded-lg w-96`}>
       <div className="p-2 flex flex-col">
-        <div className="flex items-center">
+        <div className="flex justify-between items-center">
           <div className="relative">
             <svg className="w-20 h-20">
               <circle
@@ -33,7 +32,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, questions, lastAttempt, tags
               />
               <circle
                 className={`text-${getWeaknessColor(score)}`}
-                strokeWidth="5"
+                strokeWidth="6"
                 strokeDasharray={`${score * 2.2}, 220`}
                 strokeLinecap="round"
                 stroke="currentColor"
@@ -44,18 +43,20 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, questions, lastAttempt, tags
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-semibold">{score}%</span>
+              <span className="text-xl font-semibold">{score}%</span>
             </div>
           </div>
-          <div className="absolute top-0 right-0 p-2">
+
+          <div className="flex flex-wrap gap-2 mt-2">
+            {tags.map((tag) => {
+              return <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">{tag}</span>;
+            })}
+          </div>
+
+          <hr />
+          <div className="">
             <span className="text-3xl">{getScoreEmoji(score)}</span>
           </div>
-        </div>
-
-        <div className="flex flex-wrap gap-2 mt-2">
-          {tags.map((tag) => {
-            return <span className="bg-gray-100 text-gray-600 text-md font-medium px-2.5 py-0.5 rounded-full">{tag}</span>;
-          })}
         </div>
 
         <div className="flex items-center gap-5">
@@ -113,9 +114,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, questions, lastAttempt, tags
         </div>
 
         <div className="mt-3 mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
-          <span className="text-sm text-slate-600 font-medium">
-            Attempted {lastAttempt}
-          </span>
+          <span className="text-sm text-slate-600 font-medium">Attempted {lastAttempt}</span>
         </div>
       </div>
     </div>
