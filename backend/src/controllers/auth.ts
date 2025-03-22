@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import User from "../models/User";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
@@ -22,7 +23,22 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
 
     const newUser = new User({ email, password: hash, salt });
     await newUser.save();
-    res.status(201).json({ message: "User Created Successfully" });
+
+    try {
+      if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET is not defined");
+      }
+      if (!process.env.EXPIRY_TIME) {
+        throw new Error("EXPIRY_TIME is not defined");
+      }
+
+      const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.EXPIRY_TIME) });
+      res.status(201).json({ message: "User Created Successfully", token });
+      4;
+    } catch (error) {
+      await User.findOneAndDelete({ _id: newUser._id });
+      res.status(500).json({ message: "Token Creation Failed" });
+    }
   } catch (error) {
     console.log("Something went wrong creating the user");
     res.status(500).json({ message: `Something Went Wrong Attempting to Create User${error}` });
