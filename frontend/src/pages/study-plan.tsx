@@ -2,7 +2,7 @@ import { useState } from "react";
 import PageContent from "../components/layout/page-content";
 import WeakAreaTable from "../components/weak-area-table";
 import UserObjectives from "../components/user-objectives";
-import weakAreas from "../data/weakAreas";
+import weakAreas from "../data/sample/weakAreas";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");

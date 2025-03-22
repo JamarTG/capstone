@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import objectivesData from "../data/objectives";
+import objectivesData from "../data/sample/objectives";
 
 interface Objective {
   id: number;

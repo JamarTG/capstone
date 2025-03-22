@@ -1,6 +1,6 @@
 import PageContent from "../components/layout/page-content";
 import Button from "../components/ui/button";
-import { user } from "../data/user";
+import { user } from "../data/sample/user";
 
 const Settings = () => {
   return (

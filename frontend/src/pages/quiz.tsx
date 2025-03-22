@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PageContent from "../components/layout/page-content";
-import { topics } from "../data/topics";
+import { topics } from "../data/sample/topics";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);

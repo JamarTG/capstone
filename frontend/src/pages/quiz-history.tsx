@@ -1,7 +1,7 @@
 import PageContent from "../components/layout/page-content";
 import QuizCard from "../components/quiz/quiz-result";
 import SelectDropdown from "../components/ui/select-dropdown";
-import { quizData } from "../data/results";
+import { quizData } from "../data/sample/results";
 const QuizHistory = () => {
   return (
     <PageContent title="Archive">
