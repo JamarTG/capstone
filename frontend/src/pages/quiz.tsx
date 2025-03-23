@@ -34,12 +34,21 @@ const QuizPage = () => {
                 <Card
                   key={topic.name}
                   onClick={() => setSelectedSection(topic.name)}
-                  className="w-full h-64 flex flex-col justify-center items-center px-2 py-1 border border-slate-200 text-slate-800 rounded-lg transform hover:scale-105 transition-transform duration-300"
+                  className="w-full flex flex-col justify-between items-center p-4 border border-slate-200 text-slate-800 rounded-lg transform hover:scale-105 transition-transform duration-300"
                 >
-                  <div className="flex flex-col items-center justify-center  w-full h-full p-4">
-                    <div className="h-24 w-24 mb-4 w-full flex justify-center items-center">{<topic.icon />}</div>
-                    <h2 className="text-center text-lg font-semibold">{topic.name}</h2>
+                  <div className="flex justify-start gap-3 items-center w-full">
+                    <div>
+                      <topic.icon className="w-12 h-12" />
+                    </div>
+                    <h2 className="text-sm font-semibold">{topic.name}</h2>
                   </div>
+                  <hr className="bg-red-700" />
+                  <p className="h-full mt-4 text-left text-sm">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci necessitatibus consequatur voluptate?
+                  </p>
+                  <Button variant="primary" className="text-sm">
+                    Assess
+                  </Button>
                 </Card>
               ))}
             </div>
@@ -50,7 +59,6 @@ const QuizPage = () => {
             <Button
               variant="primary"
               onClick={handleStartQuiz}
-           
             >
               Start Quiz
             </Button>
