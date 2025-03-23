@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PageContent from "../components/layout/page-content";
 import { topics } from "../data/sample/topics";
+import Card from "../components/ui/card";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -29,16 +30,16 @@ const QuizPage = () => {
             <h2 className="text-xl font-bold mb-4">Select a Topic</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {topics.map((topic) => (
-              <button
+              <Card
                 key={topic.name}
                 onClick={() => setSelectedSection(topic.name)}
-                className="w-full h-64 flex flex-col justify-center items-center px-2 py-1 border border-slate-200 text-slate-800 rounded-lg hover:border-blue-300 transform hover:scale-105 transition-transform duration-300"
+                className="w-full h-64 flex flex-col justify-center items-center px-2 py-1 border border-slate-200 text-slate-800 rounded-lg transform hover:scale-105 transition-transform duration-300"
               >
                 <div className="flex flex-col items-center justify-center  w-full h-full p-4">
                 <div className="h-24 w-24 mb-4 w-full flex justify-center items-center">{<topic.icon />}</div>
                 <h2 className="text-center text-lg font-semibold">{topic.name}</h2>
                 </div>
-              </button>
+              </Card>
               ))}
             </div>
           </div>

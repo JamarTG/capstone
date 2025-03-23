@@ -1,5 +1,6 @@
 import { getWeaknessColor } from "../../utils";
 import Button from "../ui/button";
+import Card from "../ui/card";
 
 interface QuizCardProps {
   score: number;
@@ -16,7 +17,8 @@ const getScoreEmoji = (score: number) => {
 
 const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt, tags }) => {
   return (
-    <div className={`relative flex flex-col my-6 ${getWeaknessColor(score)} bg-white shadow-sm border border-slate-200 rounded-lg w-96`}>
+    <Card className={getWeaknessColor(score)} >
+      <div className="relative w-full h-full transform rotate-y-0 transition-transform duration-500 hover:rotate-y-180"></div>
       <div className="p-2 flex flex-col">
         <div className="flex justify-between items-center">
           <div className="relative">
@@ -117,7 +119,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt, tags }) => {
           <span className="text-sm text-slate-600 font-medium">Attempted {lastAttempt}</span>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
