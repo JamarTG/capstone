@@ -2,6 +2,7 @@ import { getWeaknessColor } from "../utils";
 import { WeakArea } from "../types/study-plan";
 import Button from "./ui/button";
 import { FaPlay } from "react-icons/fa";
+
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
   onRetakeQuiz: (topic: string) => void;
