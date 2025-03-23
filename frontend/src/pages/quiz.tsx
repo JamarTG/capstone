@@ -28,7 +28,7 @@ const QuizPage = () => {
       <div className="p-6  w-full">
         {!selectedSection ? (
           <div>
-            <h2 className="text-xl font-bold mb-4">Select a Topic</h2>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {topics.map((topic) => (
                 <Card
@@ -42,10 +42,10 @@ const QuizPage = () => {
                     </div>
                     <h2 className="text-sm font-bold">{topic.name}</h2>
                   </div>
-                  <hr className="bg-red-700" />
-                  <i className="text-slate-700 h-full mt-4 text-left text-sm">
+                  <hr className="text-red-600"/>
+                  <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">
                     {topic.description}
-                  </i>
+                  </p>
                 
                 </Card>
               ))}
