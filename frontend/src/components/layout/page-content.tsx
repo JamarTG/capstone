@@ -20,9 +20,9 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="feather feather-arrow-left cursor-pointer transition-transform duration-200 ease-in-out transform hover:scale-110 active:scale-90"
         >
           <line
