@@ -3,10 +3,19 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
+  const { email, password,firstName, lastName} = req.body;
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Email and password are required." });
+  if (!email || !password || !firstName || !lastName) {
+    const missingFields = [];
+    if (!email) missingFields.push("email");
+    if (!password) missingFields.push("password");
+    if (!firstName) missingFields.push("first name");
+    if (!lastName) missingFields.push("last name");
+
+    if (missingFields.length > 0) {
+      res.status(400).json({ message: `The following fields are required: ${missingFields.join(", ")}` });
+      return;
+    }
     return;
   }
 
@@ -16,7 +25,7 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
       res.status(409).json({ message: "User Already Exists" });
     }
 
-    const newUser = new User({ email, password });
+    const newUser = new User({ email, password, firstName,lastName });
     await newUser.save();
 
     if (!process.env.JWT_SECRET) {

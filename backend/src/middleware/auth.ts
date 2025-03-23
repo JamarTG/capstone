@@ -26,7 +26,6 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): voi
     }
 
     const user = verify(tokenParts[1], process.env.JWT_SECRET);
-    console.log(user,"user")
     req.user = user;
     next();
   } catch (error) {
