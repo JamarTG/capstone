@@ -1,7 +1,8 @@
 import { getWeaknessColor } from "../utils";
 import { WeakArea } from "../types/study-plan";
 import Button from "./ui/button";
-
+import { FaPlay } from "react-icons/fa";
+import { FaQuestion } from "react-icons/fa";
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
   onRetakeQuiz: (topic: string) => void;
@@ -38,10 +39,13 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
               </td>
               <td className="py-1 px-4 ">
                 <Button
+                className="w-8"
+                size="sm"
                   variant="primary"
                   onClick={() => onRetakeQuiz(area.topic)}
                 >
-                  Take Quiz
+                  {/* <FaQuestion /> */}
+                  <FaPlay size={"md"} />
                 </Button>
               </td>
             </tr>
@@ -53,4 +57,3 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
 };
 
 export default WeakAreaTable;
-
