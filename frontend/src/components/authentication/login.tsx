@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../utils/api";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { setToken } from "../../utils/auth";
+import Button from "../ui/button";
 
 interface FormFields {
   email: string;
@@ -128,12 +129,13 @@ export default function Login() {
         </div>
 
         <div>
-          <button
+          <Button
+          variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign in
-          </button>
+          </Button>
         </div>
       </form>
 

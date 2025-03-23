@@ -8,6 +8,7 @@ import { SuccessfulAuthResponse } from "../../types/auth";
 import { FormFields } from "../../types/auth";
 import { setToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
+import Button from "../ui/button";
 
 const registerSchema = z
   .object({
@@ -93,9 +94,15 @@ export default function Register() {
 
   return (
     <AuthLayout title="Create an Account">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-6"
+      >
         <div>
-          <label htmlFor="firstName" className="block text-lg/6 font-medium text-gray-300">
+          <label
+            htmlFor="firstName"
+            className="block text-lg/6 font-medium text-gray-300"
+          >
             First Name
           </label>
           <div className="mt-2">
@@ -114,7 +121,10 @@ export default function Register() {
         </div>
 
         <div>
-          <label htmlFor="lastName" className="block text-lg/6 font-medium text-gray-300">
+          <label
+            htmlFor="lastName"
+            className="block text-lg/6 font-medium text-gray-300"
+          >
             Last Name
           </label>
           <div className="mt-2">
@@ -133,7 +143,10 @@ export default function Register() {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-lg/6 font-medium text-gray-300">
+          <label
+            htmlFor="email"
+            className="block text-lg/6 font-medium text-gray-300"
+          >
             Email address
           </label>
           <div className="mt-2">
@@ -153,7 +166,10 @@ export default function Register() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-lg/6 font-medium text-gray-300">
+          <label
+            htmlFor="password"
+            className="block text-lg/6 font-medium text-gray-300"
+          >
             Password
           </label>
           <div className="mt-2">
@@ -173,7 +189,10 @@ export default function Register() {
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-lg/6 font-medium text-gray-300">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-lg/6 font-medium text-gray-300"
+          >
             Confirm Password
           </label>
           <div className="mt-2">
@@ -193,18 +212,22 @@ export default function Register() {
         </div>
 
         <div>
-          <button
+          <Button
+            variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md bg-slate-600 px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs hover:bg-slate-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Register
-          </button>
+          </Button>
         </div>
       </form>
 
       <p className="mt-10 text-center text-lg/6 text-gray-500">
         Already a member?{" "}
-        <Link to={"/login"} className="font-semibold text-blue-400  hover:text-blue-500">
+        <Link
+          to={"/login"}
+          className="font-semibold text-blue-400  hover:text-blue-500"
+        >
           Sign in
         </Link>
       </p>
