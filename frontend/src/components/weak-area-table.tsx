@@ -1,7 +1,6 @@
 import { getWeaknessColor } from "../utils";
 import { WeakArea } from "../types/study-plan";
 import Button from "./ui/button";
-import { FaPlay } from "react-icons/fa";
 
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
@@ -10,39 +9,40 @@ interface WeakAreaTableProps {
 
 const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }) => {
   return (
-    <div className="overflow-auto p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center text-gray-700">Weak Areas</h2>
-      <table className="w-full border-collapse">
+    <div className="overflow-auto">
+      <table className="w-full border border-gray-200 rounded-lg h-full">
         <thead>
-          <tr className="bg-gray-100">
-            <th className="text-left text-lg py-3 px-4 border-b border-gray-200">Topic</th>
-            <th className="text-left text-lg py-3 px-4 border-b border-gray-200">Weakness</th>
-            <th className="text-left text-lg py-3 px-4 border-b border-gray-200">Action</th>
+          <tr>
+            <th className="text-left text-lg py-2 px-4 border-b border-gray-200">Topic</th>
+            <th className="text-left text-lg py-2 px-4 border-b border-gray-200">Weakness</th>
+            <th className="text-left text-lg  py-2 px-4 border-b border-gray-200">Action</th>
           </tr>
         </thead>
         <tbody>
           {weakAreas.map((area, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="text-left px-4 py-3 text-lg text-slate-600 font-semibold">
+            <tr
+              key={index}
+              className="hover:bg-gray-100"
+            >
+              <td className="text-left px-3 text-md text-slate-600 font-semibold">
                 {index + 1}. {area.topic}
               </td>
-              <td className="py-3 px-4 text-slate-600 border-gray-200 w-1/3">
-                <div className="flex items-center">
-                  <div className="mr-2">{area.weakPercentage}%</div>
+              <td className="py-6 px-4 text-slate-600 border-gray-200 w-1/3">
+                <div className="flex justify-start gap-2 items-center h-2 w-full rounded-full">
+                  <div className="mb-2">{area.weakPercentage}%</div>
                   <div
-                    className={`h-2 rounded-full ${getWeaknessColor(area.weakPercentage)}`}
+                    className={`h-4 rounded-full bg-${area.weakPercentage > 70 ? "red" : "green"}-500`}
                     style={{ width: `${area.weakPercentage}%` }}
-                  />
+                  ></div>
                 </div>
               </td>
-              <td className="py-3 px-4 text-center">
+              <td className="py-1 px-4 ">
                 <Button
-                  className="w-10 h-10 flex items-center justify-center"
-                  size="sm"
                   variant="primary"
+                  size="lg"
                   onClick={() => onRetakeQuiz(area.topic)}
                 >
-                  <FaPlay size={16} />
+                  Take Quiz
                 </Button>
               </td>
             </tr>
