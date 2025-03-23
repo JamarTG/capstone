@@ -1,15 +1,20 @@
 import { ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../utils/auth";
 interface HomeLayoutProps {
   children?: ReactNode;
 }
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
+  const navigate = useNavigate();
   return (
     <div className="h-screen w-screen relative flex">
       <aside className="h-full w-16 flex flex-col items-center justify-between relative bg-gray-800 text-gray-400 py-4">
         <NavLink to={"/"}>
-          <img src="/croppedAppLogoIcon.png" className="w-16" />
+          <img
+            src="/croppedAppLogoIcon.png"
+            className="w-16"
+          />
         </NavLink>
 
         <div className="flex flex-col space-y-10 ">
@@ -83,7 +88,11 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               stroke-linejoin="round"
               className="feather feather-clock"
             >
-              <circle cx="12" cy="12" r="10"></circle>
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              ></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
           </NavLink>
@@ -145,13 +154,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             </svg>
           </NavLink>
 
-          <NavLink
-            to={"/logout"}
-            className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
-              }`
-            }
+          <a
+            onClick={() => {
+              logout();
+              navigate("/login");
+            }}
+            className={`h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -167,9 +175,14 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             >
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
               <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
+              <line
+                x1="21"
+                y1="12"
+                x2="9"
+                y2="12"
+              ></line>
             </svg>
-          </NavLink>
+          </a>
         </div>
       </aside>
 
