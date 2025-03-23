@@ -38,7 +38,7 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
               </td>
               <td className="py-1 px-4 ">
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   onClick={() => onRetakeQuiz(area.topic)}
                 >
                   Take Quiz
@@ -53,3 +53,4 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
 };
 
 export default WeakAreaTable;
+

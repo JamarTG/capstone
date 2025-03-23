@@ -8,19 +8,13 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ children, variant, onClick, className = "" }) => {
-  const primaryClasses =
-    "cursor-pointer flex justify-center items-center gap-2 rounded-md bg-slate-800 py-1 px-2 mt-3 border border-transparent text-center text-lg text-white transition-all hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 active:shadow-none active:scale-95 hover:bg-slate-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-32";
-  const secondaryClasses =
-    "cursor-pointer flex justify-center items-center gap-2 rounded-md border text-slate-800 py-1 px-2 mt-3 border border-slate-200 text-center text-lg transition-all hover:shadow-lg focus:shadow-none hover:border-blue-300 active:bg-slate-200 active:scale-95 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-32";
-
-  const classes = variant === "primary" ? primaryClasses : secondaryClasses;
+  const baseClasses = "w-32 h-12 flex justify-center items-center gap-1 cursor-pointer transition-all text-lg px-2 py-2 rounded-lg border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px]";
+  const variantClasses = variant === "primary" 
+    ? "bg-blue-500 text-white border-blue-600" 
+    : "bg-slate-200 text-black border-gray-600";
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`${classes} ${className}`}
-    >
+    <button onClick={onClick} className={`${baseClasses} ${variantClasses} ${className}`}>
       {children}
     </button>
   );

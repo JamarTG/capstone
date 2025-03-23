@@ -1,122 +1,84 @@
-import { useQuery } from "@tanstack/react-query";
-import PageContent from "../components/layout/page-content";
-import Button from "../components/ui/button";
-import { user } from "../data/sample/user";
-import { fetchUserInformation } from "../utils/api";
+import { useState } from "react";
 
-const Settings = () => {
-  const { data, error } = useQuery({ queryKey: ["get-user-info"], queryFn: fetchUserInformation });
+export default function SettingsPage() {
+  const [user, setUser] = useState({
+    name: "John Doe",
+    email: "johndoe@example.com",
+    password: "",
+    darkMode: false,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const toggleDarkMode = () => {
+    setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
+  };
+
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete your account?")) {
+      alert("Account deleted!");
+      // Simulate API call
+    }
+  };
 
   return (
-    <PageContent title="Settings">
-      <div className="flex flex-col items-center gap-4">
-        <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
-          <div className="mb-4"></div>
-          <h2 className="text-2xl">{data ? `${data.data.firstName} ${data.data.lastName}` : "Name Unknown"}</h2>
-          <p className="text-slate-500">{data ? data.data.email : "Email Unknown"}</p>
-            <small className="text-slate-500">Member Since {data ? new Date(data.data.createdAt).toLocaleDateString() : "???"}</small>
-          <hr className="my-4 border-slate-200" />
-          <h2 className="text-md text-slate-800 font-semibold mb-4">Username</h2>
-          <input
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-            type="text"
-            placeholder="Enter new username"
-          />
-          <Button
-            variant="primary"
-            className="py-2 w-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-save"
-            >
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-            Save Username
-          </Button>
-        </div>
-        <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
-          <h2 className="text-md text-slate-800 font-semibold mb-4">Password</h2>
-          <input
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-            type="password"
-            placeholder="Enter new password"
-          />
-          <input
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-            type="password"
-            placeholder="Confirm new password"
-          />
-          <Button
-            variant="primary"
-            className="py-2 w-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-save"
-            >
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-              <polyline points="17 21 17 13 7 13 7 21"></polyline>
-              <polyline points="7 3 7 8 15 8"></polyline>
-            </svg>
-            Save New Password
-          </Button>
-          <hr className="my-4 border-slate-200" />
-          <Button
-            variant="secondary"
-            className="w-full bg-red-500 text-white py-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-trash-2"
-            >
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              <line
-                x1="10"
-                y1="11"
-                x2="10"
-                y2="17"
-              ></line>
-              <line
-                x1="14"
-                y1="11"
-                x2="14"
-                y2="17"
-              ></line>
-            </svg>{" "}
-            Delete Account
-          </Button>
-        </div>
-      </div>
-    </PageContent>
-  );
-};
+    <div className={`max-w-lg mx-auto p-6 rounded-xl shadow-lg ${user.darkMode ? "bg-gray-900 text-white" : "bg-white"}`}>
+      <h2 className="text-2xl font-bold mb-4">Settings</h2>
 
-export default Settings;
+      {/* Profile Section */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold">Profile</h3>
+        <label className="block mt-2 text-sm font-medium">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={user.name}
+          onChange={handleChange}
+          className="w-full p-2 border rounded-lg text-black"
+        />
+        <label className="block mt-2 text-sm font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          className="w-full p-2 border rounded-lg text-black"
+        />
+      </div>
+
+      {/* Security */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold">Security</h3>
+        <label className="block mt-2 text-sm font-medium">New Password</label>
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleChange}
+          placeholder="Enter new password"
+          className="w-full p-2 border rounded-lg text-black"
+        />
+      </div>
+
+      <div className="mb-4 flex justify-between items-center">
+        <span className="text-lg font-semibold">Dark Mode</span>
+        <button
+          onClick={toggleDarkMode}
+          className={`px-3 py-1 rounded-full text-white ${user.darkMode ? "bg-slate-800" : "bg-slate-400"}`}
+        >
+          {user.darkMode ? "ON" : "OFF"}
+        </button>
+      </div>
+
+      {/* Delete Account */}
+      <button
+        onClick={handleDelete}
+        className="w-full py-2 mt-4 bg-red-600 text-white font-semibold rounded-lg"
+      >
+        Delete Account
+      </button>
+    </div>
+  );
+}
