@@ -4,14 +4,18 @@ import User from "../models/User";
 import crypto from "crypto";
 
 const getUserInformation = async (req: CustomRequest, res: Response) => {
-  const { _id } = req.user;
-
+    
+    const { _id } = req.user;
+  
   try {
     const user = await User.findById({ _id });
+ 
     if (!user) {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
+
+    console.log("here")
     res.status(200).json({
       message: "Successfully fetched user information",
       data: {
@@ -20,7 +24,8 @@ const getUserInformation = async (req: CustomRequest, res: Response) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Server Error: ${error}" });
+    
+    res.status(500).json({ message: `Server Error: ${error}` });
     return;
   }
 };

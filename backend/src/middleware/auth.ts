@@ -30,7 +30,7 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): voi
     req.user = user;
     next();
   } catch (error) {
-    res.status(500).json({ message: `Invalid Token: ${error}` });
+    res.status(500).json({ message: `Server Error` });
   }
 };
 

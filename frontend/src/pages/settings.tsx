@@ -1,15 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import PageContent from "../components/layout/page-content";
 import Button from "../components/ui/button";
 import { user } from "../data/sample/user";
+import { fetchUserInformation } from "../utils/api";
 
 const Settings = () => {
+  const { data, error} = useQuery({ queryKey: ["get-user-info"], queryFn: fetchUserInformation });
+  
   return (
     <PageContent title="Settings">
       <div className="flex flex-col items-center gap-4">
         <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
           <div className="mb-4"></div>
-          <h2 className="text-2xl">{user.username}</h2>
-          <p className="text-slate-500">{user.email}</p>
+          <h2 className="text-2xl">{data.data.email}</h2>
+          <p className="text-slate-500">{data.data.email}</p>
           <small className="text-slate-500">Joined on {user.joinedDate}</small>
           <hr className="my-4 border-slate-200" />
           <h2 className="text-md text-slate-800 font-semibold mb-4">Username</h2>
@@ -22,7 +26,22 @@ const Settings = () => {
             variant="primary"
             className="py-2 w-full"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-save"
+            >
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
             Save Username
           </Button>
         </div>
@@ -42,7 +61,22 @@ const Settings = () => {
             variant="primary"
             className="py-2 w-full"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="feather feather-save"
+            >
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
             Save New Password
           </Button>
           <hr className="my-4 border-slate-200" />
