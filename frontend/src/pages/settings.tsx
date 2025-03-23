@@ -5,16 +5,16 @@ import { user } from "../data/sample/user";
 import { fetchUserInformation } from "../utils/api";
 
 const Settings = () => {
-  const { data, error} = useQuery({ queryKey: ["get-user-info"], queryFn: fetchUserInformation });
-  
+  const { data, error } = useQuery({ queryKey: ["get-user-info"], queryFn: fetchUserInformation });
+
   return (
     <PageContent title="Settings">
       <div className="flex flex-col items-center gap-4">
         <div className="border border-slate-200 rounded-lg p-4 w-full max-w-md">
           <div className="mb-4"></div>
-          <h2 className="text-2xl">{data.data.email}</h2>
-          <p className="text-slate-500">{data.data.email}</p>
-          <small className="text-slate-500">Joined on {user.joinedDate}</small>
+          <h2 className="text-2xl">{data ? `${data.data.firstName} ${data.data.lastName}` : "Name Unknown"}</h2>
+          <p className="text-slate-500">{data ? data.data.email : "Email Unknown"}</p>
+            <small className="text-slate-500">Member Since {data ? new Date(data.data.createdAt).toLocaleDateString() : "???"}</small>
           <hr className="my-4 border-slate-200" />
           <h2 className="text-md text-slate-800 font-semibold mb-4">Username</h2>
           <input

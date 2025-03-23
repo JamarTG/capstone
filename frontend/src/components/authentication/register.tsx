@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 const registerSchema = z
   .object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
     email: z.string().email(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
@@ -21,8 +23,20 @@ const registerSchema = z
   });
 
 export default function Register() {
-  const [formData, setFormData] = useState<FormFields>({ email: "", password: "", confirmPassword: "" });
-  const [errors, setErrors] = useState<{ email?: string; password?: string; confirmPassword?: string }>({});
+  const [formData, setFormData] = useState<FormFields>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
 
   const navigate = useNavigate();
 
@@ -31,7 +45,11 @@ export default function Register() {
     navigate("/");
   };
 
-  const { mutate } = useMutation({ mutationFn: registerUser, mutationKey: ["register"], onSuccess: handleSuccessfulRegistrationResponse });
+  const { mutate } = useMutation({
+    mutationFn: registerUser,
+    mutationKey: ["register"],
+    onSuccess: handleSuccessfulRegistrationResponse,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,9 +62,17 @@ export default function Register() {
       setErrors({});
       return true;
     } catch (err) {
-      const fieldErrors: { email?: string; password?: string; confirmPassword?: string } = {};
+      const fieldErrors: {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        password?: string;
+        confirmPassword?: string;
+      } = {};
       if (err instanceof z.ZodError) {
         err.errors.forEach((error) => {
+          if (error.path[0] === "firstName") fieldErrors.firstName = error.message;
+          if (error.path[0] === "lastName") fieldErrors.lastName = error.message;
           if (error.path[0] === "email") fieldErrors.email = error.message;
           if (error.path[0] === "password") fieldErrors.password = error.message;
           if (error.path[0] === "confirmPassword") fieldErrors.confirmPassword = error.message;
@@ -67,15 +93,47 @@ export default function Register() {
 
   return (
     <AuthLayout title="Create an Account">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-      >
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
+          <label htmlFor="firstName" className="block text-lg/6 font-medium text-gray-300">
+            First Name
+          </label>
+          <div className="mt-2">
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              placeholder="Enter your first name"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
+            />
+            {errors.firstName && <p className="text-red-500 text-lg">{errors.firstName}</p>}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="lastName" className="block text-lg/6 font-medium text-gray-300">
+            Last Name
+          </label>
+          <div className="mt-2">
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              placeholder="Enter your last name"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
+            />
+            {errors.lastName && <p className="text-red-500 text-lg">{errors.lastName}</p>}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-lg/6 font-medium text-gray-300">
             Email address
           </label>
           <div className="mt-2">
@@ -95,10 +153,7 @@ export default function Register() {
         </div>
 
         <div>
-          <label
-            htmlFor="password"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
+          <label htmlFor="password" className="block text-lg/6 font-medium text-gray-300">
             Password
           </label>
           <div className="mt-2">
@@ -118,10 +173,7 @@ export default function Register() {
         </div>
 
         <div>
-          <label
-            htmlFor="confirmPassword"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
+          <label htmlFor="confirmPassword" className="block text-lg/6 font-medium text-gray-300">
             Confirm Password
           </label>
           <div className="mt-2">
@@ -152,10 +204,7 @@ export default function Register() {
 
       <p className="mt-10 text-center text-lg/6 text-gray-500">
         Already a member?{" "}
-        <Link
-          to={"/login"}
-          className="font-semibold text-blue-400  hover:text-blue-500"
-        >
+        <Link to={"/login"} className="font-semibold text-blue-400  hover:text-blue-500">
           Sign in
         </Link>
       </p>
