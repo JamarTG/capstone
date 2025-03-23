@@ -3,10 +3,32 @@ import { CustomRequest } from "../types/middleware";
 import User from "../models/User";
 import crypto from "crypto";
 
+const getUserInformation = async (req: CustomRequest, res: Response) => {
+  const { _id } = req.user;
+
+  try {
+    const user = await User.findById({ _id });
+    if (!user) {
+      res.status(404).json({ message: "User Not Found" });
+      return;
+    }
+    res.status(200).json({
+      message: "Successfully fetched user information",
+      data: {
+        _id : user._id,
+        email: user.email
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error: ${error}" });
+    return;
+  }
+};
+
 const updateUserInformation = async (req: CustomRequest, res: Response) => {
   const { password, email } = req.body;
 
-  const _id = req.user._id;
+  const { _id } = req.user;
 
   try {
     let dataToBeUpdated = {};
@@ -36,4 +58,4 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export { updateUserInformation };
+export { updateUserInformation, getUserInformation };
