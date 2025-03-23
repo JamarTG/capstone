@@ -8,8 +8,8 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
 
   const navigate = useNavigate();
   return (
-    <div >
-      <h1 className=" text-2xl font-bold flex items-center">
+    <div className="w-full p-10">
+      <h1 className="text-2xl font-bold flex items-center">
         <svg
           onClick={() => {
             navigate(-1);

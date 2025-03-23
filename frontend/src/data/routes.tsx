@@ -3,7 +3,7 @@ import Register from "../components/authentication/register";
 import SidebarLayout from "../components/layout/sidebar";
 import Dashboard from "../pages/dashboard";
 import Quiz from "../pages/quiz";
-import QuizHistory from "../pages/quiz-history";
+import QuizHistory from "../pages/archive";
 import Settings from "../pages/settings";
 import StudyPlan from "../pages/study-plan";
 
