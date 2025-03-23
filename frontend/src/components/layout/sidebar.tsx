@@ -36,10 +36,10 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="feather feather-home"
+              className="feather feather-book-open"
             >
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
           </NavLink>
 
@@ -97,7 +97,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             </svg>
           </NavLink>
 
-          <NavLink
+          {/* <NavLink
             to={"/study-plan"}
             className={({ isActive }) =>
               `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
@@ -121,7 +121,8 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
           </NavLink>
-        </div>
+         */}
+         </div>
 
         <div className="flex flex-col space-y-2">
           <NavLink
