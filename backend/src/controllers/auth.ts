@@ -28,7 +28,7 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
       return;
     }
 
-    const token = jwt.sign({ _id: newUser._id}, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.EXPIRY_TIME) });
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.EXPIRY_TIME!) });
     res.status(201).json({ message: "User Created Successfully", token });
   } catch (error) {
     console.error("Error during user registration:", error);
