@@ -1,7 +1,7 @@
 import { MdOutlineReviews } from "react-icons/md";
-import { getWeaknessColor } from "../../utils";
 import Button from "../ui/button";
 import Card from "../ui/card";
+import { getTextWeaknessColor } from "../../utils";
 
 interface QuizCardProps {
   score: number;
@@ -18,7 +18,7 @@ const getScoreEmoji = (score: number) => {
 
 const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
   return (
-    <Card className={`${getWeaknessColor(score)}`}>
+    <Card className={`${getTextWeaknessColor(score)}`}>
       <div className="relative w-full h-full transform rotate-y-0 transition-transform duration-500 hover:rotate-y-180"></div>
       <div className="p-2 flex flex-col gap-5">
         <div className="flex justify-between items-center">
@@ -34,7 +34,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
                 cy="40"
               />
               <circle
-                className={`text-${getWeaknessColor(score)}`}
+                className={`${getTextWeaknessColor(score)}`}
                 strokeWidth="6"
                 strokeDasharray={`${score * 2.2}, 220`}
                 strokeLinecap="round"
