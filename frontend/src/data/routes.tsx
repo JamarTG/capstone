@@ -4,7 +4,7 @@ import SidebarLayout from "../components/layout/sidebar";
 import Dashboard from "../pages/dashboard";
 import Quiz from "../pages/quiz";
 import QuizHistory from "../pages/archive";
-import Settings from "../pages/settings";
+// import Settings from "../pages/settings";
 import StudyPlan from "../pages/study-plan";
 
 const routes = [
@@ -13,7 +13,7 @@ const routes = [
   { path: "/register", element: <Register /> },
   { path: "/quiz-history", element: <QuizHistory />, layout: SidebarLayout },
   { path: "/quiz", element: <Quiz />, layout: SidebarLayout },
-  { path: "/settings", element: <Settings />, layout: SidebarLayout },
+  // { path: "/settings", element: <Settings />, layout: SidebarLayout },
   { path: "/study-plan", element: <StudyPlan />, layout: SidebarLayout },
 ];
 
