@@ -1,3 +1,4 @@
+import { MdOutlineReviews } from "react-icons/md";
 import { getWeaknessColor } from "../../utils";
 import Button from "../ui/button";
 import Card from "../ui/card";
@@ -6,7 +7,6 @@ interface QuizCardProps {
   score: number;
   lastAttempt: string;
   tags: string[];
-
 }
 
 const getScoreEmoji = (score: number) => {
@@ -16,7 +16,7 @@ const getScoreEmoji = (score: number) => {
   return "😁";
 };
 
-const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt}) => {
+const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
   return (
     <Card className={`${getWeaknessColor(score)}`}>
       <div className="relative w-full h-full transform rotate-y-0 transition-transform duration-500 hover:rotate-y-180"></div>
@@ -60,8 +60,12 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt}) => {
         </div>
 
         <div className="flex justify-between mt-4">
-          <Button variant="primary" className="text-white px-4 py-2 rounded">Review</Button>
-          <Button variant="primary" className="text-white px-4 py-2 rounded">Retry</Button>
+          <Button
+            variant="primary"
+            className="text-white rounded flex justify-center items-center"
+          >
+            <MdOutlineReviews size={"sm"}/>Review
+          </Button>
         </div>
       </div>
     </Card>
