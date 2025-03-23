@@ -17,12 +17,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           />
         </NavLink>
 
-        <div className="flex flex-col space-y-10 ">
+        <div className="flex flex-col space-y-10">
           <NavLink
             to={"/"}
             className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
+                isActive ? "bg-gray-700 text-white" : ""
               }`
             }
           >
@@ -46,8 +46,8 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <NavLink
             to={"/quiz"}
             className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
+                isActive ? "bg-gray-700 text-white" : ""
               }`
             }
           >
@@ -71,8 +71,8 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <NavLink
             to={"/quiz-history"}
             className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
+                isActive ? "bg-gray-700 text-white" : ""
               }`
             }
           >
@@ -100,8 +100,8 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <NavLink
             to={"/study-plan"}
             className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
+                isActive ? "bg-gray-700 text-white" : ""
               }`
             }
           >
@@ -127,8 +127,8 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <NavLink
             to={"/settings"}
             className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white ${
-                isActive ? "bg-white text-gray-800" : ""
+              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
+                isActive ? "bg-gray-700 text-white" : ""
               }`
             }
           >
@@ -159,7 +159,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               logout();
               navigate("/login");
             }}
-            className={`h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-white hover:duration-300 hover:ease-linear focus:bg-white`}
+            className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
