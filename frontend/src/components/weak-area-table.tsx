@@ -1,4 +1,4 @@
-import { getWeaknessColor } from "../utils";
+import { getBgWeaknessColor, getTextWeaknessColor } from "../utils";
 import { WeakArea } from "../types/study-plan";
 import Button from "./ui/button";
 
@@ -10,12 +10,12 @@ interface WeakAreaTableProps {
 const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }) => {
   return (
     <div className="overflow-auto">
-      <table className="w-full border border-gray-200 rounded-lg h-full">
+      <table className="w-full rounded-lg h-full">
         <thead>
           <tr>
-            <th className="text-left text-lg py-2 px-4 border-b border-gray-200">Topic</th>
-            <th className="text-left text-lg py-2 px-4 border-b border-gray-200">Weakness</th>
-            <th className="text-left text-lg  py-2 px-4 border-b border-gray-200">Action</th>
+            <th className="text-left text-lg py-2 px-4">Syllabus Sections</th>
+            <th className="text-left text-lg py-2 px-4">Weakness</th>
+            <th className="text-left text-lg  py-2 px-4"></th>
           </tr>
         </thead>
         <tbody>
@@ -29,9 +29,9 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
               </td>
               <td className="py-6 px-4 text-slate-600 border-gray-200 w-1/3">
                 <div className="flex justify-start gap-2 items-center h-2 w-full rounded-full">
-                  <div className="mb-2">{area.weakPercentage}%</div>
+                  <div className={`mb-2 ${getTextWeaknessColor(area.weakPercentage)}`}>{area.weakPercentage}%</div>
                   <div
-                    className={`h-4 rounded-full bg-${area.weakPercentage > 70 ? "red" : "green"}-500`}
+                    className={`h-4 rounded-full ${getBgWeaknessColor(area.weakPercentage)}`}
                     style={{ width: `${area.weakPercentage}%` }}
                   ></div>
                 </div>

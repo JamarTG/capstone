@@ -74,7 +74,7 @@ const UserObjectives = () => {
             {[...Array(totalPages).keys()].map((number) => (
               <li key={number + 1}>
                 <button
-                  className={`flex items-center justify-center px-3 h-8 leading-tight ${
+                  className={`flex items-center justify-center px-3 h-8  ${
                     currentPage === number + 1
                       ? "text-blue-600 border border-blue-300 bg-blue-50"
                       : "text-gray-500 bg-white border border-gray-300"
