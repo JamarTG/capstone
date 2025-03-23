@@ -96,33 +96,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
           </NavLink>
-
-          {/* <NavLink
-            to={"/study-plan"}
-            className={({ isActive }) =>
-              `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear ${
-                isActive ? "bg-gray-700 text-white" : ""
-              }`
-            }
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-book-open"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-            </svg>
-          </NavLink>
-         */}
-         </div>
+        </div>
 
         <div className="flex flex-col space-y-2">
           <NavLink
