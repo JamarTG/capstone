@@ -3,11 +3,6 @@ import { CustomRequest } from "../types/middleware";
 import User from "../models/User";
 import crypto from "crypto";
 
-interface UpdateUserData {
-  email?: string;
-  password?: string;
-}
-
 const updateUserInformation = async (req: CustomRequest, res: Response) => {
   const { password, email } = req.body;
 
