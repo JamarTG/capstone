@@ -3,7 +3,7 @@ import User from "../models/User";
 import jwt from "jsonwebtoken";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-  const { email, password,firstName, lastName} = req.body;
+  const { email, password, firstName, lastName } = req.body;
 
   if (!email || !password || !firstName || !lastName) {
     const missingFields = [];
@@ -25,20 +25,30 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
       res.status(409).json({ message: "User Already Exists" });
     }
 
-    const newUser = new User({ email, password, firstName,lastName });
+    const newUser = new User({ email, password, firstName, lastName });
     await newUser.save();
 
     if (!process.env.JWT_SECRET) {
       res.status(500).json({ message: "JWT_SECRET is not defined" });
       return;
     }
-    if (!process.env.EXPIRY_TIME) {
-      res.status(500).json({ message: "EXPIRY_TIME is not defined" });
+    if (!process.env.LOGIN_DURATION) {
+      res.status(500).json({ message: "LOGIN_DURATION is not defined" });
       return;
     }
 
-    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.EXPIRY_TIME!) });
-    res.status(201).json({ message: "User Created Successfully", token });
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+
+    const options = {
+      maxAge: parseInt(process.env.LOGIN_DURATION!, 10),
+      httpOnly: true,
+      secure: false,
+      // If in dev mode, this would've been set to true
+    };
+
+    res.cookie("token", token, options);
+
+    res.status(201).json({ message: "User Created Successfully" });
   } catch (error) {
     console.error("Error during user registration:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -54,7 +64,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
   }
 
   try {
-    const userWithEmail = await User.findOne({ email });
+    const userWithEmail = await User.findOne({ email }).select('+password');
 
     if (!userWithEmail) {
       res.status(404).json({ message: "User Not Found" });
@@ -64,12 +74,25 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     const isPasswordCorrect = userWithEmail.comparePassword(plainTextPassword);
 
     if (!isPasswordCorrect) {
+
+      console.log(email,plainTextPassword,!isPasswordCorrect,userWithEmail)
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
 
-    const token = jwt.sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.EXPIRY_TIME!) });
-    res.status(200).json({ message: "Login Successful", token });
+    const token = jwt.sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+    
+    const isInProduction = process.env.NODE_ENV === "production";
+
+    const options = {
+      maxAge: parseInt(process.env.LOGIN_DURATION!, 10),
+      httpOnly: true,
+      secure: isInProduction
+    };
+
+    res.cookie("token", token, options);
+
+    res.status(200).json({ message: "Login Successful" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
