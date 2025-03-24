@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import User from "../models/User";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { CustomRequest } from "../types/middleware";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   const { email, password, firstName, lastName } = req.body;
@@ -64,7 +65,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
   }
 
   try {
-    const userWithEmail = await User.findOne({ email }).select('+password');
+    const userWithEmail = await User.findOne({ email }).select("+password");
 
     if (!userWithEmail) {
       res.status(404).json({ message: "User Not Found" });
@@ -74,20 +75,19 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     const isPasswordCorrect = userWithEmail.comparePassword(plainTextPassword);
 
     if (!isPasswordCorrect) {
-
-      console.log(email,plainTextPassword,!isPasswordCorrect,userWithEmail)
+      console.log(email, plainTextPassword, !isPasswordCorrect, userWithEmail);
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
 
     const token = jwt.sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
-    
+
     const isInProduction = process.env.NODE_ENV === "production";
 
     const options = {
       maxAge: parseInt(process.env.LOGIN_DURATION!, 10),
       httpOnly: true,
-      secure: isInProduction
+      secure: isInProduction,
     };
 
     res.cookie("token", token, options);
@@ -97,3 +97,22 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+export const checkAuth = async (req: CustomRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user || !req.user._id) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(401).json({ message: "User not found" });
+      return;
+    }
+
+    res.status(200).json({ message: "User is authenticated", user });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
