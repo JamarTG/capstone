@@ -50,62 +50,34 @@ const UserObjectives = () => {
           <ul className="flex items-center -space-x-px h-8 text-sm">
             <li>
               <button
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
+              className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-l-md hover:bg-gray-300"
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
               >
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-2.5 h-2.5"
-                  viewBox="0 0 6 10"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 1 1 5l4 4"
-                  />
-                </svg>
+              Previous
               </button>
             </li>
             {[...Array(totalPages).keys()].map((number) => (
               <li key={number + 1}>
-                <button
-                  className={`flex items-center justify-center px-3 h-8  ${
-                    currentPage === number + 1
-                      ? "text-blue-600 border border-blue-300 bg-blue-50"
-                      : "text-gray-500 bg-white border border-gray-300"
-                  } hover:bg-gray-100 hover:text-gray-700`}
-                  onClick={() => paginate(number + 1)}
-                >
-                  {number + 1}
-                </button>
+              <button
+                className={`px-4 py-2 text-lg font-medium ${
+                currentPage === number + 1
+                  ? "text-white bg-blue-500"
+                  : "text-gray-700 bg-gray-200"
+                } hover:bg-blue-400`}
+                onClick={() => paginate(number + 1)}
+              >
+                {number + 1}
+              </button>
               </li>
             ))}
             <li>
               <button
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
+              className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-r-md hover:bg-gray-300"
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
               >
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-2.5 h-2.5"
-                  viewBox="0 0 6 10"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 9l4-4-4-4"
-                  />
-                </svg>
+              Next
               </button>
             </li>
           </ul>
