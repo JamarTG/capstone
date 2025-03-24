@@ -21,9 +21,8 @@ export default function SettingsPage() {
     darkMode: false,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editField, setEditField] = useState<keyof User | null>(null);
-  const [editValue, setEditValue] = useState<string | boolean>("");
+//   const [editField, setEditField] = useState<keyof User | null>(null);
+//   const [editValue, setEditValue] = useState<string | boolean>("");
 
   const { data } = useQuery({
     queryKey: ["profile-data"],
@@ -56,24 +55,24 @@ export default function SettingsPage() {
     }
   };
 
-  const openModal = (field: keyof User) => {
-    setEditField(field);
-    setEditValue(user[field]);
-    setIsModalOpen(true);
-  };
+//   const openModal = (field: keyof User) => {
+//     setEditField(field);
+//     setEditValue(user[field]);
+//     // setIsModalOpen(true);
+//   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEditField(null);
-    setEditValue("");
-  };
+//   const closeModal = () => {
+//     // setIsModalOpen(false);
+//     setEditField(null);
+//     setEditValue("");
+//   };
 
-  const handleSave = () => {
-    if (editField) {
-      setUser({ ...user, [editField]: editValue });
-    }
-    closeModal();
-  };
+//   const handleSave = () => {
+//     if (editField) {
+//       setUser({ ...user, [editField]: editValue });
+//     }
+//     closeModal();
+//   };
 
   return (
     <PageContent title="Settings">
@@ -90,7 +89,7 @@ export default function SettingsPage() {
                 placeholder="Enter new first name"
                 value={user.firstName}
                 onChange={handleChange}
-                onClick={() => openModal("firstName")}
+                // onClick={() => openModal("firstName")}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
               />
             </div>
@@ -103,7 +102,7 @@ export default function SettingsPage() {
                 placeholder="Enter new last name"
                 value={user.lastName}
                 onChange={handleChange}
-                onClick={() => openModal("lastName")}
+                // onClick={() => openModal("lastName")}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
               />
             </div>
@@ -142,7 +141,7 @@ export default function SettingsPage() {
                 placeholder="Enter new email"
                 value={user.email}
                 onChange={handleChange}
-                onClick={() => openModal("email")}
+                // onClick={() => openModal("email")}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
               />
             </div>
@@ -180,7 +179,7 @@ export default function SettingsPage() {
                 name="password"
                 value={user.password}
                 onChange={handleChange}
-                onClick={() => openModal("password")}
+                // onClick={() => openModal("password")}
                 placeholder="Enter new password"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
               />
