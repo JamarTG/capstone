@@ -15,18 +15,13 @@ const loginUser = async (userData: FormFields) => {
 };
 
 const fetchUserInformation = async () => {
-    try {
-      const token = getToken();
-      const response = await axios.get(`${BASE_URL}/settings/user-info`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log("Full response:", response);
-      return response.data;
-    } catch (error) {
-    //   console.error("Request failed:", error.response?.data || error.message);
-      throw error;
-    }
-  };
-  
+  try {
+    const response = await axios.get(`${BASE_URL}/settings/user-info`);
+    console.log("Full response:", response);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export { registerUser, loginUser, fetchUserInformation };
