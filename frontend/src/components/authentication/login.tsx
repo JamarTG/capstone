@@ -104,12 +104,12 @@ export default function Login() {
               Password
             </label>
             <div className="text-lg">
-              <a
+              {/* <a
                 href="#"
                 className="font-semibold text-blue-400 hover:text-blue-500"
               >
                 Forgot password?
-              </a>
+              </a> */}
             </div>
           </div>
           <div className="mt-2">
