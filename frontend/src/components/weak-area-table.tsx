@@ -1,4 +1,4 @@
-import { getBgWeaknessColor, getTextWeaknessColor } from "../utils";
+import { getBgWeaknessColor, getTextWeaknessColor } from "../utils/style";
 import { WeakArea } from "../types/study-plan";
 import Button from "./ui/button";
 
