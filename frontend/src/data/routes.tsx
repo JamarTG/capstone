@@ -3,7 +3,7 @@ import Register from "../components/authentication/register";
 import SidebarLayout from "../components/layout/sidebar";
 import Quiz from "../pages/quiz";
 import QuizHistory from "../pages/archive";
-// import Settings from "../pages/settings";
+import Settings from "../pages/settings";
 import StudyPlan from "../pages/study-plan";
 import NotFound from "../components/misc/not-found";
 
@@ -14,6 +14,7 @@ const routes = [
   { path: "/quiz-history", element: <QuizHistory />, layout: SidebarLayout },
   { path: "/quiz", element: <Quiz />, layout: SidebarLayout },
   { path: "*", element: <NotFound /> },
+  { path: "settings", element: <Settings />, layout: SidebarLayout},
 ];
 
 export default routes;
