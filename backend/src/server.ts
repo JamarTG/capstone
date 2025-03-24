@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import connectDB from "./db";
 import authRoutes from "./routes/auth";
 import settingsRoutes from "./routes/settings";
+import cookieParser from "cookie-parser";
 
 config();
 
@@ -19,6 +20,7 @@ app.use(compression());
 app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
+app.use(cookieParser())
 
 connectDB();
 
