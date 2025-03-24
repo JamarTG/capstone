@@ -1,6 +1,5 @@
 Add a confetti on completion of a quiz
 Don't forget the toasts
-Don't forget the validation on the input login forms
 Create review and account for AI generated explanations
 
 
