@@ -6,6 +6,9 @@ import { checkAuth } from "../utils/api";
 interface AuthContextType {
   user: User | null;
   setUser: React.Dispatch<SetStateAction<User | null>>;
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
 }
 
 interface AuthProviderProps {
@@ -29,23 +32,26 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const { data, isSuccess}: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
+  const { data, isSuccess, isLoading,isFetching, isError }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
     queryKey: ["check-auth"],
     queryFn: checkAuth,
   });
 
   useEffect(() => {
     if (isSuccess && data?.user) {
+      
+      const { _id, firstName, lastName, email } = data.user;
+
       setUser({
-        _id: data.user._id ?? "randomid",
-        firstName: data.user.firstName ?? "",
-        lastName: data.user.lastName ?? "",
-        email: data.user.email ?? "",
+        _id,
+        firstName,
+        lastName,
+        email,
       });
-    }
+    } 
   }, [isSuccess, data]);
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setUser, isLoading, isError, isFetching }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
