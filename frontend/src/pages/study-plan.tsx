@@ -3,10 +3,11 @@ import PageContent from "../components/layout/page-content";
 import WeakAreaTable from "../components/weak-area-table";
 import UserObjectives from "../components/user-objectives";
 import weakAreas from "../data/sample/weakAreas";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");
-
+  useAuthRedirect();
   return (
     <PageContent title="Study Plan">
       <div className="mb-4 flex space-x-4 border-b border-slate-200">

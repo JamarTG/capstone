@@ -3,6 +3,7 @@ import Button from "../components/ui/button";
 import PageContent from "../components/layout/page-content";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserInformation } from "../utils/api";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 interface User {
   firstName: string;
@@ -21,8 +22,10 @@ export default function SettingsPage() {
     darkMode: false,
   });
 
-//   const [editField, setEditField] = useState<keyof User | null>(null);
-//   const [editValue, setEditValue] = useState<string | boolean>("");
+  //   const [editField, setEditField] = useState<keyof User | null>(null);
+  //   const [editValue, setEditValue] = useState<string | boolean>("");
+
+  useAuthRedirect();
 
   const { data } = useQuery({
     queryKey: ["profile-data"],
@@ -55,24 +58,24 @@ export default function SettingsPage() {
     }
   };
 
-//   const openModal = (field: keyof User) => {
-//     setEditField(field);
-//     setEditValue(user[field]);
-//     // setIsModalOpen(true);
-//   };
+  //   const openModal = (field: keyof User) => {
+  //     setEditField(field);
+  //     setEditValue(user[field]);
+  //     // setIsModalOpen(true);
+  //   };
 
-//   const closeModal = () => {
-//     // setIsModalOpen(false);
-//     setEditField(null);
-//     setEditValue("");
-//   };
+  //   const closeModal = () => {
+  //     // setIsModalOpen(false);
+  //     setEditField(null);
+  //     setEditValue("");
+  //   };
 
-//   const handleSave = () => {
-//     if (editField) {
-//       setUser({ ...user, [editField]: editValue });
-//     }
-//     closeModal();
-//   };
+  //   const handleSave = () => {
+  //     if (editField) {
+  //       setUser({ ...user, [editField]: editValue });
+  //     }
+  //     closeModal();
+  //   };
 
   return (
     <PageContent title="Settings">

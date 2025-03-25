@@ -6,9 +6,7 @@ import { checkAuth } from "../utils/api";
 interface AuthContextType {
   user: User | null;
   setUser: React.Dispatch<SetStateAction<User | null>>;
-  isLoading: boolean;
-  isFetching: boolean;
-  isError: boolean;
+  isAuthenticated: boolean;
 }
 
 interface AuthProviderProps {
@@ -30,29 +28,26 @@ interface UserSuccessResponse {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  const { data, isSuccess, isLoading,isFetching, isError }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
+  const { data, isSuccess }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
     queryKey: ["check-auth"],
     queryFn: checkAuth,
-    staleTime : 5 * 10 * 1000
+    staleTime: 5 * 10 * 1000,
   });
 
   useEffect(() => {
     if (isSuccess && data?.user) {
-
       const { _id, firstName, lastName, email } = data.user;
-
-      setUser({
-        _id,
-        firstName,
-        lastName,
-        email,
-      });
-    } 
+      setUser({ _id, firstName, lastName, email });
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
   }, [isSuccess, data]);
 
-  return <AuthContext.Provider value={{ user, setUser, isLoading, isError, isFetching }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setUser, isAuthenticated: !!user }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

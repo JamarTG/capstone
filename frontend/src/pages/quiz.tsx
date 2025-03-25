@@ -3,6 +3,7 @@ import PageContent from "../components/layout/page-content";
 import { topics } from "../data/sample/topics";
 import Card from "../components/ui/card";
 import Button from "../components/ui/button";
+import useAuthRedirect from "../hook/useAuthRedirect";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -10,10 +11,8 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [showResults, setShowResults] = useState(false);
 
-  // const { user, setUser } = useAuth();
-
+  useAuthRedirect();
   
-
   const handleStartQuiz = () => {
     setQuizStarted(true);
     let timer = 60;
