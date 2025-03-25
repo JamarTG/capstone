@@ -1,6 +1,9 @@
 import axios from "axios";
 import { FormFields } from "../types/auth";
-import { getToken } from "./auth";
+
+
+
+// axios.defaults.withCredentials = true;
 
 export const BASE_URL = "http://localhost:5000/api";
 
@@ -14,6 +17,11 @@ const loginUser = async (userData: FormFields) => {
   return data;
 };
 
+export const checkAuth = async () => {
+  const { data } = await axios.get(`${BASE_URL}/auth/check-auth`);
+  return data;
+};
+
 const fetchUserInformation = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/settings/user-info`);
@@ -24,4 +32,4 @@ const fetchUserInformation = async () => {
   }
 };
 
-export { registerUser, loginUser, fetchUserInformation };
+export { registerUser, loginUser,fetchUserInformation };

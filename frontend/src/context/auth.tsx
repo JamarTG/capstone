@@ -1,6 +1,7 @@
 import { createContext, SetStateAction, ReactNode, useState, useEffect } from "react";
 import { User } from "../types/context";
-import {BASE_URL} from "../utils/api"
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { checkAuth } from "../utils/api";
 
 interface AuthContextType {
   user: User | null;
@@ -11,26 +12,38 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface UserSuccessResponse {
+  message: string;
+  user?: {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    createdAt: string;
+    __v: string;
+  };
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const { data, isSuccess}: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
+    queryKey: ["check-auth"],
+    queryFn: checkAuth,
+  });
+
   useEffect(() => {
-    fetch(`${BASE_URL}/auth/check-auth`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "User is authenticated") {
-          setUser(data.user);
-        }
-      })
-      .catch((error) => {
-        console.error("Error checking authentication", error);
+    if (isSuccess && data?.user) {
+      setUser({
+        _id: data.user._id ?? "randomid",
+        firstName: data.user.firstName ?? "",
+        lastName: data.user.lastName ?? "",
+        email: data.user.email ?? "",
       });
-  }, []);
+    }
+  }, [isSuccess, data]);
 
   return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };
