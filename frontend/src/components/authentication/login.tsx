@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../utils/api";
 import { SuccessfulAuthResponse } from "../../types/auth";
-import { setToken } from "../../utils/auth";
+import Cookies from "js-cookie";
 import Button from "../ui/button";
 
 interface FormFields {
@@ -25,11 +25,11 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {
-    setToken(token);
+  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {   
+    Cookies.set("token", token, { path: "/", secure: true });
     navigate("/");
   };
-
+  
   const { mutate } = useMutation({
     mutationFn: loginUser,
     mutationKey: ["login"],
