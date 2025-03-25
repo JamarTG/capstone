@@ -6,10 +6,10 @@ import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../utils/api";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { FormFields } from "../../types/auth";
-import { setToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/button";
 import routes from "../../data/routes";
+import Cookies from "js-cookie";
 
 const registerSchema = z
   .object({
@@ -43,7 +43,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleSuccessfulRegistrationResponse = ({ token }: SuccessfulAuthResponse) => {
-    setToken(token);
+    Cookies.set("token", token, { path: "/", expires: 7 });
     navigate(routes.home.path);
   };
 

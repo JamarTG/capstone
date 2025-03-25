@@ -1,11 +1,8 @@
-import { jwtDecode } from "jwt-decode";
-import { SuccessfulAuthResponse } from "../types/auth";
+import Cookies from "js-cookie";
 
-const setToken = (token: SuccessfulAuthResponse["token"]) => localStorage.setItem("token", token);
-const getToken = (): SuccessfulAuthResponse["token"] | null => localStorage.getItem("token") || null;
-const getUser = (token: SuccessfulAuthResponse["token"]) => (token ? jwtDecode(token) : null);
-const logout = () => localStorage.removeItem("token");
+const logout = () => {
+  Cookies.remove("token", { path: "/" });
+  localStorage.removeItem('user');
+}
 
-
-
-export { setToken, getToken, getUser, logout };
+export { logout };

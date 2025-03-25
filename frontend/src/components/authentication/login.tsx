@@ -22,8 +22,8 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {   
-    Cookies.set("token", token, { path: "/", secure: true });
-    navigate(routes.login.path);
+    Cookies.set("token", token, { path: "/", expires: 7 });
+    navigate(routes.home.path);
   };
   
   const { mutate } = useMutation({
