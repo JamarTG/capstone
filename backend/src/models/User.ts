@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema<IUser>({
   password: { type: String, required: true, select: false },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  salt: { type: String, select: false },
+  salt: { type: String},
   createdAt: { type: Date, default: Date.now },
 });
 
