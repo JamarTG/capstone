@@ -7,7 +7,9 @@ import useAuthRedirect from "../hook/useAuthRedirect";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");
+
   useAuthRedirect();
+  
   return (
     <PageContent title="Study Plan">
       <div className="mb-4 flex space-x-4 border-b border-slate-200">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import objectivesData from "../data/sample/objectives";
+import RenderList from "./common/render-list";
 
 interface Objective {
   id: number;
@@ -33,51 +34,55 @@ const UserObjectives = () => {
     <div className="h p-4 flex h-full">
       <div className="w-1/3 p-4 space-y-4 flex justify-between items-start flex-col">
         <div>
-          {currentObjectives.map((objective) => (
-            <div
-              key={objective.id}
-              className="bg-white rounded-lg cursor-pointer hover:bg-gray-100"
-              onClick={() => setSelectedObjective(objective)}
-            >
-              <p className="text-left px-3 py-5 text-lg text-slate-600 font-semibold">
-                {objective.objectiveNo.toFixed(1)}. {objective.title}
-              </p>
-            </div>
-          ))}
+          <RenderList
+            data={currentObjectives}
+            renderFn={(objective) => (
+              <div
+                key={objective.id}
+                className="bg-white rounded-lg cursor-pointer hover:bg-gray-100"
+                onClick={() => setSelectedObjective(objective)}
+              >
+                <p className="text-left px-3 py-5 text-lg text-slate-600 font-semibold">
+                  {objective.objectiveNo.toFixed(1)}. {objective.title}
+                </p>
+              </div>
+            )}
+          />
         </div>
 
         <nav aria-label="Page navigation">
           <ul className="flex items-center -space-x-px h-8 text-sm">
             <li>
               <button
-              className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-l-md hover:bg-gray-300"
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
+                className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-l-md hover:bg-gray-300"
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
               >
-              Previous
+                Previous
               </button>
             </li>
-            {[...Array(totalPages).keys()].map((number) => (
-              <li key={number + 1}>
-              <button
-                className={`px-4 py-2 text-lg font-medium ${
-                currentPage === number + 1
-                  ? "text-white bg-blue-500"
-                  : "text-gray-700 bg-gray-200"
-                } hover:bg-blue-400`}
-                onClick={() => paginate(number + 1)}
-              >
-                {number + 1}
-              </button>
-              </li>
-            ))}
+            <RenderList
+              data={[...Array(totalPages).keys()]}
+              renderFn={(number) => (
+                <li key={number + 1}>
+                  <button
+                    className={`px-4 py-2 text-lg font-medium ${
+                      currentPage === number + 1 ? "text-white bg-blue-500" : "text-gray-700 bg-gray-200"
+                    } hover:bg-blue-400`}
+                    onClick={() => paginate(number + 1)}
+                  >
+                    {number + 1}
+                  </button>
+                </li>
+              )}
+            />
             <li>
               <button
-              className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-r-md hover:bg-gray-300"
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === totalPages}
+                className="px-4 py-2 text-lg font-medium text-gray-700 border border-gray-200 rounded-r-md hover:bg-gray-300"
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
               >
-              Next
+                Next
               </button>
             </li>
           </ul>
@@ -99,23 +104,25 @@ const UserObjectives = () => {
               <p className="text-2xl text-slate-600">{selectedObjective.title}</p>
             </h2>
             <ul className="pl-5 space-y-2">
-              {selectedObjective.content.map((point, index) => (
-                <p
-                  key={index}
-                  className="py-2 px-1 text-lg text-slate-600 border-b border-gray-200 flex items-center"
-                >
-                  <svg
-                    className="w-5 h-5 text-yellow-500 mr-2 flex-shrink-0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
+              <RenderList
+                data={selectedObjective.content}
+                renderFn={(point, index) => (
+                  <p
+                    key={index}
+                    className="py-2 px-1 text-lg text-slate-600 border-b border-gray-200 flex items-center"
                   >
-                    <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847 1.417 8.26L12 18.897l-7.417 4.633L6 15.27 0 9.423l8.332-1.268z" />
-                  </svg>
-                  {point}
-                </p>
-              ))}
-
+                    <svg
+                      className="w-5 h-5 text-yellow-500 mr-2 flex-shrink-0"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12 .587l3.668 7.568L24 9.423l-6 5.847 1.417 8.26L12 18.897l-7.417 4.633L6 15.27 0 9.423l8.332-1.268z" />
+                    </svg>
+                    {point}
+                  </p>
+                )}
+              />
               <ul />
             </ul>
           </div>

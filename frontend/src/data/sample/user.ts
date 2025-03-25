@@ -1,7 +1,9 @@
 const user = {
-  username: "john_doe",
-  email: "john.doe@example.com",
-  joinedDate: "January 1, 2020",
-};
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  darkMode: false,
+}
 
 export { user };
