@@ -10,6 +10,10 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [showResults, setShowResults] = useState(false);
 
+  // const { user, setUser } = useAuth();
+
+  
+
   const handleStartQuiz = () => {
     setQuizStarted(true);
     let timer = 60;
@@ -23,12 +27,13 @@ const QuizPage = () => {
     }, 1000);
   };
 
+
+
   return (
     <PageContent title={"Quiz"}>
       <div className="p-6  w-full">
         {!selectedSection ? (
           <div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {topics.map((topic) => (
                 <Card
@@ -42,11 +47,8 @@ const QuizPage = () => {
                     </div>
                     <h2 className="text-sm font-bold">{topic.name}</h2>
                   </div>
-                  <hr className="text-red-600"/>
-                  <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">
-                    {topic.description}
-                  </p>
-                
+                  <hr className="text-red-600" />
+                  <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">{topic.description}</p>
                 </Card>
               ))}
             </div>
@@ -56,7 +58,6 @@ const QuizPage = () => {
             <h2 className="text-xl font-bold mb-4">{selectedSection} Quiz</h2>
             <Button
               variant="primary"
-        
               onClick={handleStartQuiz}
             >
               Start Quiz
