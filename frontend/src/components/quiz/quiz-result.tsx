@@ -1,5 +1,4 @@
 import { MdOutlineReviews } from "react-icons/md";
-import Button from "../ui/button";
 import Card from "../ui/card";
 import { getTextWeaknessColor } from "../../utils/style";
 
@@ -60,13 +59,10 @@ const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
         </div>
 
         <div className="flex justify-between mt-4">
-          <Button
-            variant="primary"
-            className="text-white rounded flex justify-center items-center"
-          >
-            <MdOutlineReviews size={"sm"} />
-            Review
-          </Button>
+          <a className="text-slate-600 hover:text-slate-800 cursor-pointer flex justify-center items-start gap-1">
+            <MdOutlineReviews size={30} />
+            <p className="text-xl">Review</p>
+          </a>
         </div>
       </div>
     </Card>

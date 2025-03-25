@@ -37,13 +37,7 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
                 </div>
               </td>
               <td className="py-1 px-4 ">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => onRetakeQuiz(area.topic)}
-                >
-                  Take Quiz
-                </Button>
+                <a className="cursor-pointer flex justify-center items-end gap-2 text-lg">Take Quiz</a>
               </td>
             </tr>
           ))}
