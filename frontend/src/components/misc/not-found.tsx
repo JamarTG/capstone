@@ -1,3 +1,4 @@
+import routes from "../../data/routes";
 import Button from "../ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +13,7 @@ const NotFound = () => {
           </h2>
           <p className="text-2xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
           <p className="mt-4 mb-8 dark:text-gray-600">But don't worry, you can find plenty of other things on our homepage.</p>
-          <Button variant="primary" onClick={()=>navigate("/")} className="w-full">
+          <Button variant="primary" onClick={()=>navigate(routes.home.path)} className="w-full">
             Back to homepage
           </Button>
         </div>

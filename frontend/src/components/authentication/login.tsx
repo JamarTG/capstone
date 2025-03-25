@@ -8,6 +8,7 @@ import { loginUser } from "../../utils/api";
 import { FormFields, SuccessfulAuthResponse } from "../../types/auth";
 import Cookies from "js-cookie";
 import Button from "../ui/button";
+import routes from "../../data/routes";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -22,7 +23,7 @@ export default function Login() {
 
   const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {   
     Cookies.set("token", token, { path: "/", secure: true });
-    navigate("/");
+    navigate(routes.login.path);
   };
   
   const { mutate } = useMutation({

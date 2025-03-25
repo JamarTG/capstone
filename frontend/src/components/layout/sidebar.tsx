@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../utils/auth";
+import routes from "../../data/routes";
 interface HomeLayoutProps {
   children?: ReactNode;
 }
@@ -132,7 +133,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <a
             onClick={() => {
               logout();
-              navigate("/login");
+              navigate(routes.login.path);
             }}
             className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-700 hover:text-white transition duration-300 ease-linear"
           >

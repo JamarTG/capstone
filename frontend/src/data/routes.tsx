@@ -6,15 +6,27 @@ import QuizHistory from "../pages/archive";
 import Settings from "../pages/settings";
 import StudyPlan from "../pages/study-plan";
 import NotFound from "../components/misc/not-found";
+import { JSX, ReactNode } from "react";
 
-const routes = [
-  { path: "/", element: <StudyPlan />, layout: SidebarLayout },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "/quiz-history", element: <QuizHistory />, layout: SidebarLayout },
-  { path: "/quiz", element: <Quiz />, layout: SidebarLayout },
-  { path: "*", element: <NotFound /> },
-  { path: "settings", element: <Settings />, layout: SidebarLayout},
-];
+interface RouteObject {
+  path: string;
+  element: JSX.Element;
+  layout?: React.FC<{children: ReactNode}>;
+}
+type Routes = Record<string, RouteObject>;
+
+const routes: Routes = {
+  home: { path: "/", element: <StudyPlan />, layout: SidebarLayout },
+  login: { path: "/login", element: <Login /> },
+  register: { path: "/register", element: <Register /> },
+  quizHistory: { path: "/quiz-history", element: <QuizHistory />, layout: SidebarLayout },
+  quiz: { path: "/quiz", element: <Quiz />, layout: SidebarLayout },
+  notFound: { path: "*", element: <NotFound /> },
+  settings: { path: "/settings", element: <Settings />, layout: SidebarLayout },
+};
 
 export default routes;
+
+
+// Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes'.ts(2559)
+// (parameter) Layout: React.FC<{}>

@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
           <AnimatePresence mode="wait">
             <Routes>
-              {routes.map(({ path, element, layout: Layout }) => (
+              {Object.values(routes).map(({ path, element, layout: Layout }) => (
                 <Route
                   key={path}
                   path={path}

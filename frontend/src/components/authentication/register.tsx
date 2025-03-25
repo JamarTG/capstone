@@ -9,6 +9,7 @@ import { FormFields } from "../../types/auth";
 import { setToken } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/button";
+import routes from "../../data/routes";
 
 const registerSchema = z
   .object({
@@ -43,7 +44,7 @@ export default function Register() {
 
   const handleSuccessfulRegistrationResponse = ({ token }: SuccessfulAuthResponse) => {
     setToken(token);
-    navigate("/");
+    navigate(routes.home.path);
   };
 
   const { mutate } = useMutation({
