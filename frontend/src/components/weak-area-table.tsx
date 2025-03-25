@@ -1,13 +1,13 @@
 import { getBgWeaknessColor, getTextWeaknessColor } from "../utils/style";
 import { WeakArea } from "../types/study-plan";
-import Button from "./ui/button";
+import { MdOutlineQuiz } from "react-icons/md";
 
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
   onRetakeQuiz: (topic: string) => void;
 }
 
-const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }) => {
+const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas }) => {
   return (
     <div className="overflow-auto">
       <table className="w-full rounded-lg h-full">
@@ -36,8 +36,13 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas, onRetakeQuiz }
                   ></div>
                 </div>
               </td>
-              <td className="py-1 px-4 ">
-                <a className="cursor-pointer flex justify-center items-end gap-2 text-lg">Take Quiz</a>
+              <td className="py-1 px-4">
+                <div className="flex justify-center items-center gap-1">
+                  <MdOutlineQuiz size={30} />
+                  <a className="cursor-pointer flex justify-center items-end gap-2 text-lg text-slate-600 hover:text-slate-800">
+                    Take Quiz
+                  </a>
+                </div>
               </td>
             </tr>
           ))}
