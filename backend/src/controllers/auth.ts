@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import User from "../models/User";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { CustomRequest } from "../types/middleware";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
@@ -82,17 +82,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
 
     const token = jwt.sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
 
-    const isInProduction = process.env.NODE_ENV === "production";
-
-    const options = {
-      maxAge: parseInt(process.env.LOGIN_DURATION!, 10),
-      httpOnly: true,
-      secure: isInProduction,
-    };
-
-    res.cookie("token", token, options);
-
-    res.status(200).json({ message: "Login Successful" });
+    res.status(200).json({ message: "Login Successful", token });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
