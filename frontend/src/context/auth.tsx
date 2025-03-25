@@ -35,11 +35,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const { data, isSuccess, isLoading,isFetching, isError }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
     queryKey: ["check-auth"],
     queryFn: checkAuth,
+    staleTime : 5 * 10 * 1000
   });
 
   useEffect(() => {
     if (isSuccess && data?.user) {
-      
+
       const { _id, firstName, lastName, email } = data.user;
 
       setUser({
