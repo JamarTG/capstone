@@ -17,10 +17,15 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Resolved the axios error issues
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cookieParser())
+app.use(cookieParser()); //Resolve the cookies problem
 
 connectDB();
 
