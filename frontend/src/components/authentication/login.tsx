@@ -5,14 +5,9 @@ import AuthLayout from "../layout/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../utils/api";
-import { SuccessfulAuthResponse } from "../../types/auth";
+import { FormFields, SuccessfulAuthResponse } from "../../types/auth";
 import Cookies from "js-cookie";
 import Button from "../ui/button";
-
-interface FormFields {
-  email: string;
-  password: string;
-}
 
 const loginSchema = z.object({
   email: z.string().email(),
