@@ -1,4 +1,3 @@
-import { getBgWeaknessColor, getTextWeaknessColor } from "../utils/style";
 import { WeakArea } from "../types/study-plan";
 import { MdOutlineQuiz } from "react-icons/md";
 import RenderList from "./common/render-list";

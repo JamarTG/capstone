@@ -1,4 +1,3 @@
-import { MdOutlineReviews } from "react-icons/md";
 import Card from "../ui/card";
 
 interface QuizCardProps {
@@ -7,7 +6,7 @@ interface QuizCardProps {
   tags: string[];
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt, tags }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
   return (
     <Card className="w-full max-w-sm bg-white rounded-xl shadow-lg overflow-hidden p-4">
       <div className="h-full w-full flex flex-col items-center gap-2">

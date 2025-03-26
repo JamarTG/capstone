@@ -1,12 +1,3 @@
-// import
-import { FaMicrochip } from "react-icons/fa6";
-import { FaNetworkWired } from "react-icons/fa6";
-import { PiMicrosoftWordLogoFill } from "react-icons/pi";
-import { FaDatabase } from "react-icons/fa";
-import { GiPuzzle } from "react-icons/gi";
-import { FaLaptopCode } from "react-icons/fa";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
 
 export interface Topic {
