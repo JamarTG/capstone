@@ -9,6 +9,8 @@ import { FormFields, SuccessfulAuthResponse } from "../../types/auth";
 import Cookies from "js-cookie";
 import Button from "../ui/button";
 import routes from "../../data/routes";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -21,15 +23,19 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {   
+  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {
     Cookies.set("token", token, { path: "/", expires: 7 });
     navigate(routes.home.path);
   };
-  
+
   const { mutate } = useMutation({
     mutationFn: loginUser,
     mutationKey: ["login"],
     onSuccess: handleSuccessfulLoginResponse,
+    onError: (error: AxiosError) => {
+      toast.success("Successfully toasted!");
+      console.log(error);
+    },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +70,8 @@ export default function Login() {
 
   return (
     <AuthLayout title="Sign in to your account">
+      <p className="text-white">Errors : {JSON.stringify(errors)}</p>
+
       <form
         onSubmit={handleSubmit}
         className="space-y-6"
@@ -126,7 +134,7 @@ export default function Login() {
 
         <div>
           <Button
-          variant="primary"
+            variant="primary"
             type="submit"
             className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
