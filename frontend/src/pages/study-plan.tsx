@@ -16,16 +16,16 @@ const StudyPlan = () => {
         <button
           onClick={() => setActiveTab("weakAreas")}
           className={`${
-            activeTab === "weakAreas" ? "border-blue-500 text-blue-600" : "border-transparent text-slate-600"
-          } pb-2 border-b-2 font-semibold px-4 text-lg`}
+            activeTab === "weakAreas" ? "border-slate-600 text-slate-600" : "border-transparent text-slate-600"
+          } pb-2 border-b-2 font-semibold px-2 text-md`}
         >
           Weak Areas
         </button>
         <button
           onClick={() => setActiveTab("userObjectives")}
           className={`${
-            activeTab === "userObjectives" ? "border-blue-500 text-blue-600" : "border-transparent text-slate-600"
-          } pb-2 border-b-2 font-semibold px-4 text-lg`}
+            activeTab === "userObjectives" ? "border-slate-600 text-slate-600" : "border-transparent text-slate-600"
+          } pb-2 border-b-2 font-semibold px-4 text-md`}
         >
           User Objectives
         </button>

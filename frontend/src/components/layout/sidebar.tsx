@@ -162,7 +162,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         </div>
       </aside>
 
-      <main className="w-full h-full flex relative overflow-y-auto justify-center items-center">{children}</main>
+      <main className="w-full h-full flex relative overflow-y-auto justify-center items-center bg-gray-100">{children}</main>
     </div>
   );
 };

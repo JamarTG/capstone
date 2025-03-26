@@ -31,23 +31,30 @@ const QuizPage = () => {
     <Card
       key={topic.name}
       onClick={() => setSelectedSection(topic.name)}
-      className="cursor-pointer w-full flex flex-col justify-between items-center p-4 border border-slate-200 text-slate-800 rounded-lg transform hover:scale-105 transition-transform duration-300"
+      animateOnHover={false}
+      className="w-1/20 bg-white shadow-md cursor-pointer flex flex-col justify-between items-center p-3 text-slate-800 rounded-lg"
     >
-      <div className="flex justify-start gap-3 items-center w-full">
-        <div>
-          <topic.icon className="w-12 h-12" />
-        </div>
-        <h2 className="text-sm font-bold">{topic.name}</h2>
+      <div className="flex justify-start items-center w-full">
+        <div className="bg-slate-600 rounded-lg p-2 mr-10">{topic.icon}</div>
+        <h2
+          className="text-sm font-bold text-slate-600 truncate"
+          title={topic.name}
+        >
+          {topic.name}
+        </h2>
       </div>
       <hr className="text-red-600" />
-      <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">{topic.description}</p>
+      {/* <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">{topic.description}</p> */}
     </Card>
   );
 
   const renderStartQuiz = () => (
     <div>
       <h2 className="text-xl font-bold mb-4">{selectedSection} Quiz</h2>
-      <Button variant="primary" onClick={handleStartQuiz}>
+      <Button
+        variant="primary"
+        onClick={handleStartQuiz}
+      >
         Start Quiz
       </Button>
     </div>
@@ -87,12 +94,13 @@ const QuizPage = () => {
 
   return (
     <PageContent title={"Quiz"}>
-      <div className="p-6 w-full">
+      <div className="p-6 w-full flex flex justify-center">
         {!selectedSection ? (
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <RenderList data={topics} renderFn={renderTopics} />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+            <RenderList
+              data={topics}
+              renderFn={renderTopics}
+            />
           </div>
         ) : !quizStarted ? (
           renderStartQuiz()

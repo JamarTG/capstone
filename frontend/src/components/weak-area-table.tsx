@@ -2,6 +2,7 @@ import { getBgWeaknessColor, getTextWeaknessColor } from "../utils/style";
 import { WeakArea } from "../types/study-plan";
 import { MdOutlineQuiz } from "react-icons/md";
 import RenderList from "./common/render-list";
+import toast from "react-hot-toast";
 
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
@@ -15,22 +16,24 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas }) => {
       className="hover:bg-gray-100"
     >
       <td className="text-left px-3 text-md text-slate-600 font-semibold">
-        {index + 1}. {area.topic}
+        {area.topic}
       </td>
       <td className="py-6 px-4 text-slate-600 border-gray-200 w-1/3">
         <div className="flex justify-start gap-2 items-center h-2 w-full rounded-full">
-          <div className={`mb-2 ${getTextWeaknessColor(area.weakPercentage)}`}>{area.weakPercentage}%</div>
+          {/* <div className={`mb-2 ${getTextWeaknessColor(area.weakPercentage)}`}>{area.weakPercentage}%</div> */}
+          <div>{area.weakPercentage}%</div>
           <div
-            className={`h-4 rounded-full ${getBgWeaknessColor(area.weakPercentage)}`}
+            className={`h-2 rounded-full bg-slate-600 `}
+            // ${getBgWeaknessColor(area.weakPercentage)} - considering color coding 
             style={{ width: `${area.weakPercentage}%` }}
           ></div>
         </div>
       </td>
       <td className="py-1 px-4">
-        <div className="flex justify-center items-center gap-1">
-          <MdOutlineQuiz size={30} />
-          <a className="cursor-pointer flex justify-center items-end gap-2 text-lg text-slate-600 hover:text-slate-800">Take Quiz</a>
-        </div>
+        <button className="cursor-pointer flex justify-center items-center gap-1" onClick={() => toast.success("clicked")}>
+          <MdOutlineQuiz color="oklch(0.446 0.043 257.281)" size={30} />
+          <a className="flex justify-center items-end gap-2 text-sm text-slate-600 hover:text-slate-800">Take quiz</a>
+        </button>
       </td>
     </tr>
   );
@@ -38,9 +41,9 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas }) => {
   const renderWeakAreasTableRows = () => {
     return (
       <tr>
-        <th className="text-left text-lg py-2 px-4">Syllabus Sections</th>
-        <th className="text-left text-lg py-2 px-4">Weakness</th>
-        <th className="text-left text-lg  py-2 px-4"></th>
+        <th className="text-left text-2xl text-slate-600 py-2 px-3">Syllabus Sections</th>
+        <th className="text-left text-2xl text-slate-600 py-2 px-3">Weakness</th>
+        <th className="text-left  py-2 px-4"></th>
       </tr>
     );
   };

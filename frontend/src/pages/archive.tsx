@@ -11,7 +11,7 @@ const QuizHistory = () => {
   return (
     <PageContent title="Archive">
       <SelectDropdown options={["date", "score"]} />
-      <div className="px-5 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 overflow-auto h-full">
+      <div className="responsive-grid">
         <RenderList
           data={quizData}
           renderFn={(quiz) => {
