@@ -24,6 +24,7 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       res.status(409).json({ message: "User Already Exists" });
+      return;
     }
 
     const newUser = new User({ email, password, firstName, lastName });
@@ -76,7 +77,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
 
     if (!isPasswordCorrect) {
       console.log(email, plainTextPassword, !isPasswordCorrect, userWithEmail);
-      res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message: "Incorrect Password" });
       return;
     }
 

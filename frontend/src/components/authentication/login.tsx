@@ -23,19 +23,22 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSuccessfulLoginResponse = ({ token }: SuccessfulAuthResponse) => {
+  const handleSuccessfulLoginResponse = ({ token, message }: SuccessfulAuthResponse) => {
+    toast.success(message)
     Cookies.set("token", token, { path: "/", expires: 7 });
     navigate(routes.home.path);
   };
+
+  const handleUnsuccessfulAuthResponse = (error: AxiosError) => {
+    const errorMessage = (error.response?.data as { message?: string })?.message ?? "An unexpected error occurred";
+    toast.error(errorMessage);
+  }
 
   const { mutate } = useMutation({
     mutationFn: loginUser,
     mutationKey: ["login"],
     onSuccess: handleSuccessfulLoginResponse,
-    onError: (error: AxiosError) => {
-      toast.success("Successfully toasted!");
-      console.log(error);
-    },
+    onError: handleUnsuccessfulAuthResponse
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,8 +73,6 @@ export default function Login() {
 
   return (
     <AuthLayout title="Sign in to your account">
-      <p className="text-white">Errors : {JSON.stringify(errors)}</p>
-
       <form
         onSubmit={handleSubmit}
         className="space-y-6"

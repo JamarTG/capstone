@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../ui/button";
 import routes from "../../data/routes";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 const registerSchema = z
   .object({
@@ -42,15 +44,22 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  const handleSuccessfulRegistrationResponse = ({ token }: SuccessfulAuthResponse) => {
+  const handleSuccessfulRegistrationResponse = ({ token, message }: SuccessfulAuthResponse) => {
+    toast.success(message);
     Cookies.set("token", token, { path: "/", expires: 7 });
     navigate(routes.home.path);
+  };
+
+  const handleUnsuccessfulAuthResponse = (error: AxiosError) => {
+    const errorMessage = (error.response?.data as { message?: string })?.message ?? "An unexpected error occurred";
+    toast.error(errorMessage);
   };
 
   const { mutate } = useMutation({
     mutationFn: registerUser,
     mutationKey: ["register"],
     onSuccess: handleSuccessfulRegistrationResponse,
+    onError: handleUnsuccessfulAuthResponse,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
