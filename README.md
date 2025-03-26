@@ -1,5 +1,9 @@
 # AI IT Tutor 🤖📚
 
+## Preview
+![image](https://github.com/user-attachments/assets/5a4b0c49-a7e8-45e2-aca7-c9724e1e5f7e)
+
+
 ## Overview
 AI IT Tutor is a personalized, AI-powered learning platform tailored to help students excel in the CSEC Information Technology syllabus. By leveraging diagnostic quizzes and adaptive learning techniques, the system provides a customized learning journey that evolves as the student progresses. Whether you're struggling with specific topics or aiming to sharpen your skills, AI IT Tutor is here to guide you every step of the way!
 
