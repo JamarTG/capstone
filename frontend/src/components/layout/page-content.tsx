@@ -1,45 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import { ReactNode } from "react";
 
 interface PageContentProps {
-  children: React.ReactNode;
+  children: ReactNode;
   title: string;
+  svg?: ReactNode; 
 }
-const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
-  const navigate = useNavigate();
+
+const PageLayout: React.FC<PageContentProps> = ({ children, title, svg }) => {
   return (
     <div>
-      <h1 className="cursor-pointer flex justify-start items-center gap-5 text-3xl flex items-center">
-        <svg
-          onClick={() => navigate(-1)}
-          xmlns="http://www.w3.org/2000/svg"
-          width="27"
-          height="27"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="oklch(0.446 0.043 257.281)"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="feather feather-arrow-left-circle"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-          ></circle>
-          <polyline points="12 8 8 12 12 16"></polyline>
-          <line
-            x1="16"
-            y1="12"
-            x2="8"
-            y2="12"
-          ></line>
-        </svg>
-        <p className="text-slate-600"> {title}</p>
+      <h1 className="p-2 cursor-pointer flex justify-start items-center text-3xl">
+        <span className="mr-3">
+          {svg}
+        </span>
+        <h2 className="text-gray-500 text-2xl">{title}</h2>
       </h1>
       <section
         style={{ width: "90vw", height: "90vh" }}
-        className="flex flex-col h-full p-4 gap-5 "
+        className="flex flex-col h-screen p-4 gap-5  border-t-2 border-slate-200"
       >
         {children}
       </section>
@@ -47,4 +25,4 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
   );
 };
 
-export default PageContent;
+export default PageLayout;
