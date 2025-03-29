@@ -3,15 +3,17 @@ import { ReactNode } from "react";
 interface CardProps {
   className?: string;
   children?: ReactNode;
+  style?: React.CSSProperties;
   onClick?: () => void;
   animateOnHover?: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ children, className, onClick, animateOnHover = false }) => {
+const Card: React.FC<CardProps> = ({ children, className, style, onClick, animateOnHover = false }) => {
   return (
     <div
       onClick={onClick}
-      className={`relative flex flex-col justify-center items-center my-2  w-full transform transition-transform ${animateOnHover ? "hover:scale-105" : ""} ${className}`}
+      style={style}
+      className={`relative ${animateOnHover ? "transition-transform hover:scale-105" : ""} ${className}`}
     >
       {children}
     </div>
@@ -19,3 +21,4 @@ const Card: React.FC<CardProps> = ({ children, className, onClick, animateOnHove
 };
 
 export default Card;
+
