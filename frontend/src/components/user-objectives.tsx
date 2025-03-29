@@ -12,7 +12,7 @@ interface Objective {
 const UserObjectives = () => {
   const [objectives, setObjectives] = useState<Objective[]>([]);
   const [selectedObjective, setSelectedObjective] = useState<Objective | null>(null);
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const objectivesPerPage = 10;
 
   useEffect(() => {
@@ -87,7 +87,10 @@ const UserObjectives = () => {
         </nav>
       </div>
 
-      <div style={{height:"85%"}}  className="bg-white w-2/3 h-full p-4 rounded-lg flex items-center justify-center">
+      <div
+        style={{ height: "85%" }}
+        className="bg-white w-2/3 h-full p-4 rounded-lg flex items-center justify-center"
+      >
         {selectedObjective ? (
           <div className="flex flex-col h-full w-full">
             <h2 className="p-5 text-xl font-semibold mb-2 flex justify-start  gap-2 items-center">
