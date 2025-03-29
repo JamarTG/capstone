@@ -1,25 +1,26 @@
+import { JSX, ReactNode } from "react";
+import StudyPlan from "../pages/study-plan";
 import Login from "../components/authentication/login";
 import Register from "../components/authentication/register";
-import SidebarLayout from "../components/layout/sidebar";
-import Quiz from "../pages/quiz";
 import QuizHistory from "../pages/archive";
-import Settings from "../pages/settings";
-import StudyPlan from "../pages/study-plan";
-import { JSX, ReactNode } from "react";
+import Quiz from "../pages/quiz";
 import NotFound from "../pages/not-found";
+import Settings from "../pages/settings";
+import SidebarLayout from "../components/layout/sidebar";
 
-interface RouteObject {
+interface RouteConfig {
   path: string;
   element: JSX.Element;
-  layout?: React.FC<{children: ReactNode}>;
+  layout?: React.FC<{ children: ReactNode }>;
 }
-type Routes = Record<string, RouteObject>;
 
-const routes: Routes = {
+type Route = "home" | "login" | "register" | "archive" | "quiz" | "settings" | "notFound";
+
+const routes: Record<Route, RouteConfig> = {
   home: { path: "/", element: <StudyPlan />, layout: SidebarLayout },
   login: { path: "/login", element: <Login /> },
   register: { path: "/register", element: <Register /> },
-  quizHistory: { path: "/archive", element: <QuizHistory />, layout: SidebarLayout },
+  archive: { path: "/archive", element: <QuizHistory />, layout: SidebarLayout },
   quiz: { path: "/quiz", element: <Quiz />, layout: SidebarLayout },
   notFound: { path: "*", element: <NotFound /> },
   settings: { path: "/settings", element: <Settings />, layout: SidebarLayout },
