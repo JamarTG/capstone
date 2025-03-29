@@ -6,62 +6,86 @@ interface QuizCardProps {
   tags: string[];
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ score, lastAttempt, tags }) => {
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'bg-emerald-200 text-emerald-800';
+    if (score >= 50) return 'bg-amber-200 text-amber-800';
+    return 'bg-red-200 text-red-800';
+  };
+
+  const getEmoji = (score: number) => {
+    if (score >= 80) return '🎯';
+    if (score >= 50) return '👍';
+    return '📌';
+  };
+
   return (
-    <Card className="w-full max-w-sm bg-white rounded-xl shadow-lg overflow-hidden p-4">
-      <div className="h-full w-full flex flex-col items-center gap-2">
-        <div className="w-full flex justify-between items-center">
-          <div className="bg-gray-100 hover:bg-gray-300 rounded-lg p-1 text-lg text-slate-600 flex justify-center items-center">
-            {/* className="bg-slate-600 rounded-lg p-2 mr-10" */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="oklch(0.446 0.043 257.281)"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="feather feather-file-text"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line
-                x1="16"
-                y1="13"
-                x2="8"
-                y2="13"
-              ></line>
-              <line
-                x1="16"
-                y1="17"
-                x2="8"
-                y2="17"
-              ></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-            <button className="text-slate-600 text-sm  w-[100px] h-[30px] hover:text-slate-800 transition">Full Review</button>
+    <Card className="w-full max-w-sm bg-white rounded-xl shadow-lg overflow-hidden p-0 hover:shadow-xl transition-shadow duration-300 group">
+
+      <div className="p-5">
+        <div className={`absolute top-3 right-3 flex justify-center items-center p-2 rounded-md`}>
+          <span className="text-xl text-slate-600 font-bold"> {score}%</span>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-slate-50 rounded-lg text-slate-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <h3 className="font-bold text-gray-500">{lastAttempt}</h3>
+            </div>
+        
           </div>
-          <small className="text-gray-500">{lastAttempt}</small>
 
-          <span className="text-2xl font-semibold text-slate-600">😁{score}%</span>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className={`h-2 rounded-full ${getScoreColor(score).replace('text', 'bg')}`}
+              style={{ width: `${score}%` }}
+            ></div>
+          </div>
+
+
+          <div className="text-center px-4 py-2 rounded-lg border border-gray-100">
+            {score >= 80 ? (
+              <p className="text-slate-700 font-medium">You've mastered this material!</p>
+            ) : score >= 50 ? (
+              <p className="text-slate-700 font-medium">Review these topics to improve.</p>
+            ) : (
+              <p className="text-slate-700 font-medium">Let's review these concepts together.</p>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className="px-2  bg-white border border-gray-200 rounded-full text-xs font-medium text-gray-600 hover:bg-slate-50 hover:border-slate-200 hover:text-slate-700 transition-colors"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+
+          <button className="mt-2 w-full py-2 text-slate-600 rounded-lg font-medium hover:from-slate-600 hover:to-purple-700 transition-all transform cursor-pointer  active:translate-y-0">
+            Full Review
+          </button>
         </div>
-
-        <div className="hidden md:flex lg:flex justify-center items-center text-sm h-full text-gray-700">
-          <blockquote className="border-l-3 pl-2 text-gray-600">Excellent work! You have a strong grasp of the material!</blockquote>
-        </div>
-
-        {/* <div className="flex gap-2 flex-wrap justify-center mt-2">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="text-slate-600 bg-gray-100 px-2 rounded-full text-xs transition-transform transform hover:scale-105"
-            >
-              {tag}
-            </span>
-          ))}
-        </div> */}
       </div>
     </Card>
   );

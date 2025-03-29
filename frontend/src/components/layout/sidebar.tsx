@@ -10,12 +10,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   return (
     <div className="h-screen w-screen relative flex">
-      <aside className="h-full w-16 flex flex-col items-center justify-between relative bg-gray-800 text-gray-400 py-4">
-        <NavLink to={"/"}>
-          <img
+      <aside className="h-full w-16 flex flex-col items-center bg-gray-100 border-r border-slate-300 justify-between relative text-gray-600 pb-4">
+        <NavLink className={"text-4xl"} to={"/"}>
+          {/* <img
             src="/croppedAppLogoIcon.png"
-            className="w-16"
-          />
+            className="bg-gray-700 w-full"
+          /> */}
         </NavLink>
 
         <div className="flex flex-col space-y-10">

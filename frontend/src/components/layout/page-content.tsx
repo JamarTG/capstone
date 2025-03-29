@@ -8,7 +8,7 @@ const PageContent: React.FC<PageContentProps> = ({ children, title }) => {
   const navigate = useNavigate();
   return (
     <div>
-      <h1 className="flex justify-start items-center gap-5 text-3xl flex items-center">
+      <h1 className="cursor-pointer flex justify-start items-center gap-5 text-3xl flex items-center">
         <svg
           onClick={() => navigate(-1)}
           xmlns="http://www.w3.org/2000/svg"

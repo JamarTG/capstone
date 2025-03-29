@@ -29,10 +29,7 @@ const WeakAreaTable: React.FC<WeakAreaTableProps> = ({ weakAreas }) => {
         </div>
       </td>
       <td className="py-1 px-4">
-        <button className="cursor-pointer flex justify-center items-center gap-1" onClick={() => toast.success("clicked")}>
-          <MdOutlineQuiz color="oklch(0.446 0.043 257.281)" size={30} />
-          <a className="flex justify-center items-end gap-2 text-sm text-slate-600 hover:text-slate-800">Take quiz</a>
-        </button>
+       
       </td>
     </tr>
   );

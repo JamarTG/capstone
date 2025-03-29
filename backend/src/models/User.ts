@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema<IUser>({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   salt: { type: String},
-  createdAt: { type: Date, default: Date.now },
+ createdAt: { type: Date, default: Date.now },
 });
 
 userSchema.pre("save", function (next) {
@@ -22,6 +22,7 @@ userSchema.pre("save", function (next) {
 userSchema.methods.comparePassword = function (password: IUser["password"]): boolean {
   const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, "sha512").toString("hex");
   return hash == this.password;
+  
 };
 
 export default mongoose.model<IUser>("User", userSchema);
