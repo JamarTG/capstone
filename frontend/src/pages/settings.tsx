@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Button from "../components/ui/button";
 import PageContent from "../components/layout/page-content";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserInformation } from "../utils/api";
@@ -36,9 +35,9 @@ export default function SettingsPage() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const toggleDarkMode = () => {
-    setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
-  };
+  // const toggleDarkMode = () => {
+  //   setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
+  // };
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete your account?")) {
