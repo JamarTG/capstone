@@ -4,14 +4,23 @@ import WeakAreaTable from "../components/weak-area-table";
 import UserObjectives from "../components/user-objectives";
 import weakAreas from "../data/sample/weakAreas";
 import useAuthRedirect from "../hook/useAuthRedirect";
+import ConditionalSVG from "../components/conditional-svg";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");
 
   useAuthRedirect();
-  
+
   return (
-    <PageContent title="Study Plan">
+    <PageContent
+      title="Study Plan ..."
+      svg={
+        <ConditionalSVG
+          path={"home"}
+          size={50}
+        />
+      }
+    >
       <div className="mb-4 flex space-x-4 border-b border-slate-200">
         <button
           onClick={() => setActiveTab("weakAreas")}

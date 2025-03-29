@@ -1,5 +1,6 @@
 import RenderList from "../components/common/render-list";
 import PageContent from "../components/layout/page-content";
+import ConditionalSVG from "../components/conditional-svg";
 import QuizCard from "../components/quiz/quiz-result";
 import SelectDropdown from "../components/ui/select-dropdown";
 import { quizData } from "../data/sample/results";
@@ -9,7 +10,15 @@ const QuizHistory = () => {
   useAuthRedirect();
 
   return (
-    <PageContent title="Archive">
+    <PageContent
+      title="Quiz Archive ..."
+      svg={
+        <ConditionalSVG
+          path={"archive"}
+          size={45}
+        />
+      }
+    >
       <SelectDropdown options={["date", "score"]} />
       <div className="responsive-grid">
         <RenderList
@@ -17,7 +26,8 @@ const QuizHistory = () => {
           renderFn={(quiz) => {
             return (
               <QuizCard
-                key={quiz.id}
+                key={quiz.topicIndex}
+                topicIndex={quiz.topicIndex}
                 score={quiz.score}
                 lastAttempt={quiz.lastAttempt}
                 tags={quiz.tags}

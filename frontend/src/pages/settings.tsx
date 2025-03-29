@@ -14,33 +14,21 @@ interface User {
 }
 
 export default function SettingsPage() {
+  useAuthRedirect();
+
   const [user, setUser] = useState<User>({
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: "Jamari",
+    lastName: "McFarlane",
+    email: "jamarimcfarlane12@gmail.co",
     password: "",
     darkMode: false,
   });
 
-  //   const [editField, setEditField] = useState<keyof User | null>(null);
-  //   const [editValue, setEditValue] = useState<string | boolean>("");
-
-  useAuthRedirect();
-
-  const { data } = useQuery({
-    queryKey: ["profile-data"],
-    queryFn: fetchUserInformation,
-  });
+  const { data } = useQuery({ queryKey: ["profile-data"], queryFn: fetchUserInformation });
 
   useEffect(() => {
     if (data) {
-      setUser({
-        firstName: data.data.firstName,
-        lastName: data.data.lastName,
-        email: data.data.email,
-        password: data.data.password,
-        darkMode: data.data.darkMode,
-      });
+      setUser(data.data);
     }
   }, [data]);
 
@@ -58,213 +46,112 @@ export default function SettingsPage() {
     }
   };
 
-  //   const openModal = (field: keyof User) => {
-  //     setEditField(field);
-  //     setEditValue(user[field]);
-  //     // setIsModalOpen(true);
-  //   };
-
-  //   const closeModal = () => {
-  //     // setIsModalOpen(false);
-  //     setEditField(null);
-  //     setEditValue("");
-  //   };
-
-  //   const handleSave = () => {
-  //     if (editField) {
-  //       setUser({ ...user, [editField]: editValue });
-  //     }
-  //     closeModal();
-  //   };
-
   return (
     <PageContent title="Settings">
-      <div className={`w-2/3 mx-auto p-6 rounded-xl shadow-lg ${user.darkMode ? "bg-gray-900 text-white" : "bg-white"}`}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <form className="mb-6">
-            {/* <h3 className="text-lg text-slate-600 font-semibold mb-2">Profile</h3> */}
-            <div className="mb-4">
-              <label className="block mt-2 text-lg text-slate-600 font-medium">First Name</label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                placeholder="Enter new first name"
-                value={user.firstName}
-                onChange={handleChange}
-                // onClick={() => openModal("firstName")}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mt-2 text-lg text-slate-600 font-medium">Last Name</label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                placeholder="Enter new last name"
-                value={user.lastName}
-                onChange={handleChange}
-                // onClick={() => openModal("lastName")}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-              />
-            </div>
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-full"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-save"
-              >
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-              </svg>{" "}
-              Save
-            </Button>
-          </form>
-
-          <form className="mb-6">
-            {/* <h3 className="text-lg text-slate-600 font-semibold mb-2">Contact Information</h3> */}
-            <div className="mb-4">
-              <label className="block mt-2 text-lg text-slate-600 font-medium">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter new email"
-                value={user.email}
-                onChange={handleChange}
-                // onClick={() => openModal("email")}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-              />
-            </div>
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-full"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-save"
-              >
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-              </svg>
-              Save
-            </Button>
-          </form>
-
-          <form className="mb-6">
-            {/* <h3 className="text-lg text-slate-600 font-semibold mb-2">Security</h3> */}
-            <div className="mb-4">
-              <label className="block mt-2 text-lg text-slate-600 font-medium">New Password</label>
-              <input
-                type="password"
-                name="password"
-                value={user.password}
-                onChange={handleChange}
-                // onClick={() => openModal("password")}
-                placeholder="Enter new password"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-lg text-slate-600 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-              />
-            </div>
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-save"
-              >
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                <polyline points="7 3 7 8 15 8"></polyline>
-              </svg>{" "}
-              Save
-            </Button>
-          </form>
-
-          <form className="mb-6">
-            <h3 className="text-lg text-slate-600 font-semibold mb-2">Preferences</h3>
-            <div className="mb-4 flex justify-between items-center">
-              <span className="text-lg font-semibold">Dark Mode</span>
-              <label className="relative inline-flex items-center cursor-pointer">
+      <div className="w-full flex justify-center gap-3 rounded-xl">
+        <div className="grid gap-5 grid-cols-1 justify-center">
+          <div className="p-6 rounded-xl bg-white  min-w-96">
+            <h3 className="text-sm text-slate-600 font-semibold mb-3">Personal Information</h3>
+            <form>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block mt-2 text-sm text-slate-600 font-medium">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="Enter first name"
+                    value={user.firstName}
+                    onChange={handleChange}
+                    className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block mt-2 text-sm text-slate-600 font-medium">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Enter last name"
+                    value={user.lastName}
+                    onChange={handleChange}
+                    className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div className="mt-4">
+                <label className="block mt-2 text-sm text-slate-600 font-medium">Email</label>
                 <input
-                  type="checkbox"
-                  checked={user.darkMode}
-                  onChange={toggleDarkMode}
-                  className="sr-only peer"
+                  type="email"
+                  name="email"
+                  placeholder="Enter new email"
+                  value={user.email}
+                  onChange={handleChange}
+                  className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
                 />
-                <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 peer-checked:bg-indigo-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:bg-gray-700"></div>
-              </label>
-            </div>
-          </form>
+              </div>
+              <div className="mt-4">
+                <label className="block mt-2 text-sm text-slate-600 font-medium">Old Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter new password"
+                  value={user.password}
+                  onChange={handleChange}
+                  className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block mt-2 text-sm text-slate-600 font-medium">New Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter new password"
+                  value={user.password}
+                  onChange={handleChange}
+                  className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
+                />
+              </div>
+            </form>
+          </div>
 
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2 text-red-600">Danger Zone</h3>
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={handleDelete}
-              className="w-sm border-b-red-600 bg-red-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-trash-2"
+          <div className="grid grid-rows-2 gap-4 min-w-96">
+            <div className="p-6 rounded-xl bg-white w-full">
+              <h3 className="text-sm text-slate-600 font-semibold mb-3">Preferences</h3>
+              <div className="mb-4 flex justify-between items-center">
+                <span className="text-sm font-semibold">Dark Mode</span>
+
+                <div className="relative inline-block w-14 h-6">
+                  <input
+                    id="switch-component-custom"
+                    checked={user.darkMode}
+                    type="checkbox"
+                    className="peer appearance-none w-14 h-5 bg-slate-100 border border-slate-300 rounded-full checked:bg-slate-800 checked:border-slate-800 cursor-pointer transition-colors duration-300"
+                  />
+                  <label
+                    htmlFor="switch-component-custom"
+                    className="absolute top-0 left-0 w-6 h-6 bg-white rounded-full border border-slate-300 shadow transition-transform duration-300 peer-checked:translate-x-7 peer-checked:border-slate-800 cursor-pointer"
+                  ></label>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 rounded-xl bg-white w-full">
+              {" "}
+              {/* Reduced padding */}
+              <h3 className="text-sm font-semibold mb-3 text-slate-600">Danger Zone</h3> {/* Reduced margin */}
+              <button
+                className="flex justify-start items-center gap-4 w-full"
+                onClick={handleDelete}
               >
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                <line
-                  x1="10"
-                  y1="11"
-                  x2="10"
-                  y2="17"
-                ></line>
-                <line
-                  x1="14"
-                  y1="11"
-                  x2="14"
-                  y2="17"
-                ></line>
-              </svg>
-              Delete Account
-            </Button>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="red"
+                  width="24"
+                  height="24"
+                >
+                  <path d="M9.5 3C9.22386 3 9 3.22386 9 3.5V4H5.5C5.22386 4 5 4.22386 5 4.5V5.5C5 5.77614 5.22386 6 5.5 6H18.5C18.7761 6 19 5.77614 19 5.5V4.5C19 4.22386 18.7761 4 18.5 4H15V3.5C15 3.22386 14.7761 3 14.5 3H9.5ZM6 7.5H18V19.5C18 20.3284 17.3284 21 16.5 21H7.5C6.67157 21 6 20.3284 6 19.5V7.5Z" />
+                </svg>
+                <p className="text-sm text-red-500">Delete Account</p>
+              </button>
+            </div>
           </div>
         </div>
       </div>

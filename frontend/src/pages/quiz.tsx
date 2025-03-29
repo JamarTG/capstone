@@ -5,6 +5,7 @@ import Card from "../components/ui/card";
 import Button from "../components/ui/button";
 import useAuthRedirect from "../hook/useAuthRedirect";
 import RenderList from "../components/common/render-list";
+import ConditionalSVG from "../components/conditional-svg";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -32,33 +33,55 @@ const QuizPage = () => {
       key={topic.name}
       onClick={() => setSelectedSection(topic.name)}
       animateOnHover={false}
-      className="w-1/20 bg-white shadow-md cursor-pointer flex flex-col justify-between items-center p-3 text-slate-800 rounded-lg"
+      className="shadow-md cursor-pointer flex flex-col justify-between items-center p-3 text-white rounded-lg"
+      style={{
+        backgroundImage: `url('${topic.backgroundImage}')`,
+        backgroundSize: "cover",
+      }}
     >
-      <div className="flex justify-start items-center w-full">
-        <div className="bg-slate-600 rounded-lg p-2 mr-10">{topic.icon}</div>
+      <div className="p-3 flex justify-start items-end w-full h-64">
         <h2
-          className="text-sm font-bold text-slate-600 truncate"
+          className="text-xl font-bold text-white truncate"
           title={topic.name}
         >
           {topic.name}
         </h2>
       </div>
       <hr className="text-red-600" />
-      {/* <p className="text-slate-700 flex justify-center items-center h-1/2 text-left text-sm">{topic.description}</p> */}
     </Card>
   );
+  const renderStartQuiz = () => {
+    const selectedTopic = topics.find((topic) => topic.name === selectedSection);
 
-  const renderStartQuiz = () => (
-    <div>
-      <h2 className="text-xl font-bold mb-4">{selectedSection} Quiz</h2>
-      <Button
-        variant="primary"
-        onClick={handleStartQuiz}
-      >
-        Start Quiz
-      </Button>
-    </div>
-  );
+    if (!selectedTopic) {
+      return <div>No topic found!</div>;
+    }
+
+    return (
+      <div>
+        <h2 className="text-xl font-bold mb-4">{selectedTopic.name} Quiz</h2>
+
+        {/* Objectives list */}
+        <ul className="list-disc pl-5 mb-4">
+          {selectedTopic.objectives.map((objective, index) => (
+            <li
+              key={index}
+              className="text-lg text-gray-700"
+            >
+              {objective}
+            </li>
+          ))}
+        </ul>
+
+        <Button
+          variant="primary"
+          onClick={handleStartQuiz}
+        >
+          Start Quiz
+        </Button>
+      </div>
+    );
+  };
 
   const renderQuiz = () => (
     <div>
@@ -93,7 +116,15 @@ const QuizPage = () => {
   );
 
   return (
-    <PageContent title={"Quiz"}>
+    <PageContent
+      title={"Quiz Section ..."}
+      svg={
+        <ConditionalSVG
+          path={"quiz"}
+          size={50}
+        />
+      }
+    >
       <div className="p-6 w-full flex flex justify-center">
         {!selectedSection ? (
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
