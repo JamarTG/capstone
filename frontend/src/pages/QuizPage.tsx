@@ -1,11 +1,11 @@
 import { useState } from "react";
-import PageContent from "../components/layout/page-content";
+import PageContent from "../components/layout/PageLayout";
 import { Topic, topics } from "../data/sample/topics";
-import Card from "../components/ui/card";
-import Button from "../components/ui/button";
+import Card from "../components/ui/UICard";
+import Button from "../components/ui/UIButton";
 import useAuthRedirect from "../hook/useAuthRedirect";
-import RenderList from "../components/common/render-list";
-import ConditionalSVG from "../components/conditional-svg";
+import RenderList from "../components/common/RenderList";
+import ConditionalSVG from "../components/ConditionalSVG";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);

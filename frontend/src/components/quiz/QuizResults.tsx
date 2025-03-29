@@ -1,4 +1,4 @@
-import Card from "../ui/card";
+import Card from "../ui/UICard";
 import { topics } from "../../data/sample/topics";
 
 interface QuizCardProps {
@@ -61,7 +61,6 @@ const QuizCard: React.FC<QuizCardProps> = ({ topicIndex, score, lastAttempt, tag
         </div>
 
         <div className="flex w-full h-full justify-between items-end text-gray-400 gap-1">
-          
           <small>{lastAttempt}</small>
           <button
             style={{ fontWeight: 300 }}

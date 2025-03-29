@@ -1,13 +1,13 @@
 import { useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
-import AuthLayout from "../layout/auth";
+import AuthLayout from "../layout/AuthLayout";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../utils/api";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { FormFields } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
-import Button from "../ui/button";
+import Button from "../ui/UIButton";
 import routes from "../../data/routes";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";

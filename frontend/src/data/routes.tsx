@@ -1,12 +1,12 @@
 import { JSX, ReactNode } from "react";
-import StudyPlan from "../pages/study-plan";
-import Login from "../components/authentication/login";
-import Register from "../components/authentication/register";
-import QuizHistory from "../pages/archive";
-import Quiz from "../pages/quiz";
-import NotFound from "../pages/not-found";
-import Settings from "../pages/settings";
-import SidebarLayout from "../components/layout/sidebar";
+import StudyPlan from "../pages/StudyPlanPage";
+import Login from "../components/authentication/Login";
+import Register from "../components/authentication/Register";
+import QuizHistory from "../pages/ArchivePage";
+import Quiz from "../pages/QuizPage";
+import NotFound from "../pages/NotFoundPage";
+import Settings from "../pages/SettingsPage";
+import SidebarLayout from "../components/layout/SidebarLayout";
 
 interface RouteConfig {
   path: string;

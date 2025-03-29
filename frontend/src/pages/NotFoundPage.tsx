@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/button";
+import Button from "../components/ui/UIButton";
 import routes from "../data/routes";
 
 const NotFound = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <section className="flex items-center h-full p-16 dark:bg-gray-50 dark:text-gray-800">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
@@ -13,7 +13,11 @@ const NotFound = () => {
           </h2>
           <p className="text-2xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
           <p className="mt-4 mb-8 dark:text-gray-600">But don't worry, you can find plenty of other things on our homepage.</p>
-          <Button variant="primary" onClick={()=>navigate(routes.home.path)} className="w-full">
+          <Button
+            variant="primary"
+            onClick={() => navigate(routes.home.path)}
+            className="w-full"
+          >
             Back to homepage
           </Button>
         </div>

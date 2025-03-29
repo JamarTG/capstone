@@ -1,4 +1,4 @@
-import RenderList from "../common/render-list";
+import RenderList from "../common/RenderList";
 
 interface SelectDropdownProps {
   options: string[];

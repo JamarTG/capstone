@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PageContent from "../components/layout/page-content";
+import PageContent from "../components/layout/PageLayout";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserInformation } from "../utils/api";
 import useAuthRedirect from "../hook/useAuthRedirect";

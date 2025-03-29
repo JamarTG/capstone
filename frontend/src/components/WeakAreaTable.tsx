@@ -1,5 +1,5 @@
 import { WeakArea } from "../types/study-plan";
-import RenderList from "./common/render-list";
+import RenderList from "./common/RenderList";
 
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];

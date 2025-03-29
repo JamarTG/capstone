@@ -1,8 +1,8 @@
-import RenderList from "../components/common/render-list";
-import PageContent from "../components/layout/page-content";
-import ConditionalSVG from "../components/conditional-svg";
-import QuizCard from "../components/quiz/quiz-result";
-import SelectDropdown from "../components/ui/select-dropdown";
+import RenderList from "../components/common/RenderList";
+import PageContent from "../components/layout/PageLayout";
+import ConditionalSVG from "../components/ConditionalSVG";
+import QuizCard from "../components/quiz/QuizResults";
+import SelectDropdown from "../components/ui/UISelectDropdown";
 import { quizData } from "../data/sample/results";
 import useAuthRedirect from "../hook/useAuthRedirect";
 

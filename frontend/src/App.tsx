@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import routes from "./data/routes";
-import AuthProvider from "./context/auth";
+import AuthProvider from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
 
 function App() {

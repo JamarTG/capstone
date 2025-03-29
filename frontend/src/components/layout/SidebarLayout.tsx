@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../utils/auth";
 import routes from "../../data/routes";
-import ConditionalSVG from "../conditional-svg";
+import ConditionalSVG from "../ConditionalSVG";
 interface HomeLayoutProps {
   children?: ReactNode;
 }

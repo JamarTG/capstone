@@ -1,16 +1,16 @@
 import { useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
-import AuthLayout from "../layout/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../utils/api";
 import { FormFields, SuccessfulAuthResponse } from "../../types/auth";
 import Cookies from "js-cookie";
-import Button from "../ui/button";
+import Button from "../ui/UIButton";
 import routes from "../../data/routes";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import AuthLayout from "../layout/AuthLayout";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -24,7 +24,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSuccessfulLoginResponse = ({ token, message }: SuccessfulAuthResponse) => {
-    toast.success(message)
+    toast.success(message);
     Cookies.set("token", token, { path: "/", expires: 7 });
     navigate(routes.home.path);
   };
@@ -32,13 +32,13 @@ export default function Login() {
   const handleUnsuccessfulAuthResponse = (error: AxiosError) => {
     const errorMessage = (error.response?.data as { message?: string })?.message ?? "An unexpected error occurred";
     toast.error(errorMessage);
-  }
+  };
 
   const { mutate } = useMutation({
     mutationFn: loginUser,
     mutationKey: ["login"],
     onSuccess: handleSuccessfulLoginResponse,
-    onError: handleUnsuccessfulAuthResponse
+    onError: handleUnsuccessfulAuthResponse,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

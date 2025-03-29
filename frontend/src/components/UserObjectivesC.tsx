@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import objectivesData from "../data/sample/objectives";
-import RenderList from "./common/render-list";
+import RenderList from "./common/RenderList";
 
 interface Objective {
   id: number;

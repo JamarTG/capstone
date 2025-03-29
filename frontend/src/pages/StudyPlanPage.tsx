@@ -1,10 +1,10 @@
 import { useState } from "react";
-import PageContent from "../components/layout/page-content";
-import WeakAreaTable from "../components/weak-area-table";
-import UserObjectives from "../components/user-objectives";
+import PageContent from "../components/layout/PageLayout";
+import WeakAreaTable from "../components/WeakAreaTable";
+import UserObjectives from "../components/UserObjectivesC";
 import weakAreas from "../data/sample/weakAreas";
 import useAuthRedirect from "../hook/useAuthRedirect";
-import ConditionalSVG from "../components/conditional-svg";
+import ConditionalSVG from "../components/ConditionalSVG";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");
