@@ -1,7 +1,5 @@
 import { WeakArea } from "../types/study-plan";
-import { MdOutlineQuiz } from "react-icons/md";
 import RenderList from "./common/render-list";
-import toast from "react-hot-toast";
 
 interface WeakAreaTableProps {
   weakAreas: WeakArea[];
