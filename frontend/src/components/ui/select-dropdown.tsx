@@ -6,17 +6,29 @@ interface SelectDropdownProps {
 
 const SelectDropdown: React.FC<SelectDropdownProps> = ({ options }) => {
   return (
-    <div className="flex flex-col">
-      <label className="text-slate-600 text-lg">Sort on:</label>
-      <select className="relative flex flex-col my-6 p-3 pr-2 bg-white border border-slate-200 rounded-lg w-96 transform transition-transform perspective-1000 focus:outline-none">
+    <fieldset className="fieldset">
+      <legend className="fieldset-legend text-md text-slate-600">Sort Quiz</legend>
+      <select
+        defaultValue="Pick an option"
+        style={{ fontWeight: 400 }}
+        className="select text-md text-slate-600 focus:outline-none focus:ring-0 focus:border-gray-200 rounded-lg py-2 px-3"
+      >
+        <option
+          disabled
+          value="Pick an option"
+          className="text-sm text-slate-400 bg-transparent"
+        >
+          Pick an option
+        </option>
         <RenderList
           data={options}
           renderFn={(option: string, index: number) => {
             return (
               <option
-                className="text-lg text-slate-600 font-medium"
+                style={{ fontWeight: 400 }}
                 key={index}
                 value={option}
+                className="text-sm text-slate-600 bg-white hover:bg-slate-100"
               >
                 {option}
               </option>
@@ -24,7 +36,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options }) => {
           }}
         />
       </select>
-    </div>
+    </fieldset>
   );
 };
 
