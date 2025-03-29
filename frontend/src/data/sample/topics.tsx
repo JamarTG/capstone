@@ -1,3 +1,10 @@
+import fundamentalsBg from "../../assets/images/quiz/fundamentals.webp";
+import networkBG from "../../assets/images/quiz/network.webp";
+import socialBg from "../../assets/images/quiz/social.webp";
+import webBg from "../../assets/images/quiz/web.webp";
+import databaseBg from "../../assets/images/quiz/database.webp"
+import codeBg from "../../assets/images/quiz/code.webp";
+import problemSolvingBg from "../../assets/images/quiz/problem-solving.webp"
 
 export interface Topic {
   name: string;
@@ -6,11 +13,12 @@ export interface Topic {
   objectives: string[]; 
 }
 
+
 const topics: Topic[] = [
   {
     name: "Computer Fundamentals and Information Processing",
     description: "Foundational understanding of computer hardware, software, and information processing.",
-    backgroundImage: "/topics/fundamentals.webp",
+    backgroundImage: fundamentalsBg,
     objectives: [
       "Understand the basics of computer hardware and software.",
       "Learn how data is processed by computers.",
@@ -20,7 +28,7 @@ const topics: Topic[] = [
   {
     name: "Computer Networks and Web Technologies",
     description: "Basics of networking, mobile networks, Internet, and Web technologies.",
-    backgroundImage: "/topics/network.webp",
+    backgroundImage: networkBG,
     objectives: [
       "Understand networking basics and protocols.",
       "Learn about mobile networks and the Internet.",
@@ -30,7 +38,7 @@ const topics: Topic[] = [
   {
     name: "Social and Economic Impact of ICT",
     description: "Knowledge of computer security, cybersecurity measures, and technology's societal impact.",
-    backgroundImage: "/topics/social.webp",
+    backgroundImage: socialBg,
     objectives: [
       "Examine the role of ICT in society.",
       "Understand cybersecurity challenges and measures.",
@@ -40,7 +48,7 @@ const topics: Topic[] = [
   {
     name: "Word-Processing and Web Page Design",
     description: "Practical skills in word-processing and web design for professional documents and web pages.",
-    backgroundImage: "/topics/web.webp",
+    backgroundImage: webBg,
     objectives: [
       "Master word-processing software for creating professional documents.",
       "Learn the fundamentals of web page design and HTML.",
@@ -50,7 +58,7 @@ const topics: Topic[] = [
   {
     name: "Database Management",
     description: "Proficiency in spreadsheet software for data organization, analysis, and business applications.",
-    backgroundImage: "/topics/database.webp",
+    backgroundImage:databaseBg,
     objectives: [
       "Learn how to organize and analyze data using databases.",
       "Understand relational database management systems (RDBMS).",
@@ -60,7 +68,7 @@ const topics: Topic[] = [
   {
     name: "Problem-Solving and Program Design",
     description: "Skills in designing and implementing database management systems (DBMS).",
-    backgroundImage: "/topics/problem-solving.png",
+    backgroundImage: problemSolvingBg,
     objectives: [
       "Understand problem-solving techniques in programming.",
       "Design algorithms and data structures for programming solutions.",
@@ -70,7 +78,7 @@ const topics: Topic[] = [
   {
     name: "Program Implementation",
     description: "Analytical and problem-solving skills using computational thinking and programming concepts.",
-    backgroundImage: "/topics/code.webp",
+    backgroundImage: codeBg,
     objectives: [
       "Develop programming skills in various languages.",
       "Understand computational thinking and its applications.",
