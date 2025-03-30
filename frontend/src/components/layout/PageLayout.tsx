@@ -22,7 +22,6 @@ const PageLayout: React.FC<PageContentProps> = ({ children, title, path }) => {
         </span>
         <h1 className="text-gray-500 text-2xl">{title}</h1>
       </div>
-
       <section className="page-content-dim flex flex-col h-screen p-4 gap-5  border-t-2 border-slate-200">{children}</section>
     </React.Fragment>
   );

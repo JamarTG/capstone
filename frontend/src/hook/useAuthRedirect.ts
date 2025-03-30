@@ -10,7 +10,7 @@ const useAuthRedirect = () => {
   useEffect(() => {
     if (isAuthenticated) return;
     navigate(routes.login.path);
-  },[isAuthenticated,navigate]);
+  }, [isAuthenticated, navigate]);
 };
 
 export default useAuthRedirect;

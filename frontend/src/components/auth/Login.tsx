@@ -26,7 +26,7 @@ export default function Login() {
   const handleSuccessfulLoginResponse = ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
     Cookies.set("token", token, { path: "/", expires: 7 });
-    navigate(routes.home.path);
+    navigate(routes.HOME.path);
   };
 
   const handleUnsuccessfulAuthResponse = (error: AxiosError) => {

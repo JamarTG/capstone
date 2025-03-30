@@ -46,7 +46,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageContent title="Settings">
+    <PageContent title="Settings" path="">
       <div className="w-full flex justify-center gap-3 rounded-xl">
         <div className="grid gap-5 grid-cols-1 justify-center">
           <div className="p-6 rounded-xl bg-white  min-w-96">

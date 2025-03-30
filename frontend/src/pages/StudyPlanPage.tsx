@@ -4,7 +4,6 @@ import WeakAreaTable from "../components/WeakAreaTable";
 import UserObjectives from "../components/UserObjectivesC";
 import weakAreas from "../data/sample/weakAreas";
 import useAuthRedirect from "../hook/useAuthRedirect";
-import ConditionalSVG from "../components/ConditionalSVG";
 
 const StudyPlan = () => {
   const [activeTab, setActiveTab] = useState("weakAreas");
@@ -14,12 +13,7 @@ const StudyPlan = () => {
   return (
     <PageContent
       title="Study Plan ..."
-      svg={
-        <ConditionalSVG
-          path={"home"}
-          size={50}
-        />
-      }
+      path = "home"      
     >
       <ul className="flex border-b border-gray-300">
         <li className="-mb-px mr-1">
