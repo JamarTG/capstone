@@ -21,25 +21,36 @@ const StudyPlan = () => {
         />
       }
     >
-      <div className="mb-4 flex space-x-4 border-b border-slate-200">
-        <button
-          onClick={() => setActiveTab("weakAreas")}
-          className={`${
-            activeTab === "weakAreas" ? "border-slate-600 text-slate-600" : "border-transparent text-slate-600"
-          } pb-2 border-b-2 font-semibold px-2 text-md cursor-pointer`}
-        >
-          Weak Areas
-        </button>
-        <button
-          onClick={() => setActiveTab("userObjectives")}
-          className={`${
-            activeTab === "userObjectives" ? "border-slate-600 text-slate-600" : "border-transparent text-slate-600"
-          } pb-2 border-b-2 font-semibold px-4 text-md cursor-pointer`}
-        >
-          User Objectives
-        </button>
-      </div>
-
+      <ul className="flex border-b border-gray-300">
+        <li className="-mb-px mr-1">
+          <a
+            className={`inline-block border-l border-t border-r rounded-t py-2 px-4 font-semibold ${
+              activeTab === "weakAreas" ? "border-gray-300" : "border-transparent"
+            }`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab("weakAreas");
+            }}
+          >
+            Weak Areas
+          </a>
+        </li>
+        <li className="mr-1">
+          <a
+            className={`inline-block py-2 px-4 font-semibold ${
+              activeTab === "userObjectives" ? "border-gray-300 border-l border-t border-r rounded-t" : ""
+            }`}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab("userObjectives");
+            }}
+          >
+            User Objectives
+          </a>
+        </li>
+      </ul>
       <div className="relative h-full overflow-auto">
         {activeTab === "weakAreas" && (
           <WeakAreaTable
