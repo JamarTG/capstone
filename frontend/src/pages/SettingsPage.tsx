@@ -119,16 +119,18 @@ export default function SettingsPage() {
                 <span className="text-sm font-semibold">Dark Mode</span>
 
                 <div className="relative inline-block w-14 h-6">
-                  <input
-                    id="switch-component-custom"
-                    checked={user.darkMode}
-                    type="checkbox"
-                    className="peer appearance-none w-14 h-5 bg-slate-100 border border-slate-300 rounded-full checked:bg-slate-800 checked:border-slate-800 cursor-pointer transition-colors duration-300"
-                  />
-                  <label
-                    htmlFor="switch-component-custom"
-                    className="absolute top-0 left-0 w-6 h-6 bg-white rounded-full border border-slate-300 shadow transition-transform duration-300 peer-checked:translate-x-7 peer-checked:border-slate-800 cursor-pointer"
-                  ></label>
+                  <label className="relative inline-flex cursor-pointer items-center">
+                    <input
+                      id="switch-3"
+                      type="checkbox"
+                      className="peer sr-only"
+                    />
+                    <label
+                      htmlFor="switch-3"
+                      className="hidden"
+                    ></label>
+                    <div className="peer h-4 w-11 rounded bg-slate-200 after:absolute after:-top-1 after:left-0 after:h-6 after:w-6 after:rounded-md after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-slate-600 peer-checked:after:translate-x-full peer-focus:ring-green-300"></div>
+                  </label>
                 </div>
               </div>
             </div>
