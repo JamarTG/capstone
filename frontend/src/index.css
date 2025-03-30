@@ -12,6 +12,11 @@ td {
   cursor: pointer;
 }
 
+.page-content-dim {
+  width: 90vw;
+  height: 90vh;
+} 
+
 .responsive-grid {
   display: grid;
   grid-template-columns: 1fr;
