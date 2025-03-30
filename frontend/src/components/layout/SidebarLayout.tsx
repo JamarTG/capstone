@@ -1,35 +1,18 @@
-import { JSX, ReactNode } from "react";
+import { ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../utils/auth";
 import routes from "../../data/routes";
 import ConditionalSVG from "../ConditionalSVG";
 import RenderList from "../common/RenderList";
+import { MainNavItem } from "../../types/routes";
+import { MAIN_NAV_ITEMS } from "../../constants/routes";
 
 interface HomeLayoutProps {
   children?: ReactNode;
 }
 
-interface MainNavLinkItem {
-  path: "/" | "/quiz" | "/archive";
-  name: "home" | "quiz" | "archive";
-}
 
-const mainNavLinks: MainNavLinkItem[] = [
-  {
-    path: "/",
-    name: "home",
-  },
-  {
-    path: "/quiz",
-    name: "quiz",
-  },
-  {
-    path: "/archive",
-    name: "archive",
-  },
-];
-
-const renderNavLinks = ({ path, name }: MainNavLinkItem) => {
+const renderNavLinks = ({ path, name } : MainNavItem)  => {
   return (
     <NavLink
       to={path}
@@ -59,7 +42,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
         <div className="flex flex-col space-y-10">
           <RenderList
-            data={mainNavLinks}
+            data={MAIN_NAV_ITEMS}
             renderFn={renderNavLinks}
           />
         </div>
