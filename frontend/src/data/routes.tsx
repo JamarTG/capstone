@@ -1,7 +1,7 @@
 import { JSX, ReactNode } from "react";
 import StudyPlan from "../pages/StudyPlanPage";
-import Login from "../components/authentication/Login";
-import Register from "../components/authentication/Register";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import QuizHistory from "../pages/ArchivePage";
 import Quiz from "../pages/QuizPage";
 import NotFound from "../pages/NotFoundPage";
