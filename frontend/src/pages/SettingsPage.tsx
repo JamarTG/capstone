@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import PageContent from "../components/layout/PageLayout";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserInformation } from "../utils/api";
 import useAuthRedirect from "../hook/useAuthRedirect";
+import { UserAPI } from "../utils/api";
 
 interface User {
   firstName: string;
@@ -23,7 +23,7 @@ export default function SettingsPage() {
     darkMode: false,
   });
 
-  const { data } = useQuery({ queryKey: ["profile-data"], queryFn: fetchUserInformation });
+  const { data } = useQuery({ queryKey: ["profile-data"], queryFn: UserAPI.fetchUserInfo });
 
   useEffect(() => {
     if (data) {
@@ -46,7 +46,10 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageContent title="Settings" path="">
+    <PageContent
+      title="Settings"
+      path=""
+    >
       <div className="w-full flex justify-center gap-3 rounded-xl">
         <div className="grid gap-5 grid-cols-1 justify-center">
           <div className="p-6 rounded-xl bg-white  min-w-96">

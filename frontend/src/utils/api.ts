@@ -1,33 +1,35 @@
 import axios from "axios";
-import { FormFields } from "../types/auth";
-
-// axios.defaults.withCredentials = true;
+import { LoginFormFields, RegisterFormFields } from "../types/auth";
 
 export const BASE_URL = "http://localhost:5000/api";
 
-const registerUser = async (userData: FormFields) => {
-  const { data } = await axios.post(`${BASE_URL}/auth/register`, userData);
-  return data;
-};
+const axiosInstanceWithCredentials = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
-const loginUser = async (userData: FormFields) => {
-  const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);
-  return data;
-};
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
-export const checkAuth = async () => {
-  const { data } = await axios.get(`${BASE_URL}/auth/check-auth`, { withCredentials: true });
-  return data;
-};
-
-const fetchUserInformation = async () => {
+const handleRequest = async (request: Promise<any>) => {
   try {
-    const response = await axios.get(`${BASE_URL}/settings/user-info`);
-    console.log("Full response:", response);
-    return response.data;
+    const { data } = await request;
+    return data;
   } catch (error) {
+    console.error("API Error:", error);
     throw error;
   }
 };
 
-export { registerUser, loginUser, fetchUserInformation };
+export const AuthAPI = {
+  register: (userData: RegisterFormFields) => handleRequest(axiosInstance.post("/auth/register", userData)),
+  login: (userData: LoginFormFields) => handleRequest(axiosInstance.post("/auth/login", userData)),
+  checkAuth: () => handleRequest(axiosInstanceWithCredentials.get("/auth/check-auth")),
+};
+
+
+export const UserAPI = {
+  fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
+};

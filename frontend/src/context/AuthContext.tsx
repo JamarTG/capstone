@@ -1,7 +1,7 @@
 import { createContext, SetStateAction, ReactNode, useState, useEffect } from "react";
 import { User } from "../types/context";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { checkAuth } from "../utils/api";
+import { AuthAPI } from "../utils/api";
 
 interface AuthContextType {
   user: User | null;
@@ -33,10 +33,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  const shouldCheckAuth = !["/login", "/register"].includes(location.pathname);
+
   const { data, isSuccess }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
     queryKey: ["check-auth"],
-    queryFn: checkAuth,
+    queryFn: shouldCheckAuth ? AuthAPI.checkAuth : () => null,
     staleTime: 5 * 10 * 1000,
+    enabled: shouldCheckAuth
   });
 
   useEffect(() => {

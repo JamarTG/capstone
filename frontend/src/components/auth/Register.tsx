@@ -3,15 +3,15 @@ import * as z from "zod";
 import { Link } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "../../utils/api";
-import { SuccessfulAuthResponse } from "../../types/auth";
-import { FormFields } from "../../types/auth";
+import { RegisterFormErrors, RegisterFormFields, SuccessfulAuthResponse } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/UIButton";
 import routes from "../../data/routes";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { setAuthToken } from "../../utils/auth";
+import { extractErrorMessage } from "../../utils/error";
+import { AuthAPI } from "../../utils/api";
 
 const registerSchema = z
   .object({
@@ -27,39 +27,37 @@ const registerSchema = z
   });
 
 export default function Register() {
-  const [formData, setFormData] = useState<FormFields>({
+  const initialRegisterFields: RegisterFormFields = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<{
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-  }>({});
+  };
+
+  const initialRegisterErrors: RegisterFormErrors = {
+    ...initialRegisterFields,
+  };
+
+  const [formData, setFormData] = useState<RegisterFormFields>(initialRegisterFields);
+
+  const [errors, setErrors] = useState<RegisterFormFields>(initialRegisterErrors);
 
   const navigate = useNavigate();
 
-  const handleSuccessfulRegistrationResponse = ({ token, message }: SuccessfulAuthResponse) => {
+  const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
-    Cookies.set("token", token, { path: "/", expires: 7 });
+    setAuthToken(token);
     navigate(routes.HOME.path);
   };
 
-  const handleUnsuccessfulAuthResponse = (error: AxiosError) => {
-    const errorMessage = (error.response?.data as { message?: string })?.message ?? "An unexpected error occurred";
-    toast.error(errorMessage);
-  };
+  const onError = (error: AxiosError) => toast.error(extractErrorMessage(error));
 
-  const { mutate } = useMutation({
-    mutationFn: registerUser,
+  const { mutate, isPending } = useMutation({
+    mutationFn: AuthAPI.register,
     mutationKey: ["register"],
-    onSuccess: handleSuccessfulRegistrationResponse,
-    onError: handleUnsuccessfulAuthResponse,
+    onSuccess,
+    onError,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,10 +65,10 @@ export default function Register() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validate = (data: FormFields) => {
+  const validate = (data: RegisterFormFields) => {
     try {
       registerSchema.parse(data);
-      setErrors({});
+      setErrors({} as RegisterFormFields);
       return true;
     } catch (err) {
       const fieldErrors: {
@@ -227,7 +225,7 @@ export default function Register() {
             type="submit"
             className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Register
+            {isPending ? "Registering..." : "Register"}
           </Button>
         </div>
       </form>

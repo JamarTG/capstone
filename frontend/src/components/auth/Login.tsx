@@ -3,14 +3,15 @@ import * as z from "zod";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../utils/api";
-import { FormFields, SuccessfulAuthResponse } from "../../types/auth";
-import Cookies from "js-cookie";
+import { AuthAPI } from "../../utils/api";
 import Button from "../ui/UIButton";
-import routes from "../../data/routes";
+import Cookies from "js-cookie";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import AuthLayout from "../layout/AuthLayout";
+import { extractErrorMessage } from "../../utils/error";
+import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
+import { LoginFormErrors, LoginFormFields, SuccessfulAuthResponse } from "../../types/auth";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -18,53 +19,55 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
-  const [formData, setFormData] = useState<FormFields>({ email: "", password: "" });
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const initialLoginFields: LoginFormFields = { email: "", password: "" };
+  const initialLoginErrors: LoginFormErrors = { ...initialLoginFields };
+
+  const [formData, setFormData] = useState<LoginFormFields>(initialLoginFields);
+  const [errors, setErrors] = useState<LoginFormErrors>(initialLoginErrors);
 
   const navigate = useNavigate();
 
-  const handleSuccessfulLoginResponse = ({ token, message }: SuccessfulAuthResponse) => {
+  const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
-    Cookies.set("token", token, { path: "/", expires: 7 });
-    navigate(routes.HOME.path);
+    Cookies.set("token", token, AUTH_TOKEN_CONFIG);
+    navigate("/");
   };
 
-  const handleUnsuccessfulAuthResponse = (error: AxiosError) => {
-    const errorMessage = (error.response?.data as { message?: string })?.message ?? "An unexpected error occurred";
-    toast.error(errorMessage);
+  const onError = (error: AxiosError) => {
+    console.log("error", error);
+    toast.error(() => extractErrorMessage(error));
   };
 
-  const { mutate } = useMutation({
-    mutationFn: loginUser,
+  const { mutate, isPending } = useMutation({
+    mutationFn: AuthAPI.login,
     mutationKey: ["login"],
-    onSuccess: handleSuccessfulLoginResponse,
-    onError: handleUnsuccessfulAuthResponse,
+    onSuccess,
+    onError,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const validate = (data: FormFields) => {
-    try {
-      loginSchema.parse(data);
-      setErrors({});
-      return true;
-    } catch (err) {
-      const fieldErrors: { email?: string; password?: string } = {};
-      if (err instanceof z.ZodError) {
-        err.errors.forEach((error) => {
-          if (error.path[0] === "email") fieldErrors.email = error.message;
-          if (error.path[0] === "password") fieldErrors.password = error.message;
-        });
-      }
-      setErrors(fieldErrors);
-      return false;
-    }
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
+    const validate = (data: LoginFormFields) => {
+      try {
+        loginSchema.parse(data);
+        setErrors({});
+        return true;
+      } catch (err) {
+        const fieldErrors: { email?: string; password?: string } = {};
+        if (err instanceof z.ZodError) {
+          err.errors.forEach((error) => {
+            if (error.path[0] === "email") fieldErrors.email = error.message;
+            if (error.path[0] === "password") fieldErrors.password = error.message;
+          });
+        }
+        setErrors(fieldErrors);
+        return false;
+      }
+    };
+
     e.preventDefault();
     if (validate(formData)) {
       mutate(formData);
@@ -109,12 +112,12 @@ export default function Login() {
               Password
             </label>
             <div className="text-lg">
-              {/* <a
+              <a
                 href="#"
                 className="font-semibold text-blue-400 hover:text-blue-500"
               >
                 Forgot password?
-              </a> */}
+              </a>
             </div>
           </div>
           <div className="mt-2">
@@ -139,7 +142,7 @@ export default function Login() {
             type="submit"
             className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Sign in
+            {isPending ? "Signing in..." : "Sign in"}
           </Button>
         </div>
       </form>
