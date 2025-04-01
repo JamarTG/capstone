@@ -22,3 +22,4 @@ const Card: React.FC<CardProps> = ({ children, className, style, onClick, animat
 
 export default Card;
 
+
