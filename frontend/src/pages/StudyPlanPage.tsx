@@ -11,10 +11,7 @@ const StudyPlan = () => {
   useAuthRedirect();
 
   return (
-    <PageContent
-      title="Study Plan ..."
-      path = "home"      
-    >
+    <PageContent title="Study Plan">
       <ul className="flex border-b border-gray-300">
         <li className="-mb-px mr-1">
           <a

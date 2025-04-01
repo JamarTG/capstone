@@ -115,10 +115,7 @@ const QuizPage = () => {
   );
 
   return (
-    <PageContent
-      title={"Quiz Section ..."}
-      path="quiz"
-    >
+    <PageContent title={"Quiz"}>
       <div className="p-6 w-full flex flex justify-center">
         {!selectedSection ? (
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">

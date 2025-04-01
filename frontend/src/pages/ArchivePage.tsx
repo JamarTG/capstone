@@ -9,10 +9,7 @@ const QuizHistory = () => {
   useAuthRedirect();
 
   return (
-    <PageContent
-      title="Quiz Archive ..."
-      path="archive"
-    >
+    <PageContent title="Quiz Archive">
       <SelectDropdown options={["date", "score"]} />
       <div className="responsive-grid">
         <RenderList
