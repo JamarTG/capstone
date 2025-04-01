@@ -1,5 +1,4 @@
 type MainNavPath = "/" | "/quiz" | "/archive";
-
 type MainNavName = "home" | "quiz" | "archive"
 
 export interface MainNavItem {

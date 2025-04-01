@@ -1,6 +1,5 @@
 import RenderList from "../components/common/RenderList";
 import PageContent from "../components/layout/PageLayout";
-import ConditionalSVG from "../components/ConditionalSVG";
 import QuizCard from "../components/quiz/QuizResults";
 import SelectDropdown from "../components/ui/UISelectDropdown";
 import { quizData } from "../data/sample/results";
@@ -12,12 +11,7 @@ const QuizHistory = () => {
   return (
     <PageContent
       title="Quiz Archive ..."
-      svg={
-        <ConditionalSVG
-          path={"archive"}
-          size={45}
-        />
-      }
+      path="archive"
     >
       <SelectDropdown options={["date", "score"]} />
       <div className="responsive-grid">

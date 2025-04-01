@@ -118,12 +118,7 @@ const QuizPage = () => {
   return (
     <PageContent
       title={"Quiz Section ..."}
-      svg={
-        <ConditionalSVG
-          path={"quiz"}
-          size={50}
-        />
-      }
+      path="quiz"
     >
       <div className="p-6 w-full flex flex justify-center">
         {!selectedSection ? (
