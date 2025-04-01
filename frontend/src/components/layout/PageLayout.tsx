@@ -1,24 +1,16 @@
 import { ReactNode } from "react";
-import ConditionalSVG from "../ConditionalSVG";
 import React from "react";
 
 interface PageContentProps {
   children: ReactNode;
   title: string;
-  path: string;
 }
 
-const PageLayout: React.FC<PageContentProps> = ({ children, title, path }) => {
+const PageLayout: React.FC<PageContentProps> = ({ children, title }) => {
   return (
     <React.Fragment>
       <div className="p-2 cursor-pointer flex justify-start items-center text-3xl">
         <span className="mr-3">
-          {/* {path && (
-            <ConditionalSVG
-              path={path}
-              size={50}
-            />
-          )} */}
         </span>
         <h1 className="text-gray-500 text-2xl">{title}</h1>
       </div>
