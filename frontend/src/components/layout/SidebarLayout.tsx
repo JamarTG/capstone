@@ -17,7 +17,7 @@ const renderNavLinks = ({ path, name } : MainNavItem)  => {
     <NavLink
       to={path}
       className={({ isActive }) =>
-        `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-300 hover:text-white transition duration-300 ease-linear ${
+        `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-200 hover:text-white transition duration-300 ease-linear ${
           isActive ? "bg-gray-300 text-white" : ""
         }`
       }
