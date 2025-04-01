@@ -33,13 +33,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const shouldCheckAuth = !["/login", "/register"].includes(location.pathname);
+  const isAuthRoute = !["/login", "/register"].includes(location.pathname);
+  const staleTime = 50000;
 
   const { data, isSuccess }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
     queryKey: ["check-auth"],
-    queryFn: shouldCheckAuth ? AuthAPI.checkAuth : () => null,
-    staleTime: 5 * 10 * 1000,
-    enabled: shouldCheckAuth
+    queryFn: isAuthRoute ? AuthAPI.checkAuth : () => null,
+    staleTime,
+    enabled: isAuthRoute
   });
 
   useEffect(() => {
