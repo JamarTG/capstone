@@ -52,7 +52,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             to={"/settings"}
             className={({ isActive }) =>
               `h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-300 transition duration-300 ease-linear ${
-                isActive ? "bg-gray-300" : ""
+                isActive ? "bg-gray-200" : ""
               }`
             }
           >
@@ -68,7 +68,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               navigate(routes.LOGIN.path);
             }}
             className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-300 transition duration-300 ease-linear"
-          ></a>
+          >
+            <ConditionalSVG
+              path={"logout"}
+              size={30}
+            />
+          </a>
         </div>
       </aside>
 
