@@ -5,7 +5,6 @@ import Card from "../components/ui/UICard";
 import Button from "../components/ui/UIButton";
 import useAuthRedirect from "../hook/useAuthRedirect";
 import RenderList from "../components/common/RenderList";
-import ConditionalSVG from "../components/ConditionalSVG";
 
 const QuizPage = () => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
