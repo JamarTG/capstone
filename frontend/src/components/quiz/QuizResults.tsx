@@ -1,4 +1,4 @@
-import Card from "../ui/UICard";
+import Card from "../ui/Card";
 import { topics } from "../../data/sample/topics";
 
 interface QuizCardProps {

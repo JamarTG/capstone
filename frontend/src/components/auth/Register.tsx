@@ -1,11 +1,11 @@
 import { useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
-import AuthLayout from "../layout/AuthLayout";
+import AuthLayout from "../layout/Auth";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterFormErrors, RegisterFormFields, SuccessfulAuthResponse } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
-import Button from "../ui/UIButton";
+import Button from "../ui/Button";
 import routes from "../../data/routes";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";

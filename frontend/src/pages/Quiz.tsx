@@ -1,8 +1,8 @@
 import { useState } from "react";
-import PageContent from "../components/layout/PageLayout";
+import PageContent from "../components/layout/Page";
 import { Topic, topics } from "../data/sample/topics";
-import Card from "../components/ui/UICard";
-import Button from "../components/ui/UIButton";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
 import useAuthRedirect from "../hook/useAuthRedirect";
 import RenderList from "../components/common/RenderList";
 

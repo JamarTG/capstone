@@ -1,7 +1,7 @@
 import RenderList from "../components/common/RenderList";
-import PageContent from "../components/layout/PageLayout";
+import PageContent from "../components/layout/Page";
 import QuizCard from "../components/quiz/QuizResults";
-import SelectDropdown from "../components/ui/UISelectDropdown";
+import SelectDropdown from "../components/ui/SelectDropdown";
 import { quizData } from "../data/sample/results";
 import useAuthRedirect from "../hook/useAuthRedirect";
 

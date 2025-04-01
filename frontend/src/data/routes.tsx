@@ -1,12 +1,12 @@
 import { JSX, ReactNode } from "react";
-import StudyPlan from "../pages/StudyPlanPage";
+import StudyPlan from "../pages/StudyPlan";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
-import Archive from "../pages/ArchivePage";
-import Quiz from "../pages/QuizPage";
-import NotFound from "../pages/NotFoundPage";
-import Settings from "../pages/SettingsPage";
-import SidebarLayout from "../components/layout/SidebarLayout";
+import Archive from "../pages/Archive";
+import Quiz from "../pages/Quiz";
+import NotFound from "../pages/NotFound";
+import Settings from "../pages/Settings";
+import SidebarLayout from "../components/layout/Sidebar";
 import { ROUTE_PATHS, RouteName } from "../constants/routes";
 
 interface RouteConfig {

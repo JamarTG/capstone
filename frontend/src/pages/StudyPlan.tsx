@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageContent from "../components/layout/PageLayout";
+import PageContent from "../components/layout/Page";
 import WeakAreaTable from "../components/WeakAreaTable";
 import UserObjectives from "../components/UserObjectivesC";
 import weakAreas from "../data/sample/weakAreas";
