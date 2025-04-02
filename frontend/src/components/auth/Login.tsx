@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,9 @@ import AuthLayout from "../layout/Auth";
 import { extractErrorMessage } from "../../utils/error";
 import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
 import { LoginFormErrors, LoginFormFields, SuccessfulAuthResponse } from "../../types/auth";
+import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../../context/AuthContext";
+import { User } from "../../types/context";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -27,11 +30,15 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const onSuccess = ({ token, message}: SuccessfulAuthResponse) => {
+  const { setUser } = useContext(AuthContext)!;
+
+  const onSuccess = async ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
+    const decodedUser = jwtDecode(token);
+    localStorage.setItem("user", JSON.stringify(decodedUser as User));
+    setUser(decodedUser as User);
     navigate("/", { replace: true });
-
   };
 
   const onError = (error: AxiosError) => {
@@ -98,7 +105,7 @@ export default function Login() {
               required
               autoComplete="email"
               className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
-              />
+            />
             {errors.email && <p className="text-red-500 text-lg">{errors.email}</p>}
           </div>
         </div>
@@ -131,7 +138,7 @@ export default function Login() {
               required
               autoComplete="current-password"
               className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
-              />
+            />
             {errors.password && <p className="text-red-500 text-lg">{errors.password}</p>}
           </div>
         </div>

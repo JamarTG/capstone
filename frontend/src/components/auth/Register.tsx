@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as z from "zod";
 import { Link } from "react-router-dom";
 import AuthLayout from "../layout/Auth";
@@ -6,32 +6,30 @@ import { useMutation } from "@tanstack/react-query";
 import { RegisterFormErrors, RegisterFormFields, SuccessfulAuthResponse } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
-import routes from "../../data/routes";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { setAuthToken } from "../../utils/auth";
+
 import { extractErrorMessage } from "../../utils/error";
 import { AuthAPI } from "../../utils/api";
+import { AuthContext } from "../../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+import { User } from "../../types/context";
+import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
 
-const registerSchema = z
-  .object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email(),
-    password: z.string().min(6),
-    confirmPassword: z.string().min(6),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+const registerSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 export default function Register() {
   const initialRegisterFields: RegisterFormFields = {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
   };
 
   const initialRegisterErrors: RegisterFormErrors = {
@@ -43,11 +41,15 @@ export default function Register() {
   const [errors, setErrors] = useState<RegisterFormFields>(initialRegisterErrors);
 
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext)!;
 
   const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
-    setAuthToken(token);
-    navigate(routes.HOME.path);
+    Cookies.set("token", token, AUTH_TOKEN_CONFIG);
+    const decodedUser = jwtDecode(token);
+    localStorage.setItem("user", JSON.stringify(decodedUser as User));
+    setUser(decodedUser as User);
+    navigate("/", { replace: true });
   };
 
   const onError = (error: AxiosError) => toast.error(extractErrorMessage(error));
@@ -75,7 +77,6 @@ export default function Register() {
         lastName?: string;
         email?: string;
         password?: string;
-     
       } = {};
       if (err instanceof z.ZodError) {
         err.errors.forEach((error) => {
@@ -117,12 +118,11 @@ export default function Register() {
                 id="firstName"
                 name="firstName"
                 type="text"
-          
                 value={formData.firstName}
                 onChange={handleChange}
                 required
                 className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
-                />
+              />
               {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
             </div>
           </div>
@@ -139,12 +139,11 @@ export default function Register() {
                 id="lastName"
                 name="lastName"
                 type="text"
-               
                 value={formData.lastName}
                 onChange={handleChange}
                 required
                 className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
-                />
+              />
               {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
             </div>
           </div>

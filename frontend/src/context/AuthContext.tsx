@@ -1,7 +1,10 @@
 import { createContext, SetStateAction, ReactNode, useState, useEffect } from "react";
 import { User } from "../types/context";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+import { UserSuccessResponse } from "../types/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -13,18 +16,6 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface UserSuccessResponse {
-  message: string;
-  user?: {
-    _id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    createdAt: string;
-    __v: string;
-  };
-}
-
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -33,25 +24,29 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const isAuthRoute = !["/login", "/register"].includes(location.pathname);
-  const staleTime = 50000;
+  const token = Cookies.get("token");
 
-  const { data, isSuccess }: UseQueryResult<UserSuccessResponse | null, Error> = useQuery({
+  const isAuthenticated = !!user && !!token; 
+
+  const { data, isSuccess } = useQuery<UserSuccessResponse | null, Error>({
     queryKey: ["check-auth"],
-    queryFn: isAuthRoute ? AuthAPI.checkAuth : () => null,
-    staleTime,
-    enabled: isAuthRoute
+    queryFn: AuthAPI.checkAuth,
+    enabled: isAuthenticated,
   });
 
   useEffect(() => {
     if (isSuccess && data?.user) {
-      const { _id, firstName, lastName, email } = data.user;
-      setUser({ _id, firstName, lastName, email });
+      toast.success(data.message);
+      setUser(data.user);
       localStorage.setItem("user", JSON.stringify(data.user));
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data, setUser]);
 
-  return <AuthContext.Provider value={{ user, setUser, isAuthenticated: !!user }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

@@ -17,4 +17,17 @@ export interface LoginFormErrors extends LoginFormFields{}
 export interface SuccessfulAuthResponse {
   token: string;
   message: string;
+  user:any
+}
+
+export interface UserSuccessResponse {
+  message: string;
+  user?: {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    createdAt: string;
+    __v: string;
+  };
 }
