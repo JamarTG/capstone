@@ -10,13 +10,12 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options }) => {
       <legend className="fieldset-legend text-md text-slate-600">Sort Quiz</legend>
       <select
         defaultValue="Pick an option"
-        style={{ fontWeight: 400 }}
-        className="select text-md text-slate-600 focus:outline-none focus:ring-0 focus:border-gray-200 rounded-lg py-2 px-3"
+        className="border border-slate-200 p-2 select text-md text-slate-600 focus:outline-none focus:ring-0 focus:border-gray-200 rounded-lg py-2 px-3"
       >
         <option
           disabled
           value="Pick an option"
-          className="text-sm text-slate-400 bg-transparent"
+          className="text-md text-slate-400 bg-transparent"
         >
           Pick an option
         </option>
@@ -28,7 +27,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options }) => {
                 style={{ fontWeight: 400 }}
                 key={index}
                 value={option}
-                className="text-sm text-slate-600 bg-white hover:bg-slate-100"
+                className="text-md text-slate-600 bg-white hover:bg-slate-100"
               >
                 {option}
               </option>

@@ -88,7 +88,7 @@ const UserObjectives = () => {
       </div>
 
       <div
-        style={{ height: "85%" }}
+      
         className="bg-white w-2/3 h-full p-4 rounded-lg flex items-center justify-center"
       >
         {selectedObjective ? (
