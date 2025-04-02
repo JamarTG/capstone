@@ -31,8 +31,7 @@ export default function Register() {
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
-    confirmPassword: "",
+    password: ""
   };
 
   const initialRegisterErrors: RegisterFormErrors = {
@@ -76,7 +75,7 @@ export default function Register() {
         lastName?: string;
         email?: string;
         password?: string;
-        confirmPassword?: string;
+     
       } = {};
       if (err instanceof z.ZodError) {
         err.errors.forEach((error) => {
@@ -84,7 +83,6 @@ export default function Register() {
           if (error.path[0] === "lastName") fieldErrors.lastName = error.message;
           if (error.path[0] === "email") fieldErrors.email = error.message;
           if (error.path[0] === "password") fieldErrors.password = error.message;
-          if (error.path[0] === "confirmPassword") fieldErrors.confirmPassword = error.message;
         });
       }
       setErrors(fieldErrors);
@@ -104,56 +102,58 @@ export default function Register() {
     <AuthLayout title="Create an Account">
       <form
         onSubmit={handleSubmit}
-        className="space-y-6"
+        className="space-y-4 w-full sm:max-w-md mx-auto"
       >
-        <div>
-          <label
-            htmlFor="firstName"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
-            First Name
-          </label>
-          <div className="mt-2">
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              placeholder="Enter your first name"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-            />
-            {errors.firstName && <p className="text-red-500 text-lg">{errors.firstName}</p>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="firstName"
+              className="block text-lg font-medium text-gray-600"
+            >
+              First Name
+            </label>
+            <div className="mt-2">
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+          
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+                className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
+                />
+              {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label
-            htmlFor="lastName"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
-            Last Name
-          </label>
-          <div className="mt-2">
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              placeholder="Enter your last name"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-            />
-            {errors.lastName && <p className="text-red-500 text-lg">{errors.lastName}</p>}
+          <div>
+            <label
+              htmlFor="lastName"
+              className="block text-lg font-medium text-gray-600"
+            >
+              Last Name
+            </label>
+            <div className="mt-2">
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+               
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+                className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
+                />
+              {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+            </div>
           </div>
         </div>
 
         <div>
           <label
             htmlFor="email"
-            className="block text-lg/6 font-medium text-gray-300"
+            className="block text-lg font-medium text-gray-600"
           >
             Email address
           </label>
@@ -167,16 +167,16 @@ export default function Register() {
               onChange={handleChange}
               required
               autoComplete="email"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
+              className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
             />
-            {errors.email && <p className="text-red-500 text-lg">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
         </div>
 
         <div>
           <label
             htmlFor="password"
-            className="block text-lg/6 font-medium text-gray-300"
+            className="block text-lg font-medium text-gray-600"
           >
             Password
           </label>
@@ -190,32 +190,9 @@ export default function Register() {
               onChange={handleChange}
               required
               autoComplete="new-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
+              className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
             />
-            {errors.password && <p className="text-red-500 text-lg">{errors.password}</p>}
-          </div>
-        </div>
-
-        <div>
-          <label
-            htmlFor="confirmPassword"
-            className="block text-lg/6 font-medium text-gray-300"
-          >
-            Confirm Password
-          </label>
-          <div className="mt-2">
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              autoComplete="new-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-            />
-            {errors.confirmPassword && <p className="text-red-500 text-lg">{errors.confirmPassword}</p>}
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
         </div>
 
@@ -223,18 +200,18 @@ export default function Register() {
           <Button
             variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {isPending ? "Registering..." : "Register"}
           </Button>
         </div>
       </form>
 
-      <p className="mt-10 text-center text-lg/6 text-gray-500">
+      <p className="mt-10 text-center text-lg text-gray-500">
         Already a member?{" "}
         <Link
           to={"/login"}
-          className="font-semibold text-blue-400  hover:text-blue-500"
+          className="font-semibold hover:text-gray-800 text-gray-600"
         >
           Sign in
         </Link>

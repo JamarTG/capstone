@@ -27,14 +27,14 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
+  const onSuccess = ({ token, message}: SuccessfulAuthResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
-    navigate("/");
+    navigate("/", { replace: true });
+
   };
 
   const onError = (error: AxiosError) => {
-    console.log("error", error);
     toast.error(() => extractErrorMessage(error));
   };
 
@@ -83,7 +83,7 @@ export default function Login() {
         <div>
           <label
             htmlFor="email"
-            className="block text-lg/6 font-medium text-gray-200"
+            className="block text-lg font-medium text-gray-600"
           >
             Email address
           </label>
@@ -97,8 +97,8 @@ export default function Login() {
               onChange={handleChange}
               required
               autoComplete="email"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-            />
+              className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
+              />
             {errors.email && <p className="text-red-500 text-lg">{errors.email}</p>}
           </div>
         </div>
@@ -107,14 +107,14 @@ export default function Login() {
           <div className="flex items-center justify-between">
             <label
               htmlFor="password"
-              className="block text-lg/6 font-medium text-gray-300"
+              className="block text-lg font-medium text-gray-600"
             >
               Password
             </label>
             <div className="text-lg">
               <a
                 href="#"
-                className="font-semibold text-blue-400 hover:text-blue-500"
+                className="font-semibold text-gray-600 hover:text-gray-800"
               >
                 Forgot password?
               </a>
@@ -130,8 +130,8 @@ export default function Login() {
               onChange={handleChange}
               required
               autoComplete="current-password"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-lg/6"
-            />
+              className="w-full bg-transparent placeholder:text-gray-400 text-gray-700 text-lg border border-gray-200 rounded-md px-4 py-2 focus:outline-none"
+              />
             {errors.password && <p className="text-red-500 text-lg">{errors.password}</p>}
           </div>
         </div>
@@ -140,18 +140,18 @@ export default function Login() {
           <Button
             variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-lg/6 font-semibold text-gray-200 shadow-xs"
           >
             {isPending ? "Signing in..." : "Sign in"}
           </Button>
         </div>
       </form>
 
-      <p className="mt-10 text-center text-lg/6 text-gray-200">
+      <p className="mt-10 text-center text-lg text-gray-500">
         Not a member?{" "}
         <Link
           to={"/register"}
-          className="font-semibold text-blue-400  hover:text-blue-500"
+          className="font-semibold hover:text-gray-800 text-gray-600"
         >
           Start your Journey
         </Link>
