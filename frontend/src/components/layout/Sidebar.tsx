@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { logout } from "../../utils/auth";
 import routes from "../../data/routes";
 import ConditionalSVG from "../ConditionalSVG";
 import RenderList from "../common/RenderList";
 import { MainNavItem } from "../../types/routes";
 import { MAIN_NAV_ITEMS } from "../../constants/routes";
+import { AuthContext } from "../../context/AuthContext";
 
 interface HomeLayoutProps {
   children?: ReactNode;
@@ -13,6 +13,7 @@ interface HomeLayoutProps {
 
 
 const renderNavLinks = ({ path, name } : MainNavItem)  => {
+  
   return (
     <NavLink
       to={path}
@@ -32,6 +33,7 @@ const renderNavLinks = ({ path, name } : MainNavItem)  => {
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
+  const {logout} = useContext(AuthContext)!;
   return (
     <div className="h-screen w-screen relative flex">
       <aside className="h-full w-16 flex flex-col items-center bg-gray-100 border-r border-slate-300 justify-between relative text-gray-600 pb-4">

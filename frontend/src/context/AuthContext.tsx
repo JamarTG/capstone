@@ -5,11 +5,13 @@ import { AuthAPI } from "../utils/api";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { UserSuccessResponse } from "../types/auth";
+import { AUTH_TOKEN_CONFIG } from "../utils/auth";
 
 interface AuthContextType {
   user: User | null;
   setUser: React.Dispatch<SetStateAction<User | null>>;
   isAuthenticated: boolean;
+  logout : () => void;
 }
 
 interface AuthProviderProps {
@@ -24,9 +26,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const token = Cookies.get("token");
+  
+  const handleLogout = () => {
+    const { path } = AUTH_TOKEN_CONFIG;
+    Cookies.remove("token", { path });
+    localStorage.removeItem("user");
+    setUser(null); 
+  }
 
-  const isAuthenticated = !!user && !!token; 
+  const isAuthenticated = !!user; 
 
   const { data, isSuccess } = useQuery<UserSuccessResponse | null, Error>({
     queryKey: ["check-auth"],
@@ -43,7 +51,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [isSuccess, data, setUser]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout:handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

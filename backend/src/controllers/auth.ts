@@ -41,16 +41,7 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
 
     const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
 
-    const options = {
-      maxAge: parseInt(process.env.LOGIN_DURATION!, 10),
-      httpOnly: true,
-      secure: false,
-      // If in dev mode, this would've been set to true
-    };
-
-    res.cookie("token", token, options);
-
-    res.status(201).json({ message: "User Created Successfully" });
+    res.status(201).json({ message: "User Created Successfully", token });
   } catch (error) {
     console.error("Error during user registration:", error);
     res.status(500).json({ message: "Internal Server Error" });
