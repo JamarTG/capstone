@@ -8,7 +8,8 @@ const useAuthRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) return;
+    if (!isAuthenticated) return;
+    
     navigate(routes.LOGIN.path);
   }, [isAuthenticated, navigate]);
 };
