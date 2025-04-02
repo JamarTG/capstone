@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import logo from "/croppedAppLogoIcon.png";
+import React, { ReactNode } from "react";
 
 interface AuthProps {
   children?: ReactNode;
@@ -8,19 +7,18 @@ interface AuthProps {
 
 const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
   return (
-    <div className="bg-slate-800 w-full lg:w-1/2 flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
-      <div className="w-full lg:w-1/2 h-screen flex flex-col justify-center items-center">
-        <header className="flex flex-col gap-5 justify-center items-center">
-          <img
-            src={logo}
-            className="w-24"
-            alt=""
-          />
-          <h1 className="mt-[-10px] flex items-end justify-end text-center text-3xl/9 font-bold tracking-tight text-slate-300">{title}</h1>
-        </header>
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">{children}</div>
+    <div className="flex min-h-screen bg-gray-100">
+      <div className=" w-full lg:w-1/2 flex flex-col justify-center items-center px-6 py-12 lg:px-8">
+        <div className="w-full flex flex-col justify-center items-center">
+          <header className="flex flex-col gap-5 justify-center items-center">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-600">{title}</h1>
+          </header>
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">{children}</div>
+        </div>
       </div>
-      <div className="hidden lg:block lg:w-1/2">
+
+      <div className="hidden lg:block lg:w-1/2 bg-cover bg-center showcase">
+      
       </div>
     </div>
   );
