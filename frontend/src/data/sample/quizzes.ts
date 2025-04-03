@@ -1,4 +1,4 @@
-export const quizData = [
+export const quizzes = [
   {
     topicIndex: 0,
     score: 95,
