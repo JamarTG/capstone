@@ -1,7 +1,8 @@
-import {  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { mdiChartLine, mdiVideo, mdiFileDocument, mdiCheckCircle } from "@mdi/js";
 import Icon from "@mdi/react";
 import PageLayout from "../../components/layout/Page";
+import useAuthRedirect from "../../hook/useAuthRedirect";
 
 const QuizDashboard = () => {
   const userData = {
@@ -41,6 +42,8 @@ const QuizDashboard = () => {
       ],
     },
   };
+
+  useAuthRedirect();
 
   return (
     <PageLayout>
