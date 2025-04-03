@@ -15,16 +15,3 @@ td {
   background-repeat: no-repeat;
   background-size: 80%;
 }
-
-
-@media (min-width: 640px) {
-  .responsive-grid {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .responsive-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  }
-}
