@@ -3,45 +3,10 @@ import { mdiChartLine, mdiVideo, mdiFileDocument, mdiCheckCircle } from "@mdi/js
 import Icon from "@mdi/react";
 import PageLayout from "../../components/layout/Page";
 import useAuthRedirect from "../../hook/useAuthRedirect";
+import { dashboardData } from "../../data/sample/dashboard";
 
 const QuizDashboard = () => {
-  const userData = {
-    name: "Alex Johnson",
-    scoreTrend: [
-      { date: "Jun 1", score: 72 },
-      { date: "Jun 8", score: 75 },
-      { date: "Jun 15", score: 78 },
-      { date: "Jun 22", score: 82 },
-      { date: "Jun 29", score: 85 },
-    ],
-    subjectPerformance: [
-      { name: "Math", value: 75 },
-      { name: "Science", value: 82 },
-      { name: "Language", value: 68 },
-    ],
-    learningPath: {
-      items: [
-        {
-          topic: "Trigonometry",
-          mastery: 65,
-          description: "Focus on trigonometric identities",
-          resources: [
-            { type: "quiz", count: 3 },
-            { type: "video", count: 2 },
-          ],
-        },
-        {
-          topic: "Chemical Equations",
-          mastery: 72,
-          description: "Practice balancing equations",
-          resources: [
-            { type: "quiz", count: 2 },
-            { type: "article", count: 1 },
-          ],
-        },
-      ],
-    },
-  };
+  
 
   useAuthRedirect();
 
@@ -62,7 +27,7 @@ const QuizDashboard = () => {
               width="100%"
               height="100%"
             >
-              <LineChart data={userData.scoreTrend}>
+              <LineChart data={dashboardData.scoreTrend}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="#e5e7eb"
@@ -91,7 +56,7 @@ const QuizDashboard = () => {
         <div className="w-full border-1 border-gray-200 rounded-lg p-6">
           <h2 className="text-xl font-medium text-slate-600 mb-4">Learning Path</h2>
           <div className="space-y-4">
-            {userData.learningPath.items.map((item, index) => (
+            {dashboardData.learningPath.items.map((item, index) => (
               <div
                 key={index}
                 className="border border-gray-200 rounded-lg p-4"
