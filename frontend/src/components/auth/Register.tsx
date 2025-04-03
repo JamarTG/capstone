@@ -5,7 +5,6 @@ import AuthLayout from "../layout/Auth";
 import { useMutation } from "@tanstack/react-query";
 import { RegisterFormErrors, RegisterFormFields, SuccessfulAuthResponse } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
-import Button from "../ui/Button";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
@@ -16,6 +15,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { User } from "../../types/context";
 import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
+import Button from "../ui/Button";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
