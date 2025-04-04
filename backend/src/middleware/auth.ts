@@ -9,7 +9,6 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): voi
   const token = req.cookies.token;
 
   if (!token) {
-    console.log("the token is missing");
     res.status(401).json({ message: "Access Denied" });
     return;
   }
