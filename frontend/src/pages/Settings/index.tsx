@@ -1,34 +1,45 @@
-// SettingsPage.tsx
 import { useEffect, useState } from "react";
 import PageContent from "../../components/layout/Page";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import { UserAPI } from "../../utils/api";
 import PersonalInformation from "./PersonalInformation";
 import ChangePassword from "./ChangePassword";
 import Preferences from "./Preferences";
 import DeleteAccount from "./DeleteAccount";
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  darkMode: boolean;
-}
+import { UserSettings } from "../../types/settings";
+import toast from "react-hot-toast";
+import { SuccessfulAuthResponse } from "../../types/auth";
+import { AxiosError } from "axios";
+import { extractErrorMessage } from "../../utils/error";
 
 export default function SettingsPage() {
   useAuthRedirect();
 
-  const [user, setUser] = useState<User>({
-    firstName: "Jamari",
-    lastName: "McFarlane",
-    email: "jamarimcfarlane12@gmail.co",
+  const [user, setUser] = useState<UserSettings>({
+    firstName: "",
+    lastName: "",
+    email: "",
     password: "",
+    currentPassword: "",
     darkMode: false,
   });
 
-  const { data } = useQuery({ queryKey: ["profile-data"], queryFn: UserAPI.fetchUserInfo });
+  const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
+
+  const onSuccess = ({ message }: SuccessfulAuthResponse) => {
+    toast.success(message);
+  };
+
+  const onError = (error: AxiosError) => {
+    toast.error(extractErrorMessage(error));
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: UserAPI.updateUserInfo,
+    onSuccess,
+    onError,
+  });
 
   useEffect(() => {
     if (data) {
@@ -51,24 +62,34 @@ export default function SettingsPage() {
   };
 
   const savePersonalInfo = () => {
-    alert("Personal information saved!");
+    mutate({ firstName: user.firstName, lastName: user.lastName, email: user.email });
   };
 
   const savePassword = () => {
-    alert("Password saved!");
+    mutate({ password: user.password, currentPassword: user.currentPassword });
   };
-
 
   return (
     <PageContent title="Settings">
       <div className="w-full flex flex-col gap-2 justify-center gap-3 rounded-xl">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
-          <PersonalInformation user={user} handleChange={handleChange} savePersonalInfo={savePersonalInfo} />
-          <ChangePassword user={user} handleChange={handleChange} savePassword={savePassword} />
+          <PersonalInformation
+            user={user}
+            handleChange={handleChange}
+            savePersonalInfo={savePersonalInfo}
+          />
+          <ChangePassword
+            user={user}
+            handleChange={handleChange}
+            savePassword={savePassword}
+          />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2">
-          <Preferences darkMode={user.darkMode} toggleDarkMode={toggleDarkMode} />
+          <Preferences
+            darkMode={user.darkMode}
+            toggleDarkMode={toggleDarkMode}
+          />
           <DeleteAccount handleDelete={handleDelete} />
         </div>
       </div>

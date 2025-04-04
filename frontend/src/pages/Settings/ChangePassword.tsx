@@ -6,6 +6,7 @@ import { mdiContentSaveAllOutline } from "@mdi/js";
 interface ChangePasswordProps {
   user: {
     password: string;
+    currentPassword: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   savePassword: () => void;
@@ -20,9 +21,9 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ user, handleChange, sav
           <label className="block mt-2 text-md text-slate-600 font-medium">Old Password</label>
           <input
             type="password"
-            name="oldPassword"
-            placeholder="Enter old password"
-            value={user.password}
+            name="currentPassword"
+            placeholder="Enter current password"
+            value={user.currentPassword}
             onChange={handleChange}
             className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border border-slate-200 rounded-md px-4 py-2 focus:outline-none"
           />

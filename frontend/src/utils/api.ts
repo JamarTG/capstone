@@ -29,7 +29,16 @@ export const AuthAPI = {
   checkAuth: () => handleRequest(axiosInstanceWithCredentials.get("/auth/check-auth")),
 };
 
+interface UserUpdateInfo {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  currentPassword?: string;
+  darkMode?: boolean;
+}
 
 export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
+  updateUserInfo: (userData: UserUpdateInfo) => handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userData)),
 };
