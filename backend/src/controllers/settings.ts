@@ -30,38 +30,48 @@ const getUserInformation = async (req: CustomRequest, res: Response) => {
 };
 
 const updateUserInformation = async (req: CustomRequest, res: Response) => {
-  const { password, email, firstName, lastName } = req.body;
-
+  const { password, email, firstName, lastName, currentPassword } = req.body;
   const { _id } = req.user;
 
   try {
-    let dataToBeUpdated = {};
-
-    if (email) {
-      dataToBeUpdated = { ...dataToBeUpdated, email };
-    }
-
-    if (firstName) {
-      dataToBeUpdated = { ...dataToBeUpdated, firstName };
-    }
-    if (lastName) {
-      dataToBeUpdated = { ...dataToBeUpdated, lastName };
-    }
-    if (password) {
-      const salt = crypto.randomBytes(16).toString("hex");
-      const hashedPassword = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-
-      dataToBeUpdated = { ...dataToBeUpdated, password: hashedPassword, salt };
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(_id, dataToBeUpdated, { new: true });
-
-    if (!updatedUser) {
+    const user = await User.findById(_id).select("+password +salt");;
+    if (!user) {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
 
-    updatedUser.save();
+    let dataToBeUpdated = {};
+
+    if (email) dataToBeUpdated = { ...dataToBeUpdated, email };
+    if (firstName) dataToBeUpdated = { ...dataToBeUpdated, firstName };
+    if (lastName) dataToBeUpdated = { ...dataToBeUpdated, lastName };
+
+    if (password) {
+      if (!currentPassword) {
+        res.status(400).json({ message: "Current password is required to change password" });
+        return;
+      }
+
+      const isPasswordCorrect = user.comparePassword(currentPassword)
+      if (!isPasswordCorrect) {
+        res.status(403).json({ message: "Current password is incorrect" });
+        return;
+      }
+
+      const newSalt = crypto.randomBytes(16).toString("hex");
+      const newHashedPassword = crypto
+        .pbkdf2Sync(password, newSalt, 1000, 64, "sha512")
+        .toString("hex");
+
+      dataToBeUpdated = {
+        ...dataToBeUpdated,
+        password: newHashedPassword,
+        salt: newSalt,
+      };
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(_id, dataToBeUpdated, { new: true });
+    await updatedUser?.save();
 
     res.status(200).json({ message: "User information updated successfully" });
   } catch (error) {
