@@ -44,7 +44,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (isSuccess && data?.user) {
-      toast.success(data.message);
       setUser(data.user);
       localStorage.setItem("user", JSON.stringify(data.user));
     }
