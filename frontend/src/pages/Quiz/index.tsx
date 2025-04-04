@@ -6,6 +6,7 @@ import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import RenderList from "../../components/common/RenderList";
+import ObjectivesList from "./ObjectivesList";
 
 const QuizSelectionPage = () => {
   const [selectedTopicIndex, setSelectedTopicIndex] = useState<number | null>(null);
@@ -54,14 +55,7 @@ const QuizSelectionPage = () => {
           <div className="max-w-2xl w-full">
             <h2 className="text-xl font-bold mb-4">{selectedTopic.name} Quiz</h2>
             <ul className="list-disc pl-5 mb-4">
-              {selectedTopic.objectives.map((objective, index) => (
-                <li
-                  key={index}
-                  className="text-lg text-gray-700"
-                >
-                  {objective}
-                </li>
-              ))}
+              <ObjectivesList selectedTopic={selectedTopic} />
             </ul>
             <div className="flex gap-4">
               <Button
