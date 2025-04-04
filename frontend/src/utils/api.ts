@@ -41,4 +41,5 @@ interface UserUpdateInfo {
 export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
   updateUserInfo: (userData: UserUpdateInfo) => handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userData)),
+  deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post('settings/delete-account', {})),
 };

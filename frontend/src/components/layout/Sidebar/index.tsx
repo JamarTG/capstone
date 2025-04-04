@@ -7,6 +7,7 @@ import { MAIN_NAV_ITEMS } from "../../../constants/routes";
 import { AuthContext } from "../../../context/AuthContext";
 import IconRenderer from "../../NavIconRenderer";
 
+
 interface HomeLayoutProps {
   children?: ReactNode;
 }
@@ -40,7 +41,7 @@ const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean) => {
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { logout } = useContext(AuthContext)!;
+  const { logout,isAuthenticated } = useContext(AuthContext)!;
   const [isExpanded, setIsExpanded] = useState(() => {
     const saved = localStorage.getItem("sidebarExpanded");
     return saved ? JSON.parse(saved) : true;
@@ -60,6 +61,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         }`}
       >
         <div className="flex items-center justify-center p-2">
+        {isAuthenticated ? "yes" : "no"}
             {/* {isExpanded ? <div className="text-xl">Quiz App</div> : <div className="text-2xl">Q</div>} */}
           </div>
         <div className="flex flex-col h-full justify-between py-5">

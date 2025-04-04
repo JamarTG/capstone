@@ -43,6 +43,7 @@ export default function Login() {
 
   const onError = (error: AxiosError) => {
     toast.error(() => extractErrorMessage(error));
+    console.log("error");
   };
 
   const { mutate, isPending } = useMutation({
