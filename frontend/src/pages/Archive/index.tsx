@@ -7,7 +7,7 @@ const QuizHistory = () => {
   useAuthRedirect();
 
   return (
-    <PageLayout>
+    <PageLayout title="History">
       <div className="flex justify-center">
         <QuizHistoryList quizzes={quizzes} />
       </div>

@@ -48,7 +48,7 @@ const QuizSelectionPage = () => {
   const selectedTopic = selectedTopicIndex !== null ? topics[selectedTopicIndex] : null;
 
   return (
-    <PageContent>
+    <PageContent title="Quiz">
       <div className="w-full flex justify-center">
         {selectedTopic ? (
           <div className="max-w-2xl w-full">

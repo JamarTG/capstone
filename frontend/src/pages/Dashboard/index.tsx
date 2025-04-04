@@ -11,7 +11,7 @@ const QuizDashboard = () => {
   useAuthRedirect();
 
   return (
-    <PageLayout>
+    <PageLayout title="Dashboard">
       <div className="flex flex-col px-4 py-6 space-y-5">
         <div className="flex items-center">
           <Icon path={mdiChartLine} size={1} className="text-slate-600 mr-2" />

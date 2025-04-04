@@ -60,7 +60,7 @@ export default function SettingsPage() {
 
 
   return (
-    <PageContent>
+    <PageContent title="Settings">
       <div className="w-full flex flex-col gap-2 justify-center gap-3 rounded-xl">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
           <PersonalInformation user={user} handleChange={handleChange} savePersonalInfo={savePersonalInfo} />
