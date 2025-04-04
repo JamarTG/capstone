@@ -49,7 +49,22 @@ AI IT Tutor is a personalized, AI-powered learning platform tailored to help stu
    npm install
    ```
 
-4. **Start the Development Server**:
+4. **Start the Frontend Server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Navigate to the Project Directory**:
+   ```bash
+   cd ../backend/ai-it-tutor
+   ```
+
+6. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+4. **Start the Backend Server**:
    ```bash
    npm run dev
    ```
