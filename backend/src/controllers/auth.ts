@@ -59,7 +59,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
   try {
     const userWithEmail = await User.findOne({ email }).select("+password");
 
-    if (!userWithEmail) {
+    if (!userWithEmail|| userWithEmail.status === "inactive") {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
@@ -87,7 +87,7 @@ export const checkAuth = async (req: CustomRequest, res: Response): Promise<void
     }
 
     const user = await User.findById(req.user._id);
-    if (!user) {
+    if (!user || user.status === "inactive") {
       res.status(401).json({ message: "User not found" });
       return;
     }

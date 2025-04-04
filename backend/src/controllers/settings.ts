@@ -9,7 +9,7 @@ const getUserInformation = async (req: CustomRequest, res: Response) => {
   try {
     const user = await User.findById({ _id });
 
-    if (!user) {
+    if (!user || user.status === "inactive") {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
@@ -34,8 +34,8 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
   const { _id } = req.user;
 
   try {
-    const user = await User.findById(_id).select("+password +salt");;
-    if (!user) {
+    const user = await User.findById(_id).select("+password +salt");
+    if (!user || user.status === "inactive") {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
@@ -48,20 +48,18 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
 
     if (password) {
       if (!currentPassword) {
-        res.status(400).json({ message: "Current password is required to change password" });
+        res.status(400).json({ message: "Current password is required" });
         return;
       }
 
-      const isPasswordCorrect = user.comparePassword(currentPassword)
+      const isPasswordCorrect = user.comparePassword(currentPassword);
       if (!isPasswordCorrect) {
-        res.status(403).json({ message: "Current password is incorrect" });
+        res.status(403).json({ message: "Password is incorrect" });
         return;
       }
 
       const newSalt = crypto.randomBytes(16).toString("hex");
-      const newHashedPassword = crypto
-        .pbkdf2Sync(password, newSalt, 1000, 64, "sha512")
-        .toString("hex");
+      const newHashedPassword = crypto.pbkdf2Sync(password, newSalt, 1000, 64, "sha512").toString("hex");
 
       dataToBeUpdated = {
         ...dataToBeUpdated,
@@ -73,10 +71,30 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
     const updatedUser = await User.findByIdAndUpdate(_id, dataToBeUpdated, { new: true });
     await updatedUser?.save();
 
-    res.status(200).json({ message: "User information updated successfully" });
+    res.status(200).json({ message: "Update Successful" });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-export { updateUserInformation, getUserInformation };
+const deleteAccount = async (req: CustomRequest, res: Response) => {
+  const { _id } = req.user;
+
+  console.log(_id,"id");
+  try {
+    const user = await User.findById(_id);
+
+    if (!user || user.status === "inactive") {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    user.status = "inactive";
+    await user.save();
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+    return;
+  }
+};
+
+export { updateUserInformation, getUserInformation, deleteAccount };

@@ -3,6 +3,7 @@ export interface IUser extends Document {
   password: string;
   firstName:string,
   lastName:string,
+  status: "active" | "inactive";
   salt: string;
   comparePassword: (password: IUser["password"]) => boolean;
   createdAt: Date;
