@@ -2,7 +2,6 @@ import { createContext, SetStateAction, ReactNode, useState, useEffect } from "r
 import { User } from "../types/context";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
-import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { UserSuccessResponse } from "../types/auth";
 import { AUTH_TOKEN_CONFIG } from "../utils/auth";
