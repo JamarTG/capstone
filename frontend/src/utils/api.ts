@@ -38,6 +38,7 @@ export const UserAPI = {
 
 export const QuizAPI = {
   createQuiz: (createQuizPayload: CreateQuizPayload) => handleRequest(axiosInstanceWithCredentials.post("/quiz/create", createQuizPayload)),
+  getTopics : () => handleRequest(axiosInstanceWithCredentials.get("/topics")),
   // createQuiz: (quizData: any) => handleRequest(axiosInstanceWithCredentials.post("/quiz", quizData)),
   // updateQuiz: (quizId: string, quizData: any) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}`, quizData)),
   // deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
