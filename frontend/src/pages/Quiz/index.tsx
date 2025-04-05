@@ -8,7 +8,7 @@ import useAuthRedirect from "../../hook/useAuthRedirect";
 import RenderList from "../../components/common/RenderList";
 import ObjectivesList from "./ObjectivesList";
 import Icon from "@mdi/react";
-import { mdiArrowLeft, mdiClipboard, mdiPlayCircleOutline } from "@mdi/js";
+import { mdiClipboard, mdiPlayCircleOutline } from "@mdi/js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { SuccessfulQuizResponse } from "../../types/auth";
@@ -113,17 +113,7 @@ const QuizSelectionPage = () => {
               </div>
 
               <div className="flex flex-col gap-2 mt-4">
-                <Button
-                  variant="secondary"
-                  onClick={() => setSelectedTopic(null)}
-                >
-                  <Icon
-                    path={mdiArrowLeft}
-                    size={0.8}
-                    className="mr-2"
-                  />
-                  Back to Topics
-                </Button>
+               
                 <Button
                   variant="primary"
                   onClick={handleStartQuiz}
