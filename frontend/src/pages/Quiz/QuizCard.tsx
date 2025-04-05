@@ -1,4 +1,7 @@
 import Card from "../../components/ui/Card";
+import Icon from "@mdi/react";
+import { mdiTrashCanOutline, mdiPlayCircleOutline, mdiEyeOutline } from "@mdi/js";
+
 
 export interface Topic {
   _id: string;
@@ -14,9 +17,18 @@ interface QuizCardProps {
   tags: string[];
   completed: boolean;
   className?: string;
+  onDelete?: () => void;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttempt, tags, className = "" }) => {
+const QuizCard: React.FC<QuizCardProps> = ({
+  topic,
+  completed,
+  score,
+  lastAttempt,
+  tags,
+  className = "",
+  onDelete,
+}) => {
   const getScoreColor = (score: number) => {
     if (score >= 80) return "bg-emerald-500 text-emerald-800";
     if (score >= 50) return "bg-amber-500 text-amber-800";
@@ -41,15 +53,24 @@ const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttemp
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm bg-black/20 backdrop-blur-sm">
+        <div className="absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm bg-black/20 backdrop-blur-sm z-10">
           <span className="text-xl font-bold text-white">{score}%</span>
         </div>
 
+        {onDelete && (
+          <button
+            onClick={onDelete}
+            className="absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full transition"
+            title="Delete quiz"
+          >
+            <Icon path={mdiTrashCanOutline} className="w-5 h-5" />
+          </button>
+        )}
+
+   
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
           <div className="flex justify-between items-start">
-            <div className="flex items-center gap-2">
-              <h3 className="font-bold text-white text-md drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
-            </div>
+            <h3 className="font-bold text-white text-md drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
           </div>
 
           <div className="w-full bg-gray-200/30 rounded-full h-2 mt-2">
@@ -61,7 +82,6 @@ const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttemp
         </div>
       </section>
 
-      {/* Content Section */}
       <section className="flex-1 p-4 flex flex-col justify-between">
         <div className="flex flex-wrap gap-2 justify-center">
           {tags.map((tag, index) => (
@@ -74,9 +94,11 @@ const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttemp
           ))}
         </div>
 
+    
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-4 text-gray-500">
           <small className="text-sm whitespace-nowrap">{formattedDate}</small>
-          <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-white text-sm sm:text-md font-medium bg-slate-600 hover:bg-slate-700 cursor-pointer">
+          <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-sm sm:text-md font-medium  cursor-pointer">
+            <Icon path={completed ? mdiEyeOutline : mdiPlayCircleOutline } className="w-5 h-5" />
             {completed ? "Review" : "Continue"}
           </button>
         </div>
@@ -86,3 +108,4 @@ const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttemp
 };
 
 export default QuizCard;
+
