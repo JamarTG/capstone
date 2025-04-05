@@ -4,7 +4,6 @@ import Button from "../../components/ui/Button";
 import Icon from "@mdi/react";
 import { mdiContentSaveAllOutline } from "@mdi/js";
 
-// Validation schema
 const infoSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),

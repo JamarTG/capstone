@@ -8,3 +8,14 @@ export interface IUser extends Document {
   comparePassword: (password: IUser["password"]) => boolean;
   createdAt: Date;
 }
+
+export interface IQuiz extends Document {
+  topicId: Types.ObjectId;
+  userId: Types.ObjectId;
+  currentQuestionIndex: number;
+  score: number;
+  startTime: Date;
+  endTime?: Date;
+  completed: boolean;
+}
+

@@ -1,3 +1,4 @@
+import React from "react";
 import { Topic } from "../../data/sample/topics";
 
 interface ObjectivesListProps {
@@ -6,20 +7,20 @@ interface ObjectivesListProps {
 
 const ObjectivesList: React.FC<ObjectivesListProps> = ({ selectedTopic }) => {
   return (
-    <div>
+    <React.Fragment>
       {selectedTopic && (
       <div>
         {selectedTopic.objectives.map((objective, index) => (
-          <li
+          <p
             key={index}
-            className="text-lg text-gray-700"
+            className="text-sm text-gray-700 my-5"
           >
             {objective}
-          </li>
+          </p>
         ))}
       </div>
       )}
-    </div>
+    </React.Fragment>
   );
 };
 

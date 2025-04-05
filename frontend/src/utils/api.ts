@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginFormFields, RegisterFormFields } from "../types/auth";
+import { LoginFormFields, RegisterFormFields, CreateQuizPayload, UserUpdatePayload } from "../types/auth";
 
 export const BASE_URL = "http://localhost:5000/api";
 
@@ -29,17 +29,16 @@ export const AuthAPI = {
   checkAuth: () => handleRequest(axiosInstanceWithCredentials.get("/auth/check-auth")),
 };
 
-interface UserUpdateInfo {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  password?: string;
-  currentPassword?: string;
-  darkMode?: boolean;
-}
-
 export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
-  updateUserInfo: (userData: UserUpdateInfo) => handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userData)),
-  deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post('settings/delete-account', {})),
+  updateUserInfo: (userInfoPayload: UserUpdatePayload) =>
+    handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
+  deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post("settings/delete-account", {})),
+};
+
+export const QuizAPI = {
+  createQuiz: (createQuizPayload: CreateQuizPayload) => handleRequest(axiosInstanceWithCredentials.post("/quiz/create", createQuizPayload)),
+  // createQuiz: (quizData: any) => handleRequest(axiosInstanceWithCredentials.post("/quiz", quizData)),
+  // updateQuiz: (quizId: string, quizData: any) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}`, quizData)),
+  // deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
 };

@@ -1,19 +1,27 @@
 import QuizProgressBar from "./QuizProgressBar";
 
-const QuizHeader = ({ currentIndex, totalQuestions }: { currentIndex: number; totalQuestions: number }) => {
+interface QuizHeaderProps {
+  currentIndex: number;
+  totalQuestions: number;
+  timeLeft?: string;
+}
+
+const QuizHeader = ({ currentIndex, totalQuestions, timeLeft }: QuizHeaderProps) => {
   const progressPercentage = ((currentIndex + 1) / totalQuestions) * 100;
 
   return (
-    <div className="bg-white">
-      <div className="relative h-64 bg-cover bg-center border-2 border-gray-200">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="relative h-64 bg-gradient-to-br from-sky-100 to-white border border-gray-200">
         <div className="relative z-10 h-full p-8 max-w-screen-xl mx-auto flex flex-col justify-between">
-          <div className="flex justify-between items-start text-slate-700">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight">Web Development Fundamentals</h1>
-              <div className="flex items-center space-x-4 text-sm">
-                <span className="flex items-center">
+          <div className="flex justify-between items-start text-slate-800">
+            <div className="space-y-3">
+              <h1 className="text-3xl font-bold tracking-tight">
+                Web Development Fundamentals
+              </h1>
+              <div className="flex items-center space-x-6 text-sm text-slate-600 font-medium">
+                <span className="flex items-center gap-1">
                   <svg
-                    className="w-4 h-4 mr-1"
+                    className="w-4 h-4 text-blue-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -27,9 +35,9 @@ const QuizHeader = ({ currentIndex, totalQuestions }: { currentIndex: number; to
                   </svg>
                   {totalQuestions} Questions
                 </span>
-                <span className="flex items-center">
+                <span className="flex items-center gap-1">
                   <svg
-                    className="w-4 h-4 mr-1"
+                    className="w-4 h-4 text-green-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -43,12 +51,34 @@ const QuizHeader = ({ currentIndex, totalQuestions }: { currentIndex: number; to
                   </svg>
                   45 Minutes
                 </span>
+                {timeLeft && (
+                  <span className="flex items-center gap-1 text-red-600">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 6v6l4 2"
+                      />
+                    </svg>
+                    Time Left: {timeLeft}
+                  </span>
+                )}
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <button className="p-2 transition-colors">
+
+            <div className="flex items-center space-x-3">
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label="Settings"
+              >
                 <svg
-                  className="w-7 h-7"
+                  className="w-6 h-6 text-gray-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -67,9 +97,12 @@ const QuizHeader = ({ currentIndex, totalQuestions }: { currentIndex: number; to
                   />
                 </svg>
               </button>
-              <button className="p-2 transition-colors">
+              <button
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label="Help"
+              >
                 <svg
-                  className="w-7 h-7"
+                  className="w-6 h-6 text-gray-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -84,6 +117,7 @@ const QuizHeader = ({ currentIndex, totalQuestions }: { currentIndex: number; to
               </button>
             </div>
           </div>
+
           <QuizProgressBar
             currentIndex={currentIndex}
             totalQuestions={totalQuestions}

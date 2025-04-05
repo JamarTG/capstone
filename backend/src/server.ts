@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import connectDB from "./db";
 import authRoutes from "./routes/auth";
 import settingsRoutes from "./routes/settings";
+import quizRoutes from "./routes/quiz";
 import cookieParser from "cookie-parser";
 
 config();
@@ -25,12 +26,13 @@ app.use(
 );
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cookieParser()); //Resolve the cookies problem
+app.use(cookieParser()); 
 
 connectDB();
 
 app.use("/api/auth", authRoutes);
 app.use("/api/settings", settingsRoutes);
+app.use("/api/quiz", quizRoutes);
 
 http.createServer(app).listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);

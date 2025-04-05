@@ -10,14 +10,27 @@ export interface LoginFormFields {
   password?: string;
 }
 
-export interface RegisterFormErrors extends RegisterFormFields{};
+export interface RegisterFormErrors extends RegisterFormFields {}
 
-export interface LoginFormErrors extends LoginFormFields{}
+export interface LoginFormErrors extends LoginFormFields {}
 
 export interface SuccessfulAuthResponse {
   token: string;
   message: string;
-  user:any
+  user: any;
+}
+
+export interface SuccessfulQuizResponse {
+  message: string;
+  session: {
+    _id: string;
+    topicId: string;
+    userId: string;
+    currentQuestionIndex: number;
+    score: number;
+    startTime: Date;
+    completed: boolean;
+  };
 }
 
 export interface UserSuccessResponse {
@@ -30,4 +43,17 @@ export interface UserSuccessResponse {
     createdAt: string;
     __v: string;
   };
+}
+
+export interface UserUpdatePayload {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  currentPassword?: string;
+  darkMode?: boolean;
+}
+
+interface CreateQuizPayload {
+  topicId: string;
 }
