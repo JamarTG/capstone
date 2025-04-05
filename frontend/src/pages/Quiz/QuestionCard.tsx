@@ -6,6 +6,7 @@ const QuestionCard = ({
   selectedAnswer,
   onAnswerSelect,
   onNextQuestion,
+  onSubmitQuiz,
   isLastQuestion,
 }: {
   question: string;
@@ -13,11 +14,13 @@ const QuestionCard = ({
   selectedAnswer: number | null;
   onAnswerSelect: (index: number) => void;
   onNextQuestion: () => void;
+  onSubmitQuiz: () => void;
   isLastQuestion: boolean;
+
 }) => {
   return (
-    <div className="p-8 w-full bg-slate-50 rounded-lg border-2 border-gray-200">
-      <div className="relative mb-6 pt-8">
+    <div className="p-8 w-full rounded-lg border border-gray-200">
+      <div className="relative mb-4 pt-2">
         <h2 className="text-sm text-gray-500 font-medium uppercase tracking-wider text-center text-black">{question}</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -33,8 +36,9 @@ const QuestionCard = ({
       </div>
       <div className="flex justify-center">
         <button
-          onClick={onNextQuestion}
+          onClick={isLastQuestion ? onSubmitQuiz :onNextQuestion}
           disabled={selectedAnswer === null}
+          
           className={`px-6 py-2 rounded-lg transition-colors
               ${selectedAnswer === null ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-slate-600 text-white hover:bg-slate-700"}`}
         >
