@@ -1,19 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import QuizCompletion from "./QuizCompletion";
-import questions from "../../data/sample/questions";
+import questionsFallback from "../../data/sample/questions";
 import QuestionCard from "./QuestionCard";
 import QuizHeader from "./QuizHeader";
 import PageLayout from "../../components/layout/Page";
+import { useLocation, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { QuizAPI } from "../../utils/api";
 
 const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60 * 10); 
+  const [elapsedTime, setElapsedTime] = useState(0); 
 
-  const handleAnswerSelect = (answerIndex: number) => {
-    setSelectedAnswer(answerIndex);
+  const { id } = useParams();
+  const location = useLocation();
+  const sessionFromState = location.state?.session;
+
+  const {
+    data: session,
+    isLoading,
+    error,
+    refetch, // to refetch session if createdAt is missing
+  } = useQuery({
+    queryKey: ["quizSession", id],
+    queryFn: () => QuizAPI.getQuizById(id!),
+    initialData: sessionFromState,
+    enabled: !!id,
+    refetchOnMount: true,
+  });
+
+  const questions = session?.questions || questionsFallback;
+
+  const handleAnswerSelect = (index: number) => {
+    setSelectedAnswer(index);
   };
 
   const handleNextQuestion = () => {
@@ -34,30 +56,32 @@ const QuizSession = () => {
     setCurrentIndex(0);
     setScore(0);
     setSelectedAnswer(null);
-    setTimeLeft(60 * 10);
     setQuizCompleted(false);
   };
 
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setQuizCompleted(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    if (!session?.session?.createdAt) {
+      // If `createdAt` is not available, refetch the session data
+      refetch();
+    }
+  }, [session, refetch]);
 
-    return () => clearInterval(timer);
-  }, []);
+  useEffect(() => {
+    if (session?.session?.createdAt) {
+      // Calculate elapsed time once we have createdAt
+      const startTime = new Date(session.session.createdAt).getTime();
+      const intervalId = setInterval(() => {
+        setElapsedTime(Date.now() - startTime);
+      }, 1000);
 
-  const formatTime = (seconds: number) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    return `${min}:${sec.toString().padStart(2, "0")}`;
-  };
+      // Cleanup interval when quiz is completed or component unmounts
+      return () => clearInterval(intervalId);
+    }
+  }, [session?.session?.createdAt]);
+
+  if (isLoading && !sessionFromState) return <div>Loading quiz...</div>;
+  if (error) return <div>Failed to load quiz.</div>;
 
   if (quizCompleted) {
     return (
@@ -69,22 +93,36 @@ const QuizSession = () => {
     );
   }
 
+  if(!session?.session) {
+    return <div>no session</div>
+
+  } 
+
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
 
+  const remainingTime = Math.max(30 * 60 * 1000 - elapsedTime, 0); 
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60 / 1000); 
+    const seconds = Math.floor((time % (60 * 1000)) / 1000); 
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
   return (
     <PageLayout title="Quiz">
+      {/* {session?.session?.questions ? JSON.stringify(session.session.questions) : ""} */}
       <div className="flex items-center justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-4">
         <div className="w-full max-w-3xl flex flex-col gap-6">
           <QuizHeader
             currentIndex={currentIndex}
-            totalQuestions={questions.length}
-            timeLeft={formatTime(timeLeft)} 
+            totalQuestions={session.session.questions.length}
+            timeLeft={formatTime(remainingTime)} 
           />
-
+          
           <QuestionCard
-            question={`${currentIndex + 1}. ${currentQuestion.question}`}
-            answers={currentQuestion.answers}
+            question={`${currentIndex + 1}. ${currentQuestion.question || currentQuestion.text}`}
+            answers={currentQuestion.answers || Object.values(currentQuestion.options || {})}
             selectedAnswer={selectedAnswer}
             onAnswerSelect={handleAnswerSelect}
             onNextQuestion={handleNextQuestion}

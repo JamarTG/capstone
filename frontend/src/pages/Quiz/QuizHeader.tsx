@@ -3,19 +3,19 @@ import QuizProgressBar from "./QuizProgressBar";
 interface QuizHeaderProps {
   currentIndex: number;
   totalQuestions: number;
-  timeLeft?: string;
+  timeLeft?: string;  // timeLeft in format "MM:SS"
 }
 
 const QuizHeader = ({ currentIndex, totalQuestions, timeLeft }: QuizHeaderProps) => {
   const progressPercentage = ((currentIndex + 1) / totalQuestions) * 100;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="relative h-64 bg-gradient-to-br from-sky-100 to-white border border-gray-200">
+    <div className="bg-white rounded-lg overflow-hidden">
+      <div className="relative h-64 border border-gray-200">
         <div className="relative z-10 h-full p-8 max-w-screen-xl mx-auto flex flex-col justify-between">
           <div className="flex justify-between items-start text-slate-800">
             <div className="space-y-3">
-              <h1 className="text-3xl font-bold tracking-tight">
+              <h1 className="text-xl font-bold tracking-tight">
                 Web Development Fundamentals
               </h1>
               <div className="flex items-center space-x-6 text-sm text-slate-600 font-medium">
@@ -49,7 +49,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, timeLeft }: QuizHeaderProps)
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  45 Minutes
+                  30 Minutes
                 </span>
                 {timeLeft && (
                   <span className="flex items-center gap-1 text-red-600">

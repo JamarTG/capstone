@@ -7,11 +7,29 @@ import { QuizAPI } from "../../utils/api";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 
+
+export interface Question {
+  _id: string;
+  text: string;
+  options: {
+    [key: string]: string;
+  };
+  correctAnswer: string;
+  explanation?: string;
+}
+
+export interface Objective {
+  _id: string;
+  description: string;
+  questions: Question[];
+}
+
 export interface Topic {
   _id: string;
   name: string;
+  description: string;
   backgroundImage: string;
-  objectives: string[];
+  objectives: Objective[]; 
 }
 
 interface QuizCardProps {

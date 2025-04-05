@@ -26,7 +26,9 @@ const QuizSelectionPage = () => {
   const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
     toast.success(message);
     setSelectedTopic(null);
-    navigate(`/quiz/${session._id}`);
+    navigate(`/quiz/${session._id}`, {
+      state: { session }, // pass session data
+    });
   };
 
   const onError = (error: AxiosError) => {
@@ -78,6 +80,7 @@ const QuizSelectionPage = () => {
 
   return (
     <PageContent title="Quiz">
+
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {isLoading ? (
@@ -87,7 +90,7 @@ const QuizSelectionPage = () => {
           ) : (
             <RenderList
               data={topicList}
-              renderFn={(topic) => <div key={topic._id}>{renderTopics(topic)}</div>}
+              renderFn={(topic) => <div key={topic._id}>{topic._id}{renderTopics(topic)}</div>}
             />
           )}
         </div>
@@ -108,6 +111,8 @@ const QuizSelectionPage = () => {
 
                 <h4 className="text-sm text-gray-600 font-medium mb-2">Objectives</h4>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 mb-4">
+                 
+             
                   <ObjectivesList selectedTopic={selectedTopic} />
                 </ul>
               </div>
