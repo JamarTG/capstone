@@ -1,81 +1,160 @@
-export interface Topic {
-  name: string;
-  description: string;
-  backgroundImage: string;
-  objectives: string[];
-}
+import { ObjectId, Types } from "mongoose";
 
-const topics: Topic[] = [
+const topics = [
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a1",
     name: "Computer Fundamentals and Information Processing",
     description: "Foundational understanding of computer hardware, software, and information processing.",
     backgroundImage: "/src/assets/images/quiz/fundamentals.webp",
-    objectives: [
-      "Understand the basics of computer hardware and software.",
-      "Learn how data is processed by computers.",
-      "Explore fundamental concepts of information technology.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a2",
     name: "Computer Networks and Web Technologies",
     description: "Basics of networking, mobile networks, Internet, and Web technologies.",
     backgroundImage: "/src/assets/images/quiz/network.webp",
-    objectives: [
-      "Understand networking basics and protocols.",
-      "Learn about mobile networks and the Internet.",
-      "Explore web technologies and their impact on communication.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a3",
     name: "Social and Economic Impact of ICT",
     description: "Knowledge of computer security, cybersecurity measures, and technology's societal impact.",
     backgroundImage: "/src/assets/images/quiz/social.webp",
-    objectives: [
-      "Examine the role of ICT in society.",
-      "Understand cybersecurity challenges and measures.",
-      "Analyze the economic impact of ICT on global industries.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a4",
     name: "Word-Processing and Web Page Design",
     description: "Practical skills in word-processing and web design for professional documents and web pages.",
     backgroundImage: "/src/assets/images/quiz/web.webp",
-    objectives: [
-      "Master word-processing software for creating professional documents.",
-      "Learn the fundamentals of web page design and HTML.",
-      "Design user-friendly and responsive web pages.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a5",
     name: "Database Management",
     description: "Proficiency in spreadsheet software for data organization, analysis, and business applications.",
     backgroundImage: "/src/assets/images/quiz/database.webp",
-    objectives: [
-      "Learn how to organize and analyze data using databases.",
-      "Understand relational database management systems (RDBMS).",
-      "Apply database concepts to business scenarios.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a6",
     name: "Problem-Solving and Program Design",
     description: "Skills in designing and implementing database management systems (DBMS).",
     backgroundImage: "/src/assets/images/quiz/problem-solving.webp",
-    objectives: [
-      "Understand problem-solving techniques in programming.",
-      "Design algorithms and data structures for programming solutions.",
-      "Learn how to implement and optimize database management systems.",
-    ],
   },
   {
+    _id:"65f0a0a1e6a2c1b0a4e3b1a7",
     name: "Program Implementation",
     description: "Analytical and problem-solving skills using computational thinking and programming concepts.",
     backgroundImage: "/src/assets/images/quiz/code.webp",
-    objectives: [
-      "Develop programming skills in various languages.",
-      "Understand computational thinking and its applications.",
-      "Implement algorithms and solve problems programmatically.",
-    ],
   },
 ];
 
-export { topics };
+const objectives = [
+  
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1b1",
+    description: "Understand the basics of computer hardware and software.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a1",
+    questions: []
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1b2",
+    description: "Learn how data is processed by computers.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a1",
+    questions: []
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1b3",
+    description: "Explore fundamental concepts of information technology.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a1",
+    questions: []
+  },
+  
+
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1b4",
+    description: "Understand networking basics and protocols.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a2",
+    questions: []
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1b5",
+    description: "Learn about mobile networks and the Internet.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a2",
+    questions: []
+  },
+  {
+    _id: new Types.ObjectId("65f0a0a1e6a2c1b0a4e3b1b6"),
+    description: "Explore web technologies and their impact on communication.",
+    topic: "65f0a0a1e6a2c1b0a4e3b1a2",
+    questions: [] as Types.ObjectId[]  
+  
+  }
+];
+
+
+const questions = [
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1c1",
+    text: "Which of the following is NOT a hardware component?",
+    options: {
+      A: "CPU",
+      B: "RAM",
+      C: "Operating System",
+      D: "Hard Drive"
+    },
+    correctAnswer: "C",
+    explanation: "The operating system is software, not hardware.",
+    objective: objectives[0]._id!,
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1c2",
+    text: "What is the main function of an input device?",
+    options: {
+      A: "Process data",
+      B: "Store information",
+      C: "Enter data into the computer",
+      D: "Display output"
+    },
+    correctAnswer: "C",
+    explanation: "Input devices are used to enter data into the computer system.",
+    objective: objectives[0]._id!,
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1c3",
+    text: "Which software type controls hardware operations?",
+    options: {
+      A: "Application software",
+      B: "System software",
+      C: "Utility software",
+      D: "Programming software"
+    },
+    correctAnswer: "B",
+    explanation: "System software (like operating systems) controls hardware operations.",
+    objective: objectives[0]._id!,
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1c4",
+    text: "What does RAM stand for?",
+    options: {
+      A: "Random Access Memory",
+      B: "Readily Available Memory",
+      C: "Random Active Memory",
+      D: "Read Access Memory"
+    },
+    correctAnswer: "A",
+    explanation: "RAM stands for Random Access Memory, the computer's short-term memory.",
+    objective: objectives[0]._id!,
+  },
+  {
+    _id:"65f0a0a1e6a2c1b0a4e3b1c5",
+    text: "Which component is considered the 'brain' of the computer?",
+    options: {
+      A: "GPU",
+      B: "RAM",
+      C: "CPU",
+      D: "Motherboard"
+    },
+    correctAnswer: "C",
+    explanation: "The CPU (Central Processing Unit) is often called the brain of the computer.",
+    objective: objectives[0]._id!,
+  },
+];
+
+export { topics, objectives, questions };

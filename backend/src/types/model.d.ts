@@ -9,20 +9,51 @@ export interface IUser extends Document {
   createdAt: Date;
 }
 
-export interface IQuiz extends Document {
-  topic: Types.ObjectId;
-  user: Types.ObjectId;
+import { Document, Types } from 'mongoose';
+
+export interface IQuizQuestion {
+  question: string;
+  options: {
+    [key: string]: string; 
+  };
+  answer: string;
+  userAnswer?: string;
+}
+
+
+export interface ITopic extends Document {
+  _id: Types.ObjectId;
+  name: string;
+  description: string;
+  backgroundImage: string;
+}
+
+export interface IObjective extends Document {
+  _id: Types.ObjectId;
+  description: string;
+  topic: Types.ObjectId | ITopic;
+  questions?: Types.ObjectId[];
+}
+
+export interface IQuestion extends Document {
+  _id: Types.ObjectId;
+  text: string;
+  options: Record<string, string>;
+  correctAnswer: string;
+  explanation?: string;
+  objective: Types.ObjectId | IObjective;
+}
+
+export interface IQuiz{
+  _id: string,
+  topic: string;
+  user: string;
   currentQuestionIndex: number;
   score: number;
   startTime: Date;
   endTime?: Date;
   completed: boolean;
   tags: string[];
+  questions: IQuizQuestion[];
 }
 
-export interface ITopic extends Document {
-  name: string;
-  description: string;
-  backgroundImage: string;
-  objectives: string[];
-}

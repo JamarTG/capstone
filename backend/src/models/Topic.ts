@@ -1,13 +1,14 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { ITopic } from "../types/model";
 
-const topicSchema = new Schema<ITopic>({
-    name: { type: String, required: true },
-    description: { type: String },
-    backgroundImage: { type: String },
-    objectives: [{ type: String }],
-  });
-  
-  const Topic = mongoose.model<ITopic>("Topic", topicSchema);
-  
-  export default Topic;
+const TopicSchema = new Schema<ITopic>({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  backgroundImage: { type: String, required: true },
+}, {
+  timestamps: true
+});
+
+const Topic = mongoose.model<ITopic>("Topic", TopicSchema);
+
+export default Topic;

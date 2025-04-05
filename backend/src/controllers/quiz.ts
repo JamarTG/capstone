@@ -1,67 +1,124 @@
 import { Request, Response } from "express";
-import QuizSession from "../models/Quiz";
-import { getQuestionsForTopic } from "../utils";
+import { Quiz } from "../models/Quiz";
+import { Question } from "../models/Question";
 import { CustomRequest } from "../types/middleware";
+import { Types } from "mongoose";
+import { Objective } from "../models/Objective";
 
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
-    const { topic } = req.body;
-    const { _id } = req.user;
+    console.log("➡️ Incoming createQuizSession request:", req.body);
 
-    const newSession = await QuizSession.create({
+    const { topic } = req.body;
+    const { _id: userId } = req.user;
+
+ 
+    const objectives = await Objective.find({ topic }).select("_id");
+    console.log(`✅ Found ${objectives.length} objectives for topic ${topic}`);
+
+    if (!objectives.length) {
+      res.status(400).json({ error: `No objectives found for topic ${topic}` });
+      return;
+    }
+
+    const questions = [];
+
+    for (const obj of objectives) {
+      console.log(`🔍 Searching question for objective ${obj._id}`);
+      const result = await Question.aggregate([
+        { $match: { objective: obj._id } },
+        { $sample: { size: 1 } }, 
+      ]);
+
+      if (result.length) {
+        console.log(`✅ Found question ${result[0]._id} for objective ${obj._id}`);
+        questions.push(result[0]);
+      } else {
+        console.log(`⚠️ No question found for objective ${obj._id}`);
+      }
+    }
+
+    if (!questions.length) {
+      res.status(400).json({ error: "No questions found for the selected topic." });
+      return;
+    }
+
+  
+    const newSession = await Quiz.create({
       topic,
-      user: _id,
+      user: userId,
+      questions: questions.map((q) => ({
+        questionId: q._id,
+        selectedOption: "",
+        isCorrect: false,
+      })),
       currentQuestionIndex: 0,
       score: 0,
       startTime: new Date(),
       completed: false,
     });
 
+    console.log("✅ Quiz session created:", newSession._id);
+
     res.status(201).json({
       message: "Quiz session created successfully",
       session: newSession,
     });
-    return;
+
   } catch (err) {
-    res.status(500).json({ error: `Failed to create session ${err}` });
-    return;
+    console.error("❌ Error creating quiz session:", err);
+    res.status(500).json({ error: `Failed to create session: ${err}` });
   }
 };
 
+
 export const getQuizSession = async (req: Request, res: Response) => {
   try {
-    const session = await QuizSession.findById(req.params.sessionId);
+    const session = await Quiz.findById(req.params.sessionId).populate("topic").populate("questions.questionId");
+
     if (!session) {
       res.status(404).json({ error: "Session not found" });
       return;
     }
+
     res.status(200).json({
       message: "Session retrieved successfully",
       session,
     });
-    return;
   } catch (err) {
     res.status(500).json({ error: "Failed to retrieve session" });
-    return;
   }
 };
 
-export const answerQuizQuestion = async (req: Request, res: Response) => {
+export const answerQuizQuestion = async (req: CustomRequest, res: Response) => {
   try {
-    const session = await QuizSession.findById(req.params.sessionId);
+    const { answer } = req.body;
+    const session = await Quiz.findById(req.params.sessionId);
+
     if (!session || session.completed) {
       res.status(400).json({ error: "Invalid or completed session" });
       return;
     }
 
-    const questions = getQuestionsForTopic(session.topic);
-    const currentQuestion = questions[session.currentQuestionIndex];
+    const currentQuestion = await Question.findById(session.questions[session.currentQuestionIndex].questionId);
 
-    const isCorrect = req.body.answerIndex === currentQuestion.correctIndex;
-    if (isCorrect) session.score++;
+    if (!currentQuestion) {
+      res.status(404).json({ error: "Question not found" });
+      return;
+    }
+
+    const isCorrect = answer === currentQuestion.correctAnswer;
+    session.questions[session.currentQuestionIndex] = {
+      questionId: currentQuestion._id as Types.ObjectId, // Explicit type assertion
+      selectedOption: answer,
+      isCorrect,
+      answeredAt: new Date(),
+    };
+
+    if (isCorrect) session.score += Math.floor(100 / session.questions.length);
 
     session.currentQuestionIndex++;
-    if (session.currentQuestionIndex >= questions.length) {
+    if (session.currentQuestionIndex >= session.questions.length) {
       session.completed = true;
       session.endTime = new Date();
     }
@@ -72,35 +129,23 @@ export const answerQuizQuestion = async (req: Request, res: Response) => {
       message: isCorrect ? "Correct answer!" : "Wrong answer!",
       session,
     });
-    return;
   } catch (err) {
     res.status(500).json({ error: "Failed to answer question" });
-    return;
   }
 };
 
 export const deleteQuizSession = async (req: Request, res: Response) => {
   try {
-    await QuizSession.findByIdAndDelete(req.params.sessionId);
+    await Quiz.findByIdAndDelete(req.params.sessionId);
     res.status(200).json({ message: "Quiz session deleted successfully" });
-    return;
   } catch (err) {
     res.status(500).json({ error: "Failed to delete session" });
-    return;
   }
 };
 
 export const getUserQuizSessions = async (req: CustomRequest, res: Response) => {
   try {
-    const user = req.user._id;
-
-    const sessions = await QuizSession.find({user})
-      .sort({ startTime: -1 })
-      .populate("topic");
-    
-      if(!user) {
-        res.status(404).json({message: "User Not Found"})
-      }
+    const sessions = await Quiz.find({ user: req.user._id }).sort({ startTime: -1 }).populate("topic").populate("questions.questionId");
 
     res.status(200).json({
       message: "User quiz sessions fetched successfully",
