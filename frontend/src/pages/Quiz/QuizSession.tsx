@@ -23,7 +23,7 @@ const QuizSession = () => {
     data: session,
     isLoading,
     error,
-    refetch, // to refetch session if createdAt is missing
+    refetch, 
   } = useQuery({
     queryKey: ["quizSession", id],
     queryFn: () => QuizAPI.getQuizById(id!),
@@ -62,20 +62,19 @@ const QuizSession = () => {
 
   useEffect(() => {
     if (!session?.session?.createdAt) {
-      // If `createdAt` is not available, refetch the session data
+  
       refetch();
     }
   }, [session, refetch]);
 
   useEffect(() => {
     if (session?.session?.createdAt) {
-      // Calculate elapsed time once we have createdAt
       const startTime = new Date(session.session.createdAt).getTime();
       const intervalId = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
       }, 1000);
 
-      // Cleanup interval when quiz is completed or component unmounts
+  
       return () => clearInterval(intervalId);
     }
   }, [session?.session?.createdAt]);

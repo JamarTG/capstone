@@ -3,7 +3,7 @@ import QuizProgressBar from "./QuizProgressBar";
 interface QuizHeaderProps {
   currentIndex: number;
   totalQuestions: number;
-  timeLeft?: string;  // timeLeft in format "MM:SS"
+  timeLeft?: string; 
 }
 
 const QuizHeader = ({ currentIndex, totalQuestions, timeLeft }: QuizHeaderProps) => {

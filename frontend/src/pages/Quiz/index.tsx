@@ -27,7 +27,7 @@ const QuizSelectionPage = () => {
     toast.success(message);
     setSelectedTopic(null);
     navigate(`/quiz/${session._id}`, {
-      state: { session }, // pass session data
+      state: { session }, 
     });
   };
 
