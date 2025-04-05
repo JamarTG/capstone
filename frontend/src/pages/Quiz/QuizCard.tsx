@@ -1,20 +1,33 @@
 import Card from "../../components/ui/Card";
-import { topics } from "../../data/sample/topics";
+
+export interface Topic {
+  _id: string;
+  name: string;
+  backgroundImage: string;
+  objectives: string[];
+}
 
 interface QuizCardProps {
   score: number;
-  lastAttempt: string;
-  topicIndex: number;
+  lastAttempt: string | Date;
+  topic: Topic;
   tags: string[];
+  completed: boolean;
   className?: string;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ topicIndex, score, lastAttempt, tags, className = "" }) => {
+const QuizCard: React.FC<QuizCardProps> = ({ topic, completed, score, lastAttempt, tags, className = "" }) => {
   const getScoreColor = (score: number) => {
     if (score >= 80) return "bg-emerald-500 text-emerald-800";
     if (score >= 50) return "bg-amber-500 text-amber-800";
     return "bg-red-500 text-red-800";
   };
+
+  const formattedDate = new Date(lastAttempt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <Card
@@ -23,9 +36,8 @@ const QuizCard: React.FC<QuizCardProps> = ({ topicIndex, score, lastAttempt, tag
       <section
         className="relative h-40 sm:h-44"
         style={{
-          backgroundImage: `url('${topics[topicIndex].backgroundImage}')`,
+          backgroundImage: `url('${topic?.backgroundImage ?? "/fallback.jpg"}')`,
           backgroundSize: "cover",
-
           backgroundRepeat: "no-repeat",
         }}
       >
@@ -36,7 +48,7 @@ const QuizCard: React.FC<QuizCardProps> = ({ topicIndex, score, lastAttempt, tag
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-white text-md drop-shadow-md">Score</h3>
+              <h3 className="font-bold text-white text-md drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
             </div>
           </div>
 
@@ -63,9 +75,9 @@ const QuizCard: React.FC<QuizCardProps> = ({ topicIndex, score, lastAttempt, tag
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-4 text-gray-500">
-          <small className="text-sm whitespace-nowrap">{lastAttempt}</small>
-          <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-sm sm:text-md font-medium bg-gray-100 hover:bg-gray-200">
-            Full Review
+          <small className="text-sm whitespace-nowrap">{formattedDate}</small>
+          <button className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-white text-sm sm:text-md font-medium bg-slate-600 hover:bg-slate-700 cursor-pointer">
+            {completed ? "Review" : "Continue"}
           </button>
         </div>
       </section>

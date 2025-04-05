@@ -3,11 +3,14 @@ import {
   createQuizSession,
   getQuizSession,
   answerQuizQuestion,
-  deleteQuizSession
+  deleteQuizSession,
+  getUserQuizSessions
 } from "../controllers/quiz";
 import { verifyToken } from "../middleware/auth";
 
 const router = express.Router();
+
+router.get("/all", verifyToken, getUserQuizSessions)
 
 router.post("/create", verifyToken, createQuizSession);
 

@@ -1,6 +1,5 @@
 import PageLayout from "../../components/layout/Page";
 import QuizHistoryList from "./QuizHistoryList";
-import { quizzes } from "../../data/sample/quizzes";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 
 const QuizHistory = () => {
@@ -9,7 +8,7 @@ const QuizHistory = () => {
   return (
     <PageLayout title="History">
       <div className="flex justify-center">
-        <QuizHistoryList quizzes={quizzes} />
+        <QuizHistoryList/>
       </div>
     </PageLayout>
   );

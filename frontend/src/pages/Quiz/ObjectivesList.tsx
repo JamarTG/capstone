@@ -1,5 +1,5 @@
 import React from "react";
-import { Topic } from "../../data/sample/topics";
+import { Topic } from "./QuizCard";
 
 interface ObjectivesListProps {
   selectedTopic: Topic | null;
@@ -11,12 +11,12 @@ const ObjectivesList: React.FC<ObjectivesListProps> = ({ selectedTopic }) => {
       {selectedTopic && (
       <div>
         {selectedTopic.objectives.map((objective, index) => (
-          <p
+          <li
             key={index}
-            className="text-sm text-gray-700 my-5"
+            className="text-sm text-gray-700"
           >
             {objective}
-          </p>
+          </li>
         ))}
       </div>
       )}

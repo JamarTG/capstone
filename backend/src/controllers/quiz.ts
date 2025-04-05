@@ -5,12 +5,12 @@ import { CustomRequest } from "../types/middleware";
 
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
-    const { topicId } = req.body;
+    const { topic } = req.body;
     const { _id } = req.user;
 
     const newSession = await QuizSession.create({
-      topicId,
-      userId: _id,
+      topic,
+      user: _id,
       currentQuestionIndex: 0,
       score: 0,
       startTime: new Date(),
@@ -54,7 +54,7 @@ export const answerQuizQuestion = async (req: Request, res: Response) => {
       return;
     }
 
-    const questions = getQuestionsForTopic(session.topicId);
+    const questions = getQuestionsForTopic(session.topic);
     const currentQuestion = questions[session.currentQuestionIndex];
 
     const isCorrect = req.body.answerIndex === currentQuestion.correctIndex;
@@ -87,5 +87,26 @@ export const deleteQuizSession = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({ error: "Failed to delete session" });
     return;
+  }
+};
+
+export const getUserQuizSessions = async (req: CustomRequest, res: Response) => {
+  try {
+    const user = req.user._id;
+
+    const sessions = await QuizSession.find()
+      .sort({ startTime: -1 })
+      .populate("topic");
+    
+      if(!user) {
+        res.status(404).json({message: "User Not Found"})
+      }
+
+    res.status(200).json({
+      message: "User quiz sessions fetched successfully",
+      sessions,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user quiz sessions" });
   }
 };

@@ -1,8 +1,8 @@
 export interface IUser extends Document {
   email: string;
   password: string;
-  firstName:string,
-  lastName:string,
+  firstName: string;
+  lastName: string;
   status: "active" | "inactive";
   salt: string;
   comparePassword: (password: IUser["password"]) => boolean;
@@ -10,13 +10,14 @@ export interface IUser extends Document {
 }
 
 export interface IQuiz extends Document {
-  topicId: Types.ObjectId;
-  userId: Types.ObjectId;
+  topic: Types.ObjectId;
+  user: Types.ObjectId;
   currentQuestionIndex: number;
   score: number;
   startTime: Date;
   endTime?: Date;
   completed: boolean;
+  tags: string[];
 }
 
 export interface ITopic extends Document {
@@ -25,5 +26,3 @@ export interface ITopic extends Document {
   backgroundImage: string;
   objectives: string[];
 }
-
-

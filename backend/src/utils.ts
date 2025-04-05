@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-export const getQuestionsForTopic = (topicId: Types.ObjectId) => {
+export const getQuestionsForTopic = (topic: Types.ObjectId) => {
   return [
     {
       question: "What is the capital of France?",

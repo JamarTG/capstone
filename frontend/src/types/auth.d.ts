@@ -24,8 +24,8 @@ export interface SuccessfulQuizResponse {
   message: string;
   session: {
     _id: string;
-    topicId: string;
-    userId: string;
+    topic: string;
+    user: string;
     currentQuestionIndex: number;
     score: number;
     startTime: Date;
@@ -55,5 +55,5 @@ export interface UserUpdatePayload {
 }
 
 interface CreateQuizPayload {
-  topicId: string;
+  topic: string;
 }

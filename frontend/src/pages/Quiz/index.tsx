@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageContent from "../../components/layout/Page";
-import { Topic } from "../../data/sample/topics";
+
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import useAuthRedirect from "../../hook/useAuthRedirect";
@@ -15,21 +15,23 @@ import { SuccessfulQuizResponse } from "../../types/auth";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
+import { Topic } from "./QuizCard";
 
 const QuizSelectionPage = () => {
-  const [selectedTopicIndex, setSelectedTopicIndex] = useState<number | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const navigate = useNavigate();
 
   useAuthRedirect();
 
-  const onCreateQuizSuccess = ({ message }: SuccessfulQuizResponse) => {
+  const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
     toast.success(message);
-    setSelectedTopicIndex(null);
+    setSelectedTopic(null);
+    navigate(`/quiz/${session._id}`);
   };
 
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error));
-    setSelectedTopicIndex(null);
+    setSelectedTopic(null);
   };
 
   const { mutate: createQuizMutate } = useMutation({
@@ -39,11 +41,7 @@ const QuizSelectionPage = () => {
     onError,
   });
 
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["get-topics"],
     queryFn: QuizAPI.getTopics,
   });
@@ -51,16 +49,14 @@ const QuizSelectionPage = () => {
   const topicList: Topic[] = data?.topics || [];
 
   const handleStartQuiz = () => {
-    createQuizMutate({ topicId: "662fe4d2a0df3a6e4f21c3b2" });
-    if (selectedTopicIndex !== null) {
-      navigate(`/quiz/${selectedTopicIndex}`);
-    }
+    if (!selectedTopic) return;
+    createQuizMutate({ topic: selectedTopic._id });
   };
 
-  const renderTopics = (topic: Topic, index: number) => (
+  const renderTopics = (topic: Topic) => (
     <Card
-      key={topic.name}
-      onClick={() => setSelectedTopicIndex(index)}
+      key={topic._id}
+      onClick={() => setSelectedTopic(topic)}
       animateOnHover={false}
       className={`w-70 h-20 border border-gray-200 rounded-lg relative flex flex-col min-h-[10rem] sm:min-h-[10rem] bg-white overflow-hidden p-0 transition-all duration-300 group`}
       style={{
@@ -80,12 +76,9 @@ const QuizSelectionPage = () => {
     </Card>
   );
 
-  const selectedTopic = selectedTopicIndex !== null ? topicList[selectedTopicIndex] : null;
-
   return (
     <PageContent title="Quiz">
       <div className="flex flex-col lg:flex-row gap-8">
-
         <div className="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {isLoading ? (
             <div className="text-gray-500 italic">Loading topics...</div>
@@ -94,7 +87,7 @@ const QuizSelectionPage = () => {
           ) : (
             <RenderList
               data={topicList}
-              renderFn={(topic, index) => <div key={index}>{renderTopics(topic, index)}</div>}
+              renderFn={(topic) => <div key={topic._id}>{renderTopics(topic)}</div>}
             />
           )}
         </div>
@@ -104,7 +97,10 @@ const QuizSelectionPage = () => {
             <div className="bg-white w-full h-full rounded-lg p-6 sticky top-20 flex flex-col justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                  <Icon path={mdiClipboard} size={0.9} />
+                  <Icon
+                    path={mdiClipboard}
+                    size={0.9}
+                  />
                   {selectedTopic.name} Quiz
                 </h2>
 
@@ -117,20 +113,32 @@ const QuizSelectionPage = () => {
               </div>
 
               <div className="flex flex-col gap-2 mt-4">
-                <Button variant="secondary" onClick={() => setSelectedTopicIndex(null)}>
-                  <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
+                <Button
+                  variant="secondary"
+                  onClick={() => setSelectedTopic(null)}
+                >
+                  <Icon
+                    path={mdiArrowLeft}
+                    size={0.8}
+                    className="mr-2"
+                  />
                   Back to Topics
                 </Button>
-                <Button variant="primary" onClick={handleStartQuiz}>
-                  <Icon path={mdiPlayCircleOutline} size={0.9} className="mr-2" />
+                <Button
+                  variant="primary"
+                  onClick={handleStartQuiz}
+                >
+                  <Icon
+                    path={mdiPlayCircleOutline}
+                    size={0.9}
+                    className="mr-2"
+                  />
                   Start Quiz
                 </Button>
               </div>
             </div>
           ) : (
-            <div className="text-gray-400 text-sm italic mt-4 px-4 text-center w-full">
-              Select a topic to view details.
-            </div>
+            <div className="text-gray-400 text-sm italic mt-4 px-4 text-center w-full">Select a topic to view details.</div>
           )}
         </div>
       </div>
