@@ -36,7 +36,7 @@ const QuestionCard = ({
       </div>
       <div className="flex justify-center">
         <button
-          onClick={isLastQuestion ? onSubmitQuiz :onNextQuestion}
+          onClick={onNextQuestion}
           disabled={selectedAnswer === null}
           
           className={`px-6 py-2 rounded-lg transition-colors

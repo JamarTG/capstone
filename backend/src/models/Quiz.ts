@@ -1,11 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
-
-export interface IQuizQuestion {
-  questionId: Types.ObjectId;
-  selectedOption: string; 
-  isCorrect: boolean;
-  answeredAt?: Date;
-}
+import { IQuestion } from '../types/model';
 
 export interface IQuiz extends Document {
   topic: Types.ObjectId;
@@ -16,7 +10,7 @@ export interface IQuiz extends Document {
   endTime?: Date;
   completed: boolean;
   tags: string[];
-  questions: IQuizQuestion[];
+  questions: IQuestion[];
 }
 
 const QuizSchema = new Schema<IQuiz>(

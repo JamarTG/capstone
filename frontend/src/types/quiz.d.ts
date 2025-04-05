@@ -24,6 +24,12 @@ export interface QuizSessionResponse {
   session: Session;
 }
 
+export interface QuizAnswerPayload {
+  quiz: string;
+  selectedOption: string;
+  question:string
+}
+
 export interface Session {
   _id: string;
   topic: Topic;

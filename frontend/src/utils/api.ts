@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LoginFormFields, RegisterFormFields, CreateQuizPayload, UserUpdatePayload } from "../types/auth";
+import { QuizAnswerPayload } from "../types/quiz";
 
 export const BASE_URL = "http://localhost:5000/api";
 
@@ -32,7 +33,7 @@ export const AuthAPI = {
 export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
   updateUserInfo: (userInfoPayload: UserUpdatePayload) =>
-  handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
+    handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
   deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post("settings/delete-account", {})),
 };
 
@@ -41,7 +42,9 @@ export const QuizAPI = {
   getTopics: () => handleRequest(axiosInstanceWithCredentials.get("/topics")),
   getQuizzes: () => handleRequest(axiosInstanceWithCredentials.get("/quiz/all")),
   deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
-  getQuizById: (quizId: string) => handleRequest(axiosInstanceWithCredentials.get(`/quiz/${quizId}`))
+  getQuizById: (quizId: string) => handleRequest(axiosInstanceWithCredentials.get(`/quiz/${quizId}`)),
+  submitAnswer: (submitAnswerPayload: QuizAnswerPayload) =>
+    handleRequest(axiosInstanceWithCredentials.patch(`/quiz/${submitAnswerPayload.quiz}/answer`, submitAnswerPayload)),
   // createQuiz: (quizData: any) => handleRequest(axiosInstanceWithCredentials.post("/quiz", quizData)),
   // updateQuiz: (quizId: string, quizData: any) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}`, quizData)),
   // deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
