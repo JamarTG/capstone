@@ -94,7 +94,7 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
   try {
     const user = req.user._id;
 
-    const sessions = await QuizSession.find()
+    const sessions = await QuizSession.find({user})
       .sort({ startTime: -1 })
       .populate("topic");
     

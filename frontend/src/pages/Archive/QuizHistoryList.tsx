@@ -3,6 +3,7 @@ import { QuizAPI } from "../../utils/api";
 import { Quiz } from "../../types/quiz";
 import QuizCard from "../Quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
+import EmptyQuizHistory from "./EmptyQuizHistory";
 
 const QuizHistoryList = () => {
   const { data: quizzes, isLoading, error } = useQuery({
@@ -13,8 +14,8 @@ const QuizHistoryList = () => {
   if (isLoading) return <div>Loading quizzes...</div>;
   if (error) return <div>Failed to load quiz history.</div>;
 
-  if (!quizzes || quizzes.length === 0) {
-    return <div className="text-gray-500 italic">No quiz history found.</div>;
+  if (!quizzes || quizzes.length === 0 || !quizzes.sessions || quizzes.sessions.length === 0) {
+    return <EmptyQuizHistory />;
   }
 
   return (
