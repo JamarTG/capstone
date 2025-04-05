@@ -1,7 +1,11 @@
 import Card from "../../components/ui/Card";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline, mdiPlayCircleOutline, mdiEyeOutline } from "@mdi/js";
-
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { QuizAPI } from "../../utils/api";
+import { AxiosError } from "axios";
+import { extractErrorMessage } from "../../utils/error";
 
 export interface Topic {
   _id: string;
@@ -17,18 +21,20 @@ interface QuizCardProps {
   tags: string[];
   completed: boolean;
   className?: string;
-  onDelete?: () => void;
+  quizId: string;
+  quizRefetch: () => void;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({
-  topic,
-  completed,
-  score,
-  lastAttempt,
-  tags,
-  className = "",
-  onDelete,
-}) => {
+const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, score, lastAttempt, tags, className = "", quizId }) => {
+  const onError = (error: AxiosError) => {
+    toast.error(extractErrorMessage(error) || "Failed to delete quiz");
+  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: QuizAPI.deleteQuiz,
+    onSuccess: quizRefetch,
+    onError,
+  });
+
   const getScoreColor = (score: number) => {
     if (score >= 80) return "bg-emerald-500 text-emerald-800";
     if (score >= 50) return "bg-amber-500 text-amber-800";
@@ -41,9 +47,16 @@ const QuizCard: React.FC<QuizCardProps> = ({
     day: "numeric",
   });
 
+  const handleQuizDelete = () => {
+    if (window.confirm("Are you sure you want to delete this quiz?")) {
+      mutate(quizId);
+    }
+  };
+
   return (
     <Card
       className={`border border-gray-200 rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] bg-white overflow-hidden p-0 transition-all duration-300 group ${className}`}
+      key={quizId}
     >
       <section
         className="relative h-40 sm:h-44"
@@ -57,17 +70,18 @@ const QuizCard: React.FC<QuizCardProps> = ({
           <span className="text-xl font-bold text-white">{score}%</span>
         </div>
 
-        {onDelete && (
-          <button
-            onClick={onDelete}
-            className="absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full transition"
-            title="Delete quiz"
-          >
-            <Icon path={mdiTrashCanOutline} className="w-5 h-5" />
-          </button>
-        )}
+        <button
+          onClick={handleQuizDelete}
+          disabled={isPending}
+          className="cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full"
+          title="Delete quiz"
+        >
+          <Icon
+            path={mdiTrashCanOutline}
+            className="w-6 h-6"
+          />
+        </button>
 
-   
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
           <div className="flex justify-between items-start">
             <h3 className="font-bold text-white text-md drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
@@ -94,11 +108,13 @@ const QuizCard: React.FC<QuizCardProps> = ({
           ))}
         </div>
 
-    
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-4 text-gray-500">
           <small className="text-sm whitespace-nowrap">{formattedDate}</small>
-          <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-sm sm:text-md font-medium  cursor-pointer">
-            <Icon path={completed ? mdiEyeOutline : mdiPlayCircleOutline } className="w-5 h-5" />
+          <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-sm sm:text-md font-medium cursor-pointer">
+            <Icon
+              path={completed ? mdiEyeOutline : mdiPlayCircleOutline}
+              className="w-5 h-5"
+            />
             {completed ? "Review" : "Continue"}
           </button>
         </div>
@@ -108,4 +124,3 @@ const QuizCard: React.FC<QuizCardProps> = ({
 };
 
 export default QuizCard;
-

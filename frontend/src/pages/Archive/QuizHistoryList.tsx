@@ -6,7 +6,12 @@ import RenderList from "../../components/common/RenderList";
 import EmptyQuizHistory from "./EmptyQuizHistory";
 
 const QuizHistoryList = () => {
-  const { data: quizzes, isLoading, error } = useQuery({
+  const {
+    data: quizzes,
+    isLoading,
+    error,
+    refetch: quizRefetch,
+  } = useQuery({
     queryKey: ["get-quizzes"],
     queryFn: QuizAPI.getQuizzes,
   });
@@ -24,6 +29,8 @@ const QuizHistoryList = () => {
         data={quizzes.sessions}
         renderFn={(quiz: Quiz) => (
           <QuizCard
+            quizRefetch={quizRefetch}
+            quizId={quiz._id}
             topic={quiz.topic}
             score={quiz.score}
             completed={quiz.completed}
@@ -31,7 +38,7 @@ const QuizHistoryList = () => {
             tags={quiz.tags || []}
           />
         )}
-      /> 
+      />
     </div>
   );
 };

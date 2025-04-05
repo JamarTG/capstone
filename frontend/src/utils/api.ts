@@ -32,14 +32,15 @@ export const AuthAPI = {
 export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
   updateUserInfo: (userInfoPayload: UserUpdatePayload) =>
-    handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
+  handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
   deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post("settings/delete-account", {})),
 };
 
 export const QuizAPI = {
   createQuiz: (createQuizPayload: CreateQuizPayload) => handleRequest(axiosInstanceWithCredentials.post("/quiz/create", createQuizPayload)),
-  getTopics : () => handleRequest(axiosInstanceWithCredentials.get("/topics")),
-  getQuizzes: () => handleRequest(axiosInstanceWithCredentials.get("/quiz/all"))
+  getTopics: () => handleRequest(axiosInstanceWithCredentials.get("/topics")),
+  getQuizzes: () => handleRequest(axiosInstanceWithCredentials.get("/quiz/all")),
+  deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
   // createQuiz: (quizData: any) => handleRequest(axiosInstanceWithCredentials.post("/quiz", quizData)),
   // updateQuiz: (quizId: string, quizData: any) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}`, quizData)),
   // deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),

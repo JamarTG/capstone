@@ -7,6 +7,7 @@
 // }
 
 export interface Quiz {
+  _id:string;
   topic: Topic;
   user: string;
   currentQuestionIndex: number;
