@@ -19,3 +19,11 @@ export interface IQuiz extends Document {
   completed: boolean;
 }
 
+export interface ITopic extends Document {
+  name: string;
+  description: string;
+  backgroundImage: string;
+  objectives: string[];
+}
+
+

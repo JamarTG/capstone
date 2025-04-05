@@ -9,6 +9,7 @@ import connectDB from "./db";
 import authRoutes from "./routes/auth";
 import settingsRoutes from "./routes/settings";
 import quizRoutes from "./routes/quiz";
+import topicsRoutes from "./routes/topics";
 import cookieParser from "cookie-parser";
 
 config();
@@ -33,6 +34,7 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/quiz", quizRoutes);
+app.use("/api/topics", topicsRoutes)
 
 http.createServer(app).listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);
