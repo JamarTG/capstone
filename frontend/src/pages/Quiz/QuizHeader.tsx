@@ -49,7 +49,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, timeLeft }: QuizHeaderProps)
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  30 Minutes
+                  1 Minute
                 </span>
                 {timeLeft && (
                   <span className="flex items-center gap-1 text-red-600">

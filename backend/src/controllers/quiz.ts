@@ -130,6 +130,8 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
 
     const isCorrect = selectedOption === fetchedQuestion.correctAnswer;
 
+   
+
     const existingAnswer = await UserAnswer.findOneAndUpdate(
       { user, quiz, question },
       { selectedOption, isCorrect, answeredAt: new Date() },
@@ -137,6 +139,9 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     );
 
     fetchedQuiz.currentQuestionIndex += 1;
+    if (isCorrect) {
+      fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
+    }
 
     if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
       fetchedQuiz.completed = true;
@@ -165,9 +170,10 @@ export const completeQuiz = async (req: Request, res: Response) => {
       {
         completed: true,
         completedAt: new Date(),
+        $set: { currentQuestionIndex: { $size: "$questions" } },
       },
       { new: true }
-    );
+    );    
 
     if (!updatedQuiz) {
       res.status(404).json({ message: "Quiz not found" });

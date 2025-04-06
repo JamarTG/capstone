@@ -23,12 +23,15 @@ const QuizHistoryList = () => {
     return <EmptyQuizHistory />;
   }
 
+  console.log(quizzes)
+
   return (
     <div className="grid grid-flow-row gap-4 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <RenderList
         data={quizzes.sessions}
         renderFn={(quiz: Quiz) => (
           <QuizCard
+            currentQuestionIndex={quiz.currentQuestionIndex}
             quizRefetch={quizRefetch}
             quizId={quiz._id}
             topic={quiz.topic}

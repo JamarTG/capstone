@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { QuizAPI } from "../../utils/api";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
-
+import Button from "../../components/ui/Button";
 
 export interface Question {
   _id: string;
@@ -28,10 +28,9 @@ export interface Topic {
   _id: string;
   name: string;
   description: string;
-  backgroundImage: string; 
-  objectives: Objective[]
+  backgroundImage: string;
+  objectives: Objective[];
 }
-
 
 interface QuizCardProps {
   score: number;
@@ -39,12 +38,23 @@ interface QuizCardProps {
   topic: Topic;
   tags: string[];
   completed: boolean;
+  currentQuestionIndex: number;
   className?: string;
   quizId: string;
   quizRefetch: () => void;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, score, lastAttempt, tags, className = "", quizId }) => {
+const QuizCard: React.FC<QuizCardProps> = ({
+  quizRefetch,
+  topic,
+  completed,
+  score,
+  lastAttempt,
+  tags,
+  className = "",
+  quizId,
+  currentQuestionIndex,
+}) => {
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error) || "Failed to delete quiz");
   };
@@ -85,9 +95,13 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, scor
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm bg-black/20 backdrop-blur-sm z-10">
-          <span className="text-xl font-bold text-white">{score}%</span>
-        </div>
+        {!isNaN(score) && completed && (
+          <div
+            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${(score / currentQuestionIndex) * 100 >= 50 ? "bg-green-500/50" : "bg-red-600/50"}  z-10`}
+          >
+            <span className="text-xl font-bold text-white">{(score / currentQuestionIndex) * 100}%</span>
+          </div>
+        )}
 
         <button
           onClick={handleQuizDelete}
@@ -102,10 +116,6 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, scor
         </button>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-          <div className="flex justify-between items-start">
-            <h3 className="font-bold text-white text-md drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
-          </div>
-
           <div className="w-full bg-gray-200/30 rounded-full h-2 mt-2">
             <div
               className={`h-2 rounded-full ${getScoreColor(score).replace("text", "bg")}`}
@@ -116,6 +126,9 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, scor
       </section>
 
       <section className="flex-1 p-4 flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <h3 className="font-bold text-slate-600 text-sm drop-shadow-md">{topic?.name ?? "Untitled Topic"}</h3>
+        </div>
         <div className="flex flex-wrap gap-2 justify-center">
           {tags.map((tag, index) => (
             <span
@@ -127,15 +140,12 @@ const QuizCard: React.FC<QuizCardProps> = ({ quizRefetch, topic, completed, scor
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 mt-4 text-gray-500">
-          <small className="text-sm whitespace-nowrap">{formattedDate}</small>
-          <button className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg transition-colors duration-200 text-sm sm:text-md font-medium cursor-pointer">
-            <Icon
-              path={completed ? mdiEyeOutline : mdiPlayCircleOutline}
-              className="w-5 h-5"
-            />
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 text-gray-500">
+          <small className="text-sm">{formattedDate}</small>
+          <Button size="sm" className="bg-slate-300 gap-1">
+            <Icon size={1} path={completed ? mdiEyeOutline : mdiPlayCircleOutline} className="w-5 h-5" />
             {completed ? "Review" : "Continue"}
-          </button>
+          </Button>
         </div>
       </section>
     </Card>
