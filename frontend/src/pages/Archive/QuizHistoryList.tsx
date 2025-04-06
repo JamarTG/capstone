@@ -39,7 +39,7 @@ const QuizHistoryList = () => {
         <button
           onClick={() => setFilter("all")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer  ${
-            filter === "all" ? "bg-slate-600 text-white" : "bg-gray-200"
+            filter === "all" ? "bg-slate-600 text-white" : "bg-gray-200 text-slate-600"
           }`}
         >
           All
@@ -47,7 +47,7 @@ const QuizHistoryList = () => {
         <button
           onClick={() => setFilter("completed")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "completed" ? "bg-green-600 text-white" : "bg-gray-200"
+            filter === "completed" ? "bg-green-600 text-white" : "bg-gray-200 text-slate-600"
           }`}
         >
           Completed
@@ -55,14 +55,14 @@ const QuizHistoryList = () => {
         <button
           onClick={() => setFilter("incomplete")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "incomplete" ? "bg-yellow-500 text-white" : "bg-gray-200"
+            filter === "incomplete" ? "bg-yellow-500 text-white" : "bg-gray-200 text-slate-600"
           }`}
         >
           In Progress
         </button>
       </div>
 
-      <div className="grid grid-flow-row gap-4 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-flow-row gap-4 text-slate-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <RenderList
           data={filtered}
           renderFn={(quiz: Quiz) => (

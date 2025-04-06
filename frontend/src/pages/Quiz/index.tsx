@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageContent from "../../components/layout/Page";
-
-import Card from "../../components/ui/Card";
-import Button from "../../components/ui/Button";
-import useAuthRedirect from "../../hook/useAuthRedirect";
-import RenderList from "../../components/common/RenderList";
-import ObjectivesList from "./ObjectivesList";
-import Icon from "@mdi/react";
-import { mdiBullseye,mdiCursorDefaultClick, mdiPlayCircleOutline} from "@mdi/js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { QuizAPI } from "../../utils/api";
-import { SuccessfulQuizResponse } from "../../types/auth";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+
+import PageContent from "../../components/layout/Page";
+import useAuthRedirect from "../../hook/useAuthRedirect";
+import SectionHeader from "../../components/SectionHeader";
+
+import { QuizAPI } from "../../utils/api";
+import { SuccessfulQuizResponse } from "../../types/auth";
 import { extractErrorMessage } from "../../utils/error";
 import { Topic } from "./QuizCard";
-import SectionHeader from "../../components/SectionHeader";
+import QuizSidebar from "./QuizSidebar";
+import TopicGrid from "./TopicGrid";
 
 const QuizSelectionPage = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -27,9 +24,7 @@ const QuizSelectionPage = () => {
   const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
     toast.success(message);
     setSelectedTopic(null);
-    navigate(`/quiz/${session._id}`, {
-      state: { session },
-    });
+    navigate(`/quiz/${session._id}`, { state: { session } });
   };
 
   const onError = (error: AxiosError) => {
@@ -51,103 +46,28 @@ const QuizSelectionPage = () => {
 
   const topicList: Topic[] = data?.topics || [];
 
-  const handleStartQuiz = () => {
-    if (!selectedTopic) return;
-    createQuizMutate({ topic: selectedTopic._id });
-  };
-
-  const renderTopics = (topic: Topic) => (
-    <Card
-      key={topic._id}
-      onClick={() => setSelectedTopic(topic)}
-      animateOnHover={false}
-      className={`w-70 h-20 border border-gray-200 rounded-lg relative flex flex-col min-h-[10rem] sm:min-h-[10rem] bg-white overflow-hidden p-0 transition-all duration-300 group`}
-      style={{
-        backgroundImage: `url('${topic.backgroundImage}')`,
-        backgroundSize: "cover",
-        height: "180px",
-      }}
-    >
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
-        <h2 className="text-sm font-bold text-white">{topic.name}</h2>
-        <div className="w-full h-px bg-white/20 my-2"></div>
-        <div className="flex justify-between items-center text-sm text-white/80">
-          <span>{10} questions</span>
-          <span>30 min</span>
-        </div>
-      </div>
-    </Card>
-  );
-
   return (
     <PageContent title="Quiz">
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full">
-          {isLoading ? (
-            <div className="text-gray-500 italic">Loading topics...</div>
-          ) : isError ? (
-            <div className="text-red-500">Failed to load topics.</div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <SectionHeader
-                iconPath={mdiCursorDefaultClick}
-                title={"Select a Topic"}
-              />
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                <RenderList
-                  data={topicList}
-                  renderFn={(topic) => (
-                    <div
-                      key={topic._id}
-                      className="h-full"
-                    >
-                      {renderTopics(topic)}
-                    </div>
-                  )}
-                />
-              </div>
-            </div>
-          )}
+          <SectionHeader
+            iconPath="mdiCursorDefaultClick"
+            title="Select a Topic"
+          />
+          <TopicGrid
+            isLoading={isLoading}
+            isError={isError}
+            topics={topicList}
+            onSelectTopic={setSelectedTopic}
+          />
         </div>
-
-        <div className="flex rounded-lg justify-center items-center border border-gray-200 w-full lg:w-2/5 min-h-[400px]">
-          {selectedTopic ? (
-            <div className="bg-white w-full h-full rounded-lg p-6 sticky top-20 flex flex-col justify-between">
-              <div className="h-full">
-                <h2 className=" text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                  <Icon
-                    path={mdiBullseye}
-                    size={0.9}
-                  />
-                  {selectedTopic.name} Quiz
-                </h2>
-
-                <div className="border-b border-gray-200 mb-4"></div>
-
-                <h4 className="text-sm text-gray-600 font-medium mb-2">Objectives</h4>
-                <div className="flex items-center list-disc list-inside text-sm  text-gray-700 space-y-1 mb-4">
-                  <ObjectivesList selectedTopic={selectedTopic} />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 mt-4">
-                <Button
-                  variant="primary"
-                  onClick={handleStartQuiz}
-                >
-                  <Icon
-                    path={mdiPlayCircleOutline}
-                    size={0.9}
-                    className="mr-2"
-                  />
-                  Start Quiz
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="text-gray-400 text-sm italic mt-4 px-4 text-center w-full">Select a topic to view details.</div>
-          )}
-        </div>
+        <QuizSidebar
+          selectedTopic={selectedTopic}
+          onStart={() => {
+            if (selectedTopic) createQuizMutate({ topic: selectedTopic._id });
+          }}
+          topicsLoading={isLoading}
+        />
       </div>
     </PageContent>
   );
