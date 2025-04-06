@@ -6,6 +6,7 @@ import { MainNavItem } from "../../../types/routes";
 import { MAIN_NAV_ITEMS } from "../../../constants/routes";
 import { AuthContext } from "../../../context/AuthContext";
 import IconRenderer from "../../NavIconRenderer";
+import logo from "/logo.png";
 
 
 interface HomeLayoutProps {
@@ -60,9 +61,12 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           isExpanded ? "w-64" : "w-20"
         }`}
       >
-        <div className="flex items-center justify-center p-2">
-            {/* {isExpanded ? <div className="text-xl">Quiz App</div> : <div className="text-2xl">Q</div>} */}
+        <div className="flex bg-white items-center justify-center p-2">
+            <img src={logo} className="opa" width={60} alt="" />
+            
           </div>
+
+          <div className="border-b border-b-gray-200"></div>
         <div className="flex flex-col h-full justify-between py-5">
           
 
