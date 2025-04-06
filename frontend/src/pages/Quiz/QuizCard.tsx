@@ -28,9 +28,10 @@ export interface Topic {
   _id: string;
   name: string;
   description: string;
-  backgroundImage: string;
-  objectives: Objective[]; 
+  backgroundImage: string; 
+  objectives: Objective[]
 }
+
 
 interface QuizCardProps {
   score: number;

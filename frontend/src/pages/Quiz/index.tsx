@@ -8,7 +8,7 @@ import useAuthRedirect from "../../hook/useAuthRedirect";
 import RenderList from "../../components/common/RenderList";
 import ObjectivesList from "./ObjectivesList";
 import Icon from "@mdi/react";
-import { mdiClipboard, mdiCursorDefaultClick, mdiPlayCircleOutline } from "@mdi/js";
+import { mdiBullseye,mdiCursorDefaultClick, mdiPlayCircleOutline} from "@mdi/js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { SuccessfulQuizResponse } from "../../types/auth";
@@ -113,10 +113,10 @@ const QuizSelectionPage = () => {
         <div className="flex rounded-lg justify-center items-center border border-gray-200 w-full lg:w-2/5 min-h-[400px]">
           {selectedTopic ? (
             <div className="bg-white w-full h-full rounded-lg p-6 sticky top-20 flex flex-col justify-between">
-              <div>
-                <h2 className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+              <div className="h-full">
+                <h2 className=" text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
                   <Icon
-                    path={mdiClipboard}
+                    path={mdiBullseye}
                     size={0.9}
                   />
                   {selectedTopic.name} Quiz
@@ -125,9 +125,9 @@ const QuizSelectionPage = () => {
                 <div className="border-b border-gray-200 mb-4"></div>
 
                 <h4 className="text-sm text-gray-600 font-medium mb-2">Objectives</h4>
-                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 mb-4">
+                <div className="flex items-center list-disc list-inside text-sm  text-gray-700 space-y-1 mb-4">
                   <ObjectivesList selectedTopic={selectedTopic} />
-                </ul>
+                </div>
               </div>
 
               <div className="flex flex-col gap-2 mt-4">

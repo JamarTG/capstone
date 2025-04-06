@@ -6,6 +6,8 @@
 //     numOfQuestions: number;
 // }
 
+import { Objective } from "../pages/Quiz/QuizCard";
+
 export interface Quiz {
   _id:string;
   topic: Topic;
@@ -51,6 +53,7 @@ export interface Topic {
   name: string;
   description: string;
   backgroundImage: string;
+  objectives:Objective[];
   createdAt: string;
   updatedAt: string;
   __v: number;

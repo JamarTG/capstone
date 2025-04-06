@@ -23,7 +23,7 @@ const ObjectivesList: React.FC<ObjectivesListProps> = ({ selectedTopic }) => {
           ))}
         </ul>
       ) : (
-        <div className="flex items-center text-gray-500 text-sm">
+        <div className="flex text-gray-500 text-sm">
           <Icon path={mdiAlertCircleOutline} size={0.9} className="mr-2" />
           No objectives available for this topic.
         </div>
