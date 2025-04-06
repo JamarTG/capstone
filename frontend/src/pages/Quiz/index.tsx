@@ -8,7 +8,7 @@ import useAuthRedirect from "../../hook/useAuthRedirect";
 import RenderList from "../../components/common/RenderList";
 import ObjectivesList from "./ObjectivesList";
 import Icon from "@mdi/react";
-import { mdiClipboard, mdiPlayCircleOutline } from "@mdi/js";
+import { mdiClipboard, mdiCursorDefaultClick, mdiPlayCircleOutline } from "@mdi/js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { SuccessfulQuizResponse } from "../../types/auth";
@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import { Topic } from "./QuizCard";
+import SectionHeader from "../../components/SectionHeader";
 
 const QuizSelectionPage = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -27,7 +28,7 @@ const QuizSelectionPage = () => {
     toast.success(message);
     setSelectedTopic(null);
     navigate(`/quiz/${session._id}`, {
-      state: { session }, 
+      state: { session },
     });
   };
 
@@ -80,18 +81,32 @@ const QuizSelectionPage = () => {
 
   return (
     <PageContent title="Quiz">
-
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="w-full">
           {isLoading ? (
             <div className="text-gray-500 italic">Loading topics...</div>
           ) : isError ? (
             <div className="text-red-500">Failed to load topics.</div>
           ) : (
-            <RenderList
-              data={topicList}
-              renderFn={(topic) => <div key={topic._id}>{topic._id}{renderTopics(topic)}</div>}
-            />
+            <div className="flex flex-col gap-2">
+              <SectionHeader
+                iconPath={mdiCursorDefaultClick}
+                title={"Select a Topic"}
+              />
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-4">
+                <RenderList
+                  data={topicList}
+                  renderFn={(topic) => (
+                    <div
+                      key={topic._id}
+                      className="h-full"
+                    >
+                      {renderTopics(topic)}
+                    </div>
+                  )}
+                />
+              </div>
+            </div>
           )}
         </div>
 
@@ -111,14 +126,11 @@ const QuizSelectionPage = () => {
 
                 <h4 className="text-sm text-gray-600 font-medium mb-2">Objectives</h4>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 mb-4">
-                 
-             
                   <ObjectivesList selectedTopic={selectedTopic} />
                 </ul>
               </div>
 
               <div className="flex flex-col gap-2 mt-4">
-               
                 <Button
                   variant="primary"
                   onClick={handleStartQuiz}
