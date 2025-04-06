@@ -12,7 +12,7 @@ const QuizDashboard = () => {
 
   return (
     <PageLayout title="Dashboard">
-      <div className="flex flex-col px-4 py-6 space-y-5">
+      <div className="flex flex-col space-y-5">
         <div className="flex items-center">
           <Icon path={mdiChartLine} size={1} className="text-slate-600 mr-2" />
           <h2 className="text-xl font-medium text-slate-600">Your Progress</h2>

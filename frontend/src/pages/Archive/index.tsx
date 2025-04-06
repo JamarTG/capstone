@@ -9,16 +9,13 @@ const QuizHistory = () => {
 
   return (
     <PageLayout title="History">
-      <div className="flex flex-col justify-center">
-        <div className="mb-10">
-          <SectionHeader
-            iconPath={mdiHistory}
-            title={"History List"}
-          />
-        </div>
-        <div className="h-full h-4/5 p-10">
-          <QuizHistoryList />
-        </div>
+      <div className="flex flex-col justify-center gap-3">
+        <SectionHeader
+          iconPath={mdiHistory}
+          title={"History List"}
+        />
+
+        <QuizHistoryList />
       </div>
     </PageLayout>
   );

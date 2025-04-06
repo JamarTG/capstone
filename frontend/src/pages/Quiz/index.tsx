@@ -93,7 +93,7 @@ const QuizSelectionPage = () => {
                 iconPath={mdiCursorDefaultClick}
                 title={"Select a Topic"}
               />
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-4">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 <RenderList
                   data={topicList}
                   renderFn={(topic) => (
