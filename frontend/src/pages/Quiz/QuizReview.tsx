@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { QuizAPI } from "../../utils/api";
 import { Question } from "../../types/quiz";
 import PageLayout from "../../components/layout/Page";
-import reviewBg from "../../assets/images/quiz/code.webp";
 
 const QuestionSidebar = ({
   questions,
