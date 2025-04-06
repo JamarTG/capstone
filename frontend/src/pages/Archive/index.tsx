@@ -14,7 +14,6 @@ const QuizHistory = () => {
           iconPath={mdiHistory}
           title={"History List"}
         />
-
         <QuizHistoryList />
       </div>
     </PageLayout>

@@ -97,7 +97,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
       >
         {!isNaN(score) && completed && (
           <div
-            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${(score / currentQuestionIndex) * 100 >= 50 ? "bg-green-500/50" : "bg-red-600/50"}  z-10`}
+            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${getScoreColor((score / currentQuestionIndex) * 100)}  z-10`}
           >
             <span className="text-xl font-bold text-white">{(score / currentQuestionIndex) * 100}%</span>
           </div>
@@ -118,8 +118,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
           <div className="w-full bg-gray-200/30 rounded-full h-2 mt-2">
             <div
-              className={`h-2 rounded-full ${getScoreColor(score).replace("text", "bg")}`}
-              style={{ width: `${score}%` }}
+              className={`h-2 rounded-full ${getScoreColor((score / currentQuestionIndex) * 100).replace("text", "bg")}`}
+              style={{ width: `${(currentQuestionIndex/1) * 100}%` }}
             ></div>
           </div>
         </div>
