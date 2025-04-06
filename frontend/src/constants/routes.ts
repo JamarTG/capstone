@@ -7,7 +7,8 @@ export const ROUTE_PATHS = {
   QUIZ: "/quiz",
   ARCHIVE: "/archive",
   SETTINGS: "/settings",
-  QUIZ_TAKING: "/quiz/:id",
+  ASSESSMENT: "/quiz/:id",
+  QUIZ_REVIEW: "/review/:id",
   NOT_FOUND: "*",
 } as const;
 

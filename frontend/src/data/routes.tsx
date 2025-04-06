@@ -10,6 +10,7 @@ import SidebarLayout from "../components/layout/Sidebar";
 import { ROUTE_PATHS } from "../constants/routes";
 
 import Assessment from "../pages/Quiz/QuizSession";
+import QuizReview from "../pages/Quiz/QuizReview";
 
 interface RouteConfig {
   path: string;
@@ -42,7 +43,7 @@ const routes: Record<string, RouteConfig> = {
     layout: SidebarLayout,
   },
   ASSESSMENT: {
-    path: ROUTE_PATHS.QUIZ_TAKING,
+    path: ROUTE_PATHS.ASSESSMENT,
     element: <Assessment />,
     layout: SidebarLayout,
   },
@@ -54,6 +55,11 @@ const routes: Record<string, RouteConfig> = {
   NOT_FOUND: {
     path: ROUTE_PATHS.NOT_FOUND,
     element: <NotFound />,
+  },
+  REVIEW: {
+    path: ROUTE_PATHS.QUIZ_REVIEW,
+    element: <QuizReview />,
+    layout: SidebarLayout,
   },
 };
 
