@@ -117,13 +117,18 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       return;
     }
 
+    if (fetchedQuiz.completed) {
+      res.status(409).json({ message: "Quiz Already Taken" });
+      return;
+    }
+
     const fetchedQuestion = await Question.findById({ _id: question });
     if (!fetchedQuestion) {
       res.status(404).json({ message: "Question not found." });
       return;
     }
 
-    const isCorrect = selectedOption === question.correctAnswer;
+    const isCorrect = selectedOption === fetchedQuestion.correctAnswer;
 
     const existingAnswer = await UserAnswer.findOneAndUpdate(
       { user, quiz, question },
@@ -132,6 +137,11 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     );
 
     fetchedQuiz.currentQuestionIndex += 1;
+
+    if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
+      fetchedQuiz.completed = true;
+    }
+
     await fetchedQuiz.save();
 
     res.status(200).json({
@@ -143,5 +153,33 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     console.error(error);
     res.status(500).json({ message: `Server error ${error}` });
     return;
+  }
+};
+
+export const completeQuiz = async (req: Request, res: Response) => {
+  try {
+    const quiz = req.params.sessionId;
+
+    const updatedQuiz = await Quiz.findByIdAndUpdate(
+      quiz,
+      {
+        completed: true,
+        completedAt: new Date(),
+      },
+      { new: true }
+    );
+
+    if (!updatedQuiz) {
+      res.status(404).json({ message: "Quiz not found" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Quiz marked as completed",
+      quiz: updatedQuiz,
+    });
+  } catch (error) {
+    console.error("Error completing quiz:", error);
+    res.status(500).json({ message: "Failed to complete quiz" });
   }
 };

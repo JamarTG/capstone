@@ -6,7 +6,6 @@ const QuestionCard = ({
   selectedAnswer,
   onAnswerSelect,
   onNextQuestion,
-  onSubmitQuiz,
   isLastQuestion,
 }: {
   question: string;
@@ -14,7 +13,6 @@ const QuestionCard = ({
   selectedAnswer: number | null;
   onAnswerSelect: (index: number) => void;
   onNextQuestion: () => void;
-  onSubmitQuiz: () => void;
   isLastQuestion: boolean;
 
 }) => {

@@ -36,19 +36,26 @@ const QuizSession = () => {
     refetchOnMount: true,
   });
 
-  const onSuccess = ({message}: SuccessfulQuizResponse) => {
+  const onSuccess = ({ message }: SuccessfulQuizResponse) => {
     toast.success(message);
-  }
+  };
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error));
-  }
+  };
 
   const { mutate: submitAnswerMutation } = useMutation({
     mutationFn: QuizAPI.submitAnswer,
-    mutationKey: ["register"],
+    mutationKey: ["submit-answer"],
     onSuccess,
-    onError
+    onError,
   });
+
+  const {mutate: autoSubmitMutation} = useMutation({
+    mutationKey: ["auto-submit"],
+    mutationFn: QuizAPI.autoSubmit,
+    onError,
+    onSuccess
+  })
 
   useEffect(() => {
     if (!session?.session?.createdAt) {
@@ -60,7 +67,15 @@ const QuizSession = () => {
     if (session?.session?.createdAt) {
       const startTime = new Date(session.session.createdAt).getTime();
       const intervalId = setInterval(() => {
-        setElapsedTime(Date.now() - startTime);
+        const newElapsedTime = Date.now() - startTime;
+        setElapsedTime(newElapsedTime);
+
+        
+        if (newElapsedTime >= 1 * 60 * 1000) {
+          setQuizCompleted(true); 
+          autoSubmitMutation(session.session._id);
+          clearInterval(intervalId);
+        }
       }, 1000);
 
       return () => clearInterval(intervalId);
@@ -94,14 +109,12 @@ const QuizSession = () => {
   };
 
   const handleNextQuestion = () => {
-    if(session.session.currentQuestionIndex + 1 >= session.session.questions.length) {
-      alert("Done")
-    }
     if (selectedAnswer === null) {
       submitAnswerMutation({
         quiz: session.session._id,
         question: currentQuestion.id,
         selectedOption: "", 
+        score,
       });
     } else {
       const selectedKey = Object.keys(currentQuestion.options)[selectedAnswer];
@@ -110,7 +123,8 @@ const QuizSession = () => {
       submitAnswerMutation({
         quiz: session.session._id,
         question: currentQuestion.id,
-        selectedOption: selectedKey, // Selected answer
+        selectedOption: selectedKey, 
+        score: isCorrect ? score + 1 : score,
       });
 
       if (isCorrect) {
@@ -126,18 +140,19 @@ const QuizSession = () => {
     }
   };
 
-  const handleSubmitQuiz = () => {
-    alert("submitted quiz");
-  };
+  // const handleSubmitQuiz = () => {
+  //   setQuizCompleted(true);
+  // };
 
   const handleRestartQuiz = () => {
     setCurrentIndex(0);
     setScore(0);
     setSelectedAnswer(null);
     setQuizCompleted(false);
+    setElapsedTime(0);
   };
 
-  const remainingTime = Math.max(30 * 60 * 1000 - elapsedTime, 0);
+  const remainingTime = Math.max(1 * 60 * 1000 - elapsedTime, 0);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60 / 1000);
@@ -145,7 +160,7 @@ const QuizSession = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  if (quizCompleted) {
+  if (quizCompleted || remainingTime <= 0) {
     return (
       <QuizCompletion
         score={score}
@@ -155,17 +170,21 @@ const QuizSession = () => {
     );
   }
 
-  if(session.session.currentQuestionIndex >= session.session.questions.length) {
-    return <>Done</>
+
+  if (session.session.currentQuestionIndex >= session.session.questions.length) {
+    return (
+      <QuizCompletion
+        score={score}
+        totalQuestions={questions.length}
+        onRestart={handleRestartQuiz}
+      />
+    );
   }
 
   return (
     <PageLayout title="Quiz">
-      {/* {JSON.stringify(questions)} */}
-    {session.session.questions.length}
-      {session.session.currentQuestionIndex}
       <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
-        <div className="w-full max-w-4xl flex flex-col  gap-6">
+        <div className="w-full max-w-4xl flex flex-col gap-6">
           <QuizHeader
             currentIndex={currentIndex}
             totalQuestions={questions.length}
@@ -177,7 +196,7 @@ const QuizSession = () => {
             answers={Object.values(currentQuestion.options)}
             selectedAnswer={selectedAnswer}
             onAnswerSelect={handleAnswerSelect}
-            onSubmitQuiz={handleSubmitQuiz}
+            // onSubmitQuiz={handleSubmitQuiz}
             onNextQuestion={handleNextQuestion}
             isLastQuestion={isLastQuestion}
           />

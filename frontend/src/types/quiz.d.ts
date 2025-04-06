@@ -27,7 +27,8 @@ export interface QuizSessionResponse {
 export interface QuizAnswerPayload {
   quiz: string;
   selectedOption: string;
-  question:string
+  question:string,
+  score: number;
 }
 
 export interface Session {

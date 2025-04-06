@@ -3,6 +3,7 @@ import {
   createQuizSession,
   getQuizSession,
   // answerQuizQuestion,
+  completeQuiz,
   deleteQuizSession,
   getUserQuizSessions,
   submitQuizAnswer
@@ -16,5 +17,6 @@ router.post("/create", verifyToken, createQuizSession);
 router.get("/:sessionId", getQuizSession);
 router.patch("/:sessionId/answer",verifyToken, submitQuizAnswer);
 router.delete("/:sessionId", deleteQuizSession);
+router.put("/:sessionId/auto-submit", verifyToken, completeQuiz);
 
 export default router;
