@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import { SuccessfulQuizResponse } from "../../types/auth";
+import LoadingQuizSession from "./LoadingQuizSession";
+import QuizLoadError from "./QuizLoadError";
 
 const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -82,9 +84,10 @@ const QuizSession = () => {
     }
   }, [session?.session?.createdAt]);
 
-  if (isLoading && !sessionFromState) return <div>Loading quiz...</div>;
-  if (error) return <div>Failed to load quiz.</div>;
-  if (!session?.session) return <div>No session</div>;
+  if (isLoading || !session?.session) return <LoadingQuizSession />;
+
+  if (error ) return <QuizLoadError />;
+  
 
   const questions = session.session.questions.map((q) => {
     const qData = q.questionId;
