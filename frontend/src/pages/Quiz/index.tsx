@@ -14,6 +14,7 @@ import { extractErrorMessage } from "../../utils/error";
 import { Topic } from "./QuizCard";
 import QuizSidebar from "./QuizSidebar";
 import TopicGrid from "./TopicGrid";
+import { mdiCursorDefaultClick } from "@mdi/js";
 
 const QuizSelectionPage = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -51,7 +52,7 @@ const QuizSelectionPage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full">
           <SectionHeader
-            iconPath="mdiCursorDefaultClick"
+            iconPath={mdiCursorDefaultClick}
             title="Select a Topic"
           />
           <TopicGrid
