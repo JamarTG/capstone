@@ -7,6 +7,7 @@ import { QuizAPI } from "../../utils/api";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 
 export interface Question {
   _id: string;
@@ -82,6 +83,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <Card
       className={`border border-gray-200 rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] bg-white overflow-hidden p-0 transition-all duration-300 group ${className}`}
@@ -142,7 +145,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 text-gray-500">
           <small className="text-sm">{formattedDate}</small>
-          <Button size="sm" className="bg-slate-300 gap-1">
+          {/* http://localhost:5173/quiz/67fe8d247615b07cb8d8a44e */}
+          <Button size="sm" className="bg-slate-300 gap-1" onClick={() => navigate(`/quiz/${quizId}`)}>
             <Icon size={1} path={completed ? mdiEyeOutline : mdiPlayCircleOutline} className="w-5 h-5" />
             {completed ? "Review" : "Continue"}
           </Button>
