@@ -161,24 +161,28 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   }
 };
 
+
 export const completeQuiz = async (req: Request, res: Response) => {
   try {
     const quiz = req.params.sessionId;
+
+    const quizData = await Quiz.findById(quiz);
+    if (!quizData) {
+      res.status(404).json({ message: "Quiz not found" });
+      return;
+    }
+
+    const currentQuestionIndex = quizData.questions.length; 
 
     const updatedQuiz = await Quiz.findByIdAndUpdate(
       quiz,
       {
         completed: true,
         completedAt: new Date(),
-        $set: { currentQuestionIndex: { $size: "$questions" } },
+        currentQuestionIndex, 
       },
       { new: true }
-    );    
-
-    if (!updatedQuiz) {
-      res.status(404).json({ message: "Quiz not found" });
-      return;
-    }
+    );
 
     res.status(200).json({
       message: "Quiz marked as completed",
@@ -186,6 +190,7 @@ export const completeQuiz = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Error completing quiz:", error);
-    res.status(500).json({ message: "Failed to complete quiz" });
+    res.status(500).json({ message: `Failed to complete quiz ${error}` });
   }
 };
+
