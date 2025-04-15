@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { QuizAPI } from "../../utils/api";
 import { Question } from "../../types/quiz";
 import PageLayout from "../../components/layout/Page";
+import LoadingPage from "../../components/common/Loader";
 
 const QuestionSidebar = ({
   questions,
@@ -48,7 +49,7 @@ const QuizReview = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingPage text={"Loading Answers"} />;
   }
 
   if (error) {

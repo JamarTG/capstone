@@ -1,6 +1,7 @@
 import { Icon } from "@mdi/react";
 import { mdiAlertCircle } from "@mdi/js";
 
+
 const QuizLoadError = () => (
   <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
     <div className="p-6 bg-red-100 rounded-full">

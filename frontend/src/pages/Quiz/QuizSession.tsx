@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import { SuccessfulQuizResponse } from "../../types/auth";
-import LoadingQuizSession from "./LoadingQuizSession";
+import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";
 
 const QuizSession = () => {
@@ -52,12 +52,12 @@ const QuizSession = () => {
     onError,
   });
 
-  const {mutate: autoSubmitMutation} = useMutation({
+  const { mutate: autoSubmitMutation } = useMutation({
     mutationKey: ["auto-submit"],
     mutationFn: QuizAPI.autoSubmit,
     onError,
-    onSuccess
-  })
+    onSuccess,
+  });
 
   useEffect(() => {
     if (!session?.session?.createdAt) {
@@ -72,9 +72,8 @@ const QuizSession = () => {
         const newElapsedTime = Date.now() - startTime;
         setElapsedTime(newElapsedTime);
 
-        
         if (newElapsedTime >= 1 * 60 * 1000) {
-          setQuizCompleted(true); 
+          setQuizCompleted(true);
           autoSubmitMutation(session.session._id);
           clearInterval(intervalId);
         }
@@ -84,10 +83,9 @@ const QuizSession = () => {
     }
   }, [session?.session?.createdAt]);
 
-  if (isLoading || !session?.session) return <LoadingQuizSession />;
+  if (isLoading || !session?.session) return <Loader text={"Loading Quiz Session"} />;
 
-  if (error ) return <QuizLoadError />;
-  
+  if (error) return <QuizLoadError />;
 
   const questions = session.session.questions.map((q) => {
     const qData = q.questionId;
@@ -116,7 +114,7 @@ const QuizSession = () => {
       submitAnswerMutation({
         quiz: session.session._id,
         question: currentQuestion.id,
-        selectedOption: "", 
+        selectedOption: "",
         score,
       });
     } else {
@@ -126,7 +124,7 @@ const QuizSession = () => {
       submitAnswerMutation({
         quiz: session.session._id,
         question: currentQuestion.id,
-        selectedOption: selectedKey, 
+        selectedOption: selectedKey,
         score: isCorrect ? score + 1 : score,
       });
 
@@ -172,7 +170,6 @@ const QuizSession = () => {
       />
     );
   }
-
 
   if (session.session.currentQuestionIndex >= session.session.questions.length) {
     return (
