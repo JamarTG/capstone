@@ -6,7 +6,6 @@ import { UserAPI } from "../../utils/api";
 import PersonalInformation from "./PersonalInformation";
 import ChangePassword from "./ChangePassword";
 import Preferences from "./Preferences";
-import DeleteAccount from "./DeleteAccount";
 import { UserSettings } from "../../types/settings";
 import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
@@ -51,12 +50,6 @@ export default function SettingsPage() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleDelete = () => {
-    if (confirm("Are you sure you want to delete your account?")) {
-      alert("Account deleted!");
-    }
-  };
-
   const toggleDarkMode = () => {
     setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
   };
@@ -90,7 +83,6 @@ export default function SettingsPage() {
             darkMode={user.darkMode}
             toggleDarkMode={toggleDarkMode}
           />
-          <DeleteAccount handleDelete={handleDelete} />
         </div>
       </div>
     </PageContent>

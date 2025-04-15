@@ -77,24 +77,6 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
   }
 };
 
-const deleteAccount = async (req: CustomRequest, res: Response) => {
-  const { _id } = req.user;
 
-  console.log(_id,"id");
-  try {
-    const user = await User.findById(_id);
 
-    if (!user || user.status === "inactive") {
-      res.status(404).json({ message: "User not found" });
-      return;
-    }
-
-    user.status = "inactive";
-    await user.save();
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
-    return;
-  }
-};
-
-export { updateUserInformation, getUserInformation, deleteAccount };
+export { updateUserInformation, getUserInformation };
