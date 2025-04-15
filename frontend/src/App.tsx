@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import routes from "./data/routes";
 import AuthProvider from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   const queryClient = new QueryClient();
@@ -14,6 +15,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <AnimatePresence mode="wait">
+              <ThemeProvider>
               <Routes>
                 {Object.values(routes).map(({ path, element, layout: Layout }) => (
                   <Route
@@ -47,6 +49,7 @@ function App() {
                   />
                 ))}
               </Routes>
+              </ThemeProvider>
             </AnimatePresence>
           </BrowserRouter>
         </AuthProvider>

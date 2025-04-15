@@ -11,9 +11,11 @@ import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function SettingsPage() {
   useAuthRedirect();
+  const { theme, toggleTheme } = useTheme();
 
   const [user, setUser] = useState<UserSettings>({
     firstName: "",
@@ -21,7 +23,7 @@ export default function SettingsPage() {
     email: "",
     password: "",
     currentPassword: "",
-    darkMode: false,
+    darkMode: theme === "dark",
   });
 
   const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
@@ -50,7 +52,8 @@ export default function SettingsPage() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const toggleDarkMode = () => {
+  const handleToggleTheme = () => {
+    toggleTheme();
     setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
   };
 
@@ -65,7 +68,7 @@ export default function SettingsPage() {
   return (
     <PageContent title="Settings">
       <div className="w-full flex flex-col gap-2 justify-center gap-3 rounded-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
           <PersonalInformation
             user={user}
             handleChange={handleChange}
@@ -78,10 +81,10 @@ export default function SettingsPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           <Preferences
             darkMode={user.darkMode}
-            toggleDarkMode={toggleDarkMode}
+            toggleDarkMode={handleToggleTheme}
           />
         </div>
       </div>
