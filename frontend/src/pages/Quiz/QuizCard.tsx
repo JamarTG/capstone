@@ -1,6 +1,6 @@
 import Card from "../../components/ui/Card";
 import Icon from "@mdi/react";
-import { mdiTrashCanOutline, mdiPlayCircleOutline, mdiEyeOutline } from "@mdi/js";
+import { mdiTrashCanOutline } from "@mdi/js";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { QuizAPI } from "../../utils/api";
@@ -145,9 +145,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 text-gray-500">
           <small className="text-sm">{formattedDate}</small>
-          {/* http://localhost:5173/quiz/67fe8d247615b07cb8d8a44e */}
-          <Button size="sm" className="bg-slate-300 gap-1" onClick={() => navigate(`/quiz/${quizId}`)}>
-            <Icon size={1} path={completed ? mdiEyeOutline : mdiPlayCircleOutline} className="w-5 h-5" />
+          <Button size="sm" className="bg-slate-300 gap-1" onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}>
             {completed ? "Review" : "Continue"}
           </Button>
         </div>
