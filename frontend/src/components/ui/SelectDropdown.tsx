@@ -68,7 +68,6 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, selected, onSe
           </div>
         </div>
 
-        {/* Dropdown options */}
         {isOpen && (
           <div className="absolute z-10 w-full mt-1 rounded shadow-lg bg-white overflow-hidden border border-gray-200">
             <RenderList
