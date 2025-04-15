@@ -50,7 +50,7 @@ const QuizSelectionPage = () => {
   return (
     <PageContent title="Quiz">
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full">
+        <div className="w-full flex flex-col gap-5">
           <SectionHeader
             iconPath={mdiCursorDefaultClick}
             title="Select a Topic"

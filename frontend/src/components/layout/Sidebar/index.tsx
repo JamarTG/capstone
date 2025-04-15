@@ -5,13 +5,31 @@ import RenderList from "../../common/RenderList";
 import { MainNavItem } from "../../../types/routes";
 import { MAIN_NAV_ITEMS } from "../../../constants/routes";
 import { AuthContext } from "../../../context/AuthContext";
-import IconRenderer from "../../NavIconRenderer";
+import { Icon } from "@mdi/react";
+import {
+  mdiViewDashboard,
+  mdiClipboardList,
+  mdiArchive,
+  mdiAccount,
+  mdiCog,
+  mdiLogout,
+  mdiChevronDoubleLeft,
+  mdiChevronDoubleRight,
+} from "@mdi/js";
 import logo from "/logo.png";
-
 
 interface HomeLayoutProps {
   children?: ReactNode;
 }
+
+const navIcons: Record<string, string> = {
+  home: mdiViewDashboard,
+  quiz: mdiClipboardList,
+  archive: mdiArchive,
+  profile: mdiAccount,
+  settings: mdiCog,
+  logout: mdiLogout,
+};
 
 const navTexts: Record<string, string> = {
   home: "Dashboard",
@@ -22,23 +40,21 @@ const navTexts: Record<string, string> = {
   logout: "Logout",
 };
 
-const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean) => {
-  return (
-    <NavLink
-      to={path}
-      className={({ isActive }) =>
-        `flex flex-row items-center h-11 gap-5 focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 transition-colors duration-200 ${
-          isActive ? "border-indigo-500 bg-gray-100 text-gray-800 font-medium" : "border-transparent hover:border-indigo-500"
-        } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
-      }
-    >
-      <span className="inline-flex justify-center items-center">
-        <IconRenderer icon={name.toString()} />
-      </span>
-      {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{navTexts[name] || name}</span>}
-    </NavLink>
-  );
-};
+const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean) => (
+  <NavLink
+    to={path}
+    className={({ isActive }) =>
+      `flex flex-row items-center h-11 gap-5 focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 transition-colors duration-200 ${
+        isActive ? "border-indigo-500 bg-gray-100 text-gray-800 font-medium" : "border-transparent hover:border-indigo-500"
+      } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
+    }
+  >
+    <span className="inline-flex justify-center items-center">
+      <Icon path={navIcons[name]} size={1} />
+    </span>
+    {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{navTexts[name]}</span>}
+  </NavLink>
+);
 
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -62,31 +78,18 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         }`}
       >
         <div className="flex bg-white items-center justify-center p-2">
-            <img src={logo} className="opa" width={60} alt="" />
-            
-          </div>
+          <img src={logo} width={60} alt="Logo" />
+        </div>
 
-          <div className="border-b border-b-gray-200"></div>
+        <div className="border-b border-b-gray-200" />
+
         <div className="flex flex-col h-full justify-between py-5">
-          
-
           <div className="overflow-y-auto overflow-x-hidden">
             <ul className="flex flex-col gap-2 space-y-2">
-              {/* {isExpanded && (
-                <li className="px-5">
-                  <div className="flex flex-row items-center h-8">
-                    <div className="text-sm font-light tracking-wide text-gray-500">Menu</div>
-                  </div>
-                </li>
-              )} */}
-
               <RenderList
                 data={MAIN_NAV_ITEMS}
                 renderFn={(item) => (
-                  <li
-                    className="sm:text-md"
-                    key={item.name}
-                  >
+                  <li className="sm:text-md" key={item.name}>
                     {renderNavLinks(item, isExpanded)}
                   </li>
                 )}
@@ -94,77 +97,55 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             </ul>
           </div>
 
-         
-            <ul className="flex flex-col space-y-1">
-              {/* {isExpanded && (
-                <li className="px-5">
-                  <div className="flex flex-row items-center h-8">
-                    <div className="text-sm font-light tracking-wide text-gray-500">Account</div>
-                  </div>
-                </li>
-              )} */}
-
-              <li>
-                <NavLink
-                  to="/settings"
-                  className={({ isActive }) =>
-                    `flex flex-row items-center h-11 focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 transition-colors duration-200 ${
-                      isActive ? "border-indigo-500 bg-gray-200 text-gray-800 font-medium" : "border-transparent hover:border-indigo-500"
-                    } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
-                  }
-                >
-                  <span className="inline-flex justify-center items-center">
-                    <IconRenderer icon="settings" />
-                  </span>
-                  {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Settings</span>}
-                </NavLink>
-              </li>
-
-              <li>
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate(routes.LOGIN.path);
-                  }}
-                  className={`cursor-pointer flex flex-row items-center h-11 w-full focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 transition-colors duration-200 ${
-                    isExpanded ? "pr-6 pl-3" : "justify-center px-3"
-                  }`}
-                >
-                  <span className="inline-flex justify-center items-center">
-                    <IconRenderer icon="logout" />
-                  </span>
-                  {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Logout</span>}
-                </button>
-              </li>
-            </ul>
-
-            <div className="p-2 flex cursor-pointer">
-              <button
-                onClick={toggleSidebar}
-                className="w-full flex items-center justify-center rounded-lg transition-colors duration-200"
+          <ul className="flex flex-col space-y-1">
+            <li>
+              <NavLink
+                to="/settings"
+                className={({ isActive }) =>
+                  `flex flex-row items-center h-11 focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 transition-colors duration-200 ${
+                    isActive ? "border-indigo-500 bg-gray-200 text-gray-800 font-medium" : "border-transparent hover:border-indigo-500"
+                  } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
+                }
               >
-                <svg
-                  className={`w-5 text-gray-500 transform transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                  />
-                </svg>
+                <span className="inline-flex justify-center items-center">
+                  <Icon path={mdiCog} size={1} />
+                </span>
+                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Settings</span>}
+              </NavLink>
+            </li>
+
+            <li>
+              <button
+                onClick={() => {
+                  logout();
+                  navigate(routes.LOGIN.path);
+                }}
+                className={`cursor-pointer flex flex-row items-center h-11 w-full focus:outline-none hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-indigo-500 transition-colors duration-200 ${
+                  isExpanded ? "pr-6 pl-3" : "justify-center px-3"
+                }`}
+              >
+                <span className="inline-flex justify-center items-center">
+                  <Icon path={mdiLogout} size={1} />
+                </span>
+                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Logout</span>}
               </button>
-            </div>
+            </li>
+          </ul>
+
+          <div className="p-2 flex cursor-pointer">
+            <button
+              onClick={toggleSidebar}
+              className="w-full flex items-center justify-center rounded-lg transition-colors duration-200"
+            >
+              <Icon path={isExpanded ? mdiChevronDoubleLeft : mdiChevronDoubleRight} size={1} />
+            </button>
           </div>
-      
+        </div>
       </div>
 
-  
-      <div className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>{children}</div>
+      <div className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>
+        {children}
+      </div>
     </div>
   );
 };
