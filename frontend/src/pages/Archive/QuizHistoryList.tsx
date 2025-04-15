@@ -4,7 +4,7 @@ import { QuizAPI } from "../../utils/api";
 import { Quiz } from "../../types/quiz";
 import QuizCard from "../Quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
-import EmptyQuizHistory from "./EmptyQuizHistory";
+import NoFilteredQuizzes from "./NoFilteredQuizzes";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
@@ -30,15 +30,14 @@ const QuizHistoryList = () => {
     return true;
   });
 
-  if (filtered.length === 0) return <EmptyQuizHistory />;
 
   return (
     <div className="space-y-4">
-     
+      {/* Filter buttons */}
       <div className="flex gap-3">
         <button
           onClick={() => setFilter("all")}
-          className={`px-3 py-1 rounded-full text-sm cursor-pointer  ${
+          className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "all" ? "bg-slate-600 text-white" : "bg-gray-200 text-slate-600"
           }`}
         >
@@ -61,26 +60,32 @@ const QuizHistoryList = () => {
           In Progress
         </button>
       </div>
-
-      <div className="grid grid-flow-row gap-4 text-slate-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <RenderList
-          data={filtered}
-          renderFn={(quiz: Quiz) => (
-            <QuizCard
-              currentQuestionIndex={quiz.currentQuestionIndex}
-              quizRefetch={quizRefetch}
-              quizId={quiz._id}
-              topic={quiz.topic}
-              score={quiz.score}
-              completed={quiz.completed}
-              lastAttempt={quiz.endTime || quiz.startTime}
-              tags={quiz.tags || []}
-            />
-          )}
-        />
-      </div>
+  
+      {/* Conditionally render quiz list or NoFilteredQuizzes based on filtered length */}
+      {filtered.length === 0 ? (
+        <NoFilteredQuizzes filter={filter} />
+      ) : (
+        <div className="grid grid-flow-row gap-4 text-slate-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <RenderList
+            data={filtered}
+            renderFn={(quiz: Quiz) => (
+              <QuizCard
+                currentQuestionIndex={quiz.currentQuestionIndex}
+                quizRefetch={quizRefetch}
+                quizId={quiz._id}
+                topic={quiz.topic}
+                score={quiz.score}
+                completed={quiz.completed}
+                lastAttempt={quiz.endTime || quiz.startTime}
+                tags={quiz.tags || []}
+              />
+            )}
+          />
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default QuizHistoryList;
