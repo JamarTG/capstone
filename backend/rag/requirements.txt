@@ -1,0 +1,16 @@
+langchain-experimental
+langchain
+langchain-community
+sentence-transformers
+unstructured
+faiss-cpu
+transformers
+torch
+accelerate
+openai
+python-dotenv
+langchain
+langchain-community
+langchain-openai
+pydantic
+pytest
