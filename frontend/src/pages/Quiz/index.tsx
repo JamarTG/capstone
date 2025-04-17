@@ -23,7 +23,6 @@ const QuizSelectionPage = () => {
 
   useAuthRedirect();
 
-  // Check for active quiz session
   const { 
     data: activeSession,
     isLoading: isSessionLoading
@@ -34,7 +33,7 @@ const QuizSelectionPage = () => {
   });
 
   useEffect(() => {
-    // Redirect if there's an active session
+    
     if (activeSession?.data?.hasActiveSession && activeSession.data.sessionId) {
       navigate(`/quiz/${activeSession.data.sessionId}`);
     }
