@@ -3,6 +3,7 @@ import * as z from "zod";
 import Button from "../../components/ui/Button";
 import Icon from "@mdi/react";
 import { mdiContentSaveAllOutline } from "@mdi/js";
+import { useTheme } from "../../context/ThemeContext";
 
 const infoSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -25,6 +26,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
   handleChange,
   savePersonalInfo,
 }) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [errors, setErrors] = useState<Partial<Record<keyof typeof user, string>>>({});
 
   const validateAndSave = () => {
@@ -44,50 +47,50 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
   };
 
   return (
-    <div className="p-6 min-w-90 border border-gray-200">
-      <h3 className="text-md text-slate-600 font-semibold mb-3">Personal Information</h3>
+    <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+      <h3 className={`text-md font-semibold mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Personal Information</h3>
       <form>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block mt-2 text-md text-slate-600 font-medium">First Name</label>
+            <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>First Name</label>
             <input
               type="text"
               name="firstName"
               placeholder="Enter first name"
               value={user.firstName}
               onChange={handleChange}
-              className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border ${
-                errors.firstName ? "border-red-500" : "border-slate-200"
-              } rounded-md px-4 py-2 focus:outline-none`}
+              className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
+                isDark ? "text-gray-100" : "text-slate-700"
+              } border ${errors.firstName ? "border-red-500" : isDark ? "border-gray-700" : "border-slate-200"}`}
             />
             {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
           </div>
           <div>
-            <label className="block mt-2 text-md text-slate-600 font-medium">Last Name</label>
+            <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Last Name</label>
             <input
               type="text"
               name="lastName"
               placeholder="Enter last name"
               value={user.lastName}
               onChange={handleChange}
-              className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border ${
-                errors.lastName ? "border-red-500" : "border-slate-200"
-              } rounded-md px-4 py-2 focus:outline-none`}
+              className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
+                isDark ? "text-gray-100" : "text-slate-700"
+              } border ${errors.lastName ? "border-red-500" : isDark ? "border-gray-700" : "border-slate-200"}`}
             />
             {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
           </div>
         </div>
         <div className="mt-4">
-          <label className="block mt-2 text-md text-slate-600 font-medium">Email</label>
+          <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Email</label>
           <input
             type="email"
             name="email"
             placeholder="Enter new email"
             value={user.email}
             onChange={handleChange}
-            className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border ${
-              errors.email ? "border-red-500" : "border-slate-200"
-            } rounded-md px-4 py-2 focus:outline-none`}
+            className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
+              isDark ? "text-gray-100" : "text-slate-700"
+            } border ${errors.email ? "border-red-500" : isDark ? "border-gray-700" : "border-slate-200"}`}
           />
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>

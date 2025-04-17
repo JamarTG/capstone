@@ -3,6 +3,7 @@ import * as z from "zod";
 import Button from "../../components/ui/Button";
 import Icon from "@mdi/react";
 import { mdiContentSaveAllOutline } from "@mdi/js";
+import { useTheme } from "../../context/ThemeContext";
 
 const passwordSchema = z.object({
   currentPassword: z.string().min(1, "Current password is required"),
@@ -24,6 +25,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   savePassword,
 }) => {
   const [errors, setErrors] = useState<{ currentPassword?: string; password?: string }>({});
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const validateAndSave = () => {
     const result = passwordSchema.safeParse(user);
@@ -42,36 +45,36 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   };
 
   return (
-    <div className="p-6 min-w-90 border border-gray-200">
-      <h3 className="text-md text-slate-600 font-semibold mb-3">Change Password</h3>
+    <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+      <h3 className={`text-md font-semibold mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Change Password</h3>
       <form>
         <div className="mt-4">
-          <label className="block mt-2 text-md text-slate-600 font-medium">Old Password</label>
+          <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Old Password</label>
           <input
             type="password"
             name="currentPassword"
             placeholder="Enter current password"
             value={user.currentPassword}
             onChange={handleChange}
-            className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border ${
-              errors.currentPassword ? "border-red-500" : "border-slate-200"
-            } rounded-md px-4 py-2 focus:outline-none`}
+            className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
+              errors.currentPassword ? "border-red-500" : isDark ? "border-gray-700 text-white" : "border-slate-200 text-slate-700"
+            } border`}
           />
           {errors.currentPassword && (
             <p className="text-red-500 text-sm mt-1">{errors.currentPassword}</p>
           )}
         </div>
         <div className="mt-4">
-          <label className="block mt-2 text-md text-slate-600 font-medium">New Password</label>
+          <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>New Password</label>
           <input
             type="password"
             name="password"
             placeholder="Enter new password"
             value={user.password}
             onChange={handleChange}
-            className={`w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-md border ${
-              errors.password ? "border-red-500" : "border-slate-200"
-            } rounded-md px-4 py-2 focus:outline-none`}
+            className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
+              errors.password ? "border-red-500" : isDark ? "border-gray-700 text-white" : "border-slate-200 text-slate-700"
+            } border`}
           />
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">{errors.password}</p>
