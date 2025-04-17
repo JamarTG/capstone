@@ -6,6 +6,56 @@ import { UserAnswer } from "../models/UserAnswer";
 import { Objective } from "../models/Objective";
 import { spawn } from "child_process";
 
+export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
+  console.log("✅ checkActiveQuizSession was hit");
+
+  try {
+    if (!req.user?._id) {
+      res.status(401).json({ 
+        success: false,
+        error: "Authentication required" 
+      });
+      return;
+    }
+
+    const activeSession = await Quiz.findOne(
+      {
+        user: req.user._id,
+        completed: false
+      },
+      { _id: 1 } 
+    );
+
+    if (!activeSession) {
+      res.status(200).json({
+        success: true,
+        data: {
+          hasActiveSession: false,
+          sessionId: null
+        }
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        hasActiveSession: true,
+        sessionId: activeSession._id
+      }
+    });
+    return;
+
+  } catch (error) {
+    console.error("Error checking active quiz session:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to check for active quiz session"
+    });
+    return;
+  }
+};
+
 export const testGenerateQuestion = async (req: Request, res: Response) => {
   try {
     const { topic } = req.body;
@@ -103,6 +153,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 };
 
 export const getQuizSession = async (req: Request, res: Response) => {
+  console.log("⚠️ getQuizSession was hit with sessionId:", req.params.sessionId);
   try {
     const session = await Quiz.findById(req.params.sessionId).populate("topic").populate("questions.questionId");
 
@@ -116,7 +167,8 @@ export const getQuizSession = async (req: Request, res: Response) => {
       session,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to retrieve session" });
+    console.log("This ran")
+    res.status(500).json({ error: "Failed to retrieve sessionaa" });
   }
 };
 

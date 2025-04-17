@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -15,12 +15,31 @@ import { Topic } from "./QuizCard";
 import QuizSidebar from "./QuizSidebar";
 import TopicGrid from "./TopicGrid";
 import { mdiCursorDefaultClick } from "@mdi/js";
+import Loader from "../../components/common/Loader";
 
 const QuizSelectionPage = () => {
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const navigate = useNavigate();
 
   useAuthRedirect();
+
+  // Check for active quiz session
+  const { 
+    data: activeSession,
+    isLoading: isSessionLoading,
+    isError: isSessionError
+  } = useQuery({
+    queryKey: ["active-quiz-session"],
+    queryFn: QuizAPI.checkActiveSession,
+    retry: false, 
+  });
+
+  useEffect(() => {
+    // Redirect if there's an active session
+    if (activeSession?.data?.hasActiveSession && activeSession.data.sessionId) {
+      navigate(`/quiz/${activeSession.data.sessionId}`);
+    }
+  }, [activeSession, navigate]);
 
   const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
     toast.success(message);
@@ -46,6 +65,10 @@ const QuizSelectionPage = () => {
   });
 
   const topicList: Topic[] = data?.topics || [];
+
+  if (isSessionLoading) {
+    return <Loader text="Checking your quiz progress..." />;
+  }
 
   return (
     <PageContent title="Quiz">

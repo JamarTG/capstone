@@ -45,8 +45,10 @@ export const QuizAPI = {
   getQuizById: (quizId: string) => handleRequest(axiosInstanceWithCredentials.get(`/quiz/${quizId}`)),
   submitAnswer: (submitAnswerPayload: QuizAnswerPayload) =>
     handleRequest(axiosInstanceWithCredentials.patch(`/quiz/${submitAnswerPayload.quiz}/answer`, submitAnswerPayload)),
-  autoSubmit: (quizId: string) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}/auto-submit`))
-  // createQuiz: (quizData: any) => handleRequest(axiosInstanceWithCredentials.post("/quiz", quizData)),
-  // updateQuiz: (quizId: string, quizData: any) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}`, quizData)),
-  // deleteQuiz: (quizId: string) => handleRequest(axiosInstanceWithCredentials.delete(`/quiz/${quizId}`)),
+  autoSubmit: (quizId: string) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}/auto-submit`)),
+  checkActiveSession: () => {
+    console.log("this was called")
+    return handleRequest(axiosInstanceWithCredentials.get("/quiz/active"))
+  }
+    
 };

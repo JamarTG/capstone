@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import QuizCompletion from "./QuizCompletion";
 import QuestionCard from "./QuestionCard";
 import QuizHeader from "./QuizHeader";
@@ -19,7 +19,6 @@ const QuizSession = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
 
   const { id } = useParams();
   const location = useLocation();
@@ -45,6 +44,17 @@ const QuizSession = () => {
     toast.error(extractErrorMessage(error));
   };
 
+  const { mutate: autoSubmitMutation, isPending } = useMutation({
+    mutationFn: QuizAPI.autoSubmit,
+    mutationKey: ["submit-quiz"],
+    onSuccess: () => {
+      console.log("yep");
+    },
+    onError: () => {
+      console.log("something occured");
+    },
+  });
+
   const { mutate: submitAnswerMutation } = useMutation({
     mutationFn: QuizAPI.submitAnswer,
     mutationKey: ["submit-answer"],
@@ -52,36 +62,11 @@ const QuizSession = () => {
     onError,
   });
 
-  const { mutate: autoSubmitMutation } = useMutation({
-    mutationKey: ["auto-submit"],
-    mutationFn: QuizAPI.autoSubmit,
-    onError,
-    onSuccess,
-  });
-
   useEffect(() => {
     if (!session?.session?.createdAt) {
       refetch();
     }
   }, [session, refetch]);
-
-  useEffect(() => {
-    if (session?.session?.createdAt) {
-      const startTime = new Date(session.session.createdAt).getTime();
-      const intervalId = setInterval(() => {
-        const newElapsedTime = Date.now() - startTime;
-        setElapsedTime(newElapsedTime);
-
-        if (newElapsedTime >= 1 * 60 * 1000) {
-          setQuizCompleted(true);
-          autoSubmitMutation(session.session._id);
-          clearInterval(intervalId);
-        }
-      }, 1000);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [session?.session?.createdAt]);
 
   if (isLoading || !session?.session) return <Loader text={"Loading Quiz Session"} />;
 
@@ -141,27 +126,14 @@ const QuizSession = () => {
     }
   };
 
-  // const handleSubmitQuiz = () => {
-  //   setQuizCompleted(true);
-  // };
-
   const handleRestartQuiz = () => {
     setCurrentIndex(0);
     setScore(0);
     setSelectedAnswer(null);
     setQuizCompleted(false);
-    setElapsedTime(0);
   };
 
-  const remainingTime = Math.max(1 * 60 * 1000 - elapsedTime, 0);
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60 / 1000);
-    const seconds = Math.floor((time % (60 * 1000)) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  };
-
-  if (quizCompleted || remainingTime <= 0) {
+  if (quizCompleted) {
     return (
       <QuizCompletion
         score={score}
@@ -188,7 +160,11 @@ const QuizSession = () => {
           <QuizHeader
             currentIndex={currentIndex}
             totalQuestions={questions.length}
-            timeLeft={formatTime(remainingTime)}
+            onSubmitQuiz={() => {
+              setQuizCompleted(true);
+              autoSubmitMutation(session.session._id);
+            }}
+            isSubmitting={isPending}
           />
 
           <QuestionCard
@@ -196,7 +172,6 @@ const QuizSession = () => {
             answers={Object.values(currentQuestion.options)}
             selectedAnswer={selectedAnswer}
             onAnswerSelect={handleAnswerSelect}
-            // onSubmitQuiz={handleSubmitQuiz}
             onNextQuestion={handleNextQuestion}
             isLastQuestion={isLastQuestion}
           />
