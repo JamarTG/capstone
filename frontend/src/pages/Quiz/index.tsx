@@ -26,8 +26,7 @@ const QuizSelectionPage = () => {
   // Check for active quiz session
   const { 
     data: activeSession,
-    isLoading: isSessionLoading,
-    isError: isSessionError
+    isLoading: isSessionLoading
   } = useQuery({
     queryKey: ["active-quiz-session"],
     queryFn: QuizAPI.checkActiveSession,
