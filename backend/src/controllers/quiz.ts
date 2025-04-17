@@ -4,6 +4,43 @@ import { Question } from "../models/Question";
 import { CustomRequest } from "../types/middleware";
 import { UserAnswer } from "../models/UserAnswer";
 import { Objective } from "../models/Objective";
+import { spawn } from "child_process";
+
+export const testGenerateQuestion = async (req: Request, res: Response) => {
+  try {
+    const { topic } = req.body;
+
+    const question = await new Promise<any>((resolve, reject) => {
+      const py = spawn("python", ["./rag/section1.py", topic]);
+
+      let data = "";
+      let error = "";
+
+      py.stdout.on("data", (chunk) => (data += chunk));
+      py.stderr.on("data", (chunk) => (error += chunk));
+
+      py.on("close", (code) => {
+        if (code === 0) {
+          try {
+            const parsed = JSON.parse(data)
+            resolve(parsed)
+            // const parsed = JSON.parse(data);
+            // resolve(parsed);
+          } catch (err) {
+            reject(`Failed to parse JSON: ${err}`);
+          }
+        } else {
+          reject(`Python script failed with code ${code}:\n${error}`);
+        }
+      });
+    });
+
+    res.status(200).json({ success: true, data: question });
+  } catch (err) {
+    res.status(500).json({ success: false, error: `${err}` });
+  }
+};
+
 
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {

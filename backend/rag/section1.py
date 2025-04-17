@@ -85,7 +85,7 @@ def generate_question_and_answer(content):
 
 
 if __name__ == "__main__":
-    content = """System Software: Operating System, Utilities. Application software: general-purpose and special-purpose; integrated package; source: off the shelf, custom-written, and customized."""
+    content="""Students should be able to explain the role of the different types of software in computer operation. Content: System Software: Operating System, Utilities. Application software: general-purpose and special-purpose; integrated package; source: off the shelf, custom-written, and customized."""
 
     result = generate_question_and_answer(content)
 
