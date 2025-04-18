@@ -59,18 +59,20 @@ chain = prompt | llm
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-repo/rag-quiz-app.git
-
+git clone https://github.com/JamarTG/csec-it-adaptive-learning-system.git
 # Install backend dependencies
 cd backend
 npm install
+npm run dev
 
 # Install frontend dependencies
 cd ../frontend
 npm install
+npm run dev
 
 # Set up environment configuration
 cp .env.example .env
+
 ```
 
 ## Configuration
@@ -79,13 +81,19 @@ Required environment variables (`.env` file):
 
 ```bash
 # Database configuration
-MONGODB_URI=mongodb://localhost:27017/quizapp
+MONGODB_URI=
 
 # AI service API keys
-OPENAI_API_KEY=your_api_key_here
+OPENAI_API_KEY=
 
-# Embedding model settings
-EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
+#For choose PORT for API
+PORT=
+
+#For Authentication
+JWT_SECRET=
+
+#For login duration
+LOGIN_DURATION=
 ```
 
 ## License  
