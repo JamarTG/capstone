@@ -20,7 +20,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
         <div className="relative z-10 h-full p-8 max-w-screen-xl mx-auto flex flex-col justify-between">
           <div className={`flex justify-between items-start ${isDark ? "text-gray-100" : "text-slate-800"}`}>
             <div className="space-y-3">
-              <h1 className="text-xl font-bold tracking-tight">
+              <h1 className="text-2xl tracking-tight">
                 Web Development Fundamentals
               </h1>
               <div className={`flex items-center space-x-6 text-sm font-medium ${isDark ? "text-gray-300" : "text-slate-600"}`}>

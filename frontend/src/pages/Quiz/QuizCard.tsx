@@ -107,7 +107,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
           <div
             className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${getScoreColor((score / currentQuestionIndex) * 100)} z-10`}
           >
-            <span className="text-xl font-bold text-white">{(score / currentQuestionIndex) * 100}%</span>
+            <span className="text-xl text-white">{(score / currentQuestionIndex) * 100}%</span>
           </div>
         )}
 
@@ -135,7 +135,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
       <section className={`flex-1 p-4 flex flex-col justify-between ${isDark ? "text-gray-100" : "text-slate-800"}`}>
         <div className="flex justify-between items-start">
-          <h3 className={`font-bold text-sm drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{topic?.name ?? "Untitled Topic"}</h3>
+          <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{topic?.name ?? "Untitled Topic"}</h3>
         </div>
         <div className="flex flex-wrap gap-2 justify-center">
           {tags.map((tag, index) => (

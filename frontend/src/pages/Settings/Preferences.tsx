@@ -6,8 +6,8 @@ interface PreferencesProps {
   toggleDarkMode: () => void;
 }
 
-const Preferences: React.FC<PreferencesProps> = ({ darkMode, toggleDarkMode }) => {
-  const { theme } = useTheme();
+const Preferences: React.FC<PreferencesProps> = ({ darkMode}) => {
+  const { theme,toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
   return (
@@ -21,7 +21,7 @@ const Preferences: React.FC<PreferencesProps> = ({ darkMode, toggleDarkMode }) =
               id="switch-3"
               type="checkbox"
               checked={darkMode}
-              onChange={toggleDarkMode}
+              onChange={toggleTheme}
               className="peer sr-only"
             />
             <label htmlFor="switch-3" className="hidden"></label>
