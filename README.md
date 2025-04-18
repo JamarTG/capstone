@@ -1,80 +1,92 @@
-# AI IT Tutor 🤖📚
+# Retrieval-Augmented Generation (RAG)-Based Interactive Quiz Application  
 
-## Preview
-![image](https://github.com/user-attachments/assets/5a4b0c49-a7e8-45e2-aca7-c9724e1e5f7e)
+![image](https://github.com/user-attachments/assets/aaf0df32-bee2-41a5-b737-1a66e6e633a8)
+
+## Abstract  
+This system is an intelligent, interactive quiz platform designed to support personalized learning using Retrieval-Augmented Generation (RAG). It applies advanced natural language processing and adaptive assessment techniques to evaluate student performance and provide feedback only on unmet learning objectives. The application was developed with a focus on the CSEC Information Technology syllabus but can be generalized to other academic domains.  
+
+## System Architecture  
+### Components  
+- Frontend: React, TypeScript, TailwindCSS  
+- Backend: Node.js, Express  
+- Database: MongoDB  
+- AI Engine: LLaMA 3, Mistral, GPT-3.5-turbo  
+- Vector Store: ChromaDB, FAISS  
+- Embeddings: Instructor Large, SentenceTransformers
+
+## Pedagogical Framework  
+### Diagnostic-Driven Instruction  
+Each quiz is diagnostically aligned with specific syllabus objectives. Responses are analyzed at the objective level, not just by individual question correctness.  
+
+### Targeted Feedback on Unmet Objectives  
+Rather than providing general correctness feedback, the system identifies only unmet objectives and delivers targeted, contextual remediation. This minimizes cognitive load and directs learner attention to relevant gaps.  
+
+### Retrieval-Augmented Generation (RAG)  
+RAG enables the system to generate quiz questions and feedback explanations using real syllabus content. By retrieving relevant context before invoking the language model, the system ensures both accuracy and alignment with curricular goals.  
+
+### Adaptive Reinforcement  
+Students retake follow-up quizzes dynamically populated with items linked only to previously unmet objectives. Mastery-based progression ensures efficient use of study time and measurable improvement.  
+
+## Technical Implementation  
+
+![image](https://github.com/user-attachments/assets/16add320-e0af-4778-86e1-d2d4356ad62f)
 
 
-## Overview
-AI IT Tutor is a personalized, AI-powered learning platform tailored to help students excel in the CSEC Information Technology syllabus. By leveraging diagnostic quizzes and adaptive learning techniques, the system provides a customized learning journey that evolves as the student progresses. Whether you're struggling with specific topics or aiming to sharpen your skills, AI IT Tutor is here to guide you every step of the way!
+### RAG-Based Question Generation Pipeline  
+1. User Context Input: Topics or subject areas selected for testing  
+2. Vector Search: Retrieves relevant syllabus content using semantic similarity  
+3. Prompt Construction: Combines retrieved context with question templates  
+4. LLM Generation: Produces curriculum-aligned assessment items  
 
-## Key Features ✨
 
-### 📝 **Student Assessment**
-- **Initial Diagnostic Quiz:** A comprehensive quiz covering key CSEC IT topics.
-- **Performance Evaluation:** Analyze your strengths and weaknesses to create a focused learning path.
+## Question Generation Implementation
 
-### 🤖 **AI-Powered Learning Path Generation**
-- **Personalized Study Plans:** Custom study paths based on your quiz results.
-- **Suggested Resources & Practice:** Curated explanations, resources, and practice questions to reinforce learning.
+```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
-### 🔄 **Adaptive Learning**
-- **Dynamic Follow-Up Quizzes:** Difficulty adapts based on progress—harder questions for improvement, easier ones for areas needing extra support.
-- **Continuous Improvement:** Regular adjustments to ensure the most efficient and effective learning experience.
+prompt = ChatPromptTemplate.from_template("""
+Generate a multiple-choice question about: {topic}
+Context: {retrieved_content}
+Format: JSON with question, 4 options, and correct answer
+""")
 
-### 📊 **Progress Tracking**
-- **Student Dashboard:** Monitor your scores, track topic-specific progress, and see how you’ve improved over time.
-- **Historical Insights:** View past performances and identify trends in your learning journey.
+llm = ChatOpenAI(model="gpt-3.5-turbo")
+chain = prompt | llm
+```
 
-## Technologies Used 🛠️
-- **Backend:** Node.js with Express for seamless API management.
-- **Frontend:** React for a dynamic, responsive user interface.
-- **Database:** MongoDB (preferred) or PostgreSQL for data storage.
-- **AI/ML:** LLM models like Llama 3 and Mistral, integrated with Retrieval-Augmented Generation (RAG) for smarter, more context-aware learning.
-- **Integration:** APIs for CSEC syllabus integration, quizzes, and student management.
+## Installation
 
-## Installation 🚀
+```bash
+# Clone the repository
+git clone https://github.com/your-repo/rag-quiz-app.git
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-repo/ai-it-tutor.git
-   ```
+# Install backend dependencies
+cd backend
+npm install
 
-2. **Navigate to the Project Directory**:
-   ```bash
-   cd ai-it-tutor
-   ```
+# Install frontend dependencies
+cd ../frontend
+npm install
 
-3. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
+# Set up environment configuration
+cp .env.example .env
+```
 
-4. **Start the Frontend Server**:
-   ```bash
-   npm run dev
-   ```
+## Configuration
 
-5. **Navigate to the Project Directory**:
-   ```bash
-   cd ../backend/ai-it-tutor
-   ```
+Required environment variables (`.env` file):
 
-6. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
+```bash
+# Database configuration
+MONGODB_URI=mongodb://localhost:27017/quizapp
 
-4. **Start the Backend Server**:
-   ```bash
-   npm run dev
-   ```
+# AI service API keys
+OPENAI_API_KEY=your_api_key_here
 
-Now you’re all set up to run the project locally!
+# Embedding model settings
+EMBEDDING_MODEL=BAAI/bge-base-en-v1.5
+```
 
-## Usage 🎓
-
-1. **Sign Up**: Create your student profile.
-2. **Take the Diagnostic Quiz**: Complete the initial assessment to gauge your knowledge.
-3. **Review Your Study Plan**: AI will generate a personalized learning path based on your quiz results.
-4. **Engage with Learning Materials**: Dive into the recommended study resources, practice questions, and explanations.
-5. **Track Your Progress**: Monitor your improvement over time and adjust your learning strategy as needed.
+## License  
+This project is licensed under the MIT License - see the LICENSE.md file for details.
