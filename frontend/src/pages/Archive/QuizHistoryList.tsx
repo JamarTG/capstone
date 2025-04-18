@@ -5,9 +5,13 @@ import { Quiz } from "../../types/quiz";
 import QuizCard from "../Quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
+import { useTheme } from "../../context/ThemeContext";
+import Loader from "../../components/common/Loader";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const {
     data: quizzes,
@@ -19,7 +23,7 @@ const QuizHistoryList = () => {
     queryFn: QuizAPI.getQuizzes,
   });
 
-  if (isLoading) return <div>Loading quizzes...</div>;
+  if (isLoading) return <Loader text={"Loading Quizzes"}/>;
   if (error) return <div>Failed to load quiz history.</div>;
 
   const sessions = quizzes?.sessions || [];
@@ -30,15 +34,19 @@ const QuizHistoryList = () => {
     return true;
   });
 
-
   return (
-    <div className="space-y-4">
-      {/* Filter buttons */}
+    <div className={`space-y-4 ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-600"}`}>
       <div className="flex gap-3">
         <button
           onClick={() => setFilter("all")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "all" ? "bg-slate-600 text-white" : "bg-gray-200 text-slate-600"
+            filter === "all"
+              ? isDark
+                ? "bg-slate-600 text-white"
+                : "bg-slate-600 text-white"
+              : isDark
+              ? "bg-gray-700 text-white hover:bg-gray-600"
+              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           All
@@ -46,7 +54,13 @@ const QuizHistoryList = () => {
         <button
           onClick={() => setFilter("completed")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "completed" ? "bg-green-600 text-white" : "bg-gray-200 text-slate-600"
+            filter === "completed"
+              ? isDark
+                ? "bg-green-600 text-white"
+                : "bg-green-600 text-white"
+              : isDark
+              ? "bg-gray-700 text-white hover:bg-gray-600"
+              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           Completed
@@ -54,18 +68,23 @@ const QuizHistoryList = () => {
         <button
           onClick={() => setFilter("incomplete")}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "incomplete" ? "bg-yellow-500 text-white" : "bg-gray-200 text-slate-600"
+            filter === "incomplete"
+              ? isDark
+                ? "bg-yellow-500 text-white"
+                : "bg-yellow-500 text-white"
+              : isDark
+              ? "bg-gray-700 text-white hover:bg-gray-600"
+              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           In Progress
         </button>
       </div>
-  
-      {/* Conditionally render quiz list or NoFilteredQuizzes based on filtered length */}
+
       {filtered.length === 0 ? (
         <NoFilteredQuizzes filter={filter} />
       ) : (
-        <div className="grid grid-flow-row gap-4 text-slate-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-flow-row gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <RenderList
             data={filtered}
             renderFn={(quiz: Quiz) => (
@@ -85,7 +104,6 @@ const QuizHistoryList = () => {
       )}
     </div>
   );
-  
 };
 
 export default QuizHistoryList;

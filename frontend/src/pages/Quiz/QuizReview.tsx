@@ -16,21 +16,20 @@ const QuestionSidebar = ({
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
-    <div className="w-2/5 p-4 border border-gray-200 rounded-xl sticky top-16 h-full">
-      <h2 className="text-lg font-semibold mb-4">Questions</h2>
-      <ul
-        className="relative flex flex-col p-3 rounded-lg transition-all overflow-y-auto max-h-full"
-        style={{ maxHeight: "calc(100vh - 120px)" }}
-      >
+    <div className="w-full sm:w-1/4 lg:w-1/3 p-4 bg-gray-800 rounded-lg sticky top-16 h-full overflow-y-auto">
+      <h2 className="text-xl font-semibold text-white mb-6">Questions</h2>
+      <ul className="space-y-4">
         {questions.map((question, index) => (
           <li
             key={index}
             onClick={() => setCurrentQuestionIndex(index)}
-            className={`border border-gray-200 cursor-pointer p-2 rounded-lg mb-2 ${
-              currentQuestionIndex === index ? "bg-gray-200 hover:bg-gray-300" : ""
+            className={`p-3 cursor-pointer rounded-lg transition-colors ${
+              currentQuestionIndex === index
+                ? "bg-gray-700 text-white"
+                : "bg-gray-600 text-gray-300 hover:bg-gray-500"
             }`}
           >
-            <p className="text-md text-slate-600">{question.questionId.text}</p>
+            <p className="truncate">{question.questionId.text}</p>
           </li>
         ))}
       </ul>
@@ -49,11 +48,11 @@ const QuizReview = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   if (isLoading) {
-    return <LoadingPage text={"Loading Answers"} />;
+    return <LoadingPage text={"Loading Answers..."} />;
   }
 
   if (error) {
-    return <div>Error loading quiz data</div>;
+    return <div className="text-white">Error loading quiz data</div>;
   }
 
   const { session } = data || {};
@@ -74,34 +73,30 @@ const QuizReview = () => {
 
   return (
     <PageLayout title={"Quiz Review"}>
-      <div className="flex space-x-8">
+      <div className="flex flex-wrap space-x-8 gap-8">
         <QuestionSidebar
           questions={session?.questions || []}
           currentQuestionIndex={currentQuestionIndex}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
 
-        <div className="border text-gray-200 border-gray-200 max-w-5xl rounded-2xl flex flex-col flex-1 gap-3">
-          <div
-            className="w-full p-3"
-            style={{ backgroundSize: "cover", backgroundImage: `url('${session.topic.backgroundImage}')` }}
-          >
-            <h1 className="text-xl opacity-100 text-gray-100 font-bold mb-4">{session?.topic.name} Quiz Review</h1>
-            <div className="flex justify-between mb-4">
+        <div className="flex-1 p-8 rounded-lg border border-gray-700">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-white">
+              {session?.topic.name} Review
+            </h1>
+            <div className="flex space-x-4">
               <button
                 onClick={handlePrevious}
                 disabled={currentQuestionIndex === 0}
-                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-60"
+                className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
               >
                 Previous
               </button>
-              <span>
-                Question {currentQuestionIndex + 1} of {session?.questions.length}
-              </span>
               <button
                 onClick={handleNext}
                 disabled={currentQuestionIndex === session?.questions.length - 1}
-                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-60"
+                className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
               >
                 Next
               </button>
@@ -109,18 +104,24 @@ const QuizReview = () => {
           </div>
 
           {question && (
-            <div className="m-5 p-4 border border-gray-100 text-slate-600 rounded-xl">
-              <h3 className="font-semibold text-lg">{question.questionId.text}</h3>
+            <div className="p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                {question.questionId.text}
+              </h3>
 
-              <ul className="mt-2 space-y-1">
+              <ul className="space-y-3">
                 {Object.entries(question.questionId.options).map(([key, option]) => {
                   const isSelected = question.selectedOption === key;
                   const isCorrect = question.questionId.correctAnswer === key;
                   return (
                     <li
                       key={key}
-                      className={`p-2 rounded ${
-                        isCorrect ? "bg-green-100 border border-green-400" : isSelected ? "bg-red-100 border border-red-400" : "bg-gray-100"
+                      className={`p-3 rounded-lg ${
+                        isCorrect
+                          ? " border border-green-500 text-white"
+                          : isSelected
+                          ? "bg-red-600 border border-red-500 text-white"
+                          : "bg-gray-700 text-gray-300"
                       }`}
                     >
                       {key}. {option as string}
@@ -130,7 +131,7 @@ const QuizReview = () => {
                   );
                 })}
               </ul>
-              <p className="mt-2 text-sm text-gray-600">{question.questionId.explanation}</p>
+              <p className="mt-4 text-gray-400">{question.questionId.explanation}</p>
             </div>
           )}
         </div>

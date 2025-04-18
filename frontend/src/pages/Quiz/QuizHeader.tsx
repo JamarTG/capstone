@@ -8,7 +8,7 @@ interface QuizHeaderProps {
   isSubmitting: boolean;
 }
 
-const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz}: QuizHeaderProps) => {
+const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderProps) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -45,7 +45,11 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz}: QuizHeaderPro
 
             <button
               onClick={onSubmitQuiz}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                isDark 
+                  ? "bg-red-600 text-white hover:bg-red-700 border border-transparent"
+                  : "bg-red-600 text-white hover:bg-red-700 border border-transparent"
+              }`}
             >
               End Quiz
             </button>
