@@ -1,4 +1,4 @@
-# Retrieval-Augmented Generation (RAG)-Based Interactive Quiz Application  
+# Retrieval-Augmented Generation (RAG)-Based Quiz Application  
 
 ![image](https://github.com/user-attachments/assets/aaf0df32-bee2-41a5-b737-1a66e6e633a8)
 
