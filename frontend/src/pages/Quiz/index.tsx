@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -12,13 +12,11 @@ import { QuizAPI } from "../../utils/api";
 import { SuccessfulQuizResponse } from "../../types/auth";
 import { extractErrorMessage } from "../../utils/error";
 import { Topic } from "./QuizCard";
-import QuizSidebar from "./QuizSidebar";
-import TopicGrid from "./TopicGrid";
+import TopicGrid from "./TopicContainer";
 import { mdiCursorDefaultClick } from "@mdi/js";
 import Loader from "../../components/common/Loader";
 
 const QuizSelectionPage = () => {
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const navigate = useNavigate();
 
   useAuthRedirect();
@@ -41,13 +39,11 @@ const QuizSelectionPage = () => {
 
   const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
     toast.success(message);
-    setSelectedTopic(null);
     navigate(`/quiz/${session._id}`, { state: { session } });
   };
 
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error));
-    setSelectedTopic(null);
   };
 
   const { mutate: createQuizMutate } = useMutation({
@@ -80,16 +76,9 @@ const QuizSelectionPage = () => {
             isLoading={isLoading}
             isError={isError}
             topics={topicList}
-            onSelectTopic={setSelectedTopic}
+            createQuizMutate={createQuizMutate}
           />
         </div>
-        <QuizSidebar
-          selectedTopic={selectedTopic}
-          onStart={() => {
-            if (selectedTopic) createQuizMutate({ topic: selectedTopic._id });
-          }}
-          topicsLoading={isLoading}
-        />
       </div>
     </PageContent>
   );

@@ -47,7 +47,6 @@ export const QuizAPI = {
     handleRequest(axiosInstanceWithCredentials.patch(`/quiz/${submitAnswerPayload.quiz}/answer`, submitAnswerPayload)),
   autoSubmit: (quizId: string) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}/auto-submit`)),
   checkActiveSession: () => {
-    console.log("this was called")
     return handleRequest(axiosInstanceWithCredentials.get("/quiz/active"))
   }
     
