@@ -10,9 +10,9 @@ This system is an intelligent, interactive quiz platform designed to support per
 - Frontend: React, TypeScript, TailwindCSS  
 - Backend: Node.js, Express  
 - Database: MongoDB  
-- AI Engine: LLaMA 3, Mistral, GPT-3.5-turbo  
-- Vector Store: ChromaDB, FAISS  
-- Embeddings: Instructor Large, SentenceTransformers
+- AI Engine: GPT-4
+- Vector Store: FAISS  
+- Embeddings: BAAI/bge-base-en-v1.5
 
 ## Pedagogical Framework  
 ### Diagnostic-Driven Instruction  
