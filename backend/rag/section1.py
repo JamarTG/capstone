@@ -144,7 +144,8 @@ def generate_feedback(question: list[str]):
 if __name__ == "__main__":
     objectives=sectionOneSyllabus()
     result = generate_feedback(["Which of the following is not an input device? a. barcode reader, b. printer, c. mouse, d. keyboard", 
-                                "Which of the following defines data? a. data is raw b. data is processed c. data is an empty value"])  #generate_question_and_answer(objectives)
+                                "Which of the following defines data? a. data is raw b. data is processed c. data is an empty value"])  
+    #result=generate_question_and_answer(objectives)
     if result:
         print(json.dumps(result, indent=4))
     else:
