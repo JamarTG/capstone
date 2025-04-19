@@ -24,7 +24,8 @@ class QuestionAnswerFormat(BaseModel):
 
 
 class Feedback(BaseModel):
-    feedback: str = Field(..., description="The area that the student should improve on")
+    Section: int = Field(..., description="The section number that the feedback is from")
+    Feedback: str = Field(..., description="The area that the student should improve on")
 
 
 def clean_json_response(json_str: str) -> str:
@@ -92,42 +93,48 @@ def generate_question_and_answer(contents: list[str]):
             return None
 
 
-def generate_feedback(contents: list[str]):
-    """Generates feedback for a list of content blocks in a single LLM call"""
+def generate_feedback(question: list[str]):
+    """Generates Feedback from a syllabus objective with robust JSON handling using delimiters"""
     parser = JsonOutputParser(pydantic_object=list[Feedback])
-
-    formatted_contents = "\n".join([f"Content {i+1}:\n{c}" for i, c in enumerate(contents)])
-
+    
+    formatted_question = "\n".join([f"Question {i+1}:\n{c}" for i, c in enumerate(question)])
+    
     prompt = ChatPromptTemplate.from_template(
         """ 
-        You will be given multiple content sections, each labeled as "Content 1", "Content 2", etc.
+        You will be given a structured input with a question that a student got wrong and they needs to improve in.
+        For the response generate in no more than 3 sentences, what weakness they demonstrate in relation to the feedback.
 
-        For each content section, generate **1 feedback message** in **no more than 3 sentences** explaining what weakness a student might demonstrate in relation to that content.
+        Respond with a list of JSON objects (one per question) inside a code block using ```json delimiters.
 
-        You MUST respond with a list of valid JSON objects, enclosed in a code block using ```json delimiters.
-
-        Each object should match the following format:
-
-        ```json
+        Generate output with EXACTLY these field names, see the json format below:
+            - "Section" (integer)
+            - "Feedback" (string)
+        json
         {{
-            "Section": 1,
-            "feedback": "The feedback on what to improve on"
+            "Section": 1 (this is a constant)
+            "Feedback: "The feedback on what to improve on",
         }}
-        {formatted_contents} """ )
+        
+    Question:
+        {formatted_question}
+        """
+    )
+
     chain = prompt | llm | parser
 
     try:
-        return chain.invoke({"formatted_contents": formatted_contents})
+        return chain.invoke({"formatted_question": formatted_question})
     except (ValidationError, json.JSONDecodeError) as e:
         print(f"First parsing attempt failed: {e}")
         try:
-            raw_output = (prompt | llm).invoke({"formatted_contents": formatted_contents}).content
+            # Clean up output if necessary
+            raw_output = (prompt | llm).invoke({"formatted_question": formatted_question}).content
             print("Raw LLM output:", raw_output)
 
             cleaned_json = clean_json_response(raw_output)
             print("Cleaned JSON:", cleaned_json)
 
-            return json.loads(cleaned_json)
+            return parser.parse(cleaned_json)
         except Exception as e:
             print(f"Final parsing failure: {e}")
             return None
@@ -136,8 +143,8 @@ def generate_feedback(contents: list[str]):
 
 if __name__ == "__main__":
     objectives=sectionOneSyllabus()
-    result = generate_question_and_answer(objectives)
-    
+    result = generate_feedback(["Which of the following is not an input device? a. barcode reader, b. printer, c. mouse, d. keyboard", 
+                                "Which of the following defines data? a. data is raw b. data is processed c. data is an empty value"])  #generate_question_and_answer(objectives)
     if result:
         print(json.dumps(result, indent=4))
     else:
