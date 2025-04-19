@@ -1,50 +1,33 @@
 def sectionOneSyllabus():
-    chunks=[]
-    chunks.append("""Description: Students should be able to explain the concept of Information Technology.
-    Content: Definition and scope of Information Technology.
-    """)
-    chunks.append("""Description: Students should be able to distinguish among the major types of computer systems in terms of processing speed, storage and portability.
+    chunks=["""Description: Distinguish among the major types of computer systems in terms of processing speed, storage and portability.
     Content: Major types: (a) Supercomputers (for example, Cray). (b) Mainframes (for example, IBM zEnterprise System). (c) Desktop systems. (d) Mobile devices (for example, laptops, notebooks, netbooks, smartphones, tablets and game consoles). (e) Embedded devices (for example, special-purpose systems such as controllers in microwaves, car ignition systems, answering machines).
-    """)
-    chunks.append("""Description: Students should be able to explain the functions of the major hardware components of a computer system.
+    """, """Description: Explain the functions of the major hardware components of a computer system.
     Content: Major components: input, central processing unit, primary memory (RAM and ROM), secondary storage, output.(a) Secondary storage devices: hard disk, magnetic tape, flash drive, memory card, and optical disks (CD, DVD and Blu Ray). (b) Units of storage: bits, bytes, kilobytes, megabytes, gigabytes, terabytes.
-    """)
-    chunks.append("""Description: Students should be able to explain how the major hardware components of a computer system interrelate.
+    """, """Description: Explain how the major hardware components of a computer system interrelate.
     Content: Input processing output storage (IPOS) cycle.
-    """)
-    chunks.append("""Description: Students should be able to evaluate the relative merits of cloud storage and local storage.
+    """, """Description: Evaluate the relative merits of cloud storage and local storage.
     Content: Definition of cloud and local storage. Assessment criteria: capacity, accessibility; security issues.
-    """)
-    chunks.append("""Description: Students should be able to select appropriate input/output devices to meet the needs of specified applications.
+    """, """Description: Select appropriate input/output devices to meet the needs of specified applications.
     Content:Associate the following devices with suitable applications: a.) Input: Optical mark reader (OMR), character readers (OCR, MICR), mouse, joystick, barcode reader, document scanner, light-pen, touch terminals, voice response unit, Touch Screens (tablets, point of sale, ATM), keyboard, digital camera, biometric systems, sensors, remote control, sound capture, pointing devices, webcam. b.) Visual output: Monitors, Printers (laser, inkjet, dot matrix, thermal, plotters, 3D Printers), microfilm. c.) Audible output: speakers, headphones, earphones.
-    """)
-    chunks.append("""Description: Students should be able to explain the role of the different types of software in computer operation.
+    """, """Description: Explain the role of the different types of software in computer operation.
     Content: System Software: Operating System, Utilities. Application software: general-purpose and special-purpose; integrated package; source: off the shelf, custom-written, and customized.
-    """)
-    chunks.append("""Description: Students should be able to discuss the relative merits of the various types of user interface.
+    """, """Description: Discuss the relative merits of the various types of user interface.
     Content: Hardware: keyboards. Software: touch screens, specialized command line, menu-driven, graphical user, touch.
-    """)
-    chunks.append("""Description: Students should be able to evaluate the suitability of a given computer system for a specific purpose.
+    """, """Description: Evaluate the suitability of a given computer system for a specific purpose.
     Content: Basic knowledge of system specification needed for purposes such as: to run a video game, web browsing, graphic design, video editing, and desktop publishing. Criteria: Processing speed (CPU type and speed); Memory (RAM); Secondary storage (capacity and speed); Types of software; and, InputOutput devices.
-    """)
-    chunks.append("""Description: Students should be able to troubleshoot basic computer hardware problems.
+    """, """Description: Troubleshoot basic computer hardware problems.
     Content: Cable problems (for example, loose cables). Monitor problems (for example, improperly adjusted monitor controls). Printer problems (for example, changing printer cartridges). Battery problems (for example, loose or dead battery).
-    """)
-    chunks.append("""Description: Students should be able to distinguish between data and information.
+    """, """Description: Distinguish between data and information.
     Content: Data as raw unprocessed facts; information as processed data. Sources of data and information (people, places and things). Document types: turnaround document, human-readable and machine-readable forms; hard copy, and soft copy.
-    """)
-    chunks.append("""Description: Students should be able to evaluate the reliability of information obtained from online sources.
+    """, """Description: Evaluate the reliability of information obtained from online sources.
     Content: Evaluation of information retrieved electronically for authenticity, currency, relevance, and bias.
-    """)
-    chunks.append("""Description: Students should be able to differentiate between validation and verification of data.
+    """, """Description: Differentiate between validation and verification of data.
     Content: Difference between verification and validation.
-    """)
-    chunks.append("""Description: Students should be able to identify appropriate validation and verification checks given a particular scenario.
+    """, """Description:Identify appropriate validation and verification checks given a particular scenario.
     Content: Methods of validation: range check, reasonableness checks, data type checks, consistency checks, presence, format and length. Methods of verification: double entry and proofreading (to identify and correct typographical and transpositional errors).
-    """)
-    chunks.append("""Description: Students should be able to select appropriate file organization for particular applications.
+    ""","""Description: Select appropriate file organization for particular applications.
     Content: File access methods: sequential, serial, direct and random. Application areas: archiving, payroll file, real time systems.
-    """)
+    """ ]
     return chunks
 
 def syllabusChunks():
