@@ -1,5 +1,5 @@
-type MainNavPath = "/" | "/quiz" | "/archive";
-type MainNavName = "home" | "quiz" | "archive"
+type MainNavPath = "/" | "/quiz" | "/archive" | "/feedback";
+type MainNavName = "home" | "quiz" | "archive" | "feedback" | "profile" | "settings" | "logout";
 
 export interface MainNavItem {
   path: MainNavPath;

@@ -6,3 +6,6 @@ export interface UserSettings {
   currentPassword: string;
   darkMode: boolean;
 }
+
+
+export type UserProfileData = UserSettings & { createdAt:string};

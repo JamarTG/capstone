@@ -8,14 +8,15 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useTheme } from "../../../context/ThemeContext";
 import { Icon } from "@mdi/react";
 import {
-  mdiViewDashboard,
-  mdiClipboardList,
-  mdiArchive,
-  mdiAccount,
-  mdiCog,
+  mdiViewDashboardOutline,
+  mdiClipboardListOutline,
+  mdiArchiveOutline,
+  mdiAccountOutline,
+  mdiCogOutline,
   mdiLogout,
   mdiChevronDoubleLeft,
   mdiChevronDoubleRight,
+  mdiCommentOutline, 
 } from "@mdi/js";
 import logo from "/logo.png";
 
@@ -24,12 +25,13 @@ interface HomeLayoutProps {
 }
 
 const navIcons: Record<string, string> = {
-  home: mdiViewDashboard,
-  quiz: mdiClipboardList,
-  archive: mdiArchive,
-  profile: mdiAccount,
-  settings: mdiCog,
+  home: mdiViewDashboardOutline,
+  quiz: mdiClipboardListOutline,
+  archive: mdiArchiveOutline,
+  profile: mdiAccountOutline,
+  settings: mdiCogOutline,
   logout: mdiLogout,
+  feedback: mdiCommentOutline,
 };
 
 const navTexts: Record<string, string> = {
@@ -39,6 +41,7 @@ const navTexts: Record<string, string> = {
   profile: "Profile",
   settings: "Settings",
   logout: "Logout",
+  feedback: "Feedback",
 };
 
 const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean, isDark: boolean) => (
@@ -53,8 +56,7 @@ const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean, isDark
           : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 ${
               isActive ? "border-indigo-500 bg-gray-100 text-gray-800 font-medium" : "border-transparent"
             }`
-      } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
-    }
+      } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`}
   >
     <span className="inline-flex justify-center items-center">
       <Icon path={navIcons[name]} size={1} />
@@ -103,7 +105,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     {renderNavLinks(item, isExpanded, isDark)}
                   </li>
                 )}
-              />
+              />          
             </ul>
           </div>
 
@@ -120,11 +122,10 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                       : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 ${
                           isActive ? "border-indigo-500 bg-gray-200 text-gray-800 font-medium" : "border-transparent"
                         }`
-                  } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`
-                }
+                  } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`}
               >
                 <span className="inline-flex justify-center items-center">
-                  <Icon path={mdiCog} size={1} />
+                  <Icon path={mdiCogOutline} size={1} />
                 </span>
                 {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Settings</span>}
               </NavLink>
