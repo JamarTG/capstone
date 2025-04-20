@@ -47,7 +47,8 @@ export interface IQuestion {
   option_b: string;
   option_c: string;
   option_d: string;
-  correct_answer: "A" | "B" | "C" | "D"; 
+  correct_answer: "A" | "B" | "C" | "D";
+  user_answer: "A" | "B" | "C" | "D"; 
   is_correct?: boolean;
 }
 

@@ -1,16 +1,36 @@
 import { useEffect, useState } from "react";
 import PageLayout from "../../components/layout/Page";
-import { mdiAccountCircle, mdiEmail, mdiCalendar } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useTheme } from "../../context/ThemeContext";
 import { useQuery } from "@tanstack/react-query";
 import { UserAPI } from "../../utils/api";
 import useAuthRedirect from "../../hook/useAuthRedirect";
-import { UserProfileData, UserSettings } from "../../types/settings";
+import { UserProfileData } from "../../types/settings";
+import FeedbackList from "../Feedback/FeedbackList";
+import SectionHeader from "../../components/SectionHeader";
+import { mdiClipboardOutline } from "@mdi/js";
+import { FeedbackEntry } from "../../types/feedback";
 
 const DashboardPage = () => {
+  const dummyFeedbacks: FeedbackEntry[] = [
+    {
+      section: "Section 1",
+      feedback: "You struggled with identifying the correct variable type.",
+      created_at: "2025-04-17T14:30:00Z",
+    },
+    {
+      section: "Section 2",
+      feedback: "You missed the use of conditional logic in question 3.",
+      created_at: "2025-04-12T10:15:00Z",
+    },
+    {
+      section: "Section 3",
+      feedback: "Loop structure was used incorrectly.",
+      created_at: "2025-04-05T08:45:00Z",
+    },
+  ];
+
   useAuthRedirect();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const [user, setUser] = useState<UserProfileData>({
@@ -19,89 +39,36 @@ const DashboardPage = () => {
     email: "",
     password: "",
     currentPassword: "",
-    darkMode: theme === "dark",
+    darkMode: isDark,
     createdAt: "",
   });
 
-  const { data } = useQuery<{ data: UserProfileData }>({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
+  const { data } = useQuery<{ data: UserProfileData }>({
+    queryKey: ["get-profile-data"],
+    queryFn: UserAPI.fetchUserInfo,
+  });
 
   useEffect(() => {
-    if (data) {
-      setUser(data.data);
-    }
-  });
-  // if (isLoading) {
-  //   return <div>Loading...</div>; // Loading state
-  // }
-
-  // if (isError) {
-  //   return <div>Error: {error.message}</div>; // Error state
-  // }
+    if (data) setUser(data.data);
+  }, [data]);
 
   return (
     <PageLayout title="Dashboard">
       <div
-        className={`flex flex-col gap-8 p-6 rounded-xl ${
-          isDark ? "bg-gray-800 text-gray-100" : "bg-white text-gray-900"
-        } border ${isDark ? "border-gray-700" : "border-gray-200"}`}
+        className={`p-8 rounded-xl flex flex-col gap-12 ${isDark ? "bg-gray-800 text-gray-100" : "bg-white text-gray-900"} border ${isDark ? "border-gray-700" : "border-gray-200"}`}
       >
-        {/* Profile Section */}
-        <div className="mb-8">
-          <h1 className={`text-3xl font-semibold ${isDark ? "text-gray-100" : "text-slate-800"}`}>
-            Welcome back, {`${user.firstName} ${user.lastName}`}!
+
+        <div>
+          <h1 className="text-3xl font-semibold">
+            Welcome back, {user.firstName}!
           </h1>
-          <p className={`text-lg ${isDark ? "text-gray-300" : "text-slate-600"}`}>Here’s a quick overview of your profile information.</p>
+          <p className="text-lg mt-2">Let's get you started today.</p>
         </div>
 
-        <div className={`p-8 rounded-lg shadow-md ${isDark ? "bg-gray-700 text-gray-100" : "bg-white text-gray-900"}`}>
-          <div className="flex items-center mb-6">
-            <Icon
-              path={mdiAccountCircle}
-              size={2}
-              className="text-indigo-500 mr-4"
-            />
-            <h2 className="text-2xl font-semibold">Profile Overview</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-center">
-              <Icon
-                path={mdiAccountCircle}
-                size={1.5}
-                className="text-gray-500 mr-4"
-              />
-              <div>
-                <h3 className="text-lg font-medium">Full Name</h3>
-                <p className="text-sm">
-                  {user.firstName} {user.lastName}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center">
-              <Icon
-                path={mdiEmail}
-                size={1.5}
-                className="text-gray-500 mr-4"
-              />
-              <div>
-                <h3 className="text-lg font-medium">Email</h3>
-                <p className="text-sm">{user.email}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center">
-              <Icon
-                path={mdiCalendar}
-                size={1.5}
-                className="text-gray-500 mr-4"
-              />
-              <div>
-                <h3 className="text-lg font-medium">Join Date</h3>
-                <p className="text-sm">{user.createdAt}</p>
-              </div>
-            </div>
-          </div>
+    
+        <div className={`flex flex-col gap-6 p-6 rounded-lg shadow-md ${isDark ? "bg-gray-700" : "bg-gray-100"}`}>
+          <SectionHeader iconPath={mdiClipboardOutline} title="Quiz Feedback" />
+          <FeedbackList feedbacks={dummyFeedbacks} />
         </div>
       </div>
     </PageLayout>

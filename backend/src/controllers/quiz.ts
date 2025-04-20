@@ -5,6 +5,7 @@ import { UserAnswer } from "../models/UserAnswer";
 import { Objective } from "../models/Objective";
 import { spawn } from "child_process";
 import { IQuestion } from "../types/model";
+import { userInfo } from "os";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
   console.log("✅ checkActiveQuizSession was hit");
@@ -96,7 +97,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     console.log("➡️ Incoming createQuizSession request:", req.body);
 
     const { section, feedback } = req.body; 
-    const userId = "507f1f77bcf86cd799439011"
+    const userId = req.user;
 
     const questions:IQuestion[] = await new Promise<any>((resolve, reject) => {
       const py = spawn("python", ["./rag/section1.py", String(section)]); 
@@ -130,8 +131,6 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 
       return;
     }
-
-    console.log()
 
     // const formattedQuestions = questions.map((q: any) => ({
     //   questionId: q.question_id, 
@@ -192,21 +191,22 @@ export const deleteQuizSession = async (req: Request, res: Response) => {
 
 export const getUserQuizSessions = async (req: CustomRequest, res: Response) => {
   try {
-    const sessions = await Quiz.find({ user: req.user._id }).sort({ startTime: -1 }).populate("topic").populate("questions.questionId");
+    const sessions = await Quiz.find({ user: req.user._id })
+      .sort({ startTime: -1 });
 
     res.status(200).json({
       message: "User quiz sessions fetched successfully",
       sessions,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch user quiz sessions" });
+    res.status(500).json({ error: `Failed to fetch user quiz sessions: ${err}` });
   }
 };
 
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
     const quiz = req.params.sessionId;
-    const { is_correct } = req.body;
+    const { is_correct, selectedOption } = req.body;
     const user = req.user.id;
 
     const fetchedQuiz = await Quiz.findById({ _id: quiz });
@@ -222,10 +222,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
 
     const currentIndex = fetchedQuiz.currentQuestionIndex;
     const currentQuestion = fetchedQuiz.questions[currentIndex];
-
-    console.log("Current Question:", currentQuestion);
-    console.log("Current Index:", currentIndex);
-    
+    currentQuestion.user_answer = selectedOption;
 
     if (is_correct) {
       fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
@@ -234,7 +231,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       currentQuestion.is_correct = false;
     }
     
-    fetchedQuiz.markModified(`questions.${currentIndex}.is_correct`);
+    fetchedQuiz.markModified(`questions.${currentIndex}`);
 
     fetchedQuiz.currentQuestionIndex += 1;
 

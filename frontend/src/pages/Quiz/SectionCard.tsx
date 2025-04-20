@@ -1,9 +1,14 @@
 import Card from "../../components/ui/Card";
-import { Topic } from "./QuizCard";
 import { useTheme } from "../../context/ThemeContext";
 import Button from "../../components/ui/Button";
 
-const TopicCard = ({ topic, onClick }: { topic: Topic; onClick: () => void }) => {
+const SectionCard = ({
+  section,
+  onClick,
+}: {
+  section: { name: string; bgSrc: string };
+  onClick: () => void;
+}) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -12,13 +17,13 @@ const TopicCard = ({ topic, onClick }: { topic: Topic; onClick: () => void }) =>
       animateOnHover={false}
       className={`border ${isDark ? "border-gray-700" : "border-gray-200"} rounded-lg relative flex flex-col min-h-[10rem] bg-white overflow-hidden p-0 transition-all duration-300 group`}
       style={{
-        backgroundImage: `url('${topic.backgroundImage}')`,
+        backgroundImage: `url('${section.bgSrc}')`,
         backgroundSize: "cover",
         height: "180px",
       }}
     >
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
-        <h2 className="text-sm font-bold text-white">{topic.name}</h2>
+        <h2 className="text-sm font-bold text-white">{section.name}</h2>
         <div className="w-full h-px bg-white/20 my-2"></div>
         <div className="flex justify-between items-center text-sm text-white/80 mb-2">
           <span>10 questions</span>
@@ -27,8 +32,8 @@ const TopicCard = ({ topic, onClick }: { topic: Topic; onClick: () => void }) =>
         <Button
           onClick={onClick}
           className={`py-2 rounded-md text-sm font-medium ${
-            isDark 
-              ? "bg-gray-200 hover:bg-purple-700 text-white" 
+            isDark
+              ? "bg-gray-200 hover:bg-purple-700 text-white"
               : "bg-gray-200 hover:bg-blue-700 text-white"
           } transition-colors duration-200`}
         >
@@ -39,4 +44,4 @@ const TopicCard = ({ topic, onClick }: { topic: Topic; onClick: () => void }) =>
   );
 };
 
-export default TopicCard;
+export default SectionCard;

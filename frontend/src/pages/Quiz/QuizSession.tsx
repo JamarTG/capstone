@@ -55,6 +55,12 @@ const QuizSession = () => {
     }
   }, [session, refetch]);
 
+  useEffect(() => {
+    if (session?.session?.currentQuestionIndex !== undefined) {
+      setCurrentIndex(session.session.currentQuestionIndex);
+    }
+  }, [session]);
+
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 

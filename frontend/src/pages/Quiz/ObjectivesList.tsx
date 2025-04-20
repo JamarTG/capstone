@@ -1,5 +1,5 @@
 import React from "react";
-import { Topic } from "./QuizCard";
+import { Topic } from "../../components/QuizCard";
 import Icon from "@mdi/react";
 import { mdiAlertCircleOutline } from "@mdi/js";
 import { useTheme } from "../../context/ThemeContext";
@@ -31,7 +31,11 @@ const ObjectivesList: React.FC<ObjectivesListProps> = ({ selectedTopic }) => {
         </ul>
       ) : (
         <div className={`flex text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
-          <Icon path={mdiAlertCircleOutline} size={0.9} className="mr-2" />
+          <Icon
+            path={mdiAlertCircleOutline}
+            size={0.9}
+            className="mr-2"
+          />
           No objectives available for this topic.
         </div>
       )}

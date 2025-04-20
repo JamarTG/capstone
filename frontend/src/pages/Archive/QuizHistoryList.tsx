@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { Quiz } from "../../types/quiz";
-import QuizCard from "../Quiz/QuizCard";
+import QuizCard from "../../components/QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../context/ThemeContext";
@@ -23,7 +23,7 @@ const QuizHistoryList = () => {
     queryFn: QuizAPI.getQuizzes,
   });
 
-  if (isLoading) return <Loader text={"Loading Quizzes"}/>;
+  if (isLoading) return <Loader text={"Loading Quizzes"} />;
   if (error) return <div>Failed to load quiz history.</div>;
 
   const sessions = quizzes?.sessions || [];
@@ -45,8 +45,8 @@ const QuizHistoryList = () => {
                 ? "bg-slate-600 text-white"
                 : "bg-slate-600 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           All
@@ -59,8 +59,8 @@ const QuizHistoryList = () => {
                 ? "bg-green-600 text-white"
                 : "bg-green-600 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           Completed
@@ -73,8 +73,8 @@ const QuizHistoryList = () => {
                 ? "bg-yellow-500 text-white"
                 : "bg-yellow-500 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           In Progress
@@ -92,7 +92,7 @@ const QuizHistoryList = () => {
                 currentQuestionIndex={quiz.currentQuestionIndex}
                 quizRefetch={quizRefetch}
                 quizId={quiz._id}
-                topic={quiz.topic}
+                section={quiz.section}
                 score={quiz.score}
                 completed={quiz.completed}
                 lastAttempt={quiz.endTime || quiz.startTime}

@@ -79,6 +79,10 @@ const QuizSchema = new Schema<IQuiz>(
           required: true,
           enum: ["A", "B", "C", "D"],
         },
+        user_answer: {
+          type: String,
+          enum: ["A", "B", "C", "D"],
+        },
         is_correct: {
           type: Boolean,
           default: null,

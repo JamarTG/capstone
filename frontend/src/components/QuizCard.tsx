@@ -1,14 +1,15 @@
-import Card from "../../components/ui/Card";
+import Card from "./ui/Card";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { QuizAPI } from "../../utils/api";
+import { QuizAPI } from "../utils/api";
 import { AxiosError } from "axios";
-import { extractErrorMessage } from "../../utils/error";
-import Button from "../../components/ui/Button";
+import { extractErrorMessage } from "../utils/error";
+import Button from "./ui/Button";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
+import { Section_Map } from "../constants";
 
 export interface Question {
   _id: string;
@@ -37,7 +38,7 @@ export interface Topic {
 interface QuizCardProps {
   score: number;
   lastAttempt: string | Date;
-  topic: Topic;
+  section: number;
   tags: string[];
   completed: boolean;
   currentQuestionIndex: number;
@@ -48,7 +49,7 @@ interface QuizCardProps {
 
 const QuizCard: React.FC<QuizCardProps> = ({
   quizRefetch,
-  topic,
+  section,
   completed,
   score,
   lastAttempt,
@@ -90,6 +91,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
   const navigate = useNavigate();
 
+  const progressPercentage = currentQuestionIndex > 0 ? (score / currentQuestionIndex) * 100 : 0;
+
   return (
     <Card
       className={`border ${isDark ? "border-gray-700" : "border-gray-200"} rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] ${isDark ? "bg-gray-800" : "bg-white"} overflow-hidden p-0 transition-all duration-300 group ${className}`}
@@ -98,16 +101,16 @@ const QuizCard: React.FC<QuizCardProps> = ({
       <section
         className="relative h-40 sm:h-44"
         style={{
-          backgroundImage: `url('${topic?.backgroundImage ?? "/fallback.jpg"}')`,
+          backgroundImage: `url(${Section_Map[section]?.bgSrc})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
       >
         {!isNaN(score) && completed && (
           <div
-            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${getScoreColor((score / currentQuestionIndex) * 100)} z-10`}
+            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${getScoreColor(progressPercentage)} z-10`}
           >
-            <span className="text-xl text-white">{(score / currentQuestionIndex) * 100}%</span>
+            <span className="text-xl text-white">{progressPercentage.toFixed(0)}%</span>
           </div>
         )}
 
@@ -126,8 +129,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
           <div className="w-full bg-gray-200/30 rounded-full h-2 mt-2">
             <div
-              className={`h-2 rounded-full ${getScoreColor((score / currentQuestionIndex) * 100).replace("text", "bg")}`}
-              style={{ width: `${(currentQuestionIndex/1) * 100}%` }}
+              className={`h-2 rounded-full ${getScoreColor(progressPercentage).replace("text", "bg")}`}
+              style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
         </div>
@@ -135,7 +138,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
       <section className={`flex-1 p-4 flex flex-col justify-between ${isDark ? "text-gray-100" : "text-slate-800"}`}>
         <div className="flex justify-between items-start">
-          <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{topic?.name ?? "Untitled Topic"}</h3>
+          <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section].name}</h3>
         </div>
         <div className="flex flex-wrap gap-2 justify-center">
           {tags.map((tag, index) => (
@@ -150,7 +153,11 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
           <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
-          <Button size="sm" className={`gap-1 ${isDark ? "bg-gray-700 text-gray-100" : "bg-slate-300"}`} onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}>
+          <Button
+            size="sm"
+            className={`gap-1 ${isDark ? "bg-gray-700 text-gray-100" : "bg-slate-300"}`}
+            onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}
+          >
             {completed ? "Review" : "Continue"}
           </Button>
         </div>

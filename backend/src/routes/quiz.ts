@@ -15,8 +15,8 @@ const router = express.Router();
 
 router.get("/active", verifyToken, checkActiveQuizSession);
 router.get("/all", verifyToken, getUserQuizSessions)
-router.post("/create",createQuizSession);
-router.get("/:sessionId", getQuizSession);
+router.post("/create", verifyToken,createQuizSession);
+router.get("/:sessionId", verifyToken, getQuizSession);
 router.patch("/:sessionId/answer",verifyToken, submitQuizAnswer);
 router.delete("/:sessionId", deleteQuizSession);
 router.put("/:sessionId/auto-submit", verifyToken, completeQuiz);
