@@ -167,7 +167,6 @@ export const getQuizSession = async (req: Request, res: Response) => {
       session,
     });
   } catch (err) {
-    console.log("This ran")
     res.status(500).json({ error: "Failed to retrieve sessionaa" });
   }
 };

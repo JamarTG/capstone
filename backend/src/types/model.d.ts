@@ -1,3 +1,6 @@
+
+import { Document, Types } from 'mongoose';
+
 export interface IUser extends Document {
   email: string;
   password: string;
@@ -9,7 +12,12 @@ export interface IUser extends Document {
   createdAt: Date;
 }
 
-import { Document, Types } from 'mongoose';
+export interface IFeedback extends Document {
+  user: Types.ObjectId | IUser;
+  section: string;
+  feedback: string;
+  created_at: Date;
+}
 
 export interface IQuizQuestion {
   question: string;
