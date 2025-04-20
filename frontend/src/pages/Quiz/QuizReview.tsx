@@ -5,13 +5,16 @@ import { QuizAPI } from "../../utils/api";
 import { Question } from "../../types/quiz";
 import PageLayout from "../../components/layout/Page";
 import LoadingPage from "../../components/common/Loader";
+import { useTheme } from "../../context/ThemeContext";
 
 const QuestionSidebar = ({
+  isDark,
   questions,
   currentQuestionIndex,
   setCurrentQuestionIndex,
 }: {
   questions: Question[];
+  isDark: boolean;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -23,7 +26,7 @@ const QuestionSidebar = ({
   const pageQuestions = questions.slice(start, end);
 
   return (
-    <div className="w-full sm:w-1/4 lg:w-1/3 p-4 bg-gray-800 rounded-lg sticky top-16 h-full overflow-y-auto">
+    <div className={`w-full sm:w-1/4 lg:w-1/3 p-4 ${isDark ? "bg-gray-800" : ""} rounded-lg sticky top-16 h-full overflow-y-auto`}>
       <h2 className="text-xl font-semibold text-white mb-6">Questions</h2>
       <ul className="space-y-4">
         {pageQuestions.map((question, index) => {
@@ -32,10 +35,10 @@ const QuestionSidebar = ({
             <li
               key={globalIndex}
               onClick={() => setCurrentQuestionIndex(globalIndex)}
-              className={`p-3 cursor-pointer rounded-lg transition-colors ${
+              className={`border p-3 cursor-pointer rounded-lg transition-colors ${
                 currentQuestionIndex === globalIndex
-                  ? "bg-gray-700 text-white"
-                  : "bg-gray-600 text-gray-300 hover:bg-gray-500"
+                  ? `border-white ${isDark ? "text-white bg-gray-700" : "text-gray-800 bg-gray-200"}`
+                  : `${isDark ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"}`
               }`}
             >
               <p className="truncate">{question.question}</p>
@@ -64,7 +67,6 @@ const QuestionSidebar = ({
   );
 };
 
-
 const QuizReview = () => {
   const { id } = useParams<{ id: string }>();
 
@@ -72,6 +74,9 @@ const QuizReview = () => {
     queryKey: ["get-quizzes", id],
     queryFn: () => QuizAPI.getQuizById(id!),
   });
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -103,6 +108,7 @@ const QuizReview = () => {
     <PageLayout title={"Quiz Review"}>
       <div className="flex flex-wrap space-x-8 gap-8">
         <QuestionSidebar
+          isDark={isDark}
           questions={questions}
           currentQuestionIndex={currentQuestionIndex}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
@@ -110,7 +116,7 @@ const QuizReview = () => {
 
         <div className="flex-1 p-8 rounded-lg border border-gray-700">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-xl font-semibold text-white">Quiz Review</h1>
+            <h1 className="text-xl font-semibold">Quiz Review</h1>
             <div className="flex space-x-4">
               <button
                 onClick={handlePrevious}
@@ -131,7 +137,7 @@ const QuizReview = () => {
 
           {question && (
             <div className="p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-white mb-4">{question.question}</h3>
+              <h3 className="text-xl font-semibold mb-4">{question.question}</h3>
 
               <ul className="space-y-3">
                 {["A", "B", "C", "D"].map((key) => {
@@ -142,12 +148,8 @@ const QuizReview = () => {
                   return (
                     <li
                       key={key}
-                      className={`p-3 rounded-lg ${
-                        isCorrect
-                          ? "border border-green-500 text-white"
-                          : isSelected
-                            ? "border border-red-500 text-white"
-                            : "bg-gray-700 text-gray-300"
+                      className={`p-3 border rounded-lg ${
+                        isCorrect ? "border-green-500" : isSelected ? "border-red-500" : "border-gray-600"
                       }`}
                     >
                       {key}. {option}

@@ -25,10 +25,7 @@ const SectionCard = ({
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
         <h2 className="text-sm font-bold text-white">{section.name}</h2>
         <div className="w-full h-px bg-white/20 my-2"></div>
-        <div className="flex justify-between items-center text-sm text-white/80 mb-2">
-          <span>10 questions</span>
-          <span>30 min</span>
-        </div>
+      
         <Button
           onClick={onClick}
           className={`py-2 rounded-md text-sm font-medium ${

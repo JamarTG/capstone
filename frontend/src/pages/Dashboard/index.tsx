@@ -66,7 +66,7 @@ const DashboardPage = () => {
         </div>
 
     
-        <div className={`flex flex-col gap-6 p-6 rounded-lg shadow-md ${isDark ? "bg-gray-700" : "bg-gray-100"}`}>
+        <div className={"flex flex-col gap-6"}>
           <SectionHeader iconPath={mdiClipboardOutline} title="Quiz Feedback" />
           <FeedbackList feedbacks={dummyFeedbacks} />
         </div>
