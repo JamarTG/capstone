@@ -58,10 +58,10 @@ export const checkActiveQuizSession = async (req: CustomRequest, res: Response) 
 
 export const testGenerateQuestion = async (req: Request, res: Response) => {
   try {
-    const { topic } = req.body;
+    const { section, feedback } = req.body;
 
     const question = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/section1.py", topic]);
+      const py = spawn("python", ["./rag/section1.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -72,10 +72,8 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
       py.on("close", (code) => {
         if (code === 0) {
           try {
-            const parsed = JSON.parse(data)
-            resolve(parsed)
-            // const parsed = JSON.parse(data);
-            // resolve(parsed);
+            const parsed = JSON.parse(data);
+            resolve(parsed);
           } catch (err) {
             reject(`Failed to parse JSON: ${err}`);
           }
@@ -83,6 +81,10 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
           reject(`Python script failed with code ${code}:\n${error}`);
         }
       });
+
+      // Send feedback to Python via stdin
+      py.stdin.write(JSON.stringify({ feedback }));
+      py.stdin.end();
     });
 
     res.status(200).json({ success: true, data: question });
@@ -90,6 +92,7 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, error: `${err}` });
   }
 };
+
 
 
 export const createQuizSession = async (req: CustomRequest, res: Response) => {

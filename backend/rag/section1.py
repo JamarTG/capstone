@@ -6,9 +6,21 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field, ValidationError
 from typing import Literal
 from vectordb import * #to access the vector database
-from chunks import sectionOneSyllabus
+from chunks import sectionOneSyllabus,sectionTwoSyllabus,sectionThreeSyllabus,sectionFourSyllabus,sectionFiveSyllabus,sectionSixSyllabus,sectionSevenSyllabus,sectionEightSyllabus
+import sys
 
 load_dotenv()
+
+SECTION_MAP = {
+    "1": sectionOneSyllabus,
+    "2": sectionTwoSyllabus,
+    "3": sectionThreeSyllabus,
+    "4": sectionFourSyllabus,
+    "5": sectionFiveSyllabus,
+    "6": sectionSixSyllabus,
+    "7": sectionSevenSyllabus,
+    "8": sectionEightSyllabus,
+}
 
 llm = ChatOpenAI(temperature=0.8, model="gpt-4")
 
@@ -140,12 +152,85 @@ def generate_feedback(question: list[str]):
             return None
 
 
+def generate_question_and_answer_from_feedback(feedbacks: list[str]):
+    """Generates one MCQ per feedback directly from the feedback content."""
+    parser = JsonOutputParser(pydantic_object=list[QuestionAnswerFormat])
+
+    formatted_feedbacks = "\n".join([f"Feedback {i+1}:\n{fb}" for i, fb in enumerate(feedbacks)])
+
+    prompt = ChatPromptTemplate.from_template(
+    """
+    You will be given a list of feedback from students, where each feedback describes an area where the student is struggling or needs improvement. 
+
+    For each feedback:
+    1. Analyze the weakness the student demonstrates and focus on that specific area of difficulty.
+    2. Based on the weakness, generate **1 multiple-choice question** with four options (A-D) that tests the student’s understanding of the concept related to that weakness.
+    3. Ensure the correct answer does not always appear in the same letter position.
+
+    Respond with a list of JSON objects (one per feedback) inside a code block using ```json delimiters.
+
+    Each object must match the format:
+
+    ```json
+    {{
+        "question": "The question text",
+        "option_a": "Option A text",
+        "option_b": "Option B text",
+        "option_c": "Option C text",
+        "option_d": "Option D text",
+        "correct_answer": "A"
+    }}
+    {formatted_feedbacks}
+    """
+)
+
+
+    chain = prompt | llm | parser
+
+    try:
+        return chain.invoke({"formatted_feedbacks": formatted_feedbacks})
+    except (ValidationError, json.JSONDecodeError) as e:
+        print(f"First parsing attempt failed: {e}")
+        try:
+            # Raw LLM output in case of parse failure
+            raw_output = (prompt | llm).invoke({"formatted_feedbacks": formatted_feedbacks}).content
+            print("Raw LLM output:", raw_output)
+
+            cleaned_json = clean_json_response(raw_output)
+            print("Cleaned JSON:", cleaned_json)
+
+            return json.loads(cleaned_json)
+        except Exception as e:
+            print(f"Final parsing failure: {e}")
+            return None
+
 
 if __name__ == "__main__":
-    objectives=sectionOneSyllabus()
-    result = generate_feedback(["Which of the following is not an input device? a. barcode reader, b. printer, c. mouse, d. keyboard", 
-                                "Which of the following defines data? a. data is raw b. data is processed c. data is an empty value"])  
-    #result=generate_question_and_answer(objectives)
+    section_arg = sys.argv[1] if len(sys.argv) > 1 else "1"
+
+    try:
+        input_data = json.loads(sys.stdin.read())
+        feedback_data = input_data.get("feedback", [])
+    except Exception:
+        feedback_data = []
+
+    if len(feedback_data) > 0:
+        try:
+            feedback_texts = [fb['Feedback'] for fb in feedback_data]
+            result = generate_question_and_answer_from_feedback(feedback_texts)
+        except Exception as e:
+            print(json.dumps({"error": f"Invalid feedback format: {e}"}))
+            sys.exit(1)
+    else:
+      
+        section_content = SECTION_MAP.get(section_arg)()
+
+        if section_content:
+            result = generate_question_and_answer(section_content)
+        else:
+            sys.exit(1)
+
+    
     if result:
         print(json.dumps(result, indent=4))
     else:
