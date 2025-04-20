@@ -202,11 +202,11 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
     res.status(500).json({ error: "Failed to fetch user quiz sessions" });
   }
 };
-/*
+
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
     const quiz = req.params.sessionId;
-    const { question, selectedOption } = req.body;
+    const { is_correct } = req.body;
     const user = req.user.id;
 
     const fetchedQuiz = await Quiz.findById({ _id: quiz });
@@ -220,24 +220,23 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       return;
     }
 
-    const fetchedQuestion = await Question.findById({ _id: question });
-    if (!fetchedQuestion) {
-      res.status(404).json({ message: "Question not found." });
-      return;
+    const currentIndex = fetchedQuiz.currentQuestionIndex;
+    const currentQuestion = fetchedQuiz.questions[currentIndex];
+
+    console.log("Current Question:", currentQuestion);
+    console.log("Current Index:", currentIndex);
+    
+
+    if (is_correct) {
+      fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
+      currentQuestion.is_correct = true;
+    } else {
+      currentQuestion.is_correct = false;
     }
-
-    const isCorrect = selectedOption === fetchedQuestion.correctAnswer;
-
-    const existingAnswer = await UserAnswer.findOneAndUpdate(
-      { user, quiz, question },
-      { selectedOption, isCorrect, answeredAt: new Date() },
-      { new: true, upsert: true }
-    );
+    
+    fetchedQuiz.markModified(`questions.${currentIndex}.is_correct`);
 
     fetchedQuiz.currentQuestionIndex += 1;
-    if (isCorrect) {
-      fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
-    }
 
     if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
       fetchedQuiz.completed = true;
@@ -247,7 +246,8 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
 
     res.status(200).json({
       message: "Answer submitted successfully.",
-      data: existingAnswer,
+      currentIndex,
+      is_correct,
     });
     return;
   } catch (error) {
@@ -255,7 +255,8 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ message: `Server error ${error}` });
     return;
   }
-};*/
+};
+
 
 export const completeQuiz = async (req: Request, res: Response) => {
   try {

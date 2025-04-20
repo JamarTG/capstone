@@ -31,6 +31,7 @@ export interface QuizAnswerPayload {
   selectedOption: string;
   question:string,
   score: number;
+  is_correct: boolean;
 }
 
 export interface Question {

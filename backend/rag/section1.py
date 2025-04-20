@@ -207,6 +207,7 @@ def generate_question_and_answer_from_feedback(feedbacks: list[str]):
 
 if __name__ == "__main__":
     section_arg = sys.argv[1] if len(sys.argv) > 1 else "1"
+    grade_quiz = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2].lower() == "grade" else None  # Handle grading flag
 
     try:
         input_data = json.loads(sys.stdin.read())
@@ -214,7 +215,11 @@ if __name__ == "__main__":
     except Exception:
         feedback_data = []
 
-    if len(feedback_data) > 0:
+    if grade_quiz:
+        # If the grading flag is set, you would typically invoke a grading function here
+        print(json.dumps({"message": "Grading the quiz..."}))
+        # You can implement the grading logic here, if necessary.
+    elif len(feedback_data) > 0:
         try:
             feedback_texts = [fb['Feedback'] for fb in feedback_data]
             result = generate_question_and_answer_from_feedback(feedback_texts)
@@ -222,7 +227,6 @@ if __name__ == "__main__":
             print(json.dumps({"error": f"Invalid feedback format: {e}"}))
             sys.exit(1)
     else:
-      
         section_content = SECTION_MAP.get(section_arg)()
 
         if section_content:
@@ -230,8 +234,8 @@ if __name__ == "__main__":
         else:
             sys.exit(1)
 
-    
     if result:
         print(json.dumps(result, indent=4))
     else:
         print(json.dumps({"error": "Failed to generate valid question and answer"}))
+

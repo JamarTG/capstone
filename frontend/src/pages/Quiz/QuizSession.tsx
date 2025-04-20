@@ -87,12 +87,13 @@ const QuizSession = () => {
       selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
 
     const isCorrect = selectedKey === currentQuestion.correctAnswer;
-
+    
     submitAnswerMutation({
       quiz: session.session._id,
       question: currentQuestion.id,
       selectedOption: selectedKey,
       score: isCorrect ? score + 1 : score,
+      is_correct: isCorrect,
     });
 
     if (isCorrect) setScore((prev) => prev + 1);

@@ -48,6 +48,7 @@ export interface IQuestion {
   option_c: string;
   option_d: string;
   correct_answer: "A" | "B" | "C" | "D"; 
+  is_correct?: boolean;
 }
 
 export interface IQuiz {
