@@ -6,7 +6,7 @@ import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import { QuizSessionResponse } from "../../types/quiz";
+import { Question, QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
@@ -58,19 +58,24 @@ const QuizSession = () => {
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
-  const questions = session.session.questions.map((q) => {
-    const qData = q.questionId;
+  const questions = session.session.questions.map((q:Question) => {
     return {
-      id: qData._id,
-      question: qData.text,
-      options: qData.options,
-      correctAnswer: qData.correctAnswer,
-      explanation: qData.explanation,
+      id: q._id,
+      question: q.question,
+      options: {
+        A: q.option_a,
+        B: q.option_b,
+        C: q.option_c,
+        D: q.option_d,
+      },
+      correctAnswer: q.correct_answer,
       selectedOption: q.selectedOption,
       isCorrect: q.isCorrect,
       answeredAt: q.answeredAt,
     };
   });
+  
+  
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
@@ -133,14 +138,16 @@ const QuizSession = () => {
                 }}
                 isSubmitting={isPending}
               />
+
+              {/* {JSON.stringify(session.session.questions)} */}
               <QuestionCard
-                question={`${currentIndex + 1}. ${currentQuestion.question}`}
-                answers={Object.values(currentQuestion.options)}
-                selectedAnswer={selectedAnswer}
-                onAnswerSelect={handleAnswerSelect}
-                onNextQuestion={handleNextQuestion}
-                isLastQuestion={isLastQuestion}
-              />
+                question={`${currentIndex + 1}. ${currentQuestion.question}`} 
+                answers={Object.values(currentQuestion.options)} 
+                selectedAnswer={selectedAnswer} 
+                onAnswerSelect={handleAnswerSelect} 
+                onNextQuestion={handleNextQuestion} 
+                isLastQuestion={isLastQuestion} 
+              /> 
             </div>
           </div>
         </div>

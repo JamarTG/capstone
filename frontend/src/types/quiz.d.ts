@@ -33,6 +33,14 @@ export interface QuizAnswerPayload {
   score: number;
 }
 
+export interface Question {
+  question: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  correct_answer: "A" | "B" | "C" | "D"; 
+}
 export interface Session {
   _id: string;
   topic: Topic;
@@ -42,7 +50,7 @@ export interface Session {
   startTime: string;
   completed: boolean;
   tags: string[];
-  questions: Question[];
+  questions: Question[]; 
   createdAt: string;
   updatedAt: string;
   __v: number;

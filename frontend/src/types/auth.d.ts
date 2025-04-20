@@ -55,5 +55,5 @@ export interface UserUpdatePayload {
 }
 
 interface CreateQuizPayload {
-  topic: string;
+  section: number;
 }

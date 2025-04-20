@@ -1,10 +1,10 @@
 import express from "express";
-import { getTopics, seedTopics } from "../controllers/topics";
+import { getTopics } from "../controllers/topics";
 
 const router = express.Router();
 
 
-router.post("/", seedTopics);
+// router.post("/", seedTopics);
 router.get("/", getTopics);
 
 export default router;

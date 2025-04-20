@@ -1,25 +1,25 @@
 import { Request, Response } from "express";
 import Topic from "../models/Topic";
 import { topics, objectives,questions} from "../data/topics";
-import { Question } from "../models/Question";
+
 import { Objective } from "../models/Objective";
 
 
-export const seedTopics = async (req: Request,res:Response) => {
-  try {  
-    await Topic.deleteMany({});
-    await Objective.deleteMany({});
-    await Question.deleteMany({});
+// export const seedTopics = async (req: Request,res:Response) => {
+//   try {  
+//     await Topic.deleteMany({});
+//     await Objective.deleteMany({});
+//     await Question.deleteMany({});
 
-    await Topic.insertMany(topics);
-    await Objective.insertMany(objectives);
-    await Question.insertMany(questions);
+//     await Topic.insertMany(topics);
+//     await Objective.insertMany(objectives);
+//     await Question.insertMany(questions);
 
-    console.log("Database seeded successfully!");
-  } catch (error) {
-    console.error("Error seeding database:", error);
-  } 
-};
+//     console.log("Database seeded successfully!");
+//   } catch (error) {
+//     console.error("Error seeding database:", error);
+//   } 
+// };
 
 export const getTopics = async (req: Request, res: Response) => {
   try {

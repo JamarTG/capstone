@@ -1,5 +1,4 @@
-
-import { Document, Types } from 'mongoose';
+import { Document, Types } from "mongoose";
 
 export interface IUser extends Document {
   email: string;
@@ -22,12 +21,11 @@ export interface IFeedback extends Document {
 export interface IQuizQuestion {
   question: string;
   options: {
-    [key: string]: string; 
+    [key: string]: string;
   };
   answer: string;
   userAnswer?: string;
 }
-
 
 export interface ITopic extends Document {
   _id: Types.ObjectId;
@@ -43,17 +41,17 @@ export interface IObjective extends Document {
   questions?: Types.ObjectId[];
 }
 
-export interface IQuestion extends Document {
-  _id: Types.ObjectId;
-  text: string;
-  options: Record<string, string>;
-  correctAnswer: string;
-  explanation?: string;
-  objective: Types.ObjectId | IObjective;
+export interface IQuestion {
+  question: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  correct_answer: "A" | "B" | "C" | "D"; 
 }
 
-export interface IQuiz{
-  _id: string,
+export interface IQuiz {
+  _id: string;
   topic: string;
   user: string;
   currentQuestionIndex: number;
@@ -64,4 +62,3 @@ export interface IQuiz{
   tags: string[];
   questions: IQuizQuestion[];
 }
-

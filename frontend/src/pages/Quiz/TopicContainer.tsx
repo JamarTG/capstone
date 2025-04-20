@@ -34,7 +34,7 @@ const TopicContainer = ({
           >
             <TopicCard
               topic={topic}
-              onClick={() => createQuizMutate({ topic: topic._id })}
+              onClick={() => createQuizMutate({ section: 1 })}
             />
           </div>
         ))

@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { Quiz } from "../models/Quiz";
-import { Question } from "../models/Question";
 import { CustomRequest } from "../types/middleware";
 import { UserAnswer } from "../models/UserAnswer";
 import { Objective } from "../models/Objective";
 import { spawn } from "child_process";
+import { IQuestion } from "../types/model";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
   console.log("✅ checkActiveQuizSession was hit");
 
   try {
     if (!req.user?._id) {
-      res.status(401).json({ 
+      res.status(401).json({
         success: false,
-        error: "Authentication required" 
+        error: "Authentication required",
       });
       return;
     }
@@ -21,9 +21,9 @@ export const checkActiveQuizSession = async (req: CustomRequest, res: Response) 
     const activeSession = await Quiz.findOne(
       {
         user: req.user._id,
-        completed: false
+        completed: false,
       },
-      { _id: 1 } 
+      { _id: 1 }
     );
 
     if (!activeSession) {
@@ -31,8 +31,8 @@ export const checkActiveQuizSession = async (req: CustomRequest, res: Response) 
         success: true,
         data: {
           hasActiveSession: false,
-          sessionId: null
-        }
+          sessionId: null,
+        },
       });
       return;
     }
@@ -41,16 +41,15 @@ export const checkActiveQuizSession = async (req: CustomRequest, res: Response) 
       success: true,
       data: {
         hasActiveSession: true,
-        sessionId: activeSession._id
-      }
+        sessionId: activeSession._id,
+      },
     });
     return;
-
   } catch (error) {
     console.error("Error checking active quiz session:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to check for active quiz session"
+      error: "Failed to check for active quiz session",
     });
     return;
   }
@@ -82,7 +81,6 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
         }
       });
 
-      // Send feedback to Python via stdin
       py.stdin.write(JSON.stringify({ feedback }));
       py.stdin.end();
     });
@@ -93,50 +91,59 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
     console.log("➡️ Incoming createQuizSession request:", req.body);
 
-    const { topic } = req.body;
-    const { _id: userId } = req.user;
+    const { section, feedback } = req.body; 
+    const userId = "507f1f77bcf86cd799439011"
 
-    const objectives = await Objective.find({ topic }).select("_id");
-    console.log(`✅ Found ${objectives.length} objectives for topic ${topic}`);
+    const questions:IQuestion[] = await new Promise<any>((resolve, reject) => {
+      const py = spawn("python", ["./rag/section1.py", String(section)]); 
 
-    if (!objectives.length) {
-      res.status(400).json({ error: `No objectives found for topic ${topic}` });
+      let data = "";
+      let error = "";
+
+      py.stdout.on("data", (chunk) => (data += chunk));
+      py.stderr.on("data", (chunk) => (error += chunk));
+
+      py.on("close", (code) => {
+        if (code === 0) {
+          try {
+            const parsed = JSON.parse(data);
+            resolve(parsed);
+          } catch (err) {
+            reject(`Failed to parse JSON: ${err}`);
+          }
+        } else {
+          reject(`Python script failed with code ${code}:\n${error}`);
+        }
+      });
+
+      py.stdin.write(JSON.stringify({ feedback })); 
+      py.stdin.end();
+    });
+
+
+    if (!questions || questions.length === 0) {
+      res.status(400).json({ error: "No questions generated for the selected topic." });
+
       return;
     }
 
-    const questions = [];
+    console.log()
 
-    for (const obj of objectives) {
-      console.log(`🔍 Searching question for objective ${obj._id}`);
-      const result = await Question.aggregate([{ $match: { objective: obj._id } }, { $sample: { size: 1 } }]);
+    // const formattedQuestions = questions.map((q: any) => ({
+    //   questionId: q.question_id, 
+    //   selectedOption: "", 
+    //   isCorrect: false, 
+    // }));
 
-      if (result.length) {
-        console.log(`✅ Found question ${result[0]._id} for objective ${obj._id}`);
-        questions.push(result[0]);
-      } else {
-        console.log(`⚠️ No question found for objective ${obj._id}`);
-      }
-    }
-
-    if (!questions.length) {
-      res.status(400).json({ error: "No questions found for the selected topic." });
-      return;
-    }
-
+   
     const newSession = await Quiz.create({
-      topic,
+      section,
       user: userId,
-      questions: questions.map((q) => ({
-        questionId: q._id,
-        selectedOption: "",
-        isCorrect: false,
-      })),
+      questions,
       currentQuestionIndex: 0,
       score: 0,
       startTime: new Date(),
@@ -158,7 +165,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 export const getQuizSession = async (req: Request, res: Response) => {
   console.log("⚠️ getQuizSession was hit with sessionId:", req.params.sessionId);
   try {
-    const session = await Quiz.findById(req.params.sessionId).populate("topic").populate("questions.questionId");
+    const session = await Quiz.findById(req.params.sessionId);
 
     if (!session) {
       res.status(404).json({ error: "Session not found" });
@@ -170,7 +177,7 @@ export const getQuizSession = async (req: Request, res: Response) => {
       session,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to retrieve sessionaa" });
+    res.status(500).json({ error: `Failed to retrieve sessionaa ${err}` });
   }
 };
 
@@ -195,7 +202,7 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
     res.status(500).json({ error: "Failed to fetch user quiz sessions" });
   }
 };
-
+/*
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
     const quiz = req.params.sessionId;
@@ -220,8 +227,6 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     }
 
     const isCorrect = selectedOption === fetchedQuestion.correctAnswer;
-
-   
 
     const existingAnswer = await UserAnswer.findOneAndUpdate(
       { user, quiz, question },
@@ -250,8 +255,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ message: `Server error ${error}` });
     return;
   }
-};
-
+};*/
 
 export const completeQuiz = async (req: Request, res: Response) => {
   try {
@@ -263,14 +267,14 @@ export const completeQuiz = async (req: Request, res: Response) => {
       return;
     }
 
-    const currentQuestionIndex = quizData.questions.length; 
+    const currentQuestionIndex = quizData.questions.length;
 
     const updatedQuiz = await Quiz.findByIdAndUpdate(
       quiz,
       {
         completed: true,
         completedAt: new Date(),
-        currentQuestionIndex, 
+        currentQuestionIndex,
       },
       { new: true }
     );
@@ -284,4 +288,3 @@ export const completeQuiz = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Failed to complete quiz ${error}` });
   }
 };
-
