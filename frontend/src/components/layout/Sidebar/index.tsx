@@ -19,6 +19,7 @@ import {
   mdiCommentOutline,
 } from "@mdi/js";
 import logo from "/logo.png";
+import { capitalizeFirst } from "../../../utils/text";
 
 interface HomeLayoutProps {
   children?: ReactNode;
@@ -47,6 +48,8 @@ const navTexts: Record<string, string> = {
 const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean, isDark: boolean) => (
   <NavLink
     to={path}
+    title={capitalizeFirst(name)}
+    key={name}
     className={({ isActive }) =>
       `flex flex-row items-center h-11 gap-5 focus:outline-none border-l-4 transition-colors duration-200 ${
         isDark
@@ -128,6 +131,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
             <li>
               <NavLink
                 to="/settings"
+                title="Settings"
                 className={({ isActive }) =>
                   `flex flex-row items-center h-11 focus:outline-none border-l-4 transition-colors duration-200 ${
                     isDark
@@ -152,6 +156,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
             <li>
               <button
+              title="Logout"
                 onClick={() => {
                   logout();
                   navigate(routes.LOGIN.path);
