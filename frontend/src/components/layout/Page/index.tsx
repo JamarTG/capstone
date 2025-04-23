@@ -14,7 +14,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
     <div className={`min-h-screen ${isDark ? "bg-gray-800" : "bg-white"}`}>
       <header className={`w-full z-10`}>
         <div className="container mx-auto px-4 py-4">
-          <h1 className={`text-3xl font-semibold ${isDark ? "text-gray-100" : "text-slate-800"}`}>
+          <h1 className={`text-3xl  ${isDark ? "text-gray-100" : "text-slate-800"}`}>
             {title}
           </h1>
         </div>
