@@ -8,7 +8,7 @@ const FeedbackSchema: Schema = new Schema({
     required: true,
   },
   section: {
-    type: String,
+    type: Number,
     required: true,
   },
   feedback: {
