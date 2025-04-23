@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { QuizAPI } from "../utils/api";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../utils/error";
-import Button from "./ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { Section_Map } from "../constants";
@@ -153,12 +152,12 @@ const QuizCard: React.FC<QuizCardProps> = ({
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
           <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
-          <Button
-            size="sm"
+          <button
+            className="text-sm text-blue-400"
             onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}
           >
             {completed ? "Review" : "Continue"}
-          </Button>
+          </button>
         </div>
       </section>
     </Card>
