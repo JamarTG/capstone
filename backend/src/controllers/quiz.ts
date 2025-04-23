@@ -229,10 +229,9 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     
       const questionText = currentQuestion.question;
       const section = String(fetchedQuiz.section);
-      const actionFlag = "feedback";  // Action flag to indicate feedback generation
+      const actionFlag = "feedback"; 
       const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
     
-      // Send the question text inside the "feedback" key to Python
       python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
       python.stdin.end();
     
@@ -240,6 +239,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     
       python.stdout.on("data", (chunk) => {
         data += chunk.toString();
+        console.log("Received data from Python:", data);
       });
     
       python.stderr.on("data", (err) => {
