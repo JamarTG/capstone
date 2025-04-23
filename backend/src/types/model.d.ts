@@ -50,6 +50,7 @@ export interface IQuestion {
   correct_answer: "A" | "B" | "C" | "D";
   user_answer: "A" | "B" | "C" | "D"; 
   is_correct?: boolean;
+  feedbackId?:string;
 }
 
 export interface IQuiz {

@@ -90,6 +90,7 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
   }
 };
 
+
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
     console.log("➡️ Incoming createQuizSession request");
@@ -98,7 +99,11 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     const userId = req.user._id;
 
     const feedbackDocs = await Feedback.find({ user: userId, section });
-    const feedback = feedbackDocs.map((doc) => ({ Feedback: doc.feedback }));
+
+    const feedback = feedbackDocs.map((doc) => ({ 
+      feedbackId: doc._id, 
+      feedbackText: doc.feedback 
+    }));
 
     const questions: IQuestion[] = await new Promise<any>((resolve, reject) => {
       const py = spawn("python", ["./rag/section1.py", String(section)]);
@@ -126,7 +131,16 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       py.stdin.end();
     });
 
-    if (!questions || questions.length === 0) {
+    const questionsWithFeedbackId = questions.map((question, index) => {
+      return feedback.length > 0
+        ? {
+            ...question,
+            feedbackId: feedbackDocs[index]?._id, 
+          }
+        : question;
+    });
+
+    if (!questionsWithFeedbackId || questionsWithFeedbackId.length === 0) {
       res.status(400).json({ error: "No questions generated for the selected topic." });
       return;
     }
@@ -134,7 +148,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     const newSession = await Quiz.create({
       section,
       user: userId,
-      questions,
+      questions: questionsWithFeedbackId,
       currentQuestionIndex: 0,
       score: 0,
       startTime: new Date(),
@@ -195,6 +209,7 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
   }
 };
 
+
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
     const quiz = req.params.sessionId;
@@ -218,43 +233,44 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     if (is_correct) {
       fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
       currentQuestion.is_correct = true;
+
+    
+      if (currentQuestion.feedbackId) {
+        await Feedback.findByIdAndDelete(currentQuestion.feedbackId);
+      }
     } else {
       currentQuestion.is_correct = false;
-    
+
       const questionText = currentQuestion.question;
       const section = String(fetchedQuiz.section);
-      const actionFlag = "feedback"; 
+      const actionFlag = "feedback";
       const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
-    
+
       python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
       python.stdin.end();
-    
+
       let data = "";
-    
+
       python.stdout.on("data", (chunk) => {
         data += chunk.toString();
-        console.log("Received data from Python:", data);
       });
-    
+
       python.stderr.on("data", (err) => {
         console.error("Python error:", err.toString());
       });
-    
+
       python.on("close", async () => {
-   
         if (data) {
           try {
-
             const feedback = JSON.parse(data);
-           
-            if (feedback.Section && feedback.Feedback) {
+            if (feedback.Feedback) {
               await Feedback.create({
                 user: req.user._id,
                 feedback: feedback.Feedback,
-                section: feedback.Section,
+                section,
               });
             } else {
-              console.error("No valid feedback returned from Python script.");
+              console.error(`No valid feedback returned from Python script.`);
             }
           } catch (error) {
             console.error("Failed to process feedback:", error);
@@ -266,7 +282,6 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     }
 
     fetchedQuiz.markModified(`questions.${currentIndex}`);
-
     fetchedQuiz.currentQuestionIndex += 1;
 
     if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
@@ -280,13 +295,12 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       currentIndex,
       is_correct,
     });
-    return;
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: `Server error ${error}` });
-    return;
   }
 };
+
 
 export const completeQuiz = async (req: Request, res: Response) => {
   try {

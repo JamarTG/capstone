@@ -86,7 +86,11 @@ const QuizSchema = new Schema<IQuiz>(
         is_correct: {
           type: Boolean,
           default: null,
-        }
+        },
+        feedbackId: {
+          type: Schema.Types.ObjectId,
+          ref: "Feedback",
+        },
       },
     ],
   },
