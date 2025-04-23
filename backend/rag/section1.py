@@ -5,7 +5,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field, ValidationError
 from typing import Literal
-from vectordb import * #to access the vector database
+from vectordb import * 
 from chunks import sectionOneSyllabus,sectionTwoSyllabus,sectionThreeSyllabus,sectionFourSyllabus,sectionFiveSyllabus,sectionSixSyllabus,sectionSevenSyllabus,sectionEightSyllabus
 import sys
 
@@ -70,7 +70,7 @@ def generate_question_and_answer(contents: list[str]):
 
         For each content section, generate **1 multiple-choice question** with four options (A-D), and specify the correct answer. Make sure the correct answer does not always appear in the same letter position.
 
-        Respond with a list of JSON objects (one per content) inside a code block using ```json delimiters.
+        Always respond with a list of JSON objects (even if there is one question , one per content) inside a code block using ```json delimiters.
 
         Each object must match the format:
 
@@ -81,6 +81,7 @@ def generate_question_and_answer(contents: list[str]):
             "option_b": "Option B text",
             "option_c": "Option C text",
             "option_d": "Option D text",
+            "explanation" : "The explanation for the correct answer",
             "correct_answer": "A"
         }}
         {formatted_contents} """ )
@@ -167,11 +168,12 @@ def generate_question_and_answer_from_feedback(feedbacks: list[str]):
     2. Based on the weakness, generate **1 multiple-choice question** with four options (A-D) that tests the student's understanding of the concept related to that weakness.
     3. Ensure the correct answer MUST be EXACTLY one letter: "A", "B", "C", or "D" - no other formats are acceptable.
     4. Ensure the correct answer does not always appear in the same letter position.
-
+    5. Provide a brief explanation for the correct answer.
+    
     CRITICAL: The "correct_answer" field MUST contain ONLY one of these four values: "A", "B", "C", or "D". 
     DO NOT use any other values like "CAN", "OPTION A", "1", etc.
 
-    Respond with a list of JSON objects (one per feedback) inside a code block using ```json delimiters.
+    Always respond with a list of JSON objects (one per feedback) inside a code block using ```json delimiters.
 
     Each object must match the format:
 
@@ -182,6 +184,7 @@ def generate_question_and_answer_from_feedback(feedbacks: list[str]):
         "option_b": "Option B text",
         "option_c": "Option C text",
         "option_d": "Option D text",
+        "explanation": "The explanation for the correct answer",
         "correct_answer": "A"  // MUST be one of: "A", "B", "C", "D"
     }}
     {formatted_feedbacks}

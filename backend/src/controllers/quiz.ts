@@ -105,7 +105,8 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       feedbackText: doc.feedback 
     }));
 
-    const questions: IQuestion[] = await new Promise<any>((resolve, reject) => {
+    // Spawn Python to get question(s)
+    const result = await new Promise<any>((resolve, reject) => {
       const py = spawn("python", ["./rag/section1.py", String(section)]);
 
       let data = "";
@@ -131,8 +132,15 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       py.stdin.end();
     });
 
+    const questions: IQuestion[] = Array.isArray(result) ? result : [result];
+
+    if (!questions || questions.length === 0) {
+      res.status(400).json({ error: "No questions generated for the selected topic." });
+      return;
+    }
+
     const questionsWithFeedbackId = questions.map((question, index) => {
-      return feedback.length > 0
+      return feedback.length > 0 && index < feedback.length
         ? {
             ...question,
             feedbackId: feedbackDocs[index]?._id, 
@@ -140,10 +148,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
         : question;
     });
 
-    if (!questionsWithFeedbackId || questionsWithFeedbackId.length === 0) {
-      res.status(400).json({ error: "No questions generated for the selected topic." });
-      return;
-    }
+    console.log(questionsWithFeedbackId)
 
     const newSession = await Quiz.create({
       section,
@@ -241,9 +246,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     } else {
       currentQuestion.is_correct = false;
 
-      // Only handle existing feedback ID - don't generate new feedback here
       if (!currentQuestion.feedbackId) {
-        // Run the Python process to generate feedback but don't wait for it
         const questionText = currentQuestion.question;
         const section = String(fetchedQuiz.section);
         const actionFlag = "feedback";

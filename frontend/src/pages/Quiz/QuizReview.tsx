@@ -6,6 +6,8 @@ import { Question } from "../../types/quiz";
 import PageLayout from "../../components/layout/Page";
 import LoadingPage from "../../components/common/Loader";
 import { useTheme } from "../../context/ThemeContext";
+import { mdiRobotHappyOutline, mdiTrophyOutline } from "@mdi/js";
+import Icon from "@mdi/react";
 
 const QuestionSidebar = ({
   isDark,
@@ -27,7 +29,7 @@ const QuestionSidebar = ({
 
   return (
     <div className={`w-full sm:w-1/4 lg:w-1/3 p-4 ${isDark ? "bg-gray-800" : ""} rounded-lg sticky top-16 h-full overflow-y-auto`}>
-      <h2 className="text-xl  text-white mb-6">Questions</h2>
+      <h2 className="text-xl text-white mb-6">Questions</h2>
       <ul className="space-y-4">
         {pageQuestions.map((question, index) => {
           const globalIndex = start + index;
@@ -41,7 +43,12 @@ const QuestionSidebar = ({
                   : `${isDark ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"}`
               }`}
             >
-              <p className="truncate">{question.question}</p>
+              <p
+                className="truncate"
+                title={question.question}
+              >
+                {globalIndex + 1}. {question.question}
+              </p>
             </li>
           );
         })}
@@ -92,6 +99,20 @@ const QuizReview = () => {
   const questions = session?.questions || [];
   const question = questions[currentQuestionIndex];
 
+  // Calculate score
+  const totalScore = session?.score || 0;
+  const totalQuestions = questions.length;
+  const scorePercentage = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+
+  const getScoreMessage = (percentage: number) => {
+    if (percentage >= 90) return "Excellent!";
+    if (percentage >= 80) return "Great job!";
+    if (percentage >= 70) return "Good work!";
+    if (percentage >= 60) return "Not bad!";
+    if (percentage >= 50) return "Keep trying!";
+    return "Room for improvement!";
+  };
+
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -115,52 +136,105 @@ const QuizReview = () => {
         />
 
         <div className="flex-1 p-8 rounded-lg border border-gray-200">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-xl ">Quiz Review</h1>
-            <div className="flex space-x-4">
-              <button
-                onClick={handlePrevious}
-                disabled={currentQuestionIndex === 0}
-                className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
-              >
-                Previous
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={currentQuestionIndex === questions.length - 1}
-                className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
-              >
-                Next
-              </button>
+          <div className="flex flex-row-reverse gap-10 justify-between">
+            <div className="flex items-center justify-between">
+              <div className="flex space-x-4">
+                <button
+                  onClick={handlePrevious}
+                  disabled={currentQuestionIndex === 0}
+                  className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={currentQuestionIndex === questions.length - 1}
+                  className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 rounded-lg border border-gray-200 flex items-center h-24">
+              <div className="mr-4">
+                <Icon
+                  path={mdiTrophyOutline}
+                  size={2}
+                  className={`${scorePercentage >= 70 ? "text-yellow-500" : scorePercentage >= 50 ? "text-blue-500" : "text-gray-500"}`}
+                />
+              </div>
+              <div>
+                <div className="font-bold text-lg">{getScoreMessage(scorePercentage)}</div>
+                <div className="flex items-center">
+                  <div className="text-2xl font-bold mr-2">
+                    <span
+                      className={`${scorePercentage >= 70 ? "text-green-500" : scorePercentage >= 50 ? "text-yellow-500" : "text-red-500"}`}
+                    >
+                      {totalScore}
+                    </span>
+                    <span className="text-gray-500">/{totalQuestions}</span>
+                  </div>
+                  <div className="text-lg ml-2">({scorePercentage}%)</div>
+                </div>
+              </div>
             </div>
           </div>
 
           {question && (
-            <div className="p-6 rounded-lg">
-              <h3 className="text-xl mb-4">{question.question}</h3>
+            <div className="p-6 rounded-lg min-h-64">
+              <h3 className="text-xl mb-4 h-16">
+                Question {currentQuestionIndex + 1}: {question.question}
+              </h3>
 
               <ul className="space-y-3">
                 {["A", "B", "C", "D"].map((key) => {
                   const option = question[`option_${key.toLowerCase()}`];
                   const isCorrect = question.correct_answer === key;
                   const isSelected = question.user_answer === key;
+                  const gotItRight = isCorrect && isSelected;
+                  const gotItWrong = !isCorrect && isSelected;
 
                   return (
                     <li
                       key={key}
                       className={`p-3 border rounded-lg ${
-                        isCorrect ? "border-green-500" : isSelected ? "border-red-500" : "border-gray-600"
+                        gotItRight
+                          ? "border-green-500 bg-green-50"
+                          : gotItWrong
+                            ? "border-red-500 bg-red-50"
+                            : isCorrect
+                              ? "border-green-300 bg-green-50"
+                              : "border-gray-600"
                       }`}
                     >
                       {key}. {option}
-                      {isCorrect && " ✅"}
-                      {isSelected && !isCorrect && " ❌"}
+                      {gotItRight && " ✅"}
+                      {gotItWrong && " ❌"}
+                      {!isSelected && isCorrect && " (Correct Answer)"}
                     </li>
                   );
                 })}
               </ul>
 
-              {question.explanation && <p className="mt-4 text-gray-400">{question.explanation}</p>}
+              <div className="mt-6 h-32">
+                {question && question.explanation ? (
+                  <div className="flex flex-col gap-2 h-full">
+                    <h4 className="font-bold text-blue-800 flex gap-2 items-center text-sm">
+                      <Icon
+                        path={mdiRobotHappyOutline}
+                        size={0.9}
+                      />
+                      AI Explanation
+                    </h4>
+                    <p className="text-md text-slate-600 leading-snug overflow-y-auto">{question.explanation}</p>
+                  </div>
+                ) : (
+                  <div className="px-3 py-2 bg-gray-50 border-l-4 border-gray-400 text-gray-800 rounded h-full flex items-center justify-center">
+                    <p className="text-gray-500 italic text-sm">No explanation available for this question.</p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

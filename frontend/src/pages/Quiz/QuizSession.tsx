@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import QuizCompletion from "./QuizCompletion";
+
 import QuestionCard from "./QuestionCard";
 import QuizHeader from "./QuizHeader";
 import PageLayout from "../../components/layout/Page";
@@ -17,8 +17,6 @@ const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
@@ -75,6 +73,7 @@ const QuizSession = () => {
       correctAnswer: q.correct_answer,
       selectedOption: q.selectedOption,
       isCorrect: q.isCorrect,
+      explanation:q.explanation,
       answeredAt: q.answeredAt,
     };
   });
@@ -83,7 +82,11 @@ const QuizSession = () => {
   const isLastQuestion = currentIndex === questions.length - 1;
 
   const handleAnswerSelect = (index: number) => setSelectedAnswer(index);
-  
+
+  const handleSubmitQuiz = () => {
+    autoSubmitMutation(session.session._id);
+    navigate(`/review/${session.session._id}`);
+  };
 
   const handleNextQuestion = () => {
     const selectedKey = selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
@@ -104,63 +107,41 @@ const QuizSession = () => {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
     } else {
-      setQuizCompleted(true);
       autoSubmitMutation(session.session._id);
       navigate(`/review/${session.session._id}`);
     }
   };
 
-  const handleRestartQuiz = () => {
-    setCurrentIndex(0);
-    setScore(0);
-    setSelectedAnswer(null);
-    setQuizCompleted(false);
-    setModalVisible(false);
-  };
-
   if (session?.session.completed) {
     navigate(`/review/${session.session._id}`, { replace: true });
-    return null; 
+    return null;
   }
 
   return (
     <PageLayout title="Quiz">
-      {quizCompleted && modalVisible ? (
-        <QuizCompletion
-          score={score}
-          totalQuestions={questions.length}
-          onRestart={handleRestartQuiz}
-        />
-      ) : (
-        <div className="relative w-full h-full">
-          <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
-            <div className="w-full max-w-4xl flex flex-col gap-6">
-              <QuizHeader
-                currentIndex={currentIndex}
-                totalQuestions={questions.length}
-                onSubmitQuiz={() => {
-                  setQuizCompleted(true);
-                  setModalVisible(true);
-                  autoSubmitMutation(session.session._id);
-                  navigate(`/review/${session.session._id}`);
-                }}
-                isSubmitting={isPending}
-              />
+      <div className="relative w-full h-full">
+        <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
+          <div className="w-full max-w-4xl flex flex-col gap-6">
+            <QuizHeader
+              currentIndex={currentIndex}
+              totalQuestions={questions.length}
+              onSubmitQuiz={handleSubmitQuiz}
+              isSubmitting={isPending}
+            />
 
-              {currentQuestion && (
-                <QuestionCard
-                  question={`${currentIndex + 1}. ${currentQuestion.question}`}
-                  answers={Object.values(currentQuestion.options)}
-                  selectedAnswer={selectedAnswer}
-                  onAnswerSelect={handleAnswerSelect}
-                  onNextQuestion={handleNextQuestion}
-                  isLastQuestion={isLastQuestion}
-                />
-              )}
-            </div>
+            {currentQuestion && (
+              <QuestionCard
+                question={`${currentIndex + 1}. ${currentQuestion.question}`}
+                answers={Object.values(currentQuestion.options)}
+                selectedAnswer={selectedAnswer}
+                onAnswerSelect={handleAnswerSelect}
+                onNextQuestion={handleNextQuestion}
+                isLastQuestion={isLastQuestion}
+              />
+            )}
           </div>
         </div>
-      )}
+      </div>
     </PageLayout>
   );
 };
