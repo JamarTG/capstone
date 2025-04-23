@@ -234,60 +234,66 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
       currentQuestion.is_correct = true;
 
-    
       if (currentQuestion.feedbackId) {
         await Feedback.findByIdAndDelete(currentQuestion.feedbackId);
+        currentQuestion.feedbackId = undefined;
       }
     } else {
       currentQuestion.is_correct = false;
 
-      const questionText = currentQuestion.question;
-      const section = String(fetchedQuiz.section);
-      const actionFlag = "feedback";
-      const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
+      // Only handle existing feedback ID - don't generate new feedback here
+      if (!currentQuestion.feedbackId) {
+        // Run the Python process to generate feedback but don't wait for it
+        const questionText = currentQuestion.question;
+        const section = String(fetchedQuiz.section);
+        const actionFlag = "feedback";
+        const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
 
-      python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
-      python.stdin.end();
+        python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
+        python.stdin.end();
 
-      let data = "";
+        let data = "";
 
-      python.stdout.on("data", (chunk) => {
-        data += chunk.toString();
-      });
+        python.stdout.on("data", (chunk) => {
+          data += chunk.toString();
+        });
 
-      python.stderr.on("data", (err) => {
-        console.error("Python error:", err.toString());
-      });
+        python.stderr.on("data", (err) => {
+          console.error("Python error:", err.toString());
+        });
 
-      python.on("close", async () => {
-        if (data) {
+        python.on("close", async () => {
           try {
+            if (!data) {
+              console.error("No feedback data received from Python script.");
+              return;
+            }
+
             const feedback = JSON.parse(data);
             if (feedback.Feedback) {
-              await Feedback.create({
+              const createdFeedback = await Feedback.create({
                 user: req.user._id,
                 feedback: feedback.Feedback,
                 section,
               });
-            } else {
-              console.error(`No valid feedback returned from Python script.`);
+   
+              await Quiz.updateOne(
+                { _id: quiz, "questions._id": currentQuestion._id },
+                { $set: { "questions.$.feedbackId": createdFeedback._id } }
+              );
             }
           } catch (error) {
             console.error("Failed to process feedback:", error);
           }
-        } else {
-          console.error("No feedback data received from Python script.");
-        }
-      });
+        });
+      }
     }
 
     fetchedQuiz.markModified(`questions.${currentIndex}`);
     fetchedQuiz.currentQuestionIndex += 1;
-
     if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
       fetchedQuiz.completed = true;
     }
-
     await fetchedQuiz.save();
 
     res.status(200).json({
@@ -300,6 +306,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ message: `Server error ${error}` });
   }
 };
+
 
 
 export const completeQuiz = async (req: Request, res: Response) => {

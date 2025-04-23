@@ -42,6 +42,7 @@ export interface IObjective extends Document {
 }
 
 export interface IQuestion {
+  _id: string;
   question: string;
   option_a: string;
   option_b: string;
