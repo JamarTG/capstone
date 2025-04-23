@@ -50,7 +50,7 @@ const QuizCompletion = ({
           />
         </div>
       </div>
-      <h2 className="text-2xl font-semibold text-center mb-4">
+      <h2 className="text-2xl  text-center mb-4">
         {isPassed ? "Congratulations!" : "Better Luck Next Time!"}
       </h2>
       <p className="text-center mb-6 text-lg">

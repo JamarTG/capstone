@@ -1,10 +1,13 @@
+import Icon from "@mdi/react";
+import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
 import QuizProgressBar from "./QuizProgressBar";
+import { mdiStop } from "@mdi/js";
 
 interface QuizHeaderProps {
   currentIndex: number;
   totalQuestions: number;
-  onSubmitQuiz: () => void; 
+  onSubmitQuiz: () => void;
   isSubmitting: boolean;
 }
 
@@ -20,9 +23,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
         <div className="relative z-10 h-full p-8 max-w-screen-xl mx-auto flex flex-col justify-between">
           <div className={`flex justify-between items-start ${isDark ? "text-gray-100" : "text-slate-800"}`}>
             <div className="space-y-3">
-              <h1 className="text-2xl tracking-tight">
-                Web Development Fundamentals
-              </h1>
+              <h1 className="text-2xl tracking-tight">Web Development Fundamentals</h1>
               <div className={`flex items-center space-x-6 text-sm font-medium ${isDark ? "text-gray-300" : "text-slate-600"}`}>
                 <span className="flex items-center gap-1">
                   <svg
@@ -43,16 +44,20 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
               </div>
             </div>
 
-            <button
+            <Button
               onClick={onSubmitQuiz}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                isDark 
-                  ? "bg-red-600 text-white hover:bg-red-700 border border-transparent"
-                  : "bg-red-600 text-white hover:bg-red-700 border border-transparent"
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                isDark
+                  ? "bg-red-400 text-white hover:bg-red-700 border border-transparent"
+                  : "bg-red-400 text-white hover:bg-red-700 border border-transparent"
               }`}
             >
-              End Quiz
-            </button>
+              <Icon
+                path={mdiStop}
+                size={1}
+              />
+              End
+            </Button>
           </div>
 
           <QuizProgressBar

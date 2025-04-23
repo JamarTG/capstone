@@ -27,7 +27,7 @@ const QuestionSidebar = ({
 
   return (
     <div className={`w-full sm:w-1/4 lg:w-1/3 p-4 ${isDark ? "bg-gray-800" : ""} rounded-lg sticky top-16 h-full overflow-y-auto`}>
-      <h2 className="text-xl font-semibold text-white mb-6">Questions</h2>
+      <h2 className="text-xl  text-white mb-6">Questions</h2>
       <ul className="space-y-4">
         {pageQuestions.map((question, index) => {
           const globalIndex = start + index;
@@ -114,9 +114,9 @@ const QuizReview = () => {
           setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
 
-        <div className="flex-1 p-8 rounded-lg border border-gray-700">
+        <div className="flex-1 p-8 rounded-lg border border-gray-200">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-xl font-semibold">Quiz Review</h1>
+            <h1 className="text-xl ">Quiz Review</h1>
             <div className="flex space-x-4">
               <button
                 onClick={handlePrevious}
@@ -137,7 +137,7 @@ const QuizReview = () => {
 
           {question && (
             <div className="p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-4">{question.question}</h3>
+              <h3 className="text-xl mb-4">{question.question}</h3>
 
               <ul className="space-y-3">
                 {["A", "B", "C", "D"].map((key) => {

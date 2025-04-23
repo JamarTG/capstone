@@ -4,18 +4,31 @@ import { CreateQuizPayload, SuccessfulQuizResponse } from "../../types/auth";
 import { AxiosError } from "axios";
 import SectionCard from "./SectionCard";
 
+interface SectionContainerProps {
+  createQuizMutate: UseMutateFunction<SuccessfulQuizResponse, AxiosError<unknown, any>, CreateQuizPayload, unknown>;
+  loadingSection: string | null;
+  setLoadingSection: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
 const SectionContainer = ({
   createQuizMutate,
-}: {
-  createQuizMutate: UseMutateFunction<SuccessfulQuizResponse, AxiosError<unknown, any>, CreateQuizPayload, unknown>;
-}) => {
+  loadingSection,
+  setLoadingSection,
+}: SectionContainerProps) => {
+
+  const handleClick = (section: string) => {
+    setLoadingSection(section);
+    createQuizMutate({ section: Number(section) });
+  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       {Object.entries(Section_Map).map(([section, data]) => (
         <div key={section} className="h-[180px] w-full">
           <SectionCard
             section={{ name: data.name, bgSrc: data.bgSrc }}
-            onClick={() => createQuizMutate({ section: Number(section) })}
+            onClick={() => handleClick(section)}
+            isLoading={loadingSection === section}
           />
         </div>
       ))}

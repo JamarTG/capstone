@@ -1,15 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
-
 import { QuizAPI } from "../../utils/api";
-import { SuccessfulQuizResponse } from "../../types/auth";
 import { extractErrorMessage } from "../../utils/error";
 import { mdiCursorDefaultClick } from "@mdi/js";
 import Loader from "../../components/common/Loader";
@@ -20,28 +17,19 @@ const QuizSelectionPage = () => {
 
   useAuthRedirect();
 
-  const { 
-    data: activeSession,
-    isLoading: isSessionLoading
-  } = useQuery({
+  const { data: activeSession, isLoading: isSessionLoading } = useQuery({
     queryKey: ["active-quiz-session"],
     queryFn: QuizAPI.checkActiveSession,
-    retry: false, 
+    retry: false,
   });
 
-  
+  const [loadingSection, setLoadingSection] = useState<string | null>(null);
 
   useEffect(() => {
-    
     if (activeSession?.data?.hasActiveSession && activeSession.data.sessionId) {
       navigate(`/quiz/${activeSession.data.sessionId}`);
     }
   }, [activeSession, navigate]);
-
-  const onCreateQuizSuccess = ({ message, session }: SuccessfulQuizResponse) => {
-    toast.success(message);
-    navigate(`/quiz/${session._id}`, { state: { session } });
-  };
 
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error));
@@ -50,10 +38,8 @@ const QuizSelectionPage = () => {
   const { mutate: createQuizMutate } = useMutation({
     mutationFn: QuizAPI.createQuiz,
     mutationKey: ["create-quiz"],
-    onSuccess: onCreateQuizSuccess,
     onError,
   });
-
 
 
   if (isSessionLoading) {
@@ -62,19 +48,18 @@ const QuizSelectionPage = () => {
 
   return (
     <PageContent title="Quiz">
-    
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full flex flex-col gap-5">
           <SectionHeader
             iconPath={mdiCursorDefaultClick}
-            title="Select a Topic"
+            title="Topic Selection"
           />
-          
-          <SectionContainer
-           
-  
-            createQuizMutate={createQuizMutate}
+          <SectionContainer 
+            createQuizMutate={createQuizMutate} 
+            loadingSection={loadingSection} 
+            setLoadingSection={setLoadingSection} 
           />
+        
         </div>
       </div>
     </PageContent>

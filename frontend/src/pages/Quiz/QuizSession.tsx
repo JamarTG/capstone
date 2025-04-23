@@ -10,7 +10,6 @@ import { Question, QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
-import { SuccessfulQuizResponse } from "../../types/auth";
 import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";
 
@@ -45,7 +44,6 @@ const QuizSession = () => {
 
   const { mutate: submitAnswerMutation } = useMutation({
     mutationFn: QuizAPI.submitAnswer,
-    onSuccess: ({ message }: SuccessfulQuizResponse) => toast.success(message),
     onError: (error: AxiosError) => toast.error(extractErrorMessage(error)),
   });
 
@@ -64,7 +62,7 @@ const QuizSession = () => {
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
-  const questions = session.session.questions.map((q:Question) => {
+  const questions = session.session.questions.map((q: Question) => {
     return {
       id: q._id,
       question: q.question,
@@ -80,20 +78,18 @@ const QuizSession = () => {
       answeredAt: q.answeredAt,
     };
   });
-  
-  
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
 
   const handleAnswerSelect = (index: number) => setSelectedAnswer(index);
+  
 
   const handleNextQuestion = () => {
-    const selectedKey =
-      selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
+    const selectedKey = selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
 
     const isCorrect = selectedKey === currentQuestion.correctAnswer;
-    
+
     submitAnswerMutation({
       quiz: session.session._id,
       question: currentQuestion.id,
@@ -122,6 +118,11 @@ const QuizSession = () => {
     setModalVisible(false);
   };
 
+  if (session?.session.completed) {
+    navigate(`/review/${session.session._id}`, { replace: true });
+    return null; 
+  }
+
   return (
     <PageLayout title="Quiz">
       {quizCompleted && modalVisible ? (
@@ -146,15 +147,16 @@ const QuizSession = () => {
                 isSubmitting={isPending}
               />
 
-              {/* {JSON.stringify(session.session.questions)} */}
-              <QuestionCard
-                question={`${currentIndex + 1}. ${currentQuestion.question}`} 
-                answers={Object.values(currentQuestion.options)} 
-                selectedAnswer={selectedAnswer} 
-                onAnswerSelect={handleAnswerSelect} 
-                onNextQuestion={handleNextQuestion} 
-                isLastQuestion={isLastQuestion} 
-              /> 
+              {currentQuestion && (
+                <QuestionCard
+                  question={`${currentIndex + 1}. ${currentQuestion.question}`}
+                  answers={Object.values(currentQuestion.options)}
+                  selectedAnswer={selectedAnswer}
+                  onAnswerSelect={handleAnswerSelect}
+                  onNextQuestion={handleNextQuestion}
+                  isLastQuestion={isLastQuestion}
+                />
+              )}
             </div>
           </div>
         </div>
