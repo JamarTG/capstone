@@ -6,6 +6,7 @@ import { Objective } from "../models/Objective";
 import { spawn } from "child_process";
 import { IQuestion } from "../types/model";
 import { userInfo } from "os";
+import Feedback from "../models/Feedback";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
   console.log("✅ checkActiveQuizSession was hit");
@@ -96,11 +97,11 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
     console.log("➡️ Incoming createQuizSession request:", req.body);
 
-    const { section, feedback } = req.body; 
+    const { section, feedback } = req.body;
     const userId = req.user;
 
-    const questions:IQuestion[] = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/section1.py", String(section)]); 
+    const questions: IQuestion[] = await new Promise<any>((resolve, reject) => {
+      const py = spawn("python", ["./rag/section1.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -121,10 +122,9 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
         }
       });
 
-      py.stdin.write(JSON.stringify({ feedback })); 
+      py.stdin.write(JSON.stringify({ feedback }));
       py.stdin.end();
     });
-
 
     if (!questions || questions.length === 0) {
       res.status(400).json({ error: "No questions generated for the selected topic." });
@@ -133,12 +133,11 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     }
 
     // const formattedQuestions = questions.map((q: any) => ({
-    //   questionId: q.question_id, 
-    //   selectedOption: "", 
-    //   isCorrect: false, 
+    //   questionId: q.question_id,
+    //   selectedOption: "",
+    //   isCorrect: false,
     // }));
 
-   
     const newSession = await Quiz.create({
       section,
       user: userId,
@@ -191,8 +190,7 @@ export const deleteQuizSession = async (req: Request, res: Response) => {
 
 export const getUserQuizSessions = async (req: CustomRequest, res: Response) => {
   try {
-    const sessions = await Quiz.find({ user: req.user._id })
-      .sort({ startTime: -1 });
+    const sessions = await Quiz.find({ user: req.user._id }).sort({ startTime: -1 });
 
     res.status(200).json({
       message: "User quiz sessions fetched successfully",
@@ -207,7 +205,6 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
     const quiz = req.params.sessionId;
     const { is_correct, selectedOption } = req.body;
-    const user = req.user.id;
 
     const fetchedQuiz = await Quiz.findById({ _id: quiz });
     if (!fetchedQuiz) {
@@ -229,8 +226,50 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       currentQuestion.is_correct = true;
     } else {
       currentQuestion.is_correct = false;
-    }
     
+      const questionText = currentQuestion.question;
+      const section = String(fetchedQuiz.section);
+      const actionFlag = "feedback";  // Action flag to indicate feedback generation
+      const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
+    
+      // Send the question text inside the "feedback" key to Python
+      python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
+      python.stdin.end();
+    
+      let data = "";
+    
+      python.stdout.on("data", (chunk) => {
+        data += chunk.toString();
+      });
+    
+      python.stderr.on("data", (err) => {
+        console.error("Python error:", err.toString());
+      });
+    
+      python.on("close", async () => {
+        if (data) {
+          try {
+            const parsed = JSON.parse(data);
+            const feedbackItem = parsed[0];
+    
+            if (feedbackItem?.Feedback) {
+              await Feedback.create({
+                user: req.user._id,
+                feedback: feedbackItem.Feedback,
+                section: feedbackItem.Section,
+              });
+            } else {
+              console.error("No valid feedback returned from Python script.");
+            }
+          } catch (error) {
+            console.error("Failed to process feedback:", error);
+          }
+        } else {
+          console.error("No feedback data received from Python script.");
+        }
+      });
+    }
+
     fetchedQuiz.markModified(`questions.${currentIndex}`);
 
     fetchedQuiz.currentQuestionIndex += 1;
@@ -253,7 +292,6 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     return;
   }
 };
-
 
 export const completeQuiz = async (req: Request, res: Response) => {
   try {

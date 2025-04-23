@@ -215,11 +215,7 @@ if __name__ == "__main__":
     except Exception:
         feedback_data = []
 
-    if grade_quiz:
-        # If the grading flag is set, you would typically invoke a grading function here
-        print(json.dumps({"message": "Grading the quiz..."}))
-        # You can implement the grading logic here, if necessary.
-    elif len(feedback_data) > 0:
+    if len(feedback_data) > 0:
         try:
             feedback_texts = [fb['Feedback'] for fb in feedback_data]
             result = generate_question_and_answer_from_feedback(feedback_texts)
