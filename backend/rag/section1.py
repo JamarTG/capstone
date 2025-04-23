@@ -217,7 +217,7 @@ if __name__ == "__main__":
     if len(feedback_data) > 0:
         try:
             feedback_texts = [fb['Feedback'] for fb in feedback_data]
-            result = generate_feedback(feedback_texts)  # Generate feedback based on the incorrect answer
+            result = generate_question_and_answer_from_feedback(feedback_texts)
         except Exception as e:
             print(json.dumps({"error": f"Invalid feedback format: {e}"}))
             sys.exit(1)

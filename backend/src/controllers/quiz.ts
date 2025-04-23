@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
 import { Quiz } from "../models/Quiz";
 import { CustomRequest } from "../types/middleware";
-import { UserAnswer } from "../models/UserAnswer";
-import { Objective } from "../models/Objective";
 import { spawn } from "child_process";
 import { IQuestion } from "../types/model";
-import { userInfo } from "os";
 import Feedback from "../models/Feedback";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
@@ -95,10 +92,13 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
 
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
-    console.log("➡️ Incoming createQuizSession request:", req.body);
+    console.log("➡️ Incoming createQuizSession request");
 
-    const { section, feedback } = req.body;
-    const userId = req.user;
+    const section = req.body.section;
+    const userId = req.user._id;
+
+    const feedbackDocs = await Feedback.find({ user: userId, section });
+    const feedback = feedbackDocs.map((doc) => ({ Feedback: doc.feedback }));
 
     const questions: IQuestion[] = await new Promise<any>((resolve, reject) => {
       const py = spawn("python", ["./rag/section1.py", String(section)]);
@@ -128,15 +128,8 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 
     if (!questions || questions.length === 0) {
       res.status(400).json({ error: "No questions generated for the selected topic." });
-
       return;
     }
-
-    // const formattedQuestions = questions.map((q: any) => ({
-    //   questionId: q.question_id,
-    //   selectedOption: "",
-    //   isCorrect: false,
-    // }));
 
     const newSession = await Quiz.create({
       section,
@@ -159,6 +152,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ error: `Failed to create session: ${err}` });
   }
 };
+
 
 export const getQuizSession = async (req: Request, res: Response) => {
   console.log("⚠️ getQuizSession was hit with sessionId:", req.params.sessionId);
@@ -247,16 +241,17 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       });
     
       python.on("close", async () => {
+   
         if (data) {
           try {
-            const parsed = JSON.parse(data);
-            const feedbackItem = parsed[0];
-    
-            if (feedbackItem?.Feedback) {
+
+            const feedback = JSON.parse(data);
+           
+            if (feedback.Section && feedback.Feedback) {
               await Feedback.create({
                 user: req.user._id,
-                feedback: feedbackItem.Feedback,
-                section: feedbackItem.Section,
+                feedback: feedback.Feedback,
+                section: feedback.Section,
               });
             } else {
               console.error("No valid feedback returned from Python script.");
