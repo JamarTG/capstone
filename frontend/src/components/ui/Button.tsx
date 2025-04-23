@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   size = "md",
 }) => {
   const baseStyles =
-    "cursor-pointer font-semibold rounded-lg transition duration-300 flex justify-center items-center";
+    "cursor-pointer rounded-lg transition duration-300 flex justify-center items-center";
   
   const variantStyles = {
     primary: "bg-slate-600 text-white hover:bg-slate-700",

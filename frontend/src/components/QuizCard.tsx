@@ -155,7 +155,6 @@ const QuizCard: React.FC<QuizCardProps> = ({
           <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
           <Button
             size="sm"
-            className={`gap-1 ${isDark ? "bg-gray-700 text-gray-100" : "bg-slate-300"}`}
             onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}
           >
             {completed ? "Review" : "Continue"}
