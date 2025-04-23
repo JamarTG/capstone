@@ -96,14 +96,13 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         } ${isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
       >
         <div
-          className={`flex items-center justify-center p-2 ${isDark ? "bg-gray-800" : "bg-white"} cursor-pointer hover:opacity-80 transition-opacity`}
+          className={`flex items-center pointer-img justify-center p-2 ${isDark ? "bg-gray-800" : "bg-white"} hover:opacity-80 transition-opacity`}
           onClick={() => navigate("/")}
         >
           <img
             src={logo}
             width={60}
             alt="Logo"
-            className="select-none"
           />
         </div>
         <div className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`} />
