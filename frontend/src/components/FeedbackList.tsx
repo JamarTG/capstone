@@ -46,7 +46,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
           className={`border rounded-lg shadow-md transition-all duration-300 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
         >
           <div className="sticky top-0 px-5 py-4 flex items-center justify-between ${isDark ? 'border-gray-700' : 'border-gray-200'}">
-            <div>
+            <div  className="flex items-center gap-2">
               <h3 className={`font-bold text-lg ${isDark ? "text-gray-100" : "text-slate-700"}`}>{`Section ${openSection}`}</h3>
               <p className={`text-sm ${isDark ? "text-gray-400" : "text-slate-500"}`}>{sectionName}</p>
             </div>
@@ -69,9 +69,11 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
                 {entries.map((entry, idx) => (
                   <div
                     key={idx}
-                    className={`border-l-3 pl-4 py-2 ${isDark ? "border-gray-600" : "border-blue-200"}`}
+                    className={`border border-gray-700 pl-5 py-3 rounded-md bg-opacity-20 ${
+                      isDark ? "bg-gray-800 text-gray-200" : "bg-blue-50 text-slate-700"
+                    }`}
                   >
-                    <p className={`${isDark ? "text-gray-300" : "text-slate-600"}`}>{entry.feedback}</p>
+                    <p className="text-sm leading-relaxed">{entry.feedback}</p>
                   </div>
                 ))}
               </div>
