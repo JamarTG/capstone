@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import * as z from "zod";
 import Button from "../../components/ui/Button";
-import Icon from "@mdi/react";
-import { mdiContentSaveAllOutline } from "@mdi/js";
 import { useTheme } from "../../context/ThemeContext";
 
 const infoSchema = z.object({
@@ -48,7 +46,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
 
   return (
     <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
-      <h3 className={`text-md font-semibold mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Personal Information</h3>
+      <h3 className={`text-md  mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Personal Information</h3>
       <form>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -97,10 +95,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
         <Button
           variant="primary"
           type="button"
-          className="mt-4 flex gap-2 w-full max-w-32 justify-center rounded-sm bg-gray-600 px-2 py-1 text-md/6 font-semibold text-gray-200 shadow-xs"
+          className="mt-4 flex gap-2 w-full max-w-16 justify-center rounded-sm bg-gray-600 px-2 py-1 text-sm/6  text-gray-200 shadow-xs"
           onClick={validateAndSave}
         >
-          <Icon path={mdiContentSaveAllOutline} size={1} />
           Save
         </Button>
       </form>

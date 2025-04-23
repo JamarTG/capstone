@@ -122,7 +122,7 @@ export default function Login() {
             <div className="text-lg">
               <a
                 href="#"
-                className="font-semibold text-gray-600 hover:text-gray-800"
+                className=" text-gray-600 hover:text-gray-800"
               >
                 Forgot password?
               </a>
@@ -148,7 +148,7 @@ export default function Login() {
           <Button
             variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-lg/6 font-semibold text-gray-200 shadow-xs"
+            className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-lg/6  text-gray-200 shadow-xs"
           >
             {isPending ? "Signing in..." : "Sign in"}
           </Button>
@@ -159,7 +159,7 @@ export default function Login() {
         Not a member?{" "}
         <Link
           to={"/register"}
-          className="font-semibold hover:text-gray-800 text-gray-600"
+          className=" hover:text-gray-800 text-gray-600"
         >
           Start your Journey
         </Link>

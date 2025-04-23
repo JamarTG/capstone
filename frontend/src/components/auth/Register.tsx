@@ -199,7 +199,7 @@ export default function Register() {
           <Button
             variant="primary"
             type="submit"
-            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg  text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {isPending ? "Registering..." : "Register"}
           </Button>
@@ -210,7 +210,7 @@ export default function Register() {
         Already a member?{" "}
         <Link
           to={"/login"}
-          className="font-semibold hover:text-gray-800 text-gray-600"
+          className=" hover:text-gray-800 text-gray-600"
         >
           Sign in
         </Link>

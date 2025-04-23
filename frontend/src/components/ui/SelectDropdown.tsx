@@ -20,7 +20,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({ options, selected, onSe
 
   return (
     <div className="relative w-64">
-      <label className="font-semibold block py-2 text-gray-800">Sort Quiz</label>
+      <label className=" block py-2 text-gray-800">Sort Quiz</label>
       
       <div className="relative">
         <div 
