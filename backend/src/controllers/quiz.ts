@@ -333,3 +333,32 @@ export const completeQuiz = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Failed to complete quiz ${error}` });
   }
 };
+
+export const getUserFeedbacks = async (req: CustomRequest, res: Response) => {
+  try {
+    if (!req.user?._id) {
+      res.status(401).json({
+        success: false,
+        error: "Authentication required",
+      });
+      return;
+    }
+
+    const feedbacks = await Feedback.find({ user: req.user._id }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      message: "User feedbacks retrieved successfully",
+      data: feedbacks.map((fb) => ({
+        feedback: fb.feedback,
+        section: fb.section
+      })),
+    });
+  } catch (error) {
+    console.error("Error getting user feedbacks:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to retrieve user feedbacks",
+    });
+  }
+};

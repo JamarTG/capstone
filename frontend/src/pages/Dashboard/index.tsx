@@ -2,33 +2,15 @@ import { useEffect, useState } from "react";
 import PageLayout from "../../components/layout/Page";
 import { useTheme } from "../../context/ThemeContext";
 import { useQuery } from "@tanstack/react-query";
-import { UserAPI } from "../../utils/api";
+import { QuizAPI, UserAPI } from "../../utils/api";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import { UserProfileData } from "../../types/settings";
-import FeedbackList from "../Feedback/FeedbackList";
+import FeedbackList from "../../components/FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
 import { mdiClipboardOutline } from "@mdi/js";
-import { FeedbackEntry } from "../../types/feedback";
+import { Typewriter } from "react-simple-typewriter";
 
 const DashboardPage = () => {
-  const dummyFeedbacks: FeedbackEntry[] = [
-    {
-      section: "Section 1",
-      feedback: "You struggled with identifying the correct variable type.",
-      created_at: "2025-04-17T14:30:00Z",
-    },
-    {
-      section: "Section 2",
-      feedback: "You missed the use of conditional logic in question 3.",
-      created_at: "2025-04-12T10:15:00Z",
-    },
-    {
-      section: "Section 3",
-      feedback: "Loop structure was used incorrectly.",
-      created_at: "2025-04-05T08:45:00Z",
-    },
-  ];
-
   useAuthRedirect();
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -48,27 +30,38 @@ const DashboardPage = () => {
     queryFn: UserAPI.fetchUserInfo,
   });
 
+  const { data: feedbackData } = useQuery({
+    queryKey: ["user-feedbacks"],
+    queryFn: () => QuizAPI.getUserFeedbacks().then((res) => res.data),
+  });
+
   useEffect(() => {
     if (data) setUser(data.data);
   }, [data]);
 
   return (
     <PageLayout title="Dashboard">
-      <div
-        className={`p-8 rounded-xl flex flex-col gap-12 ${isDark ? "bg-gray-800 text-gray-100" : "bg-white text-gray-900"} border ${isDark ? "border-gray-700" : "border-gray-200"}`}
-      >
-
-        <div>
-          <h1 className="text-3xl font-semibold">
-            Welcome back, {user.firstName}!
+      <div className={`p-2 flex flex-col`}>
+        <div className={`p-2 rounded-xl ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200"}`}>
+          <h1 className="text-4xl font-bold flex">
+            <Typewriter
+              words={[`Hey ${user.firstName || "champ"}, ready to crush some IT today?`]}
+              loop={1}
+              cursor={false}
+              typeSpeed={30}
+              deleteSpeed={0}
+              delaySpeed={2000}
+            />
           </h1>
-          <p className="text-lg mt-2">Let's get you started today.</p>
+          <p className="text-md mt-2 text-gray-400">Let’s level up your skills and tackle those tricky topics together</p>
         </div>
 
-    
-        <div className={"flex flex-col gap-6"}>
-          <SectionHeader iconPath={mdiClipboardOutline} title="Quiz Feedback" />
-          <FeedbackList feedbacks={dummyFeedbacks} />
+        <div className={`rounded-xl flex flex-col gap-1 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
+          <SectionHeader
+            iconPath={mdiClipboardOutline}
+            title="Feedback"
+          />
+          <FeedbackList feedbacks={feedbackData} />
         </div>
       </div>
     </PageLayout>

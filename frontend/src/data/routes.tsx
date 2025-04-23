@@ -11,7 +11,6 @@ import { ROUTE_PATHS } from "../constants/routes";
 
 import Assessment from "../pages/Quiz/QuizSession";
 import QuizReview from "../pages/Quiz/QuizReview";
-import Feedback from "../pages/Feedback";
 
 interface RouteConfig {
   path: string;
@@ -23,11 +22,6 @@ const routes: Record<string, RouteConfig> = {
   HOME: {
     path: ROUTE_PATHS.HOME,
     element: <StudyPlan />,
-    layout: SidebarLayout,
-  },
-  FEEDBACK: {
-    path: ROUTE_PATHS.FEEDBACK,
-    element: <Feedback />,
     layout: SidebarLayout,
   },
   LOGIN: {
@@ -58,15 +52,16 @@ const routes: Record<string, RouteConfig> = {
     element: <Settings />,
     layout: SidebarLayout,
   },
-  NOT_FOUND: {
-    path: ROUTE_PATHS.NOT_FOUND,
-    element: <NotFound />,
-  },
   REVIEW: {
     path: ROUTE_PATHS.QUIZ_REVIEW,
     element: <QuizReview />,
     layout: SidebarLayout,
   },
+  NOT_FOUND: {
+    path: ROUTE_PATHS.NOT_FOUND,
+    element: <NotFound />,
+  },
+ 
 };
 
 export default routes;

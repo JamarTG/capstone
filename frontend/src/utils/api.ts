@@ -48,6 +48,8 @@ export const QuizAPI = {
   autoSubmit: (quizId: string) => handleRequest(axiosInstanceWithCredentials.put(`/quiz/${quizId}/auto-submit`)),
   checkActiveSession: () => {
     return handleRequest(axiosInstanceWithCredentials.get("/quiz/active"))
-  }
+  },
+  getUserFeedbacks: () =>
+    handleRequest(axiosInstanceWithCredentials.get("/quiz/feedbacks")),
     
 };
