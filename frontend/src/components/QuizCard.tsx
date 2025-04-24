@@ -9,6 +9,8 @@ import { extractErrorMessage } from "../utils/error";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { Section_Map } from "../constants";
+import { useState } from "react";
+import React from "react";
 
 export interface Question {
   _id: string;
@@ -57,6 +59,8 @@ const QuizCard: React.FC<QuizCardProps> = ({
   quizId,
   currentQuestionIndex,
 }) => {
+  const [isConfirming, setIsConfirming] = useState(false);
+
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -70,12 +74,6 @@ const QuizCard: React.FC<QuizCardProps> = ({
     onError,
   });
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "bg-emerald-500 text-emerald-800";
-    if (score >= 50) return "bg-amber-500 text-amber-800";
-    return "bg-red-500 text-red-800";
-  };
-
   const formattedDate = new Date(lastAttempt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -83,84 +81,96 @@ const QuizCard: React.FC<QuizCardProps> = ({
   });
 
   const handleQuizDelete = () => {
-    if (window.confirm("Are you sure you want to delete this quiz?")) {
-      mutate(quizId);
-    }
+    mutate(quizId);
+    setIsConfirming(false);
   };
 
   const navigate = useNavigate();
 
-  const progressPercentage = currentQuestionIndex > 0 ? (score / currentQuestionIndex) * 100 : 0;
-
   return (
-    <Card
-      className={`border ${isDark ? "border-gray-700" : "border-gray-200"} rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] ${isDark ? "bg-gray-800" : "bg-white"} overflow-hidden p-0 transition-all duration-300 group ${className}`}
-      key={quizId}
-    >
-      <section
-        className="relative h-40 sm:h-44"
-        style={{
-          backgroundImage: `url(${Section_Map[section]?.bgSrc})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
+    <React.Fragment>
+      <Card
+        className={`border ${isDark ? "border-gray-700" : "border-gray-200"} rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] ${isDark ? "bg-gray-800" : "bg-white"} overflow-hidden p-0 transition-all duration-300 group ${className}`}
+        key={quizId}
       >
-        {!isNaN(score) && completed && (
-          <div
-            className={`absolute top-3 right-3 flex justify-center items-center px-3 py-1 rounded-sm ${getScoreColor(progressPercentage)} z-10`}
-          >
-            <span className="text-xl text-white">{progressPercentage.toFixed(0)}%</span>
-          </div>
-        )}
-
-        <button
-          onClick={handleQuizDelete}
-          disabled={isPending}
-          className={`cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full`}
-          title="Delete quiz"
+        <section
+          className="relative h-32 sm:h-32"
+          style={{
+            backgroundImage: `url(${Section_Map[section]?.bgSrc})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
         >
-          <Icon
-            path={mdiTrashCanOutline}
-            className="w-6 h-6"
-          />
-        </button>
-
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-          <div className="w-full bg-gray-200/30 rounded-full h-2 mt-2">
-            <div
-              className={`h-2 rounded-full ${getScoreColor(progressPercentage).replace("text", "bg")}`}
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
-        </div>
-      </section>
-
-      <section className={`flex-1 p-4 flex flex-col justify-between ${isDark ? "text-gray-100" : "text-slate-800"}`}>
-        <div className="flex justify-between items-start">
-          <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section].name}</h3>
-        </div>
-        <div className="flex flex-wrap gap-2 justify-center">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className={`px-2 cursor-pointer ${isDark ? "bg-gray-700 text-gray-300" : "bg-white text-slate-600"} border ${isDark ? "border-gray-600" : "border-gray-200"} rounded-full text-xs font-medium hover:bg-slate-50 hover:border-slate-200 hover:text-slate-700 transition-colors`}
+          {!isConfirming && (
+            <button
+              onClick={() => setIsConfirming(true)}
+              disabled={isPending}
+              className={`cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full`}
+              title="Delete quiz"
             >
-              #{tag}
-            </span>
-          ))}
-        </div>
+              <Icon
+                path={mdiTrashCanOutline}
+                className="w-6 h-6"
+              />
+            </button>
+          )}
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
-          <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
-          <button
-            className="text-sm text-blue-400"
-            onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}
-          >
-            {completed ? "Review" : "Continue"}
-          </button>
-        </div>
-      </section>
-    </Card>
+      
+          {isConfirming && (
+            <div className="absolute inset-0 flex justify-center items-center z-20">
+              <div className="p-4 rounded-lg shadow-lg text-center">
+                <h2 className="text-lg font-semibold mb-4">Are you sure you want to delete this quiz?</h2>
+                <div className="flex justify-center gap-4">
+                  <button
+                    className="text-gray-600"
+                    onClick={() => setIsConfirming(false)}
+                    disabled={isPending}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="text-red-600"
+                    onClick={handleQuizDelete}
+                    disabled={isPending}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        <section className={`flex-1 p-4 flex flex-col justify-between ${isDark ? "text-gray-100" : "text-slate-800"}`}>
+          <div className="flex justify-between items-start">
+            <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section].name}</h3>
+          </div>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className={`px-2 cursor-pointer ${isDark ? "bg-gray-700 text-gray-300" : "bg-white text-slate-600"} border ${isDark ? "border-gray-600" : "border-gray-200"} rounded-full text-xs font-medium hover:bg-slate-50 hover:border-slate-200 hover:text-slate-700 transition-colors`}
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
+            <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
+            <div className="flex items-center gap-2">
+              <span className={`text-2xl font-semibold p-2 rounded-full`}>{Math.ceil((score / currentQuestionIndex) * 100)}%</span>
+            </div>
+            <button
+              className="text-sm text-blue-400"
+              onClick={() => navigate(`/${completed ? "review" : "quiz"}/${quizId}`)}
+            >
+              {completed ? "Review" : "Continue"}
+            </button>
+          </div>
+        </section>
+      </Card>
+    </React.Fragment>
   );
 };
 
