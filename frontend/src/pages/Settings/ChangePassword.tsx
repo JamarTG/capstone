@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import * as z from "zod";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
+import { passwordSchema } from "../../schemas/passwordSchema";
 
-const passwordSchema = z.object({
-  currentPassword: z.string().min(1, "Current password is required"),
-  password: z.string().min(6, "New password must be at least 6 characters"),
-});
 
 interface ChangePasswordProps {
   user: {

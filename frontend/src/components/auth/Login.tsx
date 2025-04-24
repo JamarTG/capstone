@@ -17,11 +17,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../types/context";
 import { FORM_CONSTANTS } from "../../constants";
 import { LoginFormErrors, LoginFormFields } from "../../types/form";
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+import { loginSchema } from "../../schemas/loginSchema";
 
 export default function Login() {
   const [formData, setFormData] = useState<LoginFormFields>(FORM_CONSTANTS.LOGIN.initialLoginFields);

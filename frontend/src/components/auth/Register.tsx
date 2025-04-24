@@ -18,13 +18,7 @@ import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
 import Button from "../ui/Button";
 import { FORM_CONSTANTS } from "../../constants";
 import { RegisterFormErrors, RegisterFormFields } from "../../types/form";
-
-const registerSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email(),
-  password: z.string().min(6),
-});
+import { registerSchema } from "../../schemas/registerSchema";
 
 export default function Register() {
   const [formData, setFormData] = useState<RegisterFormFields>(FORM_CONSTANTS.REGISTER.initialRegisterFields);

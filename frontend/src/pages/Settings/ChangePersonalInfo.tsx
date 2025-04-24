@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import * as z from "zod";
+import { personalInfoSchema } from "../../schemas/personalInfoSchema";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
 
-const infoSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email("Enter a valid email address"),
-});
+
 
 interface ChangePersonalInfoProps {
   user: {
@@ -29,7 +25,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({
   const [errors, setErrors] = useState<Partial<Record<keyof typeof user, string>>>({});
 
   const validateAndSave = () => {
-    const result = infoSchema.safeParse(user);
+    const result = personalInfoSchema.safeParse(user);
 
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof typeof user, string>> = {};
