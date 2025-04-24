@@ -38,6 +38,9 @@ const QuizSession = () => {
 
   const { mutate: autoSubmitMutation, isPending } = useMutation({
     mutationFn: QuizAPI.autoSubmit,
+    onSuccess: (data) => {
+      navigate(`/review/${data._id || session.session._id}`);
+    },
   });
 
   const { mutate: submitAnswerMutation } = useMutation({
@@ -85,7 +88,6 @@ const QuizSession = () => {
 
   const handleSubmitQuiz = () => {
     autoSubmitMutation(session.session._id);
-    navigate(`/review/${session.session._id}`);
   };
 
   const handleNextQuestion = () => {
@@ -108,7 +110,7 @@ const QuizSession = () => {
       setSelectedAnswer(null);
     } else {
       autoSubmitMutation(session.session._id);
-      navigate(`/review/${session.session._id}`);
+ 
     }
   };
 
