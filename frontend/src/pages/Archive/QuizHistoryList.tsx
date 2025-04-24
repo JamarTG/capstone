@@ -95,7 +95,7 @@ const QuizHistoryList = () => {
                 score={quiz.score}
                 completed={quiz.completed}
                 lastAttempt={quiz.endTime || quiz.startTime}
-                tags={quiz.tags || []}
+               
               />
             )}
           />
