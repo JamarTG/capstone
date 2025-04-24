@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState, useEffect } from "react";
+import { ReactNode, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import routes from "../../../data/routes";
 import RenderList from "../../common/RenderList";
@@ -20,6 +20,7 @@ import {
 } from "@mdi/js";
 import logo from "/logo.png";
 import { capitalizeFirst } from "../../../utils/text";
+import { useSidebarState } from "../../../hook/useSidebarExpanded";
 
 interface HomeLayoutProps {
   children?: ReactNode;
@@ -75,18 +76,9 @@ const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean, isDark
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext)!;
-   const { isDark } = useTheme();
+  const { isDark } = useTheme();
 
-  const [isExpanded, setIsExpanded] = useState(() => {
-    const saved = localStorage.getItem("sidebarExpanded");
-    return saved ? JSON.parse(saved) : true;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("sidebarExpanded", JSON.stringify(isExpanded));
-  }, [isExpanded]);
-
-  const toggleSidebar = () => setIsExpanded(!isExpanded);
+  const [isExpanded, toggleSidebar] = useSidebarState("sidebarExpanded");
 
   return (
     <div
@@ -155,7 +147,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
             <li>
               <button
-              title="Logout"
+                title="Logout"
                 onClick={() => {
                   logout();
                   navigate(routes.LOGIN.path);
