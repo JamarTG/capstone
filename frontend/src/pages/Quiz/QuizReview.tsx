@@ -200,18 +200,31 @@ const QuizReview = () => {
                       key={key}
                       className={`p-3 border rounded-lg ${
                         gotItRight
-                          ? "border-green-500 bg-green-50"
+                          ? isDark
+                            ? "border-green-400 bg-green-900 text-white"
+                            : "border-green-500 bg-green-50"
                           : gotItWrong
-                            ? "border-red-500 bg-red-50"
-                            : isCorrect
-                              ? "border-green-300 bg-green-50"
-                              : "border-gray-600"
+                            ? isDark
+                              ? "border-red-400 bg-red-900 text-white"
+                              : "border-red-500 bg-red-50"
+                            : isCorrect && !question.user_answer
+                              ? isDark
+                                ? "border-yellow-300 bg-yellow-900 text-white"
+                                : "border-yellow-500 bg-yellow-50"
+                              : isCorrect
+                                ? isDark
+                                  ? "border-green-300 bg-green-800 text-white"
+                                  : "border-green-300 bg-green-50"
+                                : isDark
+                                  ? "border-gray-600 bg-gray-800 text-gray-300"
+                                  : "border-gray-300 bg-white text-gray-700"
                       }`}
                     >
                       {key}. {option}
                       {gotItRight && " ✅"}
                       {gotItWrong && " ❌"}
-                      {!isSelected && isCorrect && " (Correct Answer)"}
+                      {!isSelected && isCorrect && question.user_answer && " (Correct Answer)"}
+                      {!question.user_answer && isCorrect && " (Unanswered)"}
                     </li>
                   );
                 })}
@@ -220,18 +233,24 @@ const QuizReview = () => {
               <div className="mt-6 h-32">
                 {question && question.explanation ? (
                   <div className="flex flex-col gap-2 h-full">
-                    <h4 className="font-bold text-blue-800 flex gap-2 items-center text-sm">
+                    <h4 className={`font-bold flex gap-2 items-center text-sm ${isDark ? "text-blue-300" : "text-blue-800"}`}>
                       <Icon
                         path={mdiRobotHappyOutline}
                         size={0.9}
                       />
                       AI Explanation
                     </h4>
-                    <p className="text-md text-slate-600 leading-snug overflow-y-auto">{question.explanation}</p>
+                    <p className={`text-md leading-snug overflow-y-auto ${isDark ? "text-gray-200" : "text-slate-600"}`}>
+                      {question.explanation}
+                    </p>
                   </div>
                 ) : (
-                  <div className="px-3 py-2 bg-gray-50 border-l-4 border-gray-400 text-gray-800 rounded h-full flex items-center justify-center">
-                    <p className="text-gray-500 italic text-sm">No explanation available for this question.</p>
+                  <div
+                    className={`px-3 py-2 rounded h-full flex items-center justify-center border-l-4 ${
+                      isDark ? "bg-gray-700 border-gray-500 text-gray-300" : "bg-gray-50 border-gray-400 text-gray-800"
+                    }`}
+                  >
+                    <p className="italic text-sm">{`No explanation available for this question.`}</p>
                   </div>
                 )}
               </div>
