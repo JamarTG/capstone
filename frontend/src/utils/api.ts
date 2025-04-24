@@ -1,6 +1,7 @@
 import axios from "axios";
-import { LoginFormFields, RegisterFormFields, CreateQuizPayload, UserUpdatePayload } from "../types/auth";
+import { CreateQuizPayload, UserUpdatePayload } from "../types/auth";
 import { QuizAnswerPayload } from "../types/quiz";
+import { LoginFormFields, RegisterFormFields } from "../types/form";
 
 export const BASE_URL = "http://localhost:5000/api";
 
@@ -25,7 +26,7 @@ const handleRequest = async (request: Promise<any>) => {
 };
 
 export const AuthAPI = {
-  register: (userData: RegisterFormFields) => handleRequest(axiosInstance.post("/auth/register", userData)),
+  register: (userData:RegisterFormFields) => handleRequest(axiosInstance.post("/auth/register", userData)),
   login: (userData: LoginFormFields) => handleRequest(axiosInstance.post("/auth/login", userData)),
   checkAuth: () => handleRequest(axiosInstanceWithCredentials.get("/auth/check-auth")),
 };

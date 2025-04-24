@@ -3,7 +3,7 @@ import * as z from "zod";
 import { Link } from "react-router-dom";
 import AuthLayout from "../layout/Auth";
 import { useMutation } from "@tanstack/react-query";
-import { RegisterFormErrors, RegisterFormFields, SuccessfulAuthResponse } from "../../types/auth";
+import { SuccessfulAuthResponse } from "../../types/auth";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -16,6 +16,8 @@ import { jwtDecode } from "jwt-decode";
 import { User } from "../../types/context";
 import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
 import Button from "../ui/Button";
+import { FORM_CONSTANTS } from "../../constants";
+import { RegisterFormErrors, RegisterFormFields } from "../../types/form";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -25,20 +27,8 @@ const registerSchema = z.object({
 });
 
 export default function Register() {
-  const initialRegisterFields: RegisterFormFields = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  };
-
-  const initialRegisterErrors: RegisterFormErrors = {
-    ...initialRegisterFields,
-  };
-
-  const [formData, setFormData] = useState<RegisterFormFields>(initialRegisterFields);
-
-  const [errors, setErrors] = useState<RegisterFormFields>(initialRegisterErrors);
+  const [formData, setFormData] = useState<RegisterFormFields>(FORM_CONSTANTS.REGISTER.initialRegisterFields);
+  const [errors, setErrors] = useState<RegisterFormErrors>(FORM_CONSTANTS.REGISTER.initialRegisterErrors);
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;

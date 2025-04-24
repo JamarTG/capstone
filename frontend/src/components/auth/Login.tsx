@@ -11,10 +11,12 @@ import toast from "react-hot-toast";
 import AuthLayout from "../layout/Auth";
 import { extractErrorMessage } from "../../utils/error";
 import { AUTH_TOKEN_CONFIG } from "../../utils/auth";
-import { LoginFormErrors, LoginFormFields, SuccessfulAuthResponse } from "../../types/auth";
+import {  SuccessfulAuthResponse } from "../../types/auth";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { User } from "../../types/context";
+import { FORM_CONSTANTS } from "../../constants";
+import { LoginFormErrors, LoginFormFields } from "../../types/form";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -22,11 +24,8 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
-  const initialLoginFields: LoginFormFields = { email: "", password: "" };
-  const initialLoginErrors: LoginFormErrors = { ...initialLoginFields };
-
-  const [formData, setFormData] = useState<LoginFormFields>(initialLoginFields);
-  const [errors, setErrors] = useState<LoginFormErrors>(initialLoginErrors);
+  const [formData, setFormData] = useState<LoginFormFields>(FORM_CONSTANTS.LOGIN.initialLoginFields);
+  const [errors, setErrors] = useState<LoginFormErrors>(FORM_CONSTANTS.LOGIN.initialLoginErrors);
 
   const navigate = useNavigate();
 

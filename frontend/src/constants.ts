@@ -6,7 +6,29 @@ import sectionFive from "./assets/images/quiz/5.webp";
 import sectionSix from "./assets/images/quiz/6.webp";
 import sectionSeven from "./assets/images/quiz/7.webp";
 import sectionEight from "./assets/images/quiz/8.webp";
+import { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "./types/form";
 
+
+export const FORM_CONSTANTS = {
+  LOGIN: {
+    initialLoginFields: { email: "", password: "" } as LoginFormFields,
+    initialLoginErrors: { email: "", password: "" } as LoginFormErrors,  
+  },
+  REGISTER: {
+    initialRegisterFields: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    } as RegisterFormFields,
+    initialRegisterErrors: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    } as RegisterFormErrors,  
+  },
+};
 export const Section_Map: Record<number, { bgSrc: string; name: string }> = {
   1: { bgSrc: sectionOne, name: "Computer Fundamentals and Information Processing" },
   2: { bgSrc: sectionTwo, name: "Computer Networks and Web Technologies" },
@@ -17,3 +39,4 @@ export const Section_Map: Record<number, { bgSrc: string; name: string }> = {
   7: { bgSrc: sectionSeven, name: "Problem Solving and Program Design" },
   8: { bgSrc: sectionEight, name: "Program Implementation" },
 };
+
