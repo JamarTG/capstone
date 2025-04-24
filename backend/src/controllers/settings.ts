@@ -77,6 +77,4 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
   }
 };
 
-
-
 export { updateUserInformation, getUserInformation };

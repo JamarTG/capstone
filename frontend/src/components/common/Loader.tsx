@@ -7,8 +7,7 @@ interface LoaderProps {
 }
 
 const Loader: React.FC<LoaderProps> = ({ text }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
     <div className="flex items-center justify-center h-screen bg-transparent">

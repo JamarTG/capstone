@@ -9,7 +9,7 @@ const infoSchema = z.object({
   email: z.string().email("Enter a valid email address"),
 });
 
-interface PersonalInformationProps {
+interface ChangePersonalInfoProps {
   user: {
     firstName: string;
     lastName: string;
@@ -19,13 +19,13 @@ interface PersonalInformationProps {
   savePersonalInfo: () => void;
 }
 
-const PersonalInformation: React.FC<PersonalInformationProps> = ({
+const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({
   user,
   handleChange,
   savePersonalInfo,
 }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark} = useTheme();
+
   const [errors, setErrors] = useState<Partial<Record<keyof typeof user, string>>>({});
 
   const validateAndSave = () => {
@@ -105,4 +105,4 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
   );
 };
 
-export default PersonalInformation;
+export default ChangePersonalInfo;

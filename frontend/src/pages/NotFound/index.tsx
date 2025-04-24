@@ -2,8 +2,7 @@ import { useTheme } from "../../context/ThemeContext";
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
     <div

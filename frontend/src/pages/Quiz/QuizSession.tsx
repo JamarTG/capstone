@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import QuestionCard from "./QuestionCard";
+import QuizQuestion from "./QuizQuestion";
 import QuizHeader from "./QuizHeader";
 import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
@@ -132,7 +132,7 @@ const QuizSession = () => {
             />
 
             {currentQuestion && (
-              <QuestionCard
+              <QuizQuestion
                 question={`${currentIndex + 1}. ${currentQuestion.question}`}
                 answers={Object.values(currentQuestion.options)}
                 selectedAnswer={selectedAnswer}

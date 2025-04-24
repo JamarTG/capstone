@@ -1,5 +1,7 @@
 import React, { ReactNode } from "react";
 import logo from "/logo.png";
+import showcaseImage from "/student.jpg";
+
 interface AuthProps {
   children?: ReactNode;
   title: string;
@@ -32,7 +34,7 @@ const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
       <div className="hidden lg:flex w-1/2 items-center justify-center bg-white">
         <div className="flex flex-col items-center text-center px-10">
           <img
-            src="/black-student.jpg"
+            src={showcaseImage}
             alt="Learning"
             className="w-72 h-auto mb-6"
           />

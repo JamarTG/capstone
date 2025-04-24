@@ -12,8 +12,7 @@ interface QuizHeaderProps {
 }
 
 const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderProps) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const progressPercentage = ((currentIndex ) / totalQuestions) * 100;
 

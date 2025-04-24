@@ -7,8 +7,7 @@ interface PageLayoutProps {
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
     <div className={`min-h-screen ${isDark ? "bg-gray-800" : "bg-white"}`}>

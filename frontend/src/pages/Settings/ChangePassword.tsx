@@ -23,8 +23,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   savePassword,
 }) => {
   const [errors, setErrors] = useState<{ currentPassword?: string; password?: string }>({});
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const validateAndSave = () => {
     const result = passwordSchema.safeParse(user);

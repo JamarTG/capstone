@@ -1,14 +1,14 @@
 import React from "react";
 import { useTheme } from "../../context/ThemeContext";
 
-interface PreferencesProps {
+interface ChangeThemeProps {
   darkMode: boolean;
   toggleDarkMode: () => void;
 }
 
-const Preferences: React.FC<PreferencesProps> = ({ darkMode}) => {
-  const { theme,toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+const ChangeTheme: React.FC<ChangeThemeProps> = ({ darkMode}) => {
+  const { isDark ,toggleTheme } = useTheme();
+  
 
   return (
     <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
@@ -33,4 +33,4 @@ const Preferences: React.FC<PreferencesProps> = ({ darkMode}) => {
   );
 };
 
-export default Preferences;
+export default ChangeTheme;

@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verify, JwtPayload } from "jsonwebtoken";
-
-interface CustomRequest extends Request {
-  user?: string | JwtPayload;
-}
+import { CustomRequest } from "../types/middleware";
 
 const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
   const token = req.cookies.token;

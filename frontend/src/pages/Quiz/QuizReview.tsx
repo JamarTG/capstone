@@ -82,8 +82,7 @@ const QuizReview = () => {
     queryFn: () => QuizAPI.getQuizById(id!),
   });
 
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 

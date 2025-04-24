@@ -10,8 +10,7 @@ import Loader from "../../components/common/Loader";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const {
     data: quizzes,

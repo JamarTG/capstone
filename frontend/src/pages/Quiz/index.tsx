@@ -41,7 +41,6 @@ const QuizSelection = () => {
     onError,
   });
 
-
   if (isSessionLoading) {
     return <Loader text="Checking your quiz progress..." />;
   }
@@ -54,12 +53,11 @@ const QuizSelection = () => {
             iconPath={mdiCursorDefaultClick}
             title="Topic Selection"
           />
-          <SectionContainer 
-            createQuizMutate={createQuizMutate} 
-            loadingSection={loadingSection} 
-            setLoadingSection={setLoadingSection} 
+          <SectionContainer
+            createQuizMutate={createQuizMutate}
+            loadingSection={loadingSection}
+            setLoadingSection={setLoadingSection}
           />
-        
         </div>
       </div>
     </PageContent>

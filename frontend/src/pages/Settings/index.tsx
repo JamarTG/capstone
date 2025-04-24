@@ -3,19 +3,19 @@ import PageContent from "../../components/layout/Page";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import { UserAPI } from "../../utils/api";
-import PersonalInformation from "./PersonalInformation";
 import ChangePassword from "./ChangePassword";
-import Preferences from "./Preferences";
+import ChangeTheme from "./ChangeTheme";
 import { UserSettings } from "../../types/settings";
 import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import { useTheme } from "../../context/ThemeContext";
+import ChangePersonalInfo from "./ChangePersonalInfo";
 
 export default function Settings() {
   useAuthRedirect();
-  const { theme, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
 
   const [user, setUser] = useState<UserSettings>({
     firstName: "",
@@ -23,7 +23,7 @@ export default function Settings() {
     email: "",
     password: "",
     currentPassword: "",
-    darkMode: theme === "dark",
+    darkMode: isDark,
   });
 
   const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
@@ -69,7 +69,7 @@ export default function Settings() {
     <PageContent title="Settings">
       <div className="w-full flex flex-col gap-2 justify-center gap-3 rounded-xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
-          <PersonalInformation
+          <ChangePersonalInfo
             user={user}
             handleChange={handleChange}
             savePersonalInfo={savePersonalInfo}
@@ -82,7 +82,7 @@ export default function Settings() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          <Preferences
+          <ChangeTheme
             darkMode={user.darkMode}
             toggleDarkMode={handleToggleTheme}
           />

@@ -75,8 +75,7 @@ const renderNavLinks = ({ path, name }: MainNavItem, isExpanded: boolean, isDark
 const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext)!;
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const [isExpanded, setIsExpanded] = useState(() => {
     const saved = localStorage.getItem("sidebarExpanded");

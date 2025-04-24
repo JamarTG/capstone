@@ -1,23 +1,24 @@
 import { useTheme } from "../../context/ThemeContext";
 import QuizAnswerOption from "./QuizAnswerOption";
 
-const QuestionCard = ({
-  question,
-  answers,
-  selectedAnswer,
-  onAnswerSelect,
-  onNextQuestion,
-  isLastQuestion,
-}: {
+interface QuizQuestionProps {
   question: string;
   answers: string[];
   selectedAnswer: number | null;
   onAnswerSelect: (index: number) => void;
   onNextQuestion: () => void;
   isLastQuestion: boolean;
-}) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+}
+
+const QuizQuestion = ({
+  question,
+  answers,
+  selectedAnswer,
+  onAnswerSelect,
+  onNextQuestion,
+  isLastQuestion,
+}: QuizQuestionProps) => {
+   const { isDark } = useTheme();
 
   return (
     <div className={`p-8 w-full rounded-lg border ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
@@ -58,4 +59,4 @@ const QuestionCard = ({
   );
 };
 
-export default QuestionCard;
+export default QuizQuestion;

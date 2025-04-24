@@ -67,7 +67,6 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     const isPasswordCorrect = userWithEmail.comparePassword(plainTextPassword);
 
     if (!isPasswordCorrect) {
-      console.log(email, plainTextPassword, !isPasswordCorrect, userWithEmail);
       res.status(401).json({ message: "Incorrect Password" });
       return;
     }
@@ -79,6 +78,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 export const checkAuth = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
     if (!req.user || !req.user._id) {

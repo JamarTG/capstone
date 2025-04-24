@@ -1,5 +1,18 @@
 import { Schema, model, Document, Types } from "mongoose";
-import { IQuestion } from "../types/model";
+
+export interface IQuestion {
+  _id: string;
+  question: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  explanation: string;
+  correct_answer: "A" | "B" | "C" | "D";
+  user_answer: "A" | "B" | "C" | "D"; 
+  is_correct?: boolean;
+  feedbackId?:string;
+}
 
 export interface IQuiz extends Document {
   section: number;
@@ -12,6 +25,7 @@ export interface IQuiz extends Document {
   tags: string[];
   questions: IQuestion[];
 }
+
 
 const QuizSchema = new Schema<IQuiz>(
   {
@@ -102,10 +116,5 @@ const QuizSchema = new Schema<IQuiz>(
     timestamps: true,
   }
 );
-
-QuizSchema.index({ user: 1 });
-QuizSchema.index({ topic: 1 });
-QuizSchema.index({ completed: 1 });
-QuizSchema.index({ score: 1 });
 
 export const Quiz = model<IQuiz>("Quiz", QuizSchema);

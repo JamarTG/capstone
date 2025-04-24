@@ -5,15 +5,15 @@ import { useQuery } from "@tanstack/react-query";
 import { QuizAPI, UserAPI } from "../../utils/api";
 import useAuthRedirect from "../../hook/useAuthRedirect";
 import { UserProfileData } from "../../types/settings";
-import FeedbackList from "../../components/FeedbackList";
+import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
 import { mdiClipboardOutline } from "@mdi/js";
 import { Typewriter } from "react-simple-typewriter";
 
 const Dashboard = () => {
   useAuthRedirect();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useTheme();
+
 
   const [user, setUser] = useState<UserProfileData>({
     firstName: "",

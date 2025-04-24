@@ -2,12 +2,10 @@ import { Request, Response } from "express";
 import { Quiz } from "../models/Quiz";
 import { CustomRequest } from "../types/middleware";
 import { spawn } from "child_process";
-import { IQuestion } from "../types/model";
+import { IQuestion } from "../models/Quiz";
 import Feedback from "../models/Feedback";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
-  console.log("✅ checkActiveQuizSession was hit");
-
   try {
     if (!req.user?._id) {
       res.status(401).json({
@@ -90,11 +88,8 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
   }
 };
 
-
 export const createQuizSession = async (req: CustomRequest, res: Response) => {
   try {
-    console.log("➡️ Incoming createQuizSession request");
-
     const section = req.body.section;
     const userId = req.user._id;
 
@@ -105,7 +100,6 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       feedbackText: doc.feedback 
     }));
 
-    // Spawn Python to get question(s)
     const result = await new Promise<any>((resolve, reject) => {
       const py = spawn("python", ["./rag/section1.py", String(section)]);
 
@@ -148,8 +142,6 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
         : question;
     });
 
-    console.log(questionsWithFeedbackId)
-
     const newSession = await Quiz.create({
       section,
       user: userId,
@@ -160,21 +152,17 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       completed: false,
     });
 
-    console.log("✅ Quiz session created:", newSession._id);
-
     res.status(201).json({
       message: "Quiz session created successfully",
       session: newSession,
     });
   } catch (err) {
-    console.error("❌ Error creating quiz session:", err);
     res.status(500).json({ error: `Failed to create session: ${err}` });
   }
 };
 
-
 export const getQuizSession = async (req: Request, res: Response) => {
-  console.log("⚠️ getQuizSession was hit with sessionId:", req.params.sessionId);
+
   try {
     const session = await Quiz.findById(req.params.sessionId);
 
@@ -213,7 +201,6 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
     res.status(500).json({ error: `Failed to fetch user quiz sessions: ${err}` });
   }
 };
-
 
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
   try {
@@ -309,8 +296,6 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ message: `Server error ${error}` });
   }
 };
-
-
 
 export const completeQuiz = async (req: Request, res: Response) => {
   try {

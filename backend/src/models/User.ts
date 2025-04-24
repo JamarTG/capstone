@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
-import { IUser } from "../types/model";
+
+export interface IUser extends Document {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  status: "active" | "inactive";
+  salt: string;
+  comparePassword: (password: IUser["password"]) => boolean;
+  createdAt: Date;
+}
 
 const userSchema = new mongoose.Schema<IUser>({
   email: { type: String, required: true, unique: true },

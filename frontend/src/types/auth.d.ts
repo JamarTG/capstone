@@ -33,18 +33,6 @@ export interface SuccessfulQuizResponse {
   };
 }
 
-export interface UserSuccessResponse {
-  message: string;
-  user?: {
-    _id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    createdAt: string;
-    __v: string;
-  };
-}
-
 export interface UserUpdatePayload {
   firstName?: string;
   lastName?: string;

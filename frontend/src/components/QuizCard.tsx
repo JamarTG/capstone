@@ -40,7 +40,6 @@ interface QuizCardProps {
   score: number;
   lastAttempt: string | Date;
   section: number;
-  tags: string[];
   completed: boolean;
   currentQuestionIndex: number;
   className?: string;
@@ -54,15 +53,12 @@ const QuizCard: React.FC<QuizCardProps> = ({
   completed,
   score,
   lastAttempt,
-  tags,
   className = "",
   quizId,
   currentQuestionIndex,
 }) => {
   const [isConfirming, setIsConfirming] = useState(false);
-
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error) || "Failed to delete quiz");
@@ -145,17 +141,6 @@ const QuizCard: React.FC<QuizCardProps> = ({
           <div className="flex justify-between items-start">
             <h3 className={`text-md drop-shadow-md ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section].name}</h3>
           </div>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {tags.map((tag, index) => (
-              <span
-                key={index}
-                className={`px-2 cursor-pointer ${isDark ? "bg-gray-700 text-gray-300" : "bg-white text-slate-600"} border ${isDark ? "border-gray-600" : "border-gray-200"} rounded-full text-xs font-medium hover:bg-slate-50 hover:border-slate-200 hover:text-slate-700 transition-colors`}
-              >
-                #{tag}
-              </span>
-            ))}
-          </div>
-
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
             <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
             <div className="flex items-center gap-2">
