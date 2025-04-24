@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
 import { useTheme } from "../../context/ThemeContext";
 
-export default function SettingsPage() {
+export default function Settings() {
   useAuthRedirect();
   const { theme, toggleTheme } = useTheme();
 

@@ -4,7 +4,7 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 import Archive from "../pages/Archive";
 import Quiz from "../pages/Quiz";
-import NotFound from "../pages/Quiz";
+import NotFound from "../pages/NotFound";
 import Settings from "../pages/Settings";
 import SidebarLayout from "../components/layout/Sidebar";
 import { ROUTE_PATHS } from "../constants/routes";
@@ -60,6 +60,7 @@ const routes: Record<string, RouteConfig> = {
   NOT_FOUND: {
     path: ROUTE_PATHS.NOT_FOUND,
     element: <NotFound />,
+    layout: SidebarLayout,
   },
  
 };

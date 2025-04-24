@@ -10,7 +10,7 @@ import SectionHeader from "../../components/SectionHeader";
 import { mdiClipboardOutline } from "@mdi/js";
 import { Typewriter } from "react-simple-typewriter";
 
-const DashboardPage = () => {
+const Dashboard = () => {
   useAuthRedirect();
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -68,4 +68,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

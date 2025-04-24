@@ -12,7 +12,7 @@ import { mdiCursorDefaultClick } from "@mdi/js";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
 
-const QuizSelectionPage = () => {
+const QuizSelection = () => {
   const navigate = useNavigate();
 
   useAuthRedirect();
@@ -66,4 +66,4 @@ const QuizSelectionPage = () => {
   );
 };
 
-export default QuizSelectionPage;
+export default QuizSelection;
