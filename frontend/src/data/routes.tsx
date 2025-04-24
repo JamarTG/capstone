@@ -1,7 +1,7 @@
 import { JSX, ReactNode } from "react";
 import StudyPlan from "../pages/Dashboard";
-import Login from "../components/auth/Login";
-import Register from "../components/auth/Register";
+import Login from "../components/auth/login/Login";
+import Register from "../components/auth/register/Register";
 import Archive from "../pages/Archive";
 import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
@@ -62,7 +62,6 @@ const routes: Record<string, RouteConfig> = {
     element: <NotFound />,
     layout: SidebarLayout,
   },
- 
 };
 
 export default routes;
