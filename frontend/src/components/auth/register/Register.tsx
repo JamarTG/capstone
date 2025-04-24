@@ -1,28 +1,30 @@
-import { useContext, useState } from "react";
-import * as z from "zod";
-import AuthLayout from "../../layout/Auth";
-import { useMutation } from "@tanstack/react-query";
-import { SuccessfulAuthResponse } from "../../../types/auth";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import { extractErrorMessage } from "../../../utils/error";
-import { AuthAPI } from "../../../utils/api";
-import { AuthContext } from "../../../context/AuthContext";
-import { jwtDecode } from "jwt-decode";
-import { User } from "../../../types/context";
-import { AUTH_TOKEN_CONFIG } from "../../../utils/auth";
-import { FORM_CONSTANTS } from "../../../constants";
-import { RegisterFormErrors, RegisterFormFields } from "../../../types/form";
+import { useFormValidation } from "../../../hook/useFormValidation";
 import { registerSchema } from "../../../schemas/registerSchema";
+import { RegisterFormFields } from "../../../types/form";
+import { FORM_CONSTANTS } from "../../../constants";
+import { useMutation } from "@tanstack/react-query";
+import { AuthAPI } from "../../../utils/api";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { SuccessfulAuthResponse } from "../../../types/auth";
+import { AuthContext } from "../../../context/AuthContext";
+import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
+import  { jwtDecode, JwtPayload } from "jwt-decode";
+import { AUTH_TOKEN_CONFIG } from "../../../utils/auth";
 import InputField from "../../ui/Input";
 import RegisterButton from "./RegisterButton";
 import LoginRedirect from "./LoginRedirect";
+import AuthLayout from "../../layout/Auth";
+import { useContext } from "react";
+import { User } from "../../../types/context";
 
 export default function Register() {
-  const [formData, setFormData] = useState<RegisterFormFields>(FORM_CONSTANTS.REGISTER.initialRegisterFields);
-  const [errors, setErrors] = useState<RegisterFormErrors>(FORM_CONSTANTS.REGISTER.initialRegisterErrors);
+  const { formData, errors, handleChange, validate } = useFormValidation<RegisterFormFields>(
+    registerSchema,
+    FORM_CONSTANTS.REGISTER.initialRegisterFields,
+    FORM_CONSTANTS.REGISTER.initialRegisterErrors
+  );
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
@@ -30,13 +32,16 @@ export default function Register() {
   const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
-    const decodedUser = jwtDecode(token);
-    localStorage.setItem("user", JSON.stringify(decodedUser as User));
-    setUser(decodedUser as User);
+    const decodedUser = jwtDecode<JwtPayload & User>(token);
+    localStorage.setItem("user", JSON.stringify(decodedUser));
+    setUser(decodedUser);
     navigate("/", { replace: true });
   };
 
-  const onError = (error: AxiosError) => toast.error(extractErrorMessage(error));
+  const onError = (error: AxiosError) => {
+    const errorMessage = (error.response?.data as { message?: string })?.message || "Registration failed!";
+    toast.error(errorMessage);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: AuthAPI.register,
@@ -45,50 +50,17 @@ export default function Register() {
     onError,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const validate = (data: RegisterFormFields) => {
-    try {
-      registerSchema.parse(data);
-      setErrors({} as RegisterFormFields);
-      return true;
-    } catch (err) {
-      const fieldErrors: {
-        firstName?: string;
-        lastName?: string;
-        email?: string;
-        password?: string;
-      } = {};
-      if (err instanceof z.ZodError) {
-        err.errors.forEach((error) => {
-          if (error.path[0] === "firstName") fieldErrors.firstName = error.message;
-          if (error.path[0] === "lastName") fieldErrors.lastName = error.message;
-          if (error.path[0] === "email") fieldErrors.email = error.message;
-          if (error.path[0] === "password") fieldErrors.password = error.message;
-        });
-      }
-      setErrors(fieldErrors);
-      return false;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate(formData)) {
-      return;
+    const { isValid } = validate(formData);
+    if (isValid) {
+      mutate(formData);
     }
-    mutate(formData);
   };
 
   return (
     <AuthLayout title="Create an Account">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 w-full sm:max-w-md mx-auto"
-      >
+      <form onSubmit={handleSubmit} className="space-y-4 w-full sm:max-w-md mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <InputField
             id="firstName"
@@ -97,7 +69,7 @@ export default function Register() {
             type="text"
             value={formData.firstName}
             onChange={handleChange}
-            error={errors.firstName}
+            error={(errors as RegisterFormFields).firstName as string}
             placeholder="Enter your first name"
           />
           <InputField
@@ -107,7 +79,7 @@ export default function Register() {
             type="text"
             value={formData.lastName}
             onChange={handleChange}
-            error={errors.lastName}
+            error={((errors as RegisterFormFields).lastName)}
             placeholder="Enter your last name"
           />
         </div>
