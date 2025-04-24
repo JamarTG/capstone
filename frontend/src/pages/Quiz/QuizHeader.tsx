@@ -15,7 +15,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const progressPercentage = ((currentIndex + 1) / totalQuestions) * 100;
+  const progressPercentage = ((currentIndex ) / totalQuestions) * 100;
 
   return (
     <div className={`${isDark ? "bg-gray-800" : "bg-white"} rounded-lg overflow-hidden`}>
