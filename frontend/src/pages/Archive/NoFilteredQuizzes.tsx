@@ -6,8 +6,8 @@ import { useTheme } from "../../context/ThemeContext";
 
 const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomplete" }) => {
   const navigate = useNavigate();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark} = useTheme();
+
 
   const getMessage = () => {
     switch (filter) {
@@ -29,6 +29,9 @@ const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomple
     }
   };
 
+  const goToQuizzes = () => {
+    navigate("/quiz");
+  }
   const { title, description } = getMessage();
 
   return (
@@ -39,7 +42,7 @@ const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomple
       <h3 className={`text-xl font-medium ${isDark ? "text-white" : "text-gray-700"}`}>{title}</h3>
       <p className={`max-w-md ${isDark ? "text-gray-400" : "text-gray-500"}`}>{description}</p>
       {filter === "all" && (
-        <Button className="mt-4" onClick={() => navigate("/quiz")}>
+        <Button className="mt-4" onClick={goToQuizzes}>
           Browse Quizzes
         </Button>
       )}

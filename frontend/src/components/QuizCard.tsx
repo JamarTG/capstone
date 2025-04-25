@@ -81,6 +81,14 @@ const QuizCard: React.FC<QuizCardProps> = ({
     setIsConfirming(false);
   };
 
+  const cancelDeletion = () => {
+    setIsConfirming(false);
+  }
+
+  const confirmDeletion = () => {
+    setIsConfirming(true);
+  }
+
   const navigate = useNavigate();
 
   return (
@@ -99,7 +107,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
         >
           {!isConfirming && (
             <button
-              onClick={() => setIsConfirming(true)}
+              onClick={confirmDeletion}
               disabled={isPending}
               className={`cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full`}
               title="Delete quiz"
@@ -119,7 +127,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
                 <div className="flex justify-center gap-4">
                   <button
                     className="text-gray-600"
-                    onClick={() => setIsConfirming(false)}
+                    onClick={cancelDeletion}
                     disabled={isPending}
                   >
                     Cancel

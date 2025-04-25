@@ -98,7 +98,6 @@ const QuizReview = () => {
   const questions = session?.questions || [];
   const question = questions[currentQuestionIndex];
 
-  // Calculate score
   const totalScore = session?.score || 0;
   const totalQuestions = questions.length;
   const scorePercentage = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;

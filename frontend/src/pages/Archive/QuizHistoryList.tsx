@@ -10,7 +10,7 @@ import Loader from "../../components/common/Loader";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
-   const { isDark } = useTheme();
+  const { isDark } = useTheme();
 
   const {
     data: quizzes,
@@ -33,11 +33,35 @@ const QuizHistoryList = () => {
     return true;
   });
 
+  const renderQuizCard = (quiz: Quiz) => (
+    <QuizCard
+      currentQuestionIndex={quiz.currentQuestionIndex}
+      quizRefetch={quizRefetch}
+      quizId={quiz._id}
+      section={quiz.section}
+      score={quiz.score}
+      completed={quiz.completed}
+      lastAttempt={quiz.endTime || quiz.startTime}
+    />
+  );
+
+  const setFilterToAll = () => {
+    setFilter("all");
+  }
+
+  const setFilterToCompleted = () => {
+    setFilter("completed");
+  }
+
+  const setFilterToIncomplete = () => {
+    setFilter("incomplete");
+  }
+
   return (
     <div className={`space-y-4 ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-600"}`}>
       <div className="flex gap-3">
         <button
-          onClick={() => setFilter("all")}
+          onClick={setFilterToAll}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "all"
               ? isDark
@@ -51,7 +75,7 @@ const QuizHistoryList = () => {
           All
         </button>
         <button
-          onClick={() => setFilter("completed")}
+          onClick={setFilterToCompleted}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "completed"
               ? isDark
@@ -65,7 +89,7 @@ const QuizHistoryList = () => {
           Completed
         </button>
         <button
-          onClick={() => setFilter("incomplete")}
+          onClick={setFilterToIncomplete}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "incomplete"
               ? isDark
@@ -86,18 +110,7 @@ const QuizHistoryList = () => {
         <div className="grid grid-flow-row gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <RenderList
             data={filtered}
-            renderFn={(quiz: Quiz) => (
-              <QuizCard
-                currentQuestionIndex={quiz.currentQuestionIndex}
-                quizRefetch={quizRefetch}
-                quizId={quiz._id}
-                section={quiz.section}
-                score={quiz.score}
-                completed={quiz.completed}
-                lastAttempt={quiz.endTime || quiz.startTime}
-               
-              />
-            )}
+            renderFn={renderQuizCard}
           />
         </div>
       )}

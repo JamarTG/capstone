@@ -1,6 +1,6 @@
 import PageLayout from "../../components/layout/Page";
 import QuizHistoryList from "./QuizHistoryList";
-import useAuthRedirect from "../../hook/useAuthRedirect";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
 import { mdiHistory } from "@mdi/js";
 

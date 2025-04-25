@@ -1,4 +1,4 @@
-import { useRegister } from "../../../hook/useRegister";
+import { useRegister } from "../../../hooks/useRegister";
 import { RegisterFormErrors } from "../../../types/form";
 import InputField from "../../ui/Input";
 import RegisterButton from "./RegisterButton";

@@ -1,18 +1,15 @@
-import { useLogin } from "../../../hook/useLogin";
+import { useLogin } from "../../../hooks/useLogin";
 import InputField from "../../ui/Input";
 import SignInButton from "./LoginButton";
 
 export default function LoginForm() {
-  const {
-    formData,
-    errors,
-    handleChange,
-    handleSubmit,
-    isPending,
-  } = useLogin();
+  const { formData, errors, handleChange, handleSubmit, isPending } = useLogin();
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6"
+    >
       <InputField
         id="email"
         label="Email address"

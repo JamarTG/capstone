@@ -3,7 +3,7 @@ import PageLayout from "../../components/layout/Page";
 import { useTheme } from "../../context/ThemeContext";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI, UserAPI } from "../../utils/api";
-import useAuthRedirect from "../../hook/useAuthRedirect";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { UserProfileData } from "../../types/settings";
 import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
@@ -13,7 +13,6 @@ import { Typewriter } from "react-simple-typewriter";
 const Dashboard = () => {
   useAuthRedirect();
   const { isDark } = useTheme();
-
 
   const [user, setUser] = useState<UserProfileData>({
     firstName: "",

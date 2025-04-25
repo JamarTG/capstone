@@ -5,6 +5,7 @@ export interface SuccessfulAuthResponse {
   user: any;
 }
 
+
 export interface SuccessfulQuizResponse {
   message: string;
   session: {

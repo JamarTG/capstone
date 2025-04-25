@@ -17,8 +17,6 @@ interface FeedbackListProps {
 
 const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
   const { isDark } = useTheme();
-  
-
 
   const reducer = (acc: Record<string, Feedback[]>, entry: Feedback) => {
     const sectionKey = `${entry.section}`;
@@ -28,7 +26,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
     acc[sectionKey].push(entry);
     return acc;
   };
-  
+
   const grouped = feedbacks.reduce(reducer, {});
 
   const [openSection, setOpenSection] = useState<string | null>(null);
@@ -52,7 +50,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
     </div>
   );
 
-  /* Might consider properly handling section type later*/ 
+  /* Might consider properly handling section type later*/
   const renderSectionNumbers = (section: string) => {
     const entries = grouped[section] || [];
     const sectionName = Section_Map[parseInt(section)].name;
@@ -88,7 +86,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
         </button>
       </div>
     );
-  }
+  };
 
   const sectionNumbers = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
 
@@ -138,7 +136,10 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      <RenderList data={sectionNumbers} renderFn={renderSectionNumbers} />
+      <RenderList
+        data={sectionNumbers}
+        renderFn={renderSectionNumbers}
+      />
     </div>
   );
 };

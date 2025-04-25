@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PageContent from "../../components/layout/Page";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAuthRedirect from "../../hook/useAuthRedirect";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { UserAPI } from "../../utils/api";
 import ChangePassword from "./ChangePassword";
 import ChangeTheme from "./ChangeTheme";
