@@ -32,7 +32,7 @@ const QuizCardBody: React.FC<Props> = ({
       <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4">
         <small className={`text-sm ${isDark ? "text-gray-300" : "text-gray-500"}`}>{formattedDate}</small>
         <div className="flex items-center gap-2">
-          <span className="text-2xl font-semibold p-2 rounded-full">{scorePercentage}%</span>
+          <span className="text-2xl font-semibold p-2 rounded-full">{!Number.isNaN(scorePercentage) ?  `${scorePercentage}%` : ""}</span>
         </div>
         <button
           className="text-sm text-blue-400"
