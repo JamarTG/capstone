@@ -4,18 +4,18 @@ interface RegisterButtonProps {
   isPending: boolean;
 }
 
-const renderRegisterButtonText = (isPending: boolean) => {
-  return isPending ? "Registering..." : "Register";
-};
+const RegisterButton = ({ isPending }: RegisterButtonProps) => {
+  const buttonText = isPending ? "Registering..." : "Register";
 
-const RegisterButton: React.FC<RegisterButtonProps> = ({ isPending }) => (
-  <Button
-    variant="primary"
-    type="submit"
-    className="flex w-full justify-center rounded-md px-3 py-1.5 text-lg text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-  >
-    {renderRegisterButtonText(isPending)}
-  </Button>
-);
+  return (
+    <Button
+      variant="primary"
+      type="submit"
+      className="w-full rounded-md px-3 py-1.5 text-lg text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      {buttonText}
+    </Button>
+  );
+};
 
 export default RegisterButton;
