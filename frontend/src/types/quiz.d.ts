@@ -6,7 +6,7 @@
 //     numOfQuestions: number;
 // }
 
-import { Objective } from "../components/QuizCard";
+import { Objective } from "../components/quiz/QuizCard";
 
 export interface Quiz {
   _id: string;
@@ -39,7 +39,7 @@ export interface Question {
   option_b: string;
   option_c: string;
   option_d: string;
-  explanation:string;
+  explanation: string;
   correct_answer: "A" | "B" | "C" | "D";
 }
 export interface Session {
