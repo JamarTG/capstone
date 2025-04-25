@@ -47,8 +47,6 @@ const QuizSelection = () => {
 
   return (
     <PageContent title="Quiz">
-      <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full flex flex-col gap-5">
           <SectionHeader
             iconPath={mdiCursorDefaultClick}
             title="Topic Selection"
@@ -58,8 +56,6 @@ const QuizSelection = () => {
             loadingSection={loadingSection}
             setLoadingSection={setLoadingSection}
           />
-        </div>
-      </div>
     </PageContent>
   );
 };

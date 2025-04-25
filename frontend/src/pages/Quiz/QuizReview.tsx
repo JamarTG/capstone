@@ -133,7 +133,7 @@ const QuizReview = () => {
           setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
 
-        <div className="flex-1 p-8 rounded-lg border border-gray-200">
+        <div className={`flex-1 p-8 rounded-lg border ${isDark ? "border-gray-600" : "border-gray-200"}`}>
           <div className="flex flex-row-reverse gap-10 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex space-x-4">
@@ -154,7 +154,7 @@ const QuizReview = () => {
               </div>
             </div>
 
-            <div className="mt-4 p-4 rounded-lg border border-gray-200 flex items-center h-24">
+            <div className={`mt-4 p-4 rounded-lg border ${isDark ? 'border-gray-600' : 'border-gray-200'} flex items-center h-24`}>
               <div className="mr-4">
                 <Icon
                   path={mdiTrophyOutline}
