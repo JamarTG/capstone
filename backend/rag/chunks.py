@@ -32,9 +32,7 @@ def sectionOneSyllabus():
 
 def sectionTwoSyllabus():
     chunks=["""Description: Distinguish among types of networks.
-    Content:
-    Types of networks (local area network, metropolitan area network, wide area network, mobile network). a.) Concept of mobile network as radio based common carrier. b.) Overview of mobile networks: from 2G to current. (Knowledge of the inner workings of mobile systems is NOT required) Wireless network technologies (for example, Bluetooth, Wi-Fi, hotspot).
-    Level of privacy (intranet, extranet, Internet).
+    Content: Types of networks (local area network, metropolitan area network, wide area network, mobile network). a.) Concept of mobile network as radio based common carrier. b.) Overview of mobile networks: from 2G to current. (Knowledge of the inner workings of mobile systems is NOT required) Wireless network technologies (for example, Bluetooth, Wi-Fi, hotspot). Level of privacy (intranet, extranet, Internet).
     """, """Description: Explain the functions of the basic components of a network.
     Content: Basic components and functions: (a)Transmission media: (i) (ii) Wired: twisted pair, coaxial, fibre; and, Wireless: infrared, microwave, satellite. (b) Switch, router, modem. (c) Network interface card/network adapter.
     """, """Description: Assess the importance of mobile communication technologies as a component of modern communication networks.
@@ -45,7 +43,7 @@ def sectionTwoSyllabus():
     return chunks
 
 def sectionThreeSyllabus():
-    chunks=["""Outline the concepts of computer security, cybersecurity and computer misuse.
+    chunks=["""Description: Outline the concepts of computer security, cybersecurity and computer misuse.
     Content: Computer security and cybersecurity as related to the assessment and minimization of risk; Elements: vulnerability, threat, attack, countermeasure. Computer misuse by individuals and groups organizations.
     ""","""Description: Assess the potential impact of computer systems misuse based on the main entities impacted.
     Content: (a) Cyberbullying, copyright infringement, data theft, denial of service attacks, transmission of viruses and malware, identity theft, online publication of obscene materials, phishing attacks, software and music piracy, financial abuses, violation of privacy, propaganda, electronic eavesdropping, industrial espionage; and (b) Entity Impacted: individual, organization, and government.
