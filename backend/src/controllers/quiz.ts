@@ -57,7 +57,7 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
     const { section, feedback } = req.body;
 
     const question = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/section1.py", String(section)]);
+      const py = spawn("python", ["./rag/api_services.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -101,7 +101,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     }));
 
     const result = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/section1.py", String(section)]);
+      const py = spawn("python", ["./rag/api_services.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -237,7 +237,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
         const questionText = currentQuestion.question;
         const section = String(fetchedQuiz.section);
         const actionFlag = "feedback";
-        const python = spawn("python", ["./rag/section1.py", section, actionFlag]);
+        const python = spawn("python", ["./rag/api_services.py", section, actionFlag]);
 
         python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
         python.stdin.end();
