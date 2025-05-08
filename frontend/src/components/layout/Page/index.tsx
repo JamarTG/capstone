@@ -19,9 +19,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
         </div>
       </header>
 
-        <section className={`flex flex-col gap-2 p-4 rounded-lg ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-700"}`}>
+        <main className={`flex flex-col gap-2 p-4 rounded-lg ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-700"}`}>
           {children}
-        </section>
+        </main>
   
     </div>
   );

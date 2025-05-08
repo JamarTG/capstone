@@ -11,7 +11,7 @@ const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-6 py-12">
-        <div className="w-full max-w-md space-y-10">
+        <main className="w-full max-w-md space-y-10">
           <div className="text-center flex flex-col items-start ">
             <div className="w-full flex justify-center items-center">
               <img
@@ -28,7 +28,7 @@ const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
             <h1 className="w-full mt-5 text-xl  text-slate-700">{title}</h1>
           </div>
           {children}
-        </div>
+        </main>
       </div>
 
       <div className="hidden lg:flex w-1/2 items-center justify-center bg-white">

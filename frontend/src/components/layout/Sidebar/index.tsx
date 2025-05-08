@@ -140,7 +140,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      <div className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>{children}</div>
+      <main className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>{children}</main>
     </div>
   );
 };
