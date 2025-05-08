@@ -5,22 +5,10 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field, ValidationError
 from typing import Literal
-from vectordb import * 
-from chunks import sectionOneSyllabus,sectionTwoSyllabus,sectionThreeSyllabus,sectionFourSyllabus,sectionFiveSyllabus,sectionSixSyllabus,sectionSevenSyllabus,sectionEightSyllabus
-import sys
+from vectordb import * #to access the vector database
+from chunks import *
 
 load_dotenv()
-
-SECTION_MAP = {
-    "1": sectionOneSyllabus,
-    "2": sectionTwoSyllabus,
-    "3": sectionThreeSyllabus,
-    "4": sectionFourSyllabus,
-    "5": sectionFiveSyllabus,
-    "6": sectionSixSyllabus,
-    "7": sectionSevenSyllabus,
-    "8": sectionEightSyllabus,
-}
 
 llm = ChatOpenAI(temperature=0.8, model="gpt-4")
 
@@ -70,7 +58,7 @@ def generate_question_and_answer(contents: list[str]):
 
         For each content section, generate **1 multiple-choice question** with four options (A-D), and specify the correct answer. Make sure the correct answer does not always appear in the same letter position.
 
-        Always respond with a list of JSON objects (even if there is one question , one per content) inside a code block using ```json delimiters.
+        Respond with a list of JSON objects (one per content) inside a code block using ```json delimiters.
 
         Each object must match the format:
 
@@ -81,7 +69,6 @@ def generate_question_and_answer(contents: list[str]):
             "option_b": "Option B text",
             "option_c": "Option C text",
             "option_d": "Option D text",
-            "explanation" : "The explanation for the correct answer",
             "correct_answer": "A"
         }}
         {formatted_contents} """ )
@@ -153,103 +140,114 @@ def generate_feedback(question: list[str]):
             return None
 
 
-def generate_question_and_answer_from_feedback(feedbacks: list[str]):
-    """Generates one MCQ per feedback directly from the feedback content."""
-    parser = JsonOutputParser(pydantic_object=list[QuestionAnswerFormat])
+def getSyllabus(lst:list[str], section_number):
+    if len(lst)==0:
+        match section_number:
+            case 1:
+                content=sectionOneSyllabus()
+            case 2:
+                content=sectionTwoSyllabus()
+            case 3:
+                content=sectionThreeSyllabus()
+            case 4:
+                content=sectionFourSyllabus()
+            case 5:
+                content=sectionFiveSyllabus()
+            case 6:
+                content=sectionSixSyllabus()
+            case 7:
+                content=sectionSevenSyllabus()
+            case 8:
+                content=sectionEightSyllabus()
+            case _:
+                return "Section numbers are between 1-8"
+    else:
+        content=[]
+        match section_number:
+            case 1:
+                for c in lst:
+                    embedding_path='section1_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 2:
+                for c in lst:
+                    embedding_path='section2_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 3:
+                for c in lst:
+                    embedding_path='section3_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 4:
+                for c in lst:
+                    embedding_path='section4_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 5:
+                for c in lst:
+                    embedding_path='section5_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 6:
+                for c in lst:
+                    embedding_path='section6_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 7:
+                for c in lst:
+                    embedding_path='section7_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case 8:
+                for c in lst:
+                    embedding_path='section8_syllabus_embed'
+                    chunk=get_matching_chunks(c,embedding_path,k=1)
+                    content.append(chunk[0])
+            case _:
+                return "Section numbers are between 1-8"
+    return content
 
-    formatted_feedbacks = "\n".join([f"Feedback {i+1}:\n{fb}" for i, fb in enumerate(feedbacks)])
 
-    prompt = ChatPromptTemplate.from_template(
+def quiz(feedback: list[str], section_number):
     """
-    You will be given a list of feedback from students, where each feedback describes an area where the student is struggling or needs improvement. 
+    Creates the quiz for the specified section number using the feedback
 
-    For each feedback:
-    1. Analyze the weakness the student demonstrates and focus on that specific area of difficulty.
-    2. Based on the weakness, generate **1 multiple-choice question** with four options (A-D) that tests the student's understanding of the concept related to that weakness.
-    3. Ensure the correct answer MUST be EXACTLY one letter: "A", "B", "C", or "D" - no other formats are acceptable.
-    4. Ensure the correct answer does not always appear in the same letter position.
-    5. Provide a brief explanation for the correct answer.
+    Args:
+        feedback:  A list[str] of 0 or more feedbacks obtained from the previous quiz.
+        section_number: The syllabus section number the feedback belongs to.
+
+    Returns:
+        list: A list of JSON questions and answers.
+    """
+    content=getSyllabus(feedback, section_number)
     
-    CRITICAL: The "correct_answer" field MUST contain ONLY one of these four values: "A", "B", "C", or "D". 
-    DO NOT use any other values like "CAN", "OPTION A", "1", etc.
+    return content
 
-    Always respond with a list of JSON objects (one per feedback) inside a code block using ```json delimiters.
-
-    Each object must match the format:
-
-    ```json
-    {{
-        "question": "The question text",
-        "option_a": "Option A text",
-        "option_b": "Option B text",
-        "option_c": "Option C text",
-        "option_d": "Option D text",
-        "explanation": "The explanation for the correct answer",
-        "correct_answer": "A"  // MUST be one of: "A", "B", "C", "D"
-    }}
-    {formatted_feedbacks}
+def feedback(question: list[str], section_number):
     """
-)
+    Creates the feedback from an attempted quiz given the section number
 
+    Args:
+        question:  A list[str] of 0 or more questions the student has gotten wrong
+        section_number: The syllabus section number the feedback belongs to.
 
-    chain = prompt | llm | parser
-
-    try:
-        return chain.invoke({"formatted_feedbacks": formatted_feedbacks})
-    except (ValidationError, json.JSONDecodeError) as e:
-        print(f"First parsing attempt failed: {e}")
-        try:
-            # Raw LLM output in case of parse failure
-            raw_output = (prompt | llm).invoke({"formatted_feedbacks": formatted_feedbacks}).content
-            print("Raw LLM output:", raw_output)
-
-            cleaned_json = clean_json_response(raw_output)
-            print("Cleaned JSON:", cleaned_json)
-
-            return json.loads(cleaned_json)
-        except Exception as e:
-            print(f"Final parsing failure: {e}")
-            return None
+    Returns:
+        list: A list of JSON feedback for each question.
+    """
+    if len(question)==0:
+        return "You need questions to generate the feedback"
+    
+    content=getSyllabus(question, section_number)
+    return content 
 
 if __name__ == "__main__":
-    import traceback
-
-    section_arg = sys.argv[1] if len(sys.argv) > 1 else "1"
-    action_flag = sys.argv[2] if len(sys.argv) > 2 else ""
-
-    try:
-        input_data = json.loads(sys.stdin.read())
-        feedback_data = input_data.get("feedback", [])
-    except Exception as e:
-        print(json.dumps({"error": f"Failed to read or parse stdin: {str(e)}"}))
-        sys.exit(1)
-
-    try:
-        if action_flag == "feedback" and len(feedback_data) > 0:
-            # This branch should use generate_feedback instead
-            feedback_texts = [fb.get('Feedback', fb.get('feedbackText', '')) for fb in feedback_data]
-            result = generate_feedback(feedback_texts)
-        elif len(feedback_data) > 0:
-            # This branch uses generate_question_and_answer_from_feedback
-            feedback_texts = [fb.get('feedbackText', fb.get('Feedback', '')) for fb in feedback_data]
-            result = generate_question_and_answer_from_feedback(feedback_texts)
-        else:
-            # Generate questions based on section content
-            section_func = SECTION_MAP.get(section_arg)
-            if not section_func:
-                print(json.dumps({"error": f"Invalid section: {section_arg}"}))
-                sys.exit(1)
-            section_content = section_func()
-            result = generate_question_and_answer(section_content)
-    except Exception as e:
-        error_trace = traceback.format_exc()
-        print(json.dumps({
-            "error": f"Unhandled exception during processing: {str(e)}",
-            "trace": error_trace
-        }))
-        sys.exit(1)
-
+    result = feedback(["Which of the following distinguish between data and information? a. data is raw information is not. b.information is raw and data is not. c. both are raw d. both are processed"], 1)
+    print(result)
+   
+    """
     if result:
         print(json.dumps(result, indent=4))
     else:
-        print(json.dumps({"error": "Failed to generate valid result"}))
+        print(json.dumps({"error": "Failed to generate valid question and answer"}))
+    """
