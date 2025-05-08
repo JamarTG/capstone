@@ -5,7 +5,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field, ValidationError
 from typing import Literal
-from vectordb import * #to access the vector database
+from vectordb import *
 from chunks import *
 
 load_dotenv()

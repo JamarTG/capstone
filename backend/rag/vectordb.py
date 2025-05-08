@@ -19,7 +19,7 @@ def createSyllabusEmbedding(chunks, save_path):
     Returns:
         tuple: (structured_chunks, embeddings, index)
     """
-    # Convert raw chunks into structured format
+    
     structured_chunks = []
     for raw_chunk in chunks:
         lines = raw_chunk.strip().split("\n")
@@ -27,30 +27,26 @@ def createSyllabusEmbedding(chunks, save_path):
         content = lines[1].split(":", 1)[1].strip()
 
         structured_chunks.append({
-            "full_statement": raw_chunk,  # Store the complete original text
+            "full_statement": raw_chunk,  
             "description": description,
             "content": content
         })
 
-    # Create embeddings - using all relevant information
     model = SentenceTransformer("BAAI/bge-base-en-v1.5")
     texts_to_embed = [f"{c['description']} {c['content']}" for c in structured_chunks]
     embeddings = model.encode(texts_to_embed, normalize_embeddings=True)
     
-    # Create FAISS index
     index = faiss.IndexFlatIP(embeddings.shape[1])
     index.add(embeddings)
     
-    # Save to disk if requested
+
     if save_path:
-        # Bundle all data into a dictionary
         data_to_save = {
             "structured_chunks": structured_chunks,
             "embeddings": embeddings,
-            "faiss_index": index  # FAISS index
+            "faiss_index": index  
         }
         
-        # Save everything in one .pkl file
         with open(f"{save_path}.pkl", "wb") as f:
             pickle.dump(data_to_save, f)
     
@@ -67,14 +63,12 @@ def loadSyllabusEmbedding(load_path):
     Returns:
         tuple: (structured_chunks, embeddings, index)
     """
-    # Load structured chunks
+
     with open(f"{load_path}_chunks.pkl", "rb") as f:
         structured_chunks = pickle.load(f)
-    
-    # Load embeddings
+
     embeddings = np.load(f"{load_path}_embeddings.npy")
-    
-    # Load FAISS index
+
     index = faiss.read_index(f"{load_path}_index.faiss")
     
     return structured_chunks, embeddings, index
@@ -92,7 +86,7 @@ def get_similarity_scores(query, embedding_path, k=1):
     Returns:
         list: Top matching similarity scores
     """
-    # Load the saved embeddings
+    
     try:
         with open(f"{embedding_path}.pkl", "rb") as f:
             loaded_data = pickle.load(f)
@@ -108,11 +102,10 @@ def get_similarity_scores(query, embedding_path, k=1):
         print(f"Error: Missing expected key in loaded data - {e}")
         return []
 
-    # Encode query
+
     model = SentenceTransformer("BAAI/bge-base-en-v1.5")
     query_embed = model.encode([query], normalize_embeddings=True)
-    
-    # Search index and return scores
+
     distances, _ = index.search(query_embed, k=k)
     return [float(score) for score in distances[0]]
 
@@ -129,7 +122,7 @@ def get_matching_chunks(query, embedding_path, k=1):
     Returns:
         list: Top matching chunks (combined description and content)
     """
-    # Load the saved embeddings
+
     try:
         with open(f"{embedding_path}.pkl", "rb") as f:
             loaded_data = pickle.load(f)
@@ -146,23 +139,21 @@ def get_matching_chunks(query, embedding_path, k=1):
         print(f"Error: Missing expected key in loaded data - {e}")
         return []
 
-    # Encode query
+
     model = SentenceTransformer("BAAI/bge-base-en-v1.5")
     query_embed = model.encode([query], normalize_embeddings=True)
-    
-    # Search index
+
     distances, indices = index.search(query_embed, k=k)
     
     results = []
     for idx in indices[0]:
         chunk = structured_chunks[idx]
-        # Combine description and content
+
         combined_text = f"Description: {chunk['description']} Content: {chunk['content']}"
         results.append(combined_text)
     
     return results
 
-# Example usage:
 if __name__ == "__main__":
     # First create and save the embeddings (only needs to be done once)
     # Uncomment this line to create embeddings (do this first)
