@@ -100,7 +100,7 @@ const QuizReview = () => {
 
   const totalScore = session?.score || 0;
   const totalQuestions = questions.length;
-  const scorePercentage = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+  const scorePercentage = totalQuestions > 0 ? Math.ceil((totalScore / totalQuestions) * 100) : 0;
 
   const getScoreMessage = (percentage: number) => {
     if (percentage >= 90) return "Excellent!";
