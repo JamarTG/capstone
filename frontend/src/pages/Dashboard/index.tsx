@@ -1,29 +1,70 @@
-import Icon from "@mdi/react";
-import { mdiChartLine } from "@mdi/js";
+import { useEffect, useState } from "react";
 import PageLayout from "../../components/layout/Page";
-import useAuthRedirect from "../../hook/useAuthRedirect";
-import { dashboardData } from "../../data/sample/dashboard";
-import LearningPath from "./LearningPath";
-import ProgressChart from "./ProgressChart";
 import { useTheme } from "../../context/ThemeContext";
+import { useQuery } from "@tanstack/react-query";
+import { QuizAPI, UserAPI } from "../../utils/api";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
+import { UserProfileData } from "../../types/settings";
+import FeedbackList from "./FeedbackList";
+import SectionHeader from "../../components/SectionHeader";
+import { mdiClipboardOutline } from "@mdi/js";
+import { Typewriter } from "react-simple-typewriter";
 
-const QuizDashboard = () => {
+const Dashboard = () => {
   useAuthRedirect();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useTheme();
+
+  const [user, setUser] = useState<UserProfileData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    currentPassword: "",
+    darkMode: isDark,
+    createdAt: "",
+  });
+
+  const { data } = useQuery<{ data: UserProfileData }>({
+    queryKey: ["get-profile-data"],
+    queryFn: UserAPI.fetchUserInfo,
+  });
+
+  const { data: feedbackData } = useQuery({
+    queryKey: ["user-feedbacks"],
+    queryFn: () => QuizAPI.getUserFeedbacks().then((res) => res.data),
+  });
+
+  useEffect(() => {
+    if (data) setUser(data.data);
+  }, [data]);
 
   return (
     <PageLayout title="Dashboard">
-      <div className="flex flex-col space-y-5">
-        <div className="flex items-center">
-          <Icon path={mdiChartLine} size={1} className={`${isDark ? "text-gray-100" : "text-slate-600"} mr-2`} />
-          <h2 className={`text-xl font-medium ${isDark ? "text-gray-100" : "text-slate-600"}`}>Your Progress</h2>
+      <div className={`p-2 flex flex-col`}>
+        <div className={`p-2 rounded-xl ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200"}`}>
+          <h1 className="text-4xl font-bold flex">
+            <Typewriter
+              words={[`Hey ${user.firstName || "champ"}, ready to crush some IT today?`]}
+              loop={1}
+              cursor={false}
+              typeSpeed={30}
+              deleteSpeed={0}
+              delaySpeed={2000}
+            />
+          </h1>
+          <p className="text-md mt-2 text-gray-400">Let’s level up your skills and tackle those tricky topics together</p>
         </div>
-        <ProgressChart data={dashboardData.scoreTrend} />
-        <LearningPath items={dashboardData.learningPath.items} />
+
+        <div className={`rounded-xl flex flex-col gap-1 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
+          <SectionHeader
+            iconPath={mdiClipboardOutline}
+            title="Feedback"
+          />
+          <FeedbackList feedbacks={feedbackData} />
+        </div>
       </div>
     </PageLayout>
   );
 };
 
-export default QuizDashboard;
+export default Dashboard;

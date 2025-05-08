@@ -1,10 +1,10 @@
 import { JSX, ReactNode } from "react";
 import StudyPlan from "../pages/Dashboard";
-import Login from "../components/auth/Login";
-import Register from "../components/auth/Register";
+import Login from "../components/auth/login";
+import Register from "../components/auth/register";
 import Archive from "../pages/Archive";
 import Quiz from "../pages/Quiz";
-import NotFound from "../pages/Quiz";
+import NotFound from "../pages/NotFound";
 import Settings from "../pages/Settings";
 import SidebarLayout from "../components/layout/Sidebar";
 import { ROUTE_PATHS } from "../constants/routes";
@@ -52,13 +52,14 @@ const routes: Record<string, RouteConfig> = {
     element: <Settings />,
     layout: SidebarLayout,
   },
-  NOT_FOUND: {
-    path: ROUTE_PATHS.NOT_FOUND,
-    element: <NotFound />,
-  },
   REVIEW: {
     path: ROUTE_PATHS.QUIZ_REVIEW,
     element: <QuizReview />,
+    layout: SidebarLayout,
+  },
+  NOT_FOUND: {
+    path: ROUTE_PATHS.NOT_FOUND,
+    element: <NotFound />,
     layout: SidebarLayout,
   },
 };

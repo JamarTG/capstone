@@ -9,8 +9,7 @@ const QuizProgressBar = ({
   totalQuestions: number;
   progressPercentage: number;
 }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
     <div className={`p-4 rounded-lg ${isDark ? "bg-gray-800" : "bg-white"}`}>

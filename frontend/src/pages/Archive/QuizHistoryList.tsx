@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { Quiz } from "../../types/quiz";
-import QuizCard from "../Quiz/QuizCard";
+import QuizCard from "../../components/quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../context/ThemeContext";
@@ -10,8 +10,7 @@ import Loader from "../../components/common/Loader";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useTheme();
 
   const {
     data: quizzes,
@@ -23,7 +22,7 @@ const QuizHistoryList = () => {
     queryFn: QuizAPI.getQuizzes,
   });
 
-  if (isLoading) return <Loader text={"Loading Quizzes"}/>;
+  if (isLoading) return <Loader text={"Loading Quizzes"} />;
   if (error) return <div>Failed to load quiz history.</div>;
 
   const sessions = quizzes?.sessions || [];
@@ -34,47 +33,71 @@ const QuizHistoryList = () => {
     return true;
   });
 
+  const renderQuizCard = (quiz: Quiz) => (
+    <QuizCard
+      currentQuestionIndex={quiz.currentQuestionIndex}
+      quizRefetch={quizRefetch}
+      quizId={quiz._id}
+      section={quiz.section}
+      score={quiz.score}
+      completed={quiz.completed}
+      lastAttempt={quiz.endTime || quiz.startTime}
+    />
+  );
+
+  const setFilterToAll = () => {
+    setFilter("all");
+  };
+
+  const setFilterToCompleted = () => {
+    setFilter("completed");
+  };
+
+  const setFilterToIncomplete = () => {
+    setFilter("incomplete");
+  };
+
   return (
     <div className={`space-y-4 ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-600"}`}>
       <div className="flex gap-3">
         <button
-          onClick={() => setFilter("all")}
+          onClick={setFilterToAll}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "all"
               ? isDark
                 ? "bg-slate-600 text-white"
                 : "bg-slate-600 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           All
         </button>
         <button
-          onClick={() => setFilter("completed")}
+          onClick={setFilterToCompleted}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "completed"
               ? isDark
                 ? "bg-green-600 text-white"
                 : "bg-green-600 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           Completed
         </button>
         <button
-          onClick={() => setFilter("incomplete")}
+          onClick={setFilterToIncomplete}
           className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
             filter === "incomplete"
               ? isDark
                 ? "bg-yellow-500 text-white"
                 : "bg-yellow-500 text-white"
               : isDark
-              ? "bg-gray-700 text-white hover:bg-gray-600"
-              : "bg-gray-200 text-slate-600 hover:bg-gray-300"
+                ? "bg-gray-700 text-white hover:bg-gray-600"
+                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
           }`}
         >
           In Progress
@@ -87,18 +110,7 @@ const QuizHistoryList = () => {
         <div className="grid grid-flow-row gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           <RenderList
             data={filtered}
-            renderFn={(quiz: Quiz) => (
-              <QuizCard
-                currentQuestionIndex={quiz.currentQuestionIndex}
-                quizRefetch={quizRefetch}
-                quizId={quiz._id}
-                topic={quiz.topic}
-                score={quiz.score}
-                completed={quiz.completed}
-                lastAttempt={quiz.endTime || quiz.startTime}
-                tags={quiz.tags || []}
-              />
-            )}
+            renderFn={renderQuizCard}
           />
         </div>
       )}

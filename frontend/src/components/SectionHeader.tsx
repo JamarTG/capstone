@@ -8,8 +8,7 @@ interface SectionHeaderProps {
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ iconPath, title }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
     <div className={`flex items-center ${isDark ? "bg-gray-800 p-4 rounded-lg" : "bg-white p-4 rounded-lg"}`}>
@@ -24,4 +23,3 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ iconPath, title }) => {
 };
 
 export default SectionHeader;
-

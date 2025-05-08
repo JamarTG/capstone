@@ -11,12 +11,13 @@ const QuizAnswerOption = ({
   selectedAnswer: number | null;
   onSelect: (index: number) => void;
 }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useTheme();
+
+  const setSelectedAnswer = () => onSelect(index);
 
   return (
     <button
-      onClick={() => onSelect(index)}
+      onClick={setSelectedAnswer}
       className={`relative flex items-start p-4 rounded-lg border transition-all
           ${selectedAnswer === index 
             ? "border-blue-300"  

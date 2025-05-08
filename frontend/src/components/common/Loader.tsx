@@ -7,22 +7,18 @@ interface LoaderProps {
 }
 
 const Loader: React.FC<LoaderProps> = ({ text }) => {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-        <div
-          className={`p-6 rounded-full transition-colors ${
-            isDark ? "bg-slate-700" : "bg-gray-100"
-          }`}
-        >
+    <div className="flex items-center justify-center h-screen bg-transparent">
+      <div className="flex flex-col items-center gap-4 text-center animate-fade-in">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500 to-blue-500 blur-md animate-ping opacity-50" />
           <Icon
             path={mdiLoading}
             size={2}
-            className={`animate-spin ${
-              isDark ? "text-gray-300" : "text-gray-400"
+            className={`animate-spin relative z-10 ${
+              isDark ? "text-white" : "text-gray-700"
             }`}
           />
         </div>

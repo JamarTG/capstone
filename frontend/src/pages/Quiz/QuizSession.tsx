@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import QuizCompletion from "./QuizCompletion";
-import QuestionCard from "./QuestionCard";
+
+import QuizQuestion from "./QuizQuestion";
 import QuizHeader from "./QuizHeader";
 import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import { QuizSessionResponse } from "../../types/quiz";
+import { Question, QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
-import { SuccessfulQuizResponse } from "../../types/auth";
 import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";
 
@@ -18,8 +17,6 @@ const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
@@ -41,11 +38,13 @@ const QuizSession = () => {
 
   const { mutate: autoSubmitMutation, isPending } = useMutation({
     mutationFn: QuizAPI.autoSubmit,
+    onSuccess: (data) => {
+      navigate(`/review/${data._id || session.session._id}`);
+    },
   });
 
   const { mutate: submitAnswerMutation } = useMutation({
     mutationFn: QuizAPI.submitAnswer,
-    onSuccess: ({ message }: SuccessfulQuizResponse) => toast.success(message),
     onError: (error: AxiosError) => toast.error(extractErrorMessage(error)),
   });
 
@@ -55,19 +54,29 @@ const QuizSession = () => {
     }
   }, [session, refetch]);
 
+  useEffect(() => {
+    if (session?.session?.currentQuestionIndex !== undefined) {
+      setCurrentIndex(session.session.currentQuestionIndex);
+    }
+  }, [session]);
+
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
-  const questions = session.session.questions.map((q) => {
-    const qData = q.questionId;
+  const questions = session.session.questions.map((q: Question) => {
     return {
-      id: qData._id,
-      question: qData.text,
-      options: qData.options,
-      correctAnswer: qData.correctAnswer,
-      explanation: qData.explanation,
+      id: q._id,
+      question: q.question,
+      options: {
+        A: q.option_a,
+        B: q.option_b,
+        C: q.option_c,
+        D: q.option_d,
+      },
+      correctAnswer: q.correct_answer,
       selectedOption: q.selectedOption,
       isCorrect: q.isCorrect,
+      explanation:q.explanation,
       answeredAt: q.answeredAt,
     };
   });
@@ -77,9 +86,12 @@ const QuizSession = () => {
 
   const handleAnswerSelect = (index: number) => setSelectedAnswer(index);
 
+  const handleSubmitQuiz = () => {
+    autoSubmitMutation(session.session._id);
+  };
+
   const handleNextQuestion = () => {
-    const selectedKey =
-      selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
+    const selectedKey = selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
 
     const isCorrect = selectedKey === currentQuestion.correctAnswer;
 
@@ -88,6 +100,7 @@ const QuizSession = () => {
       question: currentQuestion.id,
       selectedOption: selectedKey,
       score: isCorrect ? score + 1 : score,
+      is_correct: isCorrect,
     });
 
     if (isCorrect) setScore((prev) => prev + 1);
@@ -96,44 +109,30 @@ const QuizSession = () => {
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
     } else {
-      setQuizCompleted(true);
       autoSubmitMutation(session.session._id);
-      navigate(`/review/${session.session._id}`);
+ 
     }
   };
 
-  const handleRestartQuiz = () => {
-    setCurrentIndex(0);
-    setScore(0);
-    setSelectedAnswer(null);
-    setQuizCompleted(false);
-    setModalVisible(false);
-  };
+  if (session?.session.completed) {
+    navigate(`/review/${session.session._id}`, { replace: true });
+    return null;
+  }
 
   return (
     <PageLayout title="Quiz">
-      {quizCompleted && modalVisible ? (
-        <QuizCompletion
-          score={score}
-          totalQuestions={questions.length}
-          onRestart={handleRestartQuiz}
-        />
-      ) : (
-        <div className="relative w-full h-full">
-          <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
-            <div className="w-full max-w-4xl flex flex-col gap-6">
-              <QuizHeader
-                currentIndex={currentIndex}
-                totalQuestions={questions.length}
-                onSubmitQuiz={() => {
-                  setQuizCompleted(true);
-                  setModalVisible(true);
-                  autoSubmitMutation(session.session._id);
-                  navigate(`/review/${session.session._id}`);
-                }}
-                isSubmitting={isPending}
-              />
-              <QuestionCard
+      <div className="relative w-full h-full">
+        <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
+          <div className="w-full max-w-4xl flex flex-col gap-6">
+            <QuizHeader
+              currentIndex={currentIndex}
+              totalQuestions={questions.length}
+              onSubmitQuiz={handleSubmitQuiz}
+              isSubmitting={isPending}
+            />
+
+            {currentQuestion && (
+              <QuizQuestion
                 question={`${currentIndex + 1}. ${currentQuestion.question}`}
                 answers={Object.values(currentQuestion.options)}
                 selectedAnswer={selectedAnswer}
@@ -141,10 +140,10 @@ const QuizSession = () => {
                 onNextQuestion={handleNextQuestion}
                 isLastQuestion={isLastQuestion}
               />
-            </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </PageLayout>
   );
 };

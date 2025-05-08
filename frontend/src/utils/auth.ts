@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { User } from "../types/context";
 
 export const AUTH_TOKEN_CONFIG = {
   expires: 7 * 24 * 60 * 60,
@@ -7,16 +8,24 @@ export const AUTH_TOKEN_CONFIG = {
 };
 
 export const setAuthToken = (token: string) => {
-  Cookies.set("token", token, AUTH_TOKEN_CONFIG);
+  Cookies.set("token", token, { expires: 7 });
 };
 
-export const getAccessToken = () => {
+export const getAuthToken = () => {
   return Cookies.get("token");
 };
 
-export const removeSessionVars = () => {
-  Cookies.remove("token", { path: AUTH_TOKEN_CONFIG.path });
-  localStorage.removeItem("user"); 
+export const setUserData = (user: User) => {
+  localStorage.setItem("user", JSON.stringify(user));
 };
 
+export const getUserData = (): User | null => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
+
+export const removeAuthData = () => {
+  Cookies.remove("token");
+  localStorage.removeItem("user");
+};
 

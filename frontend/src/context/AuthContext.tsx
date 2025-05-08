@@ -3,7 +3,6 @@ import { User } from "../types/context";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
 import Cookies from "js-cookie";
-import { UserSuccessResponse } from "../types/auth";
 import { AUTH_TOKEN_CONFIG } from "../utils/auth";
 
 interface AuthContextType {
@@ -35,7 +34,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const isAuthenticated = !!user; 
 
-  const { data, isSuccess } = useQuery<UserSuccessResponse | null, Error>({
+  const { data, isSuccess } = useQuery({
     queryKey: ["check-auth"],
     queryFn: AuthAPI.checkAuth,
     enabled: isAuthenticated,

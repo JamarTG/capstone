@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import * as z from "zod";
 import Button from "../../components/ui/Button";
-import Icon from "@mdi/react";
-import { mdiContentSaveAllOutline } from "@mdi/js";
 import { useTheme } from "../../context/ThemeContext";
+import { passwordSchema } from "../../schemas/passwordSchema";
 
-const passwordSchema = z.object({
-  currentPassword: z.string().min(1, "Current password is required"),
-  password: z.string().min(6, "New password must be at least 6 characters"),
-});
 
 interface ChangePasswordProps {
   user: {
@@ -25,8 +19,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   savePassword,
 }) => {
   const [errors, setErrors] = useState<{ currentPassword?: string; password?: string }>({});
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+   const { isDark } = useTheme();
 
   const validateAndSave = () => {
     const result = passwordSchema.safeParse(user);
@@ -46,7 +39,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
 
   return (
     <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
-      <h3 className={`text-md font-semibold mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Change Password</h3>
+      <h3 className={`text-md mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Change Password</h3>
       <form>
         <div className="mt-4">
           <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Old Password</label>
@@ -84,10 +77,9 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
         <Button
           variant="primary"
           type="button"
-          className="mt-4 flex gap-2 w-full max-w-32 justify-center rounded-sm bg-gray-600 px-2 py-1 text-md/6 font-semibold text-gray-200 shadow-xs"
+          className="mt-4 flex gap-2 w-full max-w-16 justify-center rounded-sm bg-gray-600  text-sm/6 text-gray-200 shadow-xs"
           onClick={validateAndSave}
         >
-          <Icon path={mdiContentSaveAllOutline} size={1} />
           Save
         </Button>
       </form>
