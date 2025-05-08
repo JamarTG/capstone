@@ -6,7 +6,7 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, error, ...inputProps }) => (
-  <div>
+  <React.Fragment>
     <label
       htmlFor={inputProps.id}
       className="block text-lg font-medium text-gray-600"
@@ -20,7 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, error, ...inputProps }) 
       />
       {error && <p className="text-red-500 text-lg">{error}</p>}
     </div>
-  </div>
+  </React.Fragment>
 );
 
 export default InputField;

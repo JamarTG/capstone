@@ -7,6 +7,7 @@ import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../context/ThemeContext";
 import Loader from "../../components/common/Loader";
+import React from "react";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
@@ -23,7 +24,7 @@ const QuizHistoryList = () => {
   });
 
   if (isLoading) return <Loader text={"Loading Quizzes"} />;
-  if (error) return <div>Failed to load quiz history.</div>;
+  if (error) return <React.Fragment>Failed to load quiz history.</React.Fragment>;
 
   const sessions = quizzes?.sessions || [];
 
