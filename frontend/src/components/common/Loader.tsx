@@ -1,5 +1,5 @@
 import { Icon } from "@mdi/react";
-import { mdiLoading } from "@mdi/js";
+import { MDI_ICONS } from "../../icons";
 import { useTheme } from "../../context/ThemeContext";
 
 interface LoaderProps {
@@ -15,7 +15,7 @@ const Loader: React.FC<LoaderProps> = ({ text }) => {
         <div className="relative w-16 h-16">
           <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500 to-blue-500 blur-md animate-ping opacity-50" />
           <Icon
-            path={mdiLoading}
+            path={MDI_ICONS.loading}
             size={2}
             className={`animate-spin relative z-10 ${
               isDark ? "text-white" : "text-gray-700"

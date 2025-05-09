@@ -2,7 +2,8 @@ import Icon from "@mdi/react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
 import QuizProgressBar from "./QuizProgressBar";
-import { mdiStop } from "@mdi/js";
+import { MDI_ICONS } from "../../icons";
+
 
 interface QuizHeaderProps {
   currentIndex: number;
@@ -52,7 +53,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
               }`}
             >
               <Icon
-                path={mdiStop}
+                path={MDI_ICONS.stop}
                 size={1}
               />
               End

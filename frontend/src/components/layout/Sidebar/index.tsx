@@ -1,14 +1,12 @@
 import { ReactNode, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import routes from "../../../data/routes";
-import { MainNavItem } from "../../../types/routes";
-import { MAIN_NAV_ITEMS, ROUTE_PATHS, NAV_TEXTS, NAV_ICONS } from "../../../constants/routes";
+import routes, { mainRoutes, otherRoutes, RouteConfig } from "../../../data/routes";
 import { AuthContext } from "../../../context/AuthContext";
 import { useTheme } from "../../../context/ThemeContext";
 import { Icon } from "@mdi/react";
-import { mdiCogOutline, mdiLogout, mdiChevronDoubleLeft, mdiChevronDoubleRight } from "@mdi/js";
+import { MDI_ICONS } from "../../../icons";
 import logo from "/logo.png";
-import { capitalizeFirst } from "../../../utils/text";
+import { capitalize } from "../../../utils/text";
 import { useSidebarState } from "../../../hooks/useSidebarExpanded";
 import RenderList from "../../common/RenderList";
 
@@ -51,15 +49,15 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           <div className="overflow-y-auto overflow-x-hidden">
             <ul className="flex flex-col gap-2 space-y-2">
               <RenderList
-                data={MAIN_NAV_ITEMS}
-                renderFn={({ path, name }: MainNavItem) => (
+                data={Object.values(mainRoutes)}
+                renderFn={({ path, icon, text }: RouteConfig) => (
                   <li
                     className="sm:text-md"
-                    key={name}
+                    key={text}
                   >
                     <NavLink
                       to={path}
-                      title={capitalizeFirst(name)}
+                      title={capitalize(text)}
                       className={({ isActive }) =>
                         `flex flex-row items-center h-11 gap-5 focus:outline-none border-l-4 transition-colors duration-200 ${
                           isDark
@@ -70,11 +68,11 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     >
                       <span className="inline-flex justify-center items-center">
                         <Icon
-                          path={NAV_ICONS[name]}
+                          path={icon!}
                           size={1}
                         />
                       </span>
-                      {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{NAV_TEXTS[name]}</span>}
+                      {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{text}</span>}
                     </NavLink>
                   </li>
                 )}
@@ -84,28 +82,34 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
           <ul className="flex flex-col space-y-1">
             <li>
-              <NavLink
-                to={ROUTE_PATHS.SETTINGS}
-                title={NAV_TEXTS.settings}
+                <NavLink
+                to={otherRoutes.SETTINGS?.path}
+                title={otherRoutes.SETTINGS?.text || "Settings"}
                 className={`flex flex-row items-center h-11 focus:outline-none border-l-4 transition-colors duration-200 ${
                   isDark
-                    ? `hover:bg-gray-700 text-gray-300 hover:text-white border-transparent`
-                    : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-transparent`
+                  ? `hover:bg-gray-700 text-gray-300 hover:text-white border-transparent`
+                  : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-transparent`
                 } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`}
-              >
+                >
                 <span className="inline-flex justify-center items-center">
-                  <Icon
-                    path={mdiCogOutline}
-                    size={1}
-                  />
+                  {
+                    otherRoutes.SETTINGS?.icon &&
+                      <Icon
+                        path={otherRoutes.SETTINGS.icon!}
+                        size={1}
+                      />
+                    
+
+                  }
+                 
                 </span>
-                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">Settings</span>}
-              </NavLink>
+                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{otherRoutes.SETTINGS?.text || "Settings"}</span>}
+                </NavLink>
             </li>
 
             <li>
               <button
-                title={NAV_TEXTS.logout}
+                title={routes.LOGOUT.text}
                 onClick={triggerLogout}
                 className={`cursor-pointer flex flex-row items-center h-11 w-full focus:outline-none border-l-4 transition-colors duration-200 ${
                   isDark
@@ -115,11 +119,11 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               >
                 <span className="inline-flex justify-center items-center">
                   <Icon
-                    path={mdiLogout}
+                    path={routes.LOGOUT.icon!}
                     size={1}
                   />
                 </span>
-                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{NAV_TEXTS.logout}</span>}
+                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{routes.LOGOUT.text}</span>}
               </button>
             </li>
           </ul>
@@ -132,7 +136,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               }`}
             >
               <Icon
-                path={isExpanded ? mdiChevronDoubleLeft : mdiChevronDoubleRight}
+                path={isExpanded ? MDI_ICONS.chevronDoubleLeft : MDI_ICONS.chevronDoubleRight}
                 size={1}
               />
             </button>

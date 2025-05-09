@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import Icon from "@mdi/react";
-import { mdiChevronRight, mdiClose } from "@mdi/js";
 import { Section_Map } from "../../constants";
 import RenderList from "../../components/common/RenderList";
+import { MDI_ICONS } from "../../icons";
 
 interface Feedback {
   _id: string;
@@ -70,7 +70,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
           <div className="flex justify-between items-center w-full mb-1">
             <span className="font-medium">{`Section ${section}`}</span>
             <Icon
-              path={mdiChevronRight}
+              path={MDI_ICONS.chevronRight}
               size={0.8}
               color={isDark ? "#e5e7eb" : "#475569"}
             />
@@ -110,7 +110,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
               aria-label="Close section"
             >
               <Icon
-                path={mdiClose}
+                path={MDI_ICONS.close}
                 size={1}
                 color="currentColor"
               />

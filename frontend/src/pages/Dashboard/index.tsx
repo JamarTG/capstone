@@ -7,8 +7,8 @@ import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { UserProfileData } from "../../types/settings";
 import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
-import { mdiClipboardOutline } from "@mdi/js";
 import { Typewriter } from "react-simple-typewriter";
+import { MDI_ICONS } from "../../icons";
 
 const Dashboard = () => {
   useAuthRedirect();
@@ -57,7 +57,7 @@ const Dashboard = () => {
 
         <div className={`rounded-xl flex flex-col gap-1 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
           <SectionHeader
-            iconPath={mdiClipboardOutline}
+            iconPath={MDI_ICONS.clipboard}
             title="Feedback"
           />
           <FeedbackList feedbacks={feedbackData} />

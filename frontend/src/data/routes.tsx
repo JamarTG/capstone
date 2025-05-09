@@ -7,61 +7,88 @@ import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
 import Settings from "../pages/Settings";
 import SidebarLayout from "../components/layout/Sidebar";
-import { ROUTE_PATHS } from "../constants/routes";
-
 import Assessment from "../pages/Quiz/QuizSession";
 import QuizReview from "../pages/Quiz/QuizReview";
 
-interface RouteConfig {
+import { MDI_ICONS } from "../icons";
+
+export interface RouteConfig {
   path: string;
-  element: JSX.Element;
+  element?: JSX.Element;
   layout?: React.FC<{ children: ReactNode }>;
+  text: string;
+  icon?: string;
 }
 
-const routes: Record<string, RouteConfig> = {
+const mainRoutes: Record<string, RouteConfig> = {
   HOME: {
-    path: ROUTE_PATHS.HOME,
+    path: "/",
     element: <StudyPlan />,
     layout: SidebarLayout,
-  },
-  LOGIN: {
-    path: ROUTE_PATHS.LOGIN,
-    element: <Login />,
-  },
-  REGISTER: {
-    path: ROUTE_PATHS.REGISTER,
-    element: <Register />,
+    text: "Dashboard",
+    icon: MDI_ICONS.viewDashboard,
   },
   ARCHIVE: {
-    path: ROUTE_PATHS.ARCHIVE,
+    path: "/archive",
     element: <Archive />,
     layout: SidebarLayout,
+    text: "Archive",
+    icon: MDI_ICONS.archive,
   },
   QUIZ: {
-    path: ROUTE_PATHS.QUIZ,
+    path: "/quiz",
     element: <Quiz />,
     layout: SidebarLayout,
-  },
-  ASSESSMENT: {
-    path: ROUTE_PATHS.ASSESSMENT,
-    element: <Assessment />,
-    layout: SidebarLayout,
-  },
-  SETTINGS: {
-    path: ROUTE_PATHS.SETTINGS,
-    element: <Settings />,
-    layout: SidebarLayout,
-  },
-  REVIEW: {
-    path: ROUTE_PATHS.QUIZ_REVIEW,
-    element: <QuizReview />,
-    layout: SidebarLayout,
-  },
-  NOT_FOUND: {
-    path: ROUTE_PATHS.NOT_FOUND,
-    element: <NotFound />,
-    layout: SidebarLayout,
+    text: "Quiz",
+    icon: MDI_ICONS.clipboardList,
   },
 };
 
+const otherRoutes: Record<string, RouteConfig> = {
+  LOGIN: {
+    path: "/login",
+    element: <Login />,
+    text: "Login",
+  },
+  REGISTER: {
+    path: "/register",
+    element: <Register />,
+    text: "Register",
+  },
+  ASSESSMENT: {
+    path: "/quiz/:id",
+    element: <Assessment />,
+    layout: SidebarLayout,
+    text: "Assessment",
+  },
+  SETTINGS: {
+    path: "/settings",
+    element: <Settings />,
+    layout: SidebarLayout,
+    text: "Settings",
+    icon: MDI_ICONS.cog,
+  },
+  QUIZ_REVIEW: {
+    path: "/quiz-review",
+    element: <QuizReview />,
+    layout: SidebarLayout,
+    text: "Quiz Review",
+  },
+
+  LOGOUT: {
+    path: "/logout",
+    text: "Logout",
+    icon: MDI_ICONS.logout,
+  },
+  NOT_FOUND: {
+    path: "*",
+    element: <NotFound />,
+    layout: SidebarLayout,
+    text: "Not Found",
+  },
+};
+
+const routes = { ...mainRoutes, ...otherRoutes };
+
+export { mainRoutes, otherRoutes };
 export default routes;

@@ -8,9 +8,9 @@ import useAuthRedirect from "../../hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
 import { QuizAPI } from "../../utils/api";
 import { extractErrorMessage } from "../../utils/error";
-import { mdiCursorDefaultClick } from "@mdi/js";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
+import { MDI_ICONS } from "../../icons";
 
 const QuizSelection = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const QuizSelection = () => {
   return (
     <PageContent title="Quiz">
           <SectionHeader
-            iconPath={mdiCursorDefaultClick}
+            iconPath={MDI_ICONS.cursorDefault}
             title="Topic Selection"
           />
           <SectionContainer
