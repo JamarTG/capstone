@@ -53,8 +53,6 @@ const QuizCard: React.FC<QuizCardProps> = ({
   const confirmDeletion = () => setIsConfirming(true);
   const cancelDeletion = () => setIsConfirming(false);
 
-  const scorePercentage = Math.ceil((score / currentQuestionIndex) * 100);
-
   return (
     <Card
       className={`border ${isDark ? "border-gray-700" : "border-gray-200"} rounded-lg relative flex flex-col min-h-[16rem] sm:min-h-[18rem] ${isDark ? "bg-gray-800" : "bg-white"} overflow-hidden p-0 transition-all duration-300 group ${className}`}
@@ -71,8 +69,9 @@ const QuizCard: React.FC<QuizCardProps> = ({
       <QuizCardBody
         section={section}
         formattedDate={formattedDate}
-        scorePercentage={scorePercentage}
+        score = {score}
         completed={completed}
+        numberOfQuestions={currentQuestionIndex}
         quizId={quizId}
         isDark={isDark}
       />

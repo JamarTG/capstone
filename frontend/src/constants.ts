@@ -30,8 +30,8 @@ export const FORM_CONSTANTS = {
   },
 };
 export const Section_Map: Record<number, { bgSrc: string; name: string }> = {
-  1: { bgSrc: sectionOne, name: "Computer Fundamentals and Information Processing" },
-  2: { bgSrc: sectionTwo, name: "Computer Networks and Web Technologies" },
+  1: { bgSrc: sectionOne, name: "Computer Fundamentals & Information Processing" },
+  2: { bgSrc: sectionTwo, name: "Computer Networks & Web Technologies" },
   3: { bgSrc: sectionThree, name: "Social and Economic Impact of Information and Communication Technology (ICT)" },
   4: { bgSrc: sectionFour, name: "Word Processing and Web Page Design" },
   5: { bgSrc: sectionFive, name: "Spreadsheets" },
