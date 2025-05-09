@@ -31,7 +31,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
       className={`min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased ${isDark ? "bg-gray-900 text-gray-100" : "bg-gray-200 text-gray-800"}`}
     >
       <div
-        className={`fixed flex flex-col top-0 left-0 border-r transition-all duration-300 ease-in-out h-full ${isExpanded ? "w-64" : "w-20"} ${isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
+        className={`fixed flex flex-col top-0 left-0 border-r ease-in-out h-full ${isExpanded ? "w-64" : "w-20"} ${isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
       >
         <div
           className={`flex items-center pointer-img justify-center p-2 ${isDark ? "bg-gray-800" : "bg-white"} hover:opacity-80 transition-opacity`}
