@@ -31,7 +31,7 @@ const QuizCardBody: React.FC<Props> = ({ section, formattedDate, score, complete
       </div>
       ) : (
       <div className="flex items-center justify-end">
-        <span className="text-yellow-500 text-lg font-medium">In Progress</span>
+        <span className="text-yellow-500 text-md font-bold">In Progress</span>
       </div>
       )}
       <h3 className={`text-md break-all hyphens-auto ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section]?.name}</h3>

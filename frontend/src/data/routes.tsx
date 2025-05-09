@@ -8,7 +8,7 @@ import NotFound from "../pages/NotFound";
 import Settings from "../pages/Settings";
 import SidebarLayout from "../components/layout/Sidebar";
 import Assessment from "../pages/Quiz/QuizSession";
-import QuizReview from "../pages/Quiz/QuizReview";
+import QuizReview from "../pages/Review";
 
 import { MDI_ICONS } from "../icons";
 
