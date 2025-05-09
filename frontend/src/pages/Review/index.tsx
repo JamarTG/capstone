@@ -5,7 +5,7 @@ import { QuizAPI } from "../../utils/api";
 import PageLayout from "../../components/layout/Page";
 import LoadingPage from "../../components/common/Loader";
 import { useTheme } from "../../context/ThemeContext";
-import QuestionSidebar from "./QuestionSidebar";
+import QuestionSidebar from "../Quiz/QuestionSidebar";
 import ReviewNavigation from "./ReviewNavigation";
 import QuestionFeedback from "./QuestionFeedback";
 import Score from "./Score";
@@ -65,13 +65,20 @@ const QuizReview = () => {
             />
           </div>
 
-          
-
           {!!question && (
             <div className="p-6 rounded-lg min-h-64">
-              <QuestionIndex currentQuestionIndex={currentQuestionIndex} question={question} />
-              <QuestionFeedback question={question} isDark={isDark} />
-              <Explanation question={question} isDark={isDark} />
+              <QuestionIndex
+                currentQuestionIndex={currentQuestionIndex}
+                question={question}
+              />
+              <QuestionFeedback
+                question={question}
+                isDark={isDark}
+              />
+              <Explanation
+                question={question}
+                isDark={isDark}
+              />
             </div>
           )}
         </div>

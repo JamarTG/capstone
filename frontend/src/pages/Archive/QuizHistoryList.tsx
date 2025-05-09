@@ -8,9 +8,14 @@ import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../context/ThemeContext";
 import Loader from "../../components/common/Loader";
 import React from "react";
+import { ScoreFilter } from "./ScoreFilter";
+import CompleteFilter from "./CompleteFilter";
+
+type ScoreRange = "0-49" | "50-79" | "80-100";
 
 const QuizHistoryList = () => {
   const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
+  const [scoreRanges, setScoreRanges] = useState<ScoreRange[]>([]);
   const { isDark } = useTheme();
 
   const {
@@ -29,9 +34,24 @@ const QuizHistoryList = () => {
   const sessions = quizzes?.sessions || [];
 
   const filtered = sessions.filter((quiz: Quiz) => {
-    if (filter === "completed") return quiz.completed;
-    if (filter === "incomplete") return !quiz.completed;
-    return true;
+    // Calculate score percentage
+    const scorePercentage = quiz.currentQuestionIndex > 0 ? (quiz.score / quiz.currentQuestionIndex) * 100 : 0;
+
+    // Filter by completion status
+    const statusMatch = filter === "all" ? true : filter === "completed" ? quiz.completed : !quiz.completed;
+
+    // Filter by score ranges
+    let scoreMatch = true;
+    if (scoreRanges.length > 0) {
+      scoreMatch = scoreRanges.some((range) => {
+        if (range === "0-49") return scorePercentage >= 0 && scorePercentage < 50;
+        if (range === "50-79") return scorePercentage >= 50 && scorePercentage < 80;
+        if (range === "80-100") return scorePercentage >= 80 && scorePercentage <= 100;
+        return false;
+      });
+    }
+
+    return statusMatch && scoreMatch;
   });
 
   const renderQuizCard = (quiz: Quiz) => (
@@ -58,51 +78,21 @@ const QuizHistoryList = () => {
     setFilter("incomplete");
   };
 
+  const handleScoreRangeChange = (ranges: ScoreRange[]) => {
+    setScoreRanges(ranges);
+  };
+
   return (
-    <div className={`space-y-4 ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-600"}`}>
-      <div className="flex gap-3">
-        <button
-          onClick={setFilterToAll}
-          className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "all"
-              ? isDark
-                ? "bg-slate-600 text-white"
-                : "bg-slate-600 text-white"
-              : isDark
-                ? "bg-gray-700 text-white hover:bg-gray-600"
-                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
-          }`}
-        >
-          All
-        </button>
-        <button
-          onClick={setFilterToCompleted}
-          className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "completed"
-              ? isDark
-                ? "bg-green-600 text-white"
-                : "bg-green-600 text-white"
-              : isDark
-                ? "bg-gray-700 text-white hover:bg-gray-600"
-                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
-          }`}
-        >
-          Completed
-        </button>
-        <button
-          onClick={setFilterToIncomplete}
-          className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
-            filter === "incomplete"
-              ? isDark
-                ? "bg-yellow-500 text-white"
-                : "bg-yellow-500 text-white"
-              : isDark
-                ? "bg-gray-700 text-white hover:bg-gray-600"
-                : "bg-gray-200 text-slate-600 hover:bg-gray-300"
-          }`}
-        >
-          In Progress
-        </button>
+    <div className={`space-y-4 flex flex-col gap-6 ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-600"}`}>
+      <div className="flex gap-16">
+        <CompleteFilter
+          filter={filter}
+          setFilterToAll={setFilterToAll}
+          setFilterToCompleted={setFilterToCompleted}
+          setFilterToIncomplete={setFilterToIncomplete}
+          isDark={false}
+        />
+        <ScoreFilter onFilterChange={handleScoreRangeChange} />
       </div>
 
       {filtered.length === 0 ? (

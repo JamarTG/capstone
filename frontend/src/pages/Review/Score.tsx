@@ -29,5 +29,4 @@ const ScoreSection = ({
   );
 };
 
-
 export default ScoreSection;
