@@ -69,7 +69,7 @@ const otherRoutes: Record<string, RouteConfig> = {
     icon: MDI_ICONS.cog,
   },
   QUIZ_REVIEW: {
-    path: "/quiz-review",
+    path: "/review/:id",
     element: <QuizReview />,
     layout: SidebarLayout,
     text: "Quiz Review",
