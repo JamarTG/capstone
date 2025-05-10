@@ -18,4 +18,5 @@ export const IconifyIcons = {
   clipboardList: 'mdi:clipboard-list-outline',
   comment: 'mdi:comment-outline',
   viewDashboard: 'mdi:view-dashboard-outline',
+  inProgress: 'mdi:hourglass',
 };

@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Section_Map } from "../../constants";
+import { Icon } from "@iconify/react";
+import { IconifyIcons } from "../../icons";
 
 interface Props {
   section: number;
@@ -31,7 +33,9 @@ const QuizCardBody: React.FC<Props> = ({ section, formattedDate, score, complete
       </div>
       ) : (
       <div className="flex items-center justify-end">
-        <span className="text-yellow-500 text-md font-bold">In Progress</span>
+        <span className="text-yellow-500 text-md font-bold">
+          <Icon icon={IconifyIcons.inProgress} width="24" height="24" />
+        </span>
       </div>
       )}
       <h3 className={`text-md break-all hyphens-auto ${isDark ? "text-gray-100" : "text-slate-600"}`}>{Section_Map[section]?.name}</h3>
