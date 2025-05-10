@@ -10,7 +10,7 @@ import { QuizAPI } from "../../utils/api";
 import { extractErrorMessage } from "../../utils/error";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
-import { MDI_ICONS } from "../../icons";
+import { IconifyIcons } from "../../icons";
 
 const QuizSelection = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const QuizSelection = () => {
   return (
     <PageContent title="Quiz">
           <SectionHeader
-            iconPath={MDI_ICONS.cursorDefault}
+            iconPath={IconifyIcons.cursorDefault}
             title="Topic Selection"
           />
           <SectionContainer

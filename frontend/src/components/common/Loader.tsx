@@ -1,5 +1,5 @@
-import { Icon } from "@mdi/react";
-import { MDI_ICONS } from "../../icons";
+import { Icon } from "@iconify/react";
+import { IconifyIcons } from "../../icons";
 import { useTheme } from "../../context/ThemeContext";
 
 interface LoaderProps {
@@ -7,7 +7,7 @@ interface LoaderProps {
 }
 
 const Loader: React.FC<LoaderProps> = ({ text }) => {
-   const { isDark } = useTheme();
+  const { isDark } = useTheme();
 
   return (
     <div className="flex items-center justify-center h-screen bg-transparent">
@@ -15,20 +15,11 @@ const Loader: React.FC<LoaderProps> = ({ text }) => {
         <div className="relative w-16 h-16">
           <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500 to-blue-500 blur-md animate-ping opacity-50" />
           <Icon
-            path={MDI_ICONS.loading}
-            size={2}
-            className={`animate-spin relative z-10 ${
-              isDark ? "text-white" : "text-gray-700"
-            }`}
+            icon={IconifyIcons.loading}
+            className={`animate-spin relative z-10 ${isDark ? "text-white" : "text-gray-700"}`}
           />
         </div>
-        <h3
-          className={`text-xl font-medium ${
-            isDark ? "text-white" : "text-gray-700"
-          }`}
-        >
-          {text}
-        </h3>
+        <h3 className={`text-xl font-medium ${isDark ? "text-white" : "text-gray-700"}`}>{text}</h3>
       </div>
     </div>
   );

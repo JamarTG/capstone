@@ -9,8 +9,7 @@ import Settings from "../pages/Settings";
 import SidebarLayout from "../components/layout/Sidebar";
 import Assessment from "../pages/Quiz/QuizSession";
 import QuizReview from "../pages/Review";
-
-import { MDI_ICONS } from "../icons";
+import { IconifyIcons } from "../icons";
 
 export interface RouteConfig {
   path: string;
@@ -26,21 +25,21 @@ const mainRoutes: Record<string, RouteConfig> = {
     element: <StudyPlan />,
     layout: SidebarLayout,
     text: "Dashboard",
-    icon: MDI_ICONS.viewDashboard,
+    icon: IconifyIcons.viewDashboard,
   },
   ARCHIVE: {
     path: "/archive",
     element: <Archive />,
     layout: SidebarLayout,
     text: "Archive",
-    icon: MDI_ICONS.archive,
+    icon: IconifyIcons.archive,
   },
   QUIZ: {
     path: "/quiz",
     element: <Quiz />,
     layout: SidebarLayout,
     text: "Quiz",
-    icon: MDI_ICONS.clipboardList,
+    icon: IconifyIcons.clipboardList,
   },
 };
 
@@ -66,7 +65,7 @@ const otherRoutes: Record<string, RouteConfig> = {
     element: <Settings />,
     layout: SidebarLayout,
     text: "Settings",
-    icon: MDI_ICONS.cog,
+    icon: IconifyIcons.cog,
   },
   QUIZ_REVIEW: {
     path: "/review/:id",
@@ -78,7 +77,7 @@ const otherRoutes: Record<string, RouteConfig> = {
   LOGOUT: {
     path: "/logout",
     text: "Logout",
-    icon: MDI_ICONS.logout,
+    icon: IconifyIcons.logout,
   },
   NOT_FOUND: {
     path: "*",

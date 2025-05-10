@@ -1,8 +1,8 @@
 import React from "react";
 import ConfirmDeletion from "./ConfirmDeletion";
-import Icon from "@mdi/react";
+import {Icon} from "@iconify/react";
 import { Section_Map } from "../../constants";
-import { MDI_ICONS } from "../../icons";
+import { IconifyIcons } from "../../icons";
 
 interface Props {
   section: number;
@@ -37,7 +37,7 @@ const QuizCardHeader: React.FC<Props> = ({
           className="cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full"
           title="Delete quiz"
         >
-          <Icon path={MDI_ICONS.trash} className="w-6 h-6" />
+          <Icon icon={IconifyIcons.trash} />
         </button>
       ) : (
         <ConfirmDeletion onConfirm={onConfirm} onCancel={onCancel} isPending={isPending} />

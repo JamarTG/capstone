@@ -2,7 +2,8 @@ import PageLayout from "../../components/layout/Page";
 import QuizHistoryList from "./QuizHistoryList";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
-import { MDI_ICONS } from "../../icons";
+import { IconifyIcons } from "../../icons";
+
 const QuizHistory = () => {
   useAuthRedirect();
 
@@ -10,7 +11,7 @@ const QuizHistory = () => {
     <PageLayout title="History">
       <div className="flex flex-col justify-center gap-3">
         <SectionHeader
-          iconPath={MDI_ICONS.history}
+          iconPath={IconifyIcons.history}
           title={"History List"}
         />
         <QuizHistoryList />

@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import routes, { mainRoutes, otherRoutes, RouteConfig } from "../../../data/routes";
 import { AuthContext } from "../../../context/AuthContext";
 import { useTheme } from "../../../context/ThemeContext";
-import { Icon } from "@mdi/react";
-import { MDI_ICONS } from "../../../icons";
+import { Icon } from "@iconify/react"; 
+import { IconifyIcons } from "../../../icons";
 import logo from "/logo.png";
 import { capitalize } from "../../../utils/text";
 import { useSidebarState } from "../../../hooks/useSidebarExpanded";
@@ -68,8 +68,9 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     >
                       <span className="inline-flex justify-center items-center">
                         <Icon
-                          path={icon!}
-                          size={1}
+                          icon={icon!} 
+                          width={24}
+                          height={24}
                         />
                       </span>
                       {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{text}</span>}
@@ -82,29 +83,26 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
           <ul className="flex flex-col space-y-1">
             <li>
-                <NavLink
+              <NavLink
                 to={otherRoutes.SETTINGS?.path}
                 title={otherRoutes.SETTINGS?.text || "Settings"}
                 className={`flex flex-row items-center h-11 focus:outline-none border-l-4 transition-colors duration-200 ${
                   isDark
-                  ? `hover:bg-gray-700 text-gray-300 hover:text-white border-transparent`
-                  : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-transparent`
+                    ? `hover:bg-gray-700 text-gray-300 hover:text-white border-transparent`
+                    : `hover:bg-gray-200 text-gray-600 hover:text-gray-800 border-transparent`
                 } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`}
-                >
+              >
                 <span className="inline-flex justify-center items-center">
-                  {
-                    otherRoutes.SETTINGS?.icon &&
-                      <Icon
-                        path={otherRoutes.SETTINGS.icon!}
-                        size={1}
-                      />
-                    
-
-                  }
-                 
+                  {otherRoutes.SETTINGS?.icon && (
+                    <Icon
+                      icon={otherRoutes.SETTINGS.icon!} 
+                      width={24}
+                      height={24}
+                    />
+                  )}
                 </span>
                 {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{otherRoutes.SETTINGS?.text || "Settings"}</span>}
-                </NavLink>
+              </NavLink>
             </li>
 
             <li>
@@ -119,8 +117,9 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               >
                 <span className="inline-flex justify-center items-center">
                   <Icon
-                    path={routes.LOGOUT.icon!}
-                    size={1}
+                    icon={routes.LOGOUT.icon!} 
+                    width={24}
+                    height={24}
                   />
                 </span>
                 {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{routes.LOGOUT.text}</span>}
@@ -136,8 +135,9 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               }`}
             >
               <Icon
-                path={isExpanded ? MDI_ICONS.chevronDoubleLeft : MDI_ICONS.chevronDoubleRight}
-                size={1}
+                icon={isExpanded ? IconifyIcons.chevronDoubleLeft : IconifyIcons.chevronDoubleRight} 
+                width={24}
+                height={24}
               />
             </button>
           </div>

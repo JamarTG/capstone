@@ -1,9 +1,8 @@
-import Icon from "@mdi/react";
+import { Icon } from "@iconify/react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
 import QuizProgressBar from "./QuizProgressBar";
-import { MDI_ICONS } from "../../icons";
-
+import { IconifyIcons } from "../../icons";
 
 interface QuizHeaderProps {
   currentIndex: number;
@@ -13,9 +12,9 @@ interface QuizHeaderProps {
 }
 
 const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderProps) => {
-   const { isDark } = useTheme();
+  const { isDark } = useTheme();
 
-  const progressPercentage = ((currentIndex ) / totalQuestions) * 100;
+  const progressPercentage = (currentIndex / totalQuestions) * 100;
 
   return (
     <div className={`${isDark ? "bg-gray-800" : "bg-white"} rounded-lg overflow-hidden`}>
@@ -52,10 +51,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
                   : "bg-red-400 text-white hover:bg-red-700 border border-transparent"
               }`}
             >
-              <Icon
-                path={MDI_ICONS.stop}
-                size={1}
-              />
+              <Icon icon={IconifyIcons.stop} />
               End
             </Button>
           </div>

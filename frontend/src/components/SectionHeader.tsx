@@ -1,4 +1,4 @@
-import Icon from "@mdi/react";
+import {Icon} from "@iconify/react";
 import { IconProps } from "@tabler/icons-react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -13,8 +13,8 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ iconPath, title }) => {
   return (
     <div className={`flex items-center ${isDark ? "bg-gray-800 p-4 rounded-lg" : "bg-white p-4 rounded-lg"}`}>
       <Icon
-        path={iconPath!}
-        size={1}
+        icon={iconPath!}
+  
         className={`${isDark ? "text-gray-100" : "text-slate-600"} mr-2`}
       />
       <h2 className={`text-xl font-medium ${isDark ? "text-gray-100" : "text-slate-800"}`}>{title}</h2>

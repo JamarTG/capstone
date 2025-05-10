@@ -1,5 +1,5 @@
 import { mdiRobotHappyOutline } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@iconify/react";
 import { Question } from "../../types/quiz";
 
 const ExplanationSection = ({ question, isDark }: { question: Question; isDark: boolean }) => {
@@ -9,8 +9,7 @@ const ExplanationSection = ({ question, isDark }: { question: Question; isDark: 
         <div className="flex flex-col gap-2 h-full">
           <h4 className={`font-bold flex gap-2 items-center text-sm ${isDark ? "text-blue-300" : "text-blue-800"}`}>
             <Icon
-              path={mdiRobotHappyOutline}
-              size={0.9}
+              icon={mdiRobotHappyOutline}
             />
             AI Explanation
           </h4>
