@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Question } from "../../types/quiz";
 import RenderList from "../../components/common/RenderList";
+import { Icon } from "@iconify/react";
+import { IconifyIcons } from "../../icons";
 
 const QuestionSidebar = ({
   isDark,
@@ -58,14 +60,14 @@ const QuestionSidebar = ({
           disabled={page === 0}
           className="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
         >
-          Prev
+          <Icon icon={IconifyIcons.chevronDoubleLeft} className="text-2xl"/>
         </button>
         <button
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
           disabled={page >= totalPages - 1}
           className="px-3 py-1 bg-gray-700 text-white rounded disabled:opacity-50"
         >
-          Next
+          <Icon icon={IconifyIcons.chevronDoubleRight} className="text-2xl"/>
         </button>
       </div>
     </div>

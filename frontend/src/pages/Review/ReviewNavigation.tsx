@@ -1,4 +1,6 @@
+import { Icon } from "@iconify/react";
 import React from "react";
+import { IconifyIcons } from "../../icons";
 
 export interface ReviewNavigationProps {
   currentQuestionIndex: number;
@@ -24,16 +26,16 @@ const ReviewNavigation: React.FC<ReviewNavigationProps> = ({  currentQuestionInd
       <button
         onClick={handlePrevious}
         disabled={currentQuestionIndex === 0}
-        className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
+        className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white flex justify-center items-center gap-2"
       >
-        Previous
+        <Icon icon={IconifyIcons.chevronDoubleLeft} className="text-2xl" />
       </button>
       <button
         onClick={handleNext}
         disabled={currentQuestionIndex === questions.length - 1}
         className="px-4 py-2 bg-gray-700 rounded disabled:opacity-60 text-white"
       >
-        Next
+        <Icon icon={IconifyIcons.chevronDoubleRight} className="text-2xl" />
       </button>
     </div>
   );
