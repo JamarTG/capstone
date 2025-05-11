@@ -63,7 +63,7 @@ const QuizSession = () => {
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
-  const questions = session.session.questions.map((q: Question) => {
+  const renderQuestion = (q: Question) => {
     return {
       id: q._id,
       question: q.question,
@@ -79,7 +79,9 @@ const QuizSession = () => {
       explanation:q.explanation,
       answeredAt: q.answeredAt,
     };
-  });
+  }
+
+  const questions: ReturnType<typeof renderQuestion>[] = session.session.questions.map(renderQuestion);
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;

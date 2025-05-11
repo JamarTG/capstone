@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Question } from "../../types/quiz";
+import RenderList from "../../components/common/RenderList";
 
 const QuestionSidebar = ({
   isDark,
@@ -19,31 +20,36 @@ const QuestionSidebar = ({
   const totalPages = Math.ceil(questions.length / pageSize);
   const pageQuestions = questions.slice(start, end);
 
+  const renderPageQuestion = (question: Question, index: number) => {
+    const globalIndex = start + index;
+    return (
+      <li
+        key={globalIndex}
+        onClick={() => setCurrentQuestionIndex(globalIndex)}
+        className={`border p-3 cursor-pointer rounded-lg transition-colors ${
+          currentQuestionIndex === globalIndex
+            ? `border-white ${isDark ? "text-white bg-gray-700" : "text-gray-800 bg-gray-200"}`
+            : `${isDark ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"}`
+        }`}
+      >
+        <p
+          className="truncate"
+          title={question.question}
+        >
+          {globalIndex + 1}. {question.question}
+        </p>
+      </li>
+    );
+  };
+
   return (
     <div className={`w-full sm:w-1/4 lg:w-1/3 p-4 ${isDark ? "bg-gray-800" : ""} rounded-lg sticky top-16 h-full overflow-y-auto`}>
       <h2 className="text-xl text-white mb-6">Questions</h2>
       <ul className="space-y-4">
-        {pageQuestions.map((question, index) => {
-          const globalIndex = start + index;
-          return (
-            <li
-              key={globalIndex}
-              onClick={() => setCurrentQuestionIndex(globalIndex)}
-              className={`border p-3 cursor-pointer rounded-lg transition-colors ${
-                currentQuestionIndex === globalIndex
-                  ? `border-white ${isDark ? "text-white bg-gray-700" : "text-gray-800 bg-gray-200"}`
-                  : `${isDark ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-600 hover:bg-gray-100"}`
-              }`}
-            >
-              <p
-                className="truncate"
-                title={question.question}
-              >
-                {globalIndex + 1}. {question.question}
-              </p>
-            </li>
-          );
-        })}
+        <RenderList
+          data={pageQuestions}
+          renderFn={renderPageQuestion}
+        />
       </ul>
 
       <div className="flex justify-between mt-6">
