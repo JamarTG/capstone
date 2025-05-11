@@ -1,6 +1,5 @@
-import { Icon } from "@iconify/react";
-import { IconifyIcons } from "../../icons";
 import { useTheme } from "../../context/ThemeContext";
+import { FadeLoader } from "react-spinners";
 
 interface LoaderProps {
   text: string;
@@ -12,13 +11,7 @@ const Loader: React.FC<LoaderProps> = ({ text }) => {
   return (
     <div className="flex items-center justify-center h-screen bg-transparent">
       <div className="flex flex-col items-center gap-4 text-center animate-fade-in">
-        <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500 to-blue-500 blur-md animate-ping opacity-50" />
-          <Icon
-            icon={IconifyIcons.loading}
-            className={`animate-spin relative z-10 ${isDark ? "text-white" : "text-gray-700"}`}
-          />
-        </div>
+        <FadeLoader color={isDark ? "#ffffff" : "#333333"} />
         <h3 className={`text-xl font-medium ${isDark ? "text-white" : "text-gray-700"}`}>{text}</h3>
       </div>
     </div>
