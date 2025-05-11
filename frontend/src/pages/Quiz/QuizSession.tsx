@@ -141,7 +141,7 @@ const QuizSession = () => {
           <div className="w-full max-w-4xl flex flex-col gap-6">
            
             <QuizHeader
-              currentIndex={currentIndex}
+              currentProgress={currentIndex + ((selectedAnswer !== null) ? 1 : 0)}
               totalQuestions={questions.length}
               onSubmitQuiz={handleSubmitQuiz}
               isSubmitting={isPending}

@@ -6,17 +6,17 @@ import { IconifyIcons } from "../../icons";
 import { Section_Map } from "../../constants";
 
 interface QuizHeaderProps {
-  currentIndex: number;
+  currentProgress: number;
   totalQuestions: number;
   onSubmitQuiz: () => void;
   isSubmitting: boolean;
   topic:number;
 }
 
-const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz, topic}: QuizHeaderProps) => {
+const QuizHeader = ({ currentProgress, totalQuestions, onSubmitQuiz, topic}: QuizHeaderProps) => {
   const { isDark } = useTheme();
 
-  const progressPercentage = (currentIndex / totalQuestions) * 100;
+  const progressPercentage = (currentProgress / totalQuestions) * 100;
 
   return (
     <div className={`${isDark ? "bg-gray-800" : "bg-white"} rounded-lg overflow-hidden`}>
@@ -59,7 +59,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz, topic}: QuizHe
           </div>
 
           <QuizProgressBar
-            currentIndex={currentIndex}
+            currentProgress={currentProgress}
             totalQuestions={totalQuestions}
             progressPercentage={progressPercentage}
           />

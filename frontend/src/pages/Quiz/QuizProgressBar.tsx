@@ -1,11 +1,11 @@
 import { useTheme } from "../../context/ThemeContext";
 
 const QuizProgressBar = ({
-  currentIndex,
+  currentProgress,
   totalQuestions,
   progressPercentage,
 }: {
-  currentIndex: number;
+  currentProgress: number;
   totalQuestions: number;
   progressPercentage: number;
 }) => {
@@ -15,7 +15,7 @@ const QuizProgressBar = ({
     <div className={`p-4 rounded-lg ${isDark ? "bg-gray-800" : "bg-white"}`}>
       <div className={`flex items-center justify-between text-sm mb-2 ${isDark ? "text-gray-300" : "text-slate-600"}`}>
         <span className="text-md">
-          Question {currentIndex + 1} of {totalQuestions}
+          Question {currentProgress} of {totalQuestions}
         </span>
         <span className="text-md">
           {Math.round(progressPercentage)}% Complete
