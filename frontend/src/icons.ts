@@ -19,4 +19,5 @@ export const IconifyIcons = {
   comment: 'mdi:comment-outline',
   viewDashboard: 'mdi:view-dashboard-outline',
   inProgress: 'mdi:hourglass',
+  robot: 'mdi:robot-happy-outline',
 };

@@ -15,7 +15,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ iconPath, title }) => {
       <Icon
         icon={iconPath!}
   
-        className={`${isDark ? "text-gray-100" : "text-slate-600"} mr-2`}
+        className={`${isDark ? "text-gray-100" : "text-slate-600"} mr-2 text-3xl`}
       />
       <h2 className={`text-xl font-medium ${isDark ? "text-gray-100" : "text-slate-800"}`}>{title}</h2>
     </div>
