@@ -57,7 +57,7 @@ export const testGenerateQuestion = async (req: Request, res: Response) => {
     const { section, feedback } = req.body;
 
     const question = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/api_services.py", String(section)]);
+      const py = spawn("python", ["./rag/main.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -95,13 +95,12 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 
     const feedbackDocs = await Feedback.find({ user: userId, section });
 
-    const feedback = feedbackDocs.map((doc) => ({ 
-      feedbackId: doc._id, 
-      feedbackText: doc.feedback 
+    const feedback = feedbackDocs.map((doc) => ({
+      feedbackText: doc.feedback,
     }));
 
     const result = await new Promise<any>((resolve, reject) => {
-      const py = spawn("python", ["./rag/api_services.py", String(section)]);
+      const py = spawn("python", ["./rag/main.py", String(section)]);
 
       let data = "";
       let error = "";
@@ -118,7 +117,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
             reject(`Failed to parse JSON: ${err}`);
           }
         } else {
-          reject(`Python script failed with code ${code}:\n${error}`);
+          reject(`Python script failed with code ${code}:\nError: ${error || "No error message"}\nOutput: ${data || "No output received"}`);
         }
       });
 
@@ -137,7 +136,7 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
       return feedback.length > 0 && index < feedback.length
         ? {
             ...question,
-            feedbackId: feedbackDocs[index]?._id, 
+            feedbackId: feedbackDocs[index]?._id,
           }
         : question;
     });
@@ -162,7 +161,6 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
 };
 
 export const getQuizSession = async (req: Request, res: Response) => {
-
   try {
     const session = await Quiz.findById(req.params.sessionId);
 
@@ -202,12 +200,14 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
   }
 };
 
-export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
-  try {
-    const quiz = req.params.sessionId;
-    const { is_correct, selectedOption } = req.body;
 
-    const fetchedQuiz = await Quiz.findById({ _id: quiz });
+export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
+
+  try {
+    const quizId = req.params.sessionId;
+    const { is_correct, selectedOption, questionIndex } = req.body; // Added questionIndex parameter
+
+    let fetchedQuiz = await Quiz.findById(quizId);
     if (!fetchedQuiz) {
       res.status(404).json({ message: "Quiz not found." });
       return;
@@ -218,81 +218,100 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       return;
     }
 
-    const currentIndex = fetchedQuiz.currentQuestionIndex;
-    const currentQuestion = fetchedQuiz.questions[currentIndex];
-    currentQuestion.user_answer = selectedOption;
+    const targetIndex = questionIndex !== undefined ? parseInt(questionIndex) : fetchedQuiz.currentQuestionIndex;
+
+    if (targetIndex >= fetchedQuiz.questions.length || targetIndex < 0) {
+      res.status(400).json({ message: "Invalid question index." });
+      return;
+    }
+
+    const targetQuestion = fetchedQuiz.questions[targetIndex];
+
+    targetQuestion.user_answer = selectedOption;
+    targetQuestion.is_correct = is_correct;
 
     if (is_correct) {
-      fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
-      currentQuestion.is_correct = true;
 
-      if (currentQuestion.feedbackId) {
-        await Feedback.findByIdAndDelete(currentQuestion.feedbackId);
-        currentQuestion.feedbackId = undefined;
+      if (!targetQuestion.user_answer) {
+        fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
+      }
+
+      if (targetQuestion.feedbackId) {
+        await Feedback.findByIdAndDelete(targetQuestion.feedbackId);
+        targetQuestion.feedbackId = undefined;
       }
     } else {
-      currentQuestion.is_correct = false;
 
-      if (!currentQuestion.feedbackId) {
-        const questionText = currentQuestion.question;
+      if (!targetQuestion.feedbackId) {
+        const questionText = targetQuestion.question;
         const section = String(fetchedQuiz.section);
         const actionFlag = "feedback";
-        const python = spawn("python", ["./rag/api_services.py", section, actionFlag]);
 
-        python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
-        python.stdin.end();
+        try {
+          const feedbackData = await new Promise<string>((resolve, reject) => {
+            const python = spawn("python", ["./rag/main.py", section, actionFlag]);
 
-        let data = "";
+            let data = "";
+            let error = "";
 
-        python.stdout.on("data", (chunk) => {
-          data += chunk.toString();
-        });
+            python.stdout.on("data", (chunk) => {
+              data += chunk.toString();
+            });
 
-        python.stderr.on("data", (err) => {
-          console.error("Python error:", err.toString());
-        });
+            python.stderr.on("data", (chunk) => {
+              error += chunk.toString();
+            });
 
-        python.on("close", async () => {
-          try {
-            if (!data) {
-              console.error("No feedback data received from Python script.");
-              return;
-            }
+            python.on("close", (code) => {
+              if (code === 0) {
+                resolve(data);
+              } else {
+                reject(`Python script failed with code ${code}: ${error}`);
+              }
+            });
 
-            const feedback = JSON.parse(data);
-            if (feedback.Feedback) {
-              const createdFeedback = await Feedback.create({
-                user: req.user._id,
-                feedback: feedback.Feedback,
-                section,
-              });
-   
-              await Quiz.updateOne(
-                { _id: quiz, "questions._id": currentQuestion._id },
-                { $set: { "questions.$.feedbackId": createdFeedback._id } }
-              );
-            }
-          } catch (error) {
-            console.error("Failed to process feedback:", error);
+            python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
+            python.stdin.end();
+          });
+
+          const feedback = JSON.parse(feedbackData);
+
+          if (feedback.Feedback) {
+            const createdFeedback = await Feedback.create({
+              user: req.user._id,
+              feedback: feedback.Feedback,
+              Section: section,
+            });
+
+            targetQuestion.feedbackId = createdFeedback._id as string;
           }
-        });
+        } catch (error) {
+          res.status(500).json({ message: "Failed to generate feedback." });
+        }
       }
     }
 
-    fetchedQuiz.markModified(`questions.${currentIndex}`);
-    fetchedQuiz.currentQuestionIndex += 1;
-    if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
+    fetchedQuiz.markModified(`questions.${targetIndex}`);
+
+    if (targetIndex >= fetchedQuiz.currentQuestionIndex) {
+      fetchedQuiz.currentQuestionIndex = targetIndex + 1;
+    }
+
+    const allAnswered = fetchedQuiz.questions.every(q => q.user_answer !== undefined);
+    if (allAnswered || fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
       fetchedQuiz.completed = true;
     }
+
     await fetchedQuiz.save();
+
 
     res.status(200).json({
       message: "Answer submitted successfully.",
-      currentIndex,
+      currentIndex: targetIndex,
       is_correct,
+      quizCompleted: fetchedQuiz.completed
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: `Server error ${error}` });
   }
 };
@@ -346,7 +365,7 @@ export const getUserFeedbacks = async (req: CustomRequest, res: Response) => {
       message: "User feedbacks retrieved successfully",
       data: feedbacks.map((fb) => ({
         feedback: fb.feedback,
-        section: fb.section
+        section: fb.section,
       })),
     });
   } catch (error) {

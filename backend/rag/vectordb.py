@@ -2,11 +2,10 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 import pickle
-from chunks import *
+import os
 
 
 def createSyllabusEmbedding(chunks, save_path):
-    
     """
     Converts syllabus chunks into structured format and creates embeddings.
     Stores the entire original statement along with parsed components.
@@ -19,7 +18,6 @@ def createSyllabusEmbedding(chunks, save_path):
     Returns:
         tuple: (structured_chunks, embeddings, index)
     """
-    
     structured_chunks = []
     for raw_chunk in chunks:
         lines = raw_chunk.strip().split("\n")
@@ -39,14 +37,12 @@ def createSyllabusEmbedding(chunks, save_path):
     index = faiss.IndexFlatIP(embeddings.shape[1])
     index.add(embeddings)
     
-
     if save_path:
         data_to_save = {
             "structured_chunks": structured_chunks,
             "embeddings": embeddings,
             "faiss_index": index  
         }
-        
         with open(f"{save_path}.pkl", "wb") as f:
             pickle.dump(data_to_save, f)
     
@@ -63,12 +59,10 @@ def loadSyllabusEmbedding(load_path):
     Returns:
         tuple: (structured_chunks, embeddings, index)
     """
-
     with open(f"{load_path}_chunks.pkl", "rb") as f:
         structured_chunks = pickle.load(f)
 
     embeddings = np.load(f"{load_path}_embeddings.npy")
-
     index = faiss.read_index(f"{load_path}_index.faiss")
     
     return structured_chunks, embeddings, index
@@ -86,22 +80,16 @@ def get_similarity_scores(query, embedding_path, k=1):
     Returns:
         list: Top matching similarity scores
     """
-    
     try:
-        with open(f"{embedding_path}.pkl", "rb") as f:
+        with open(f"C://Users//Admin//Desktop//School//COMP3901//capstone//backend//rag//{embedding_path}.pkl", "rb") as f:
             loaded_data = pickle.load(f)
         
         embeddings = loaded_data["embeddings"]
         index = loaded_data["faiss_index"]
-        
     except FileNotFoundError:
-        print(f"Error: Could not find embedding file at path '{embedding_path}_all_data.pkl'")
-        print("Please make sure to run createSyllabusEmbedding() first to create the embeddings.")
         return []
-    except KeyError as e:
-        print(f"Error: Missing expected key in loaded data - {e}")
+    except KeyError:
         return []
-
 
     model = SentenceTransformer("BAAI/bge-base-en-v1.5")
     query_embed = model.encode([query], normalize_embeddings=True)
@@ -122,65 +110,40 @@ def get_matching_chunks(query, embedding_path, k=1):
     Returns:
         list: Top matching chunks (combined description and content)
     """
-
     try:
-        with open(f"{embedding_path}.pkl", "rb") as f:
+        base_path = os.path.dirname(os.path.realpath(__file__))
+        full_path = os.path.join(base_path, f"{embedding_path}.pkl")
+        with open(full_path, "rb") as f:
             loaded_data = pickle.load(f)
-        
+
         structured_chunks = loaded_data["structured_chunks"]
         embeddings = loaded_data["embeddings"]
         index = loaded_data["faiss_index"]
-        
-    except FileNotFoundError:
-        print(f"Error: Could not find embedding file at path '{embedding_path}_all_data.pkl'")
-        print("Please make sure to run createSyllabusEmbedding() first to create the embeddings.")
-        return []
-    except KeyError as e:
-        print(f"Error: Missing expected key in loaded data - {e}")
+    except Exception:
         return []
 
+    try:
+        model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+        query_embed = model.encode([query], normalize_embeddings=True)
 
-    model = SentenceTransformer("BAAI/bge-base-en-v1.5")
-    query_embed = model.encode([query], normalize_embeddings=True)
+        distances, indices = index.search(query_embed, k=k)
 
-    distances, indices = index.search(query_embed, k=k)
-    
-    results = []
-    for i, idx in enumerate(indices[0]): # changed this line
-        chunk = structured_chunks[idx]
+        results = []
+        for i, idx in enumerate(indices[0]):
+            score = distances[0][i]
+            chunk = structured_chunks[idx]
+            combined_text = f"Description: {chunk['description']} Content: {chunk['content']}"
+            if score >= 0.10:
+                results.append(combined_text)
 
-        combined_text = f"Description: {chunk['description']} Content: {chunk['content']}"
-        
-        if distances[0][i] >= 0.60: #context relevancy check
-            results.append(combined_text)
+        return results
+    except Exception:
+        return []
 
-
-    
-    return results
 
 if __name__ == "__main__":
-    # First create and save the embeddings (only needs to be done once)
-    # Uncomment this line to create embeddings (do this first)
-    
-    #chunks=sectionEightSyllabus()
-    #createSyllabusEmbedding(chunks, save_path="section8_syllabus_embed")
-    
-    # Then you can query the saved embeddings like this:
     user_query = """
 Which of the following is not a type of network?
 """
-    
-    # Query the embeddings - this will automatically print formatted results
     results = get_matching_chunks(user_query, embedding_path="section2_syllabus_embed", k=1)
     print(results)
-    # If you want to programmatically access the results, they're in the 'results' variable
-    # For example:
-    """
-    print("\nRaw results data structure:")
-    for i, result in enumerate(results, 1):
-        print(f"\nResult {i}:")
-        print(f"Score: {result['score']:.3f}")
-        print(f"Description: {result['description']}")
-        print(f"Content: {result['content']}")
-
-    """
