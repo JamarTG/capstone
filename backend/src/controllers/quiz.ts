@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { Quiz } from "../models/Quiz";
+import { IQuestion, Quiz } from "../models/Quiz";
 import { CustomRequest } from "../types/middleware";
 import { spawn } from "child_process";
-import { IQuestion } from "../models/Quiz";
 import Feedback from "../models/Feedback";
+import fs from "fs";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
   try {
@@ -200,14 +200,12 @@ export const getUserQuizSessions = async (req: CustomRequest, res: Response) => 
   }
 };
 
-
 export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
-
   try {
-    const quizId = req.params.sessionId;
-    const { is_correct, selectedOption, questionIndex } = req.body; // Added questionIndex parameter
+    const quiz = req.params.sessionId;
+    const { is_correct, selectedOption } = req.body;
 
-    let fetchedQuiz = await Quiz.findById(quizId);
+    const fetchedQuiz = await Quiz.findById({ _id: quiz });
     if (!fetchedQuiz) {
       res.status(404).json({ message: "Quiz not found." });
       return;
@@ -218,100 +216,83 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
       return;
     }
 
-    const targetIndex = questionIndex !== undefined ? parseInt(questionIndex) : fetchedQuiz.currentQuestionIndex;
-
-    if (targetIndex >= fetchedQuiz.questions.length || targetIndex < 0) {
-      res.status(400).json({ message: "Invalid question index." });
-      return;
-    }
-
-    const targetQuestion = fetchedQuiz.questions[targetIndex];
-
-    targetQuestion.user_answer = selectedOption;
-    targetQuestion.is_correct = is_correct;
+    const currentIndex = fetchedQuiz.currentQuestionIndex;
+    const currentQuestion = fetchedQuiz.questions[currentIndex];
+    currentQuestion.user_answer = selectedOption;
 
     if (is_correct) {
+      fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
+      currentQuestion.is_correct = true;
 
-      if (!targetQuestion.user_answer) {
-        fetchedQuiz.score = (fetchedQuiz.score || 0) + 1;
-      }
-
-      if (targetQuestion.feedbackId) {
-        await Feedback.findByIdAndDelete(targetQuestion.feedbackId);
-        targetQuestion.feedbackId = undefined;
+      if (currentQuestion.feedbackId) {
+        await Feedback.findByIdAndDelete(currentQuestion.feedbackId);
+        currentQuestion.feedbackId = undefined;
       }
     } else {
+      currentQuestion.is_correct = false;
 
-      if (!targetQuestion.feedbackId) {
-        const questionText = targetQuestion.question;
+      if (!currentQuestion.feedbackId) {
+        const questionText = currentQuestion.question;
         const section = String(fetchedQuiz.section);
         const actionFlag = "feedback";
+        const python = spawn("python", ["./rag/main.py", section, actionFlag]);
 
-        try {
-          const feedbackData = await new Promise<string>((resolve, reject) => {
-            const python = spawn("python", ["./rag/main.py", section, actionFlag]);
+        python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
+        python.stdin.end();
 
-            let data = "";
-            let error = "";
+        let data = "";
 
-            python.stdout.on("data", (chunk) => {
-              data += chunk.toString();
-            });
+        python.stdout.on("data", (chunk) => {
+          data += chunk.toString();
+        });
 
-            python.stderr.on("data", (chunk) => {
-              error += chunk.toString();
-            });
+        python.stderr.on("data", (err) => {
+          console.error("Python error:", err.toString());
+        });
 
-            python.on("close", (code) => {
-              if (code === 0) {
-                resolve(data);
-              } else {
-                reject(`Python script failed with code ${code}: ${error}`);
-              }
-            });
+        python.on("close", async () => {
+          try {
+            if (!data) {
+              console.error("No feedback data received from Python script.");
+              return;
+            }
 
-            python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
-            python.stdin.end();
-          });
+            const feedback = JSON.parse(data);
+            if (feedback.Feedback) {
+              const createdFeedback = await Feedback.create({
+                user: req.user._id,
+                feedback: feedback.Feedback,
+                section,
+              });
 
-          const feedback = JSON.parse(feedbackData);
+              await Quiz.updateOne(
+                { _id: quiz, "questions._id": currentQuestion._id },
+                { $set: { "questions.$.feedbackId": createdFeedback._id } }
+              );
 
-          if (feedback.Feedback) {
-            const createdFeedback = await Feedback.create({
-              user: req.user._id,
-              feedback: feedback.Feedback,
-              Section: section,
-            });
-
-            targetQuestion.feedbackId = createdFeedback._id as string;
+              createdFeedback.save();
+            }
+          } catch (error) {
+            console.error("Failed to process feedback:", error);
           }
-        } catch (error) {
-          res.status(500).json({ message: "Failed to generate feedback." });
-        }
+        });
       }
     }
 
-    fetchedQuiz.markModified(`questions.${targetIndex}`);
-
-    if (targetIndex >= fetchedQuiz.currentQuestionIndex) {
-      fetchedQuiz.currentQuestionIndex = targetIndex + 1;
-    }
-
-    const allAnswered = fetchedQuiz.questions.every(q => q.user_answer !== undefined);
-    if (allAnswered || fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
+    fetchedQuiz.markModified(`questions.${currentIndex}`);
+    fetchedQuiz.currentQuestionIndex += 1;
+    if (fetchedQuiz.currentQuestionIndex >= fetchedQuiz.questions.length) {
       fetchedQuiz.completed = true;
     }
-
     await fetchedQuiz.save();
-
 
     res.status(200).json({
       message: "Answer submitted successfully.",
-      currentIndex: targetIndex,
+      currentIndex,
       is_correct,
-      quizCompleted: fetchedQuiz.completed
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: `Server error ${error}` });
   }
 };

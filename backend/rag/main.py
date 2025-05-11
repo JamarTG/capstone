@@ -308,6 +308,15 @@ if __name__ == "__main__":
     import json
     import sys
 
+    def log_error_to_file(error_message):
+        """Logs the error message to error_log.txt."""
+        try:
+            with open("error_log.txt", "a") as error_file:
+                error_file.write(json.dumps(error_message, indent=4))
+                error_file.write("\n")
+        except Exception as e:
+            print(f"Failed to write to error_log.txt: {e}")
+
     section_arg = sys.argv[1] if len(sys.argv) > 1 else "1"
     action_flag = sys.argv[2] if len(sys.argv) > 2 else ""
 
@@ -316,10 +325,10 @@ if __name__ == "__main__":
         input_data = json.loads(raw_input)
         feedback_data = input_data.get("feedback", [])
     except Exception as e:
-        print(json.dumps({
+        log_error_to_file({
             "error": f"Failed to read or parse stdin: {str(e)}",
             "trace": traceback.format_exc()
-        }, indent=4))
+        })
         sys.exit(1)
 
     try:
@@ -331,18 +340,19 @@ if __name__ == "__main__":
         else:
             section_func = SECTION_MAP.get(section_arg)
             if not section_func:
-                print(json.dumps({"error": f"Invalid section: {section_arg}"}, indent=4))
+                log_error_to_file({"error": f"Invalid section: {section_arg}"})
                 sys.exit(1)
             result = quiz(feedback_data, int(section_arg))
     except Exception as e:
-        print(json.dumps({
+        log_error_to_file({
             "error": f"Unhandled exception during processing: {str(e)}",
             "trace": traceback.format_exc()
-        }, indent=4))
+        })
         sys.exit(1)
 
     if result:
         print(json.dumps(result, indent=4))
     else:
-        print(json.dumps({"error": "Failed to generate valid result"}, indent=4))
+        error_message = {"error": "Failed to generate valid result"}
+        log_error_to_file(error_message)
         sys.exit(1)
