@@ -7,7 +7,9 @@ from pydantic import BaseModel, Field, ValidationError
 from typing import Literal
 from vectordb import *
 from chunks import *
-
+from ragas.metrics import faithfulness
+from ragas import evaluate
+from datasets import Dataset
 load_dotenv()
 
 llm = ChatOpenAI(temperature=0.8, model="gpt-4")
@@ -51,17 +53,17 @@ def generate_question_and_answer(contents: list[str]):
     parser = JsonOutputParser(pydantic_object=list[QuestionAnswerFormat])
     
     formatted_contents = "\n".join([f"Content {i+1}:\n{c}" for i, c in enumerate(contents)])
-
+    print("Formatted Content:", formatted_contents)
     prompt = ChatPromptTemplate.from_template(
         """
         You will be given multiple sections of content, each labeled as "Content 1", "Content 2", etc.
 
-        For each content section, generate **1 multiple-choice question** with four options (A-D), and specify the correct answer. Make sure the correct answer does not always appear in the same letter position.
+        For each content, generate **exactly one multiple-choice question** with four options (A-D), and specify the correct answer. Make sure the correct answer does not always appear in the same letter position.
 
         Respond with a list of JSON objects (one per content) inside a code block using ```json delimiters.
+        Each object must contain exactly one question.
 
         Each object must match the format:
-
         ```json
         {{
             "question": "The question text",
@@ -71,7 +73,11 @@ def generate_question_and_answer(contents: list[str]):
             "option_d": "Option D text",
             "correct_answer": "A"
         }}
-        {formatted_contents} """ )
+        ```
+        
+        Contents:
+        {formatted_contents}
+        """ )
 
     chain = prompt | llm | parser
 
@@ -97,25 +103,23 @@ def generate_feedback(question: list[str]):
     """Generates Feedback from a syllabus objective with robust JSON handling using delimiters"""
     parser = JsonOutputParser(pydantic_object=list[Feedback])
     
-    formatted_question = "\n".join([f"Question {i+1}:\n{c}" for i, c in enumerate(question)])
+    formatted_question = "\n".join([f"Objective {i+1}:\n{c}" for i, c in enumerate(question)])
     
     prompt = ChatPromptTemplate.from_template(
         """ 
-        You will be given a structured input with a question that a student got wrong and they needs to improve in.
+        You will be given a structured input with description and the content of the syllabus objective the student got wrong and needs improvement.
         For the response generate in no more than 3 sentences, what weakness they demonstrate in relation to the feedback.
 
         Respond with a list of JSON objects (one per question) inside a code block using ```json delimiters.
 
         Generate output with EXACTLY these field names, see the json format below:
-            - "Section" (integer)
             - "Feedback" (string)
         json
         {{
-            "Section": 1 (this is a constant)
             "Feedback: "The feedback on what to improve on",
         }}
         
-    Question:
+    Syllabus:
         {formatted_question}
         """
     )
@@ -141,88 +145,96 @@ def generate_feedback(question: list[str]):
 
 
 def getSyllabus(lst:list[str], section_number):
-    if len(lst)==0:
-        match section_number:
-            case 1:
-                content=sectionOneSyllabus()
-            case 2:
-                content=sectionTwoSyllabus()
-            case 3:
-                content=sectionThreeSyllabus()
-            case 4:
-                content=sectionFourSyllabus()
-            case 5:
-                content=sectionFiveSyllabus()
-            case 6:
-                content=sectionSixSyllabus()
-            case 7:
-                content=sectionSevenSyllabus()
-            case 8:
-                content=sectionEightSyllabus()
-            case _:
-                return "Section numbers are between 1-8"
+    # Validate the section number first
+    if not 1 <= section_number <= 8:
+        return "Section numbers are between 1-8"
+
+    if len(lst) == 0:
+        # Map section numbers to their respective syllabus functions
+        syllabus_functions = {
+            1: sectionOneSyllabus,
+            2: sectionTwoSyllabus,
+            3: sectionThreeSyllabus,
+            4: sectionFourSyllabus,
+            5: sectionFiveSyllabus,
+            6: sectionSixSyllabus,
+            7: sectionSevenSyllabus,
+            8: sectionEightSyllabus,
+        }
+        content = syllabus_functions[section_number]()
     else:
-        content=[]
-        match section_number:
-            case 1:
-                for c in lst:
-                    embedding_path='section1_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 2:
-                for c in lst:
-                    embedding_path='section2_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 3:
-                for c in lst:
-                    embedding_path='section3_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 4:
-                for c in lst:
-                    embedding_path='section4_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 5:
-                for c in lst:
-                    embedding_path='section5_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 6:
-                for c in lst:
-                    embedding_path='section6_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 7:
-                for c in lst:
-                    embedding_path='section7_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case 8:
-                for c in lst:
-                    embedding_path='section8_syllabus_embed'
-                    chunk=get_matching_chunks(c,embedding_path,k=1)
-                    content.append(chunk[0])
-            case _:
-                return "Section numbers are between 1-8"
+        content = []
+        # Dynamically construct the embedding path
+        embedding_path = f'section{section_number}_syllabus_embed'
+        for c in lst:
+            chunk = get_matching_chunks(c, embedding_path, k=1)
+            if len(chunk)!=0:
+                content.append(chunk[0])
+            
     return content
 
+def is_question_logically_consistent(question: str, syllabus_content: str) -> bool:
+    """
+    Uses LLM to verify if the question logically aligns with the syllabus content.
+    Returns True if consistent, False otherwise.
+    """
+    prompt = ChatPromptTemplate.from_template("""
+    Determine if the following question is logically consistent with the given syllabus content.
+    Respond ONLY with 'True' or 'False'.
+
+    Syllabus Content: {syllabus_content}
+    Question: {question}
+    """)
+
+    chain = prompt | llm
+    response = chain.invoke({
+        "question": question,
+        "syllabus_content": syllabus_content
+    }).content.strip()
+
+    return response == "True"
 
 def quiz(feedback: list[str], section_number):
     """
     Creates the quiz for the specified section number using the feedback
-
-    Args:
-        feedback:  A list[str] of 0 or more feedbacks obtained from the previous quiz.
-        section_number: The syllabus section number the feedback belongs to.
-
-    Returns:
-        list: A list of JSON questions and answers.
+    Now includes logical consistency checking for generated questions.
     """
-    content=getSyllabus(feedback, section_number)
+    content = getSyllabus(feedback, section_number)
+    quiz = generate_question_and_answer(content)
+    embedding_path = f"section{section_number}_syllabus_embed"
+    quiz_list = [quiz] if not isinstance(quiz, list) else quiz
+    validated_quiz = []
+
+    for i, qz in enumerate(quiz_list):
+        max_attempts = 2
+        attempt = 0
+        similarity_score = 0
+        question_text = qz['question']
+        syllabus_chunk = content[i] if i < len(content) else content[-1]
+        
+        while attempt < max_attempts:
+            # Check both similarity and logical consistency
+            similarity_score = get_similarity_scores(question_text, embedding_path)[0]
+            is_consistent = is_question_logically_consistent(question_text, syllabus_chunk)
+            
+            print(f"Similarity: {similarity_score:.2f}, Consistent: {is_consistent}")
+            
+            if similarity_score >= 0.60 and is_consistent:
+                validated_quiz.append(qz)
+                break
+            
+            attempt += 1
+            
+            # Regenerate question if validation fails
+            quiz_to_use = content[i]
+            new_question = generate_question_and_answer([quiz_to_use])
+            new_question = [new_question] if not isinstance(new_question, list) else new_question
+            question_text = new_question[0]['question']
+            
+            if attempt == max_attempts:
+                print("Quiz question not aligned with syllabus or logically inconsistent")
     
-    return content
+    return validated_quiz
 
 def feedback(question: list[str], section_number):
     """
@@ -235,19 +247,71 @@ def feedback(question: list[str], section_number):
     Returns:
         list: A list of JSON feedback for each question.
     """
-    if len(question)==0:
+    if not question:
         return "You need questions to generate the feedback"
+
+    embedding_path = f"section{section_number}_syllabus_embed" if 1 <= section_number <= 8 else "Sections available are from 1-8"
     
     content=getSyllabus(question, section_number)
-    return content 
+    if not content:
+        return "All questions posted were not of the requisite similarity and hence no feedback can be created"
+    
+    feedback=generate_feedback(content)
+    feedback_list = [feedback] if not isinstance(feedback, list) else feedback
+    
+    validated_feedback = []
+
+    #Answer Relevance
+    for i, fb in enumerate(feedback_list):
+        max_attempts = 2
+        attempt = 0
+        similarity_score = 0
+        feedback=fb['Feedback']
+
+        while attempt < max_attempts:
+            print(json.dumps(feedback, indent=4))
+            similarity_score = get_similarity_scores(feedback, embedding_path)[0]
+            if similarity_score >= 0.60:
+                validated_feedback.append(fb)
+                break
+                
+            attempt += 1
+            
+            question_to_use=question[i]
+            new_content=getSyllabus([question_to_use], section_number)
+            feedback=generate_feedback(new_content)
+
+            if attempt==max_attempts and similarity_score<0.60:
+                        validated_feedback.append({
+                            "Feedback": "Feedback may not be fully aligned with syllabus"
+                        })
+        
+    return validated_feedback
 
 if __name__ == "__main__":
-    result = feedback(["Which of the following distinguish between data and information? a. data is raw information is not. b.information is raw and data is not. c. both are raw d. both are processed"], 1)
-    print(result)
+    question=[]
+    question.append(json.dumps({
+        "question": "What are some assessment criteria for cloud and local storage?",
+        "option_a": "color, size, weight",
+        "option_b": "capacity, accessibility, security issues",
+        "option_c": "speed, durability, price",
+        "option_d": "brand, design, popularity",
+        "correct_answer": "B"
+    }) )
+
+    question.append(json.dumps(
+        {
+            "question": "What is the difference between data and information",
+            "option_a": "Data is processed unlike information",
+            "option_b": "Information is processed unlike data",
+            "option_c": "Both are processed",
+            "option_d": "Both are unprocessed",
+            "correct_answer": "B"
+        }
+    ))
+    result = quiz([],2)
    
-    """
     if result:
         print(json.dumps(result, indent=4))
     else:
         print(json.dumps({"error": "Failed to generate valid question and answer"}))
-    """
