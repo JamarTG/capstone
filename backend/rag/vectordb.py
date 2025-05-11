@@ -114,7 +114,7 @@ def get_similarity_scores(query, embedding_path, k=1):
     
     # Search index and return scores
     distances, _ = index.search(query_embed, k=k)
-    return [float(score) for score in distances[0]]
+    return [round(float(score), 2) for score in distances[0]]
 
 
 def get_matching_chunks(query, embedding_path, k=1):
@@ -154,11 +154,15 @@ def get_matching_chunks(query, embedding_path, k=1):
     distances, indices = index.search(query_embed, k=k)
     
     results = []
-    for idx in indices[0]:
+    for i, idx in enumerate(indices[0]): # changed this line
         chunk = structured_chunks[idx]
         # Combine description and content
         combined_text = f"Description: {chunk['description']} Content: {chunk['content']}"
-        results.append(combined_text)
+        
+        if distances[0][i] >= 0.60: #context relevancy check
+            results.append(combined_text)
+
+
     
     return results
 
@@ -171,11 +175,13 @@ if __name__ == "__main__":
     #createSyllabusEmbedding(chunks, save_path="section8_syllabus_embed")
     
     # Then you can query the saved embeddings like this:
-    user_query = 'Documentation.'
+    user_query = """
+Which of the following is not a type of network?
+"""
     
     # Query the embeddings - this will automatically print formatted results
-    results = get_matching_chunks(user_query, embedding_path="section8_syllabus_embed", k=1)
-    print(results[0])
+    results = get_matching_chunks(user_query, embedding_path="section2_syllabus_embed", k=1)
+    print(results)
     # If you want to programmatically access the results, they're in the 'results' variable
     # For example:
     """
