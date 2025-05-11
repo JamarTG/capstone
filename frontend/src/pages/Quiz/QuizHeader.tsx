@@ -3,15 +3,17 @@ import Button from "../../components/ui/Button";
 import { useTheme } from "../../context/ThemeContext";
 import QuizProgressBar from "./QuizProgressBar";
 import { IconifyIcons } from "../../icons";
+import { Section_Map } from "../../constants";
 
 interface QuizHeaderProps {
   currentIndex: number;
   totalQuestions: number;
   onSubmitQuiz: () => void;
   isSubmitting: boolean;
+  topic:number;
 }
 
-const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderProps) => {
+const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz, topic}: QuizHeaderProps) => {
   const { isDark } = useTheme();
 
   const progressPercentage = (currentIndex / totalQuestions) * 100;
@@ -22,7 +24,7 @@ const QuizHeader = ({ currentIndex, totalQuestions, onSubmitQuiz }: QuizHeaderPr
         <div className="relative z-10 h-full p-8 max-w-screen-xl mx-auto flex flex-col justify-between">
           <div className={`flex justify-between items-start ${isDark ? "text-gray-100" : "text-slate-800"}`}>
             <div className="space-y-3">
-              <h1 className="text-2xl tracking-tight">Web Development Fundamentals</h1>
+              <h1 className="text-2xl tracking-tight">{Section_Map[topic]?.name}</h1>
               <div className={`flex items-center space-x-6 text-sm font-medium ${isDark ? "text-gray-300" : "text-slate-600"}`}>
                 <span className="flex items-center gap-1">
                   <svg

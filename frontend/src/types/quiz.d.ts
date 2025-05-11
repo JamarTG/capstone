@@ -1,11 +1,3 @@
-// interface Quiz {
-//     topicIndex: number;
-//     score: number;
-//     tags: string[];
-//     lastAttempt: string;
-//     numOfQuestions: number;
-// }
-
 import { Objective } from "../components/quiz/QuizCard";
 
 export interface Quiz {
@@ -20,7 +12,22 @@ export interface Quiz {
   section: number;
 }
 
-export interface QuizSessionResponse {
+interface Session {
+  _id: string;
+  section: number;
+  user: string;
+  currentQuestionIndex: number;
+  score: number;
+  startTime: string;
+  completed: boolean;
+  tags: string[];
+  questions: Question[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface QuizSessionResponse {
   message: string;
   session: Session;
 }
@@ -34,13 +41,15 @@ export interface QuizAnswerPayload {
 }
 
 export interface Question {
+  _id: string;
   question: string;
   option_a: string;
   option_b: string;
   option_c: string;
   option_d: string;
-  explanation: string;
   correct_answer: "A" | "B" | "C" | "D";
+  explanation: string;
+  is_correct: boolean | null;
 }
 export interface Session {
   _id: string;

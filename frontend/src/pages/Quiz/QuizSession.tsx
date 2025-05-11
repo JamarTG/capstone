@@ -6,7 +6,7 @@ import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import { Question, QuizSessionResponse } from "../../types/quiz";
+import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
@@ -63,7 +63,20 @@ const QuizSession = () => {
   if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
-  const renderQuestion = (q: Question) => {
+  const renderQuestion = (q: {
+    _id: string;
+    question: string;
+    option_a: string;
+    option_b: string;
+    option_c: string;
+    option_d: string;
+    correct_answer: "A" | "B" | "C" | "D";
+    explanation: string;
+    is_correct: boolean | null;
+    selectedOption?: string;
+    isCorrect?: boolean;
+    answeredAt?: string;
+  }) => {
     return {
       id: q._id,
       question: q.question,
@@ -74,12 +87,12 @@ const QuizSession = () => {
         D: q.option_d,
       },
       correctAnswer: q.correct_answer,
-      selectedOption: q.selectedOption,
-      isCorrect: q.isCorrect,
-      explanation:q.explanation,
-      answeredAt: q.answeredAt,
+      selectedOption: q.selectedOption || "",
+      isCorrect: q.isCorrect || false,
+      explanation: q.explanation,
+      answeredAt: q.answeredAt || "",
     };
-  }
+  };
 
   const questions: ReturnType<typeof renderQuestion>[] = session.session.questions.map(renderQuestion);
 
@@ -126,11 +139,13 @@ const QuizSession = () => {
       <div className="relative w-full h-full">
         <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
           <div className="w-full max-w-4xl flex flex-col gap-6">
+           
             <QuizHeader
               currentIndex={currentIndex}
               totalQuestions={questions.length}
               onSubmitQuiz={handleSubmitQuiz}
               isSubmitting={isPending}
+              topic={session.session.section}
             />
 
             {currentQuestion && (
