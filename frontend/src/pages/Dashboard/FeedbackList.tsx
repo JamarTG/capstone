@@ -42,8 +42,8 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
   const renderEntries = (feedbackEntry: Feedback) => (
     <div
       key={feedbackEntry._id}
-      className={`border border-gray-700 pl-5 py-3 rounded-md bg-opacity-20 ${
-        isDark ? "bg-gray-800 text-gray-200" : "bg-blue-50 text-slate-700"
+      className={`border border-gray-700 pl-5 p-2  rounded-md bg-opacity-20 ${
+        isDark ? "bg-gray-800 text-gray-200" : "border-slate-300 text-slate-700"
       }`}
     >
       <p className="text-sm leading-relaxed">{feedbackEntry.feedback}</p>
@@ -59,7 +59,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
     return (
       <div
         key={section}
-        className={`border rounded-lg transition-all duration-200 hover:shadow-md ${
+        className={`border rounded-lg transition-all duration-200 ${
           isDark ? "border-gray-700 bg-gray-800 hover:border-gray-600" : "border-gray-200 bg-white hover:border-gray-300"
         }`}
       >
@@ -96,7 +96,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
     return (
       <div className="w-full">
         <div
-          className={`border rounded-lg shadow-md transition-all duration-300 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
+          className={`border rounded-lg transition-all duration-300 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
         >
           <div className="sticky top-0 px-5 py-4 flex items-center justify-between ${isDark ? 'border-gray-700' : 'border-gray-200'}">
             <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
             </button>
           </div>
 
-          <div className="p-5 max-h-96 overflow-y-auto">
+          <div className="p-5 flex flex-col gap-2 overflow-y-auto">
             {entries.length > 0 ? (
               <RenderList
                 data={entries}
