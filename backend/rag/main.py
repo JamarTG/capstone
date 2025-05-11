@@ -11,6 +11,18 @@ from ragas.metrics import faithfulness
 from ragas import evaluate
 from datasets import Dataset
 load_dotenv()
+import sys
+
+SECTION_MAP = {
+    "1": sectionOneSyllabus,
+    "2": sectionTwoSyllabus,
+    "3": sectionThreeSyllabus,
+    "4": sectionFourSyllabus,
+    "5": sectionFiveSyllabus,
+    "6": sectionSixSyllabus,
+    "7": sectionSevenSyllabus,
+    "8": sectionEightSyllabus,
+}
 
 llm = ChatOpenAI(temperature=0.8, model="gpt-4")
 
@@ -53,7 +65,7 @@ def generate_question_and_answer(contents: list[str]):
     parser = JsonOutputParser(pydantic_object=list[QuestionAnswerFormat])
     
     formatted_contents = "\n".join([f"Content {i+1}:\n{c}" for i, c in enumerate(contents)])
-    print("Formatted Content:", formatted_contents)
+    
     prompt = ChatPromptTemplate.from_template(
         """
         You will be given multiple sections of content, each labeled as "Content 1", "Content 2", etc.
@@ -71,6 +83,7 @@ def generate_question_and_answer(contents: list[str]):
             "option_b": "Option B text",
             "option_c": "Option C text",
             "option_d": "Option D text",
+            "explanation" : "The explanation for the correct answer",
             "correct_answer": "A"
         }}
         ```
@@ -82,11 +95,13 @@ def generate_question_and_answer(contents: list[str]):
     chain = prompt | llm | parser
 
     try:
-        return chain.invoke({"formatted_contents": formatted_contents})
+        result = chain.invoke({"formatted_contents": formatted_contents})
+        
+        return result
     except (ValidationError, json.JSONDecodeError) as e:
         print(f"First parsing attempt failed: {e}")
         try:
-            # Raw LLM output in case of parse failure
+            
             raw_output = (prompt | llm).invoke({"formatted_contents": formatted_contents}).content
             print("Raw LLM output:", raw_output)
 
@@ -113,10 +128,12 @@ def generate_feedback(question: list[str]):
         Respond with a list of JSON objects (one per question) inside a code block using ```json delimiters.
 
         Generate output with EXACTLY these field names, see the json format below:
+            - "Section" (integer)
             - "Feedback" (string)
         json
         {{
-            "Feedback: "The feedback on what to improve on",
+            "Section": 1 (this is a constant),
+            "Feedback: "The feedback on what to improve on"
         }}
         
     Syllabus:
@@ -144,13 +161,11 @@ def generate_feedback(question: list[str]):
             return None
 
 
-def getSyllabus(lst:list[str], section_number):
-    # Validate the section number first
+def getSyllabus(lst: list[dict], section_number):
     if not 1 <= section_number <= 8:
         return "Section numbers are between 1-8"
 
     if len(lst) == 0:
-        # Map section numbers to their respective syllabus functions
         syllabus_functions = {
             1: sectionOneSyllabus,
             2: sectionTwoSyllabus,
@@ -162,15 +177,18 @@ def getSyllabus(lst:list[str], section_number):
             8: sectionEightSyllabus,
         }
         content = syllabus_functions[section_number]()
-    else:
-        content = []
-        # Dynamically construct the embedding path
-        embedding_path = f'section{section_number}_syllabus_embed'
-        for c in lst:
-            chunk = get_matching_chunks(c, embedding_path, k=1)
-            if len(chunk)!=0:
-                content.append(chunk[0])
-            
+        return content  
+
+    content = []
+    embedding_path = f'section{section_number}_syllabus_embed'
+    for c in lst:
+        query = c.get("feedbackText", "")
+        if not query:
+            continue
+        chunk = get_matching_chunks(query, embedding_path, k=1)
+        if chunk:
+            content.append(chunk[0])
+
     return content
 
 def is_question_logically_consistent(question: str, syllabus_content: str) -> bool:
@@ -216,9 +234,6 @@ def quiz(feedback: list[str], section_number):
             # Check both similarity and logical consistency
             similarity_score = get_similarity_scores(question_text, embedding_path)[0]
             is_consistent = is_question_logically_consistent(question_text, syllabus_chunk)
-            
-            print(f"Similarity: {similarity_score:.2f}, Consistent: {is_consistent}")
-            
             if similarity_score >= 0.60 and is_consistent:
                 validated_quiz.append(qz)
                 break
@@ -289,29 +304,45 @@ def feedback(question: list[str], section_number):
     return validated_feedback
 
 if __name__ == "__main__":
-    question=[]
-    question.append(json.dumps({
-        "question": "What are some assessment criteria for cloud and local storage?",
-        "option_a": "color, size, weight",
-        "option_b": "capacity, accessibility, security issues",
-        "option_c": "speed, durability, price",
-        "option_d": "brand, design, popularity",
-        "correct_answer": "B"
-    }) )
+    import traceback
+    import json
+    import sys
 
-    question.append(json.dumps(
-        {
-            "question": "What is the difference between data and information",
-            "option_a": "Data is processed unlike information",
-            "option_b": "Information is processed unlike data",
-            "option_c": "Both are processed",
-            "option_d": "Both are unprocessed",
-            "correct_answer": "B"
-        }
-    ))
-    result = quiz([],2)
-   
+    section_arg = sys.argv[1] if len(sys.argv) > 1 else "1"
+    action_flag = sys.argv[2] if len(sys.argv) > 2 else ""
+
+    try:
+        raw_input = sys.stdin.read()
+        input_data = json.loads(raw_input)
+        feedback_data = input_data.get("feedback", [])
+    except Exception as e:
+        print(json.dumps({
+            "error": f"Failed to read or parse stdin: {str(e)}",
+            "trace": traceback.format_exc()
+        }, indent=4))
+        sys.exit(1)
+
+    try:
+        if action_flag == "feedback" and feedback_data:
+            feedback_texts = [fb.get('Feedback', fb.get('feedbackText', '')) for fb in feedback_data]
+            raw_output = generate_feedback(feedback_texts)
+            cleaned = clean_json_response(str(raw_output))
+            result = json.loads(str(cleaned))
+        else:
+            section_func = SECTION_MAP.get(section_arg)
+            if not section_func:
+                print(json.dumps({"error": f"Invalid section: {section_arg}"}, indent=4))
+                sys.exit(1)
+            result = quiz(feedback_data, int(section_arg))
+    except Exception as e:
+        print(json.dumps({
+            "error": f"Unhandled exception during processing: {str(e)}",
+            "trace": traceback.format_exc()
+        }, indent=4))
+        sys.exit(1)
+
     if result:
         print(json.dumps(result, indent=4))
     else:
-        print(json.dumps({"error": "Failed to generate valid question and answer"}))
+        print(json.dumps({"error": "Failed to generate valid result"}, indent=4))
+        sys.exit(1)
