@@ -3,36 +3,16 @@ import { IconifyIcons } from "../../icons";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
+import { getMessage } from "../../utils/quiz";
 
 const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomplete" }) => {
   const navigate = useNavigate();
   const { isDark} = useTheme();
 
-
-  const getMessage = () => {
-    switch (filter) {
-      case "completed":
-        return {
-          title: "No completed quizzes",
-          description: "You haven't completed any quizzes yet.",
-        };
-      case "incomplete":
-        return {
-          title: "No quizzes in progress",
-          description: "You don't have any ongoing quizzes.",
-        };
-      default:
-        return {
-          title: "No quiz history yet",
-          description: "Your completed quizzes will appear here. Take your first quiz to get started!",
-        };
-    }
-  };
-
   const goToQuizzes = () => {
     navigate("/quiz");
   }
-  const { title, description } = getMessage();
+  const { title, description } = getMessage(filter);
 
   return (
     <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
