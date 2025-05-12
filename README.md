@@ -13,6 +13,9 @@ This system is an intelligent, interactive quiz platform designed to support per
 - Vector Store: FAISS  
 - Embeddings: BAAI/bge-base-en-v1.5
 
+![image](https://github.com/user-attachments/assets/1aa9f0db-63b7-4142-883f-a818d64fda7f)
+
+
 ## Learning Approach  
 
 ### Diagnostic-Driven Instruction  
