@@ -3,5 +3,13 @@ type MainNavName = "home" | "quiz" | "archive" | "feedback" | "profile" | "setti
 
 export interface MainNavItem {
   path: MainNavPath;
-  name : MainNavName
+  name: MainNavName;
+}
+
+export interface RouteConfig {
+  path: string;
+  element?: JSX.Element;
+  layout?: React.FC<{ children: ReactNode }>;
+  text: string;
+  icon?: string;
 }
