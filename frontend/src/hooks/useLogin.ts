@@ -14,7 +14,7 @@ import { SuccessfulAuthResponse } from "../types/auth";
 import { JwtPayload } from "jwt-decode";
 import { User } from "../types/context";
 import { LoginFormFields } from "../types/form";
-import { AUTH_TOKEN_CONFIG } from "../utils/auth";
+import { AUTH_TOKEN_CONFIG } from "../constants";
 
 export function useLogin() {
   const { formData, errors, handleChange, validate } = useFormValidation<LoginFormFields>(

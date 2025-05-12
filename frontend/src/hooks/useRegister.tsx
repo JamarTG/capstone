@@ -1,6 +1,6 @@
 import { useFormValidation } from "./useFormValidation";
 import { registerSchema } from "../schemas/registerSchema";
-import { FORM_CONSTANTS } from "../constants";
+import {  FORM_CONSTANTS } from "../constants";
 import { RegisterFormFields } from "../types/form";
 import { useMutation } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import { AUTH_TOKEN_CONFIG } from "../utils/auth";
+import { AUTH_TOKEN_CONFIG } from "../constants";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { User } from "../types/context";

@@ -3,13 +3,13 @@ import { AuthAPI } from "../utils/api";
 import { SuccessfulAuthResponse } from "../types/auth";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { extractErrorMessage } from "../utils/error";
+import { extractErrorMessage } from "../utils/extractErrorMessage";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { User } from "../types/context";
-import { AUTH_TOKEN_CONFIG } from "../utils/auth";
+import { AUTH_TOKEN_CONFIG } from "../constants";
 import { useNavigate } from "react-router-dom";
 
 export const useAuthMutation = () => {
