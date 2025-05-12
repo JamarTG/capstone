@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { QuizAPI } from "../../utils/api";
 import PageLayout from "../../components/layout/Page";
 import LoadingPage from "../../components/common/Loader";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import QuestionSidebar from "../Quiz/QuestionSidebar";
 import ReviewNavigation from "./ReviewNavigation";
 import QuestionFeedback from "./QuestionFeedback";

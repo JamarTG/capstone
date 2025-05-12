@@ -1,5 +1,3 @@
-import { Objective } from "../components/quiz/QuizCard";
-
 export interface Quiz {
   _id: string;
   user: string;

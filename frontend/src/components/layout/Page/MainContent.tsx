@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { useTheme } from "../../../context/ThemeContext";
+import { useTheme } from "../../../hooks/useTheme";
 
 interface MainContentProps {
   children: ReactNode;

@@ -1,22 +1,14 @@
-import { createContext, SetStateAction, ReactNode, useState, useEffect } from "react";
-import { User } from "../types/context";
+import { ReactNode, useState, useEffect } from "react";
+import { AuthContext } from "./AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
 import Cookies from "js-cookie";
 import { AUTH_TOKEN_CONFIG } from "../utils/auth";
-
-interface AuthContextType {
-  user: User | null;
-  setUser: React.Dispatch<SetStateAction<User | null>>;
-  isAuthenticated: boolean;
-  logout : () => void;
-}
+import { User } from "../types/context";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(() => {
@@ -24,15 +16,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  
   const handleLogout = () => {
-    const { path } = AUTH_TOKEN_CONFIG;
-    Cookies.remove("token", { path });
+    Cookies.remove("token", { path: AUTH_TOKEN_CONFIG.path });
     localStorage.removeItem("user");
-    setUser(null); 
-  }
+    setUser(null);
+  };
 
-  const isAuthenticated = !!user; 
+  const isAuthenticated = !!user;
 
   const { data, isSuccess } = useQuery({
     queryKey: ["check-auth"],
@@ -45,10 +35,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(data.user);
       localStorage.setItem("user", JSON.stringify(data.user));
     }
-  }, [isSuccess, data, setUser]);
+  }, [isSuccess, data]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout:handleLogout }}>
+    <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout: handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import { Icon } from "@iconify/react";
 import { Section_Map } from "../../constants";
 import RenderList from "../../components/common/RenderList";
@@ -18,7 +18,7 @@ interface FeedbackListProps {
 const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
   const { isDark } = useTheme();
 
-  const [page,setPage] = useState(0)
+  const [page, setPage] = useState(0);
   const reducer = (acc: Record<string, Feedback[]>, entry: Feedback) => {
     const sectionKey = `${entry.section}`;
     if (!acc[sectionKey]) {
@@ -74,7 +74,12 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
               color={isDark ? "#e5e7eb" : "#475569"}
             />
           </div>
-          <span title={sectionName} className={`text-sm truncate ${isDark ? "text-gray-400" : "text-slate-500"}`}>{sectionName}</span>
+          <span
+            title={sectionName}
+            className={`text-sm truncate ${isDark ? "text-gray-400" : "text-slate-500"}`}
+          >
+            {sectionName}
+          </span>
           <div
             className={`mt-2 text-xs ${
               feedbackCount > 0 ? (isDark ? "text-blue-300" : "text-blue-600") : isDark ? "text-gray-500" : "text-gray-400"
@@ -94,64 +99,67 @@ const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
     const sectionName = Section_Map[parseInt(openSection)].name;
 
     return (
-   
-        <div
-          className={`border rounded-lg transition-all duration-300 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
-        >
-          <div className="sticky top-0 px-5 py-4 flex items-center justify-between ${isDark ? 'border-gray-700' : 'border-gray-200'}">
-            <div className="flex items-center gap-2">
-              <h3 className={`font-bold text-lg ${isDark ? "text-gray-100" : "text-slate-700"}`}>{`Section ${openSection}`}</h3>
-              <p className={`text-lg ${isDark ? "text-gray-400" : "text-slate-500"}`}>{sectionName}</p>
-            </div>
-            <button
-              onClick={closeSection}
-              className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${isDark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-slate-500"}`}
-              aria-label="Close section"
-            >
-              <Icon
-                icon={IconifyIcons.close}
-                color="currentColor"
-              />
-            </button>
+      <div
+        className={`border rounded-lg transition-all duration-300 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
+      >
+        <div className="sticky top-0 px-5 py-4 flex items-center justify-between ${isDark ? 'border-gray-700' : 'border-gray-200'}">
+          <div className="flex items-center gap-2">
+            <h3 className={`font-bold text-lg ${isDark ? "text-gray-100" : "text-slate-700"}`}>{`Section ${openSection}`}</h3>
+            <p className={`text-lg ${isDark ? "text-gray-400" : "text-slate-500"}`}>{sectionName}</p>
           </div>
-
-            <div className="p-2 flex flex-col gap-2 overflow-y-auto">
-              {entries.length > 0 ? (
-              <>
-              <RenderList
-              data={entries.slice(page * 5, (page + 1) * 5)}
-              renderFn={renderEntries}
-              />
-              <div className="flex justify-between mt-2">
-              <button
-                onClick={() => setPage(Math.max(page - 1, 0))}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
-                } ${page === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
-                disabled={page === 0}
-              >
-                <Icon icon={IconifyIcons.chevronDoubleLeft} className="text-2xl"/>
-              </button>
-              <button
-                onClick={() => setPage(page + 1)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
-                } ${(page + 1) * 5 >= entries.length ? "opacity-50 cursor-not-allowed" : ""}`}
-                disabled={(page + 1) * 5 >= entries.length}
-              >
-                <Icon icon={IconifyIcons.chevronDoubleRight} className="text-2xl"/>
-              </button>
-              </div>
-              </>
-              ) : (
-              <div className="flex items-center justify-center">
-              <p className={`text-sm italic ${isDark ? "text-gray-500" : "text-gray-400"}`}>No feedback for this section.</p>
-              </div>
-              )}
-            </div>
-            
+          <button
+            onClick={closeSection}
+            className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${isDark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-slate-500"}`}
+            aria-label="Close section"
+          >
+            <Icon
+              icon={IconifyIcons.close}
+              color="currentColor"
+            />
+          </button>
         </div>
 
+        <div className="p-2 flex flex-col gap-2 overflow-y-auto">
+          {entries.length > 0 ? (
+            <>
+              <RenderList
+                data={entries.slice(page * 5, (page + 1) * 5)}
+                renderFn={renderEntries}
+              />
+              <div className="flex justify-between mt-2">
+                <button
+                  onClick={() => setPage(Math.max(page - 1, 0))}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
+                  } ${page === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                  disabled={page === 0}
+                >
+                  <Icon
+                    icon={IconifyIcons.chevronDoubleLeft}
+                    className="text-2xl"
+                  />
+                </button>
+                <button
+                  onClick={() => setPage(page + 1)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
+                  } ${(page + 1) * 5 >= entries.length ? "opacity-50 cursor-not-allowed" : ""}`}
+                  disabled={(page + 1) * 5 >= entries.length}
+                >
+                  <Icon
+                    icon={IconifyIcons.chevronDoubleRight}
+                    className="text-2xl"
+                  />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex items-center justify-center">
+              <p className={`text-sm italic ${isDark ? "text-gray-500" : "text-gray-400"}`}>No feedback for this section.</p>
+            </div>
+          )}
+        </div>
+      </div>
     );
   }
 

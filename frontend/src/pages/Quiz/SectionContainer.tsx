@@ -1,11 +1,11 @@
 import { UseMutateFunction } from "@tanstack/react-query";
 import { Section_Map } from "../../constants";
-import { CreateQuizPayload, SuccessfulQuizResponse } from "../../types/auth";
+import { CreateQuizPayload } from "../../types/auth";
 import { AxiosError } from "axios";
 import QuizSection from "./QuizSection";
 
 interface QuizSectionContainerProps {
-  createQuizMutate: UseMutateFunction<SuccessfulQuizResponse, AxiosError<unknown, any>, CreateQuizPayload, unknown>;
+  createQuizMutate: UseMutateFunction<void, AxiosError, CreateQuizPayload, unknown>
   loadingSection: string | null;
   setLoadingSection: React.Dispatch<React.SetStateAction<string | null>>;
 }

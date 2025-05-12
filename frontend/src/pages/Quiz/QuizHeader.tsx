@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import Button from "../../components/ui/Button";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import QuizProgressBar from "./QuizProgressBar";
 import { IconifyIcons } from "../../icons";
 import { Section_Map } from "../../constants";
@@ -10,10 +10,10 @@ interface QuizHeaderProps {
   totalQuestions: number;
   onSubmitQuiz: () => void;
   isSubmitting: boolean;
-  topic:number;
+  topic: number;
 }
 
-const QuizHeader = ({ currentProgress, totalQuestions, onSubmitQuiz, topic}: QuizHeaderProps) => {
+const QuizHeader = ({ currentProgress, totalQuestions, onSubmitQuiz, topic }: QuizHeaderProps) => {
   const { isDark } = useTheme();
 
   const progressPercentage = (currentProgress / totalQuestions) * 100;

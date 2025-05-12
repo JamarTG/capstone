@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { AxiosError } from "axios";
 import { extractErrorMessage } from "../../utils/error";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 
 export default function Settings() {
@@ -44,7 +44,7 @@ export default function Settings() {
 
   useEffect(() => {
     if (data) {
-      setUser(data.data);
+      setUser(data.user);
     }
   }, [data]);
 

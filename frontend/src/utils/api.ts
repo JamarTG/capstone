@@ -15,6 +15,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// eslint-disable-next-line
 const handleRequest = async (request: Promise<any>) => {
   try {
     const { data } = await request;

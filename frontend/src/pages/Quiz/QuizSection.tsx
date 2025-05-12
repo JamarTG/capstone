@@ -1,5 +1,5 @@
 import Card from "../../components/ui/Card";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 interface QuizSectionProps {
   section: {
@@ -11,7 +11,7 @@ interface QuizSectionProps {
 }
 
 const QuizSection = ({ section, onClick, isLoading }: QuizSectionProps) => {
-   const { isDark } = useTheme();
+  const { isDark } = useTheme();
 
   return (
     <Card

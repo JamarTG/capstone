@@ -18,8 +18,8 @@ export function useFormValidation<T extends RegisterFormFields | LoginFormFields
   const validate = (data: T): ValidationResult => {
     try {
       schema.parse(data);
-      setErrors({} as any);
-      return { isValid: true, errors: {} as any };
+      setErrors({} as RegisterFormErrors | LoginFormErrors );
+      return { isValid: true, errors: {} as RegisterFormErrors | LoginFormErrors };
     } catch (err) {
       const fieldErrors: Record<string, string> = {};
       if (err instanceof z.ZodError) {

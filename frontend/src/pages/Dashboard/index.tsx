@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PageLayout from "../../components/layout/Page";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI, UserAPI } from "../../utils/api";
 import useAuthRedirect from "../../hooks/useAuthRedirect";

@@ -1,4 +1,4 @@
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 const QuizProgressBar = ({
   currentProgress,
@@ -17,9 +17,7 @@ const QuizProgressBar = ({
         <span className="text-md">
           Question {currentProgress} of {totalQuestions}
         </span>
-        <span className="text-md">
-          {Math.round(progressPercentage)}% Complete
-        </span>
+        <span className="text-md">{Math.round(progressPercentage)}% Complete</span>
       </div>
       <div className={`h-2 ${isDark ? "bg-gray-700" : "bg-slate-600/30"} rounded-full`}>
         <div
