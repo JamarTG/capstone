@@ -11,7 +11,7 @@ import QuestionFeedback from "./QuestionFeedback";
 import Score from "./Score";
 import Explanation from "./Explanation";
 import QuestionIndex from "./QuestionIndex";
-import { getScorePercentage } from "../../utils/general";
+import { getScorePercentage } from "../../utils/score";
 
 const QuizReview = () => {
   const { id } = useParams<{ id: string }>();

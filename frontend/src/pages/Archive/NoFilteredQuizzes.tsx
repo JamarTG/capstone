@@ -3,7 +3,7 @@ import { IconifyIcons } from "../../icons";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
-import { getMessage } from "../../utils/quiz";
+import { getFilterMessage } from "../../utils/getFilterMessage";
 
 const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomplete" }) => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomple
   const goToQuizzes = () => {
     navigate("/quiz");
   }
-  const { title, description } = getMessage(filter);
+  const { title, description } = getFilterMessage(filter);
 
   return (
     <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">

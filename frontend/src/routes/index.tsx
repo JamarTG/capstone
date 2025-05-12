@@ -1,28 +1,20 @@
-import { JSX, ReactNode } from "react";
-import StudyPlan from "../pages/Dashboard";
-import Login from "../components/auth/login";
-import Register from "../components/auth/register";
+import SidebarLayout from "../components/layout/Sidebar";
+import { RouteConfig } from "../types/routes";
+import Dashboard from "../pages/Dashboard";
+import { IconifyIcons } from "../icons";
 import Archive from "../pages/Archive";
 import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
-import Settings from "../pages/Settings";
-import SidebarLayout from "../components/layout/Sidebar";
-import Assessment from "../pages/Quiz/QuizSession";
+import Login from "../components/auth/login";
+import Register from "../components/auth/register";
+import QuizSelection from "../pages/Quiz";
 import QuizReview from "../pages/Review";
-import { IconifyIcons } from "../icons";
+import Settings from "../pages/Settings";
 
-export interface RouteConfig {
-  path: string;
-  element?: JSX.Element;
-  layout?: React.FC<{ children: ReactNode }>;
-  text: string;
-  icon?: string;
-}
-
-const mainRoutes: Record<string, RouteConfig> = {
+export const mainRoutes: Record<string, RouteConfig> = {
   HOME: {
     path: "/",
-    element: <StudyPlan />,
+    element: <Dashboard/>,
     layout: SidebarLayout,
     text: "Dashboard",
     icon: IconifyIcons.viewDashboard,
@@ -43,7 +35,7 @@ const mainRoutes: Record<string, RouteConfig> = {
   },
 };
 
-const otherRoutes: Record<string, RouteConfig> = {
+export const otherRoutes: Record<string, RouteConfig> = {
   LOGIN: {
     path: "/login",
     element: <Login />,
@@ -56,7 +48,7 @@ const otherRoutes: Record<string, RouteConfig> = {
   },
   ASSESSMENT: {
     path: "/quiz/:id",
-    element: <Assessment />,
+    element: <QuizSelection />,
     layout: SidebarLayout,
     text: "Assessment",
   },
@@ -87,7 +79,6 @@ const otherRoutes: Record<string, RouteConfig> = {
   },
 };
 
-const routes = { ...mainRoutes, ...otherRoutes };
 
-export { mainRoutes, otherRoutes };
+const routes = {...mainRoutes,...otherRoutes};
 export default routes;

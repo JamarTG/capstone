@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
 import Cookies from "js-cookie";
-import { AUTH_TOKEN_CONFIG } from "../utils/auth";
+import { AUTH_TOKEN_CONFIG } from "../constants";
 import { User } from "../types/context";
 
 interface AuthProviderProps {

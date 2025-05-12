@@ -9,7 +9,7 @@ import { QuizAPI } from "../../utils/api";
 import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { extractErrorMessage } from "../../utils/error";
+import { extractErrorMessage } from "../../utils/extractErrorMessage";
 import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";
 
@@ -125,7 +125,6 @@ const QuizSession = () => {
       setSelectedAnswer(null);
     } else {
       autoSubmitMutation(session.session._id);
- 
     }
   };
 
@@ -139,9 +138,8 @@ const QuizSession = () => {
       <div className="relative w-full h-full">
         <div className="flex items-start justify-center h-[calc(100vh-4rem)] w-full overflow-hidden px-2">
           <div className="w-full max-w-4xl flex flex-col gap-6">
-           
             <QuizHeader
-              currentProgress={currentIndex + ((selectedAnswer !== null) ? 1 : 0)}
+              currentProgress={currentIndex + (selectedAnswer !== null ? 1 : 0)}
               totalQuestions={questions.length}
               onSubmitQuiz={handleSubmitQuiz}
               isSubmitting={isPending}

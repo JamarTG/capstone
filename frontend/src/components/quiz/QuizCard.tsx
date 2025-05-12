@@ -5,9 +5,9 @@ import { useTheme } from "../../hooks/useTheme";
 import Card from "../ui/Card";
 import QuizCardHeader from "./QuizCardHeader";
 import QuizCardBody from "./QuizCardBody";
-import { extractErrorMessage } from "../../utils/error";
+import { extractErrorMessage } from "../../utils/extractErrorMessage";
 import toast from "react-hot-toast";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../../utils/formatDate";
 import { AxiosError } from "axios";
 
 interface QuizCardProps {
@@ -69,7 +69,7 @@ const QuizCard: React.FC<QuizCardProps> = ({
       <QuizCardBody
         section={section}
         formattedDate={formattedDate}
-        score = {score}
+        score={score}
         completed={completed}
         numberOfQuestions={currentQuestionIndex}
         quizId={quizId}
@@ -80,4 +80,3 @@ const QuizCard: React.FC<QuizCardProps> = ({
 };
 
 export default QuizCard;
-

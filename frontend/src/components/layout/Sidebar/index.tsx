@@ -1,14 +1,15 @@
 import { ReactNode, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import routes, { mainRoutes, otherRoutes, RouteConfig } from "../../../data/routes";
 import { AuthContext } from "../../../context/AuthContext";
 import { useTheme } from "../../../hooks/useTheme";
-import { Icon } from "@iconify/react"; 
+import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../../icons";
-import logo from "/logo.png";
-import { capitalize } from "../../../utils/text";
+import { capitalize } from "../../../utils/capitalize";
 import { useSidebarState } from "../../../hooks/useSidebarExpanded";
 import RenderList from "../../common/RenderList";
+import { RouteConfig } from "../../../types/routes";
+import { mainRoutes, otherRoutes} from "../../../routes";
+import routes from "../../../routes";
 
 interface HomeLayoutProps {
   children?: ReactNode;
@@ -38,7 +39,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
           onClick={goToHome}
         >
           <img
-            src={logo}
+            src={"/logo.png"}
             width={60}
             alt="Logo"
           />
@@ -68,7 +69,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                     >
                       <span className="inline-flex justify-center items-center">
                         <Icon
-                          icon={icon!} 
+                          icon={icon!}
                           width={24}
                           height={24}
                         />
@@ -95,7 +96,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                 <span className="inline-flex justify-center items-center">
                   {otherRoutes.SETTINGS?.icon && (
                     <Icon
-                      icon={otherRoutes.SETTINGS.icon!} 
+                      icon={otherRoutes.SETTINGS.icon!}
                       width={24}
                       height={24}
                     />
@@ -117,7 +118,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               >
                 <span className="inline-flex justify-center items-center">
                   <Icon
-                    icon={routes.LOGOUT.icon!} 
+                    icon={routes.LOGOUT.icon!}
                     width={24}
                     height={24}
                   />
@@ -135,7 +136,7 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
               }`}
             >
               <Icon
-                icon={isExpanded ? IconifyIcons.chevronDoubleLeft : IconifyIcons.chevronDoubleRight} 
+                icon={isExpanded ? IconifyIcons.chevronDoubleLeft : IconifyIcons.chevronDoubleRight}
                 width={24}
                 height={24}
               />
@@ -144,7 +145,9 @@ const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      <main className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>{children}</main>
+      <main className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>
+        {children}
+      </main>
     </div>
   );
 };

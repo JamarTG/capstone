@@ -1,5 +1,5 @@
 import React from "react";
-import { getScoreMessage } from "../../utils/general";
+import { getScoreMessage } from "../../utils/score";
 
 export interface ScoreDisplayProps {
   scorePercentage: number;
@@ -7,8 +7,7 @@ export interface ScoreDisplayProps {
   totalQuestions: number;
 }
 
-const ScoreDisplay: React.FC<ScoreDisplayProps> = ({  scorePercentage, totalQuestions, totalScore }) => {
-  
+const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ scorePercentage, totalQuestions, totalScore }) => {
   return (
     <React.Fragment>
       <div className="font-bold text-lg">{getScoreMessage(scorePercentage)}</div>

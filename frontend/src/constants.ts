@@ -8,6 +8,7 @@ import sectionSeven from "./assets/images/quiz/7.webp";
 import sectionEight from "./assets/images/quiz/8.webp";
 import { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "./types/form";
 
+export const BASE_URL = "http://localhost:5000/api";
 
 export const FORM_CONSTANTS = {
   LOGIN: {
@@ -40,3 +41,8 @@ export const Section_Map: Record<number, { bgSrc: string; name: string }> = {
   8: { bgSrc: sectionEight, name: "Program Implementation" },
 };
 
+export const AUTH_TOKEN_CONFIG = {
+  expires: 7 * 24 * 60 * 60,
+  path: "/",
+  secure: process.env.NODE_ENV === "production",
+};

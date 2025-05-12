@@ -9,7 +9,7 @@ import { UserSettings } from "../../types/settings";
 import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { AxiosError } from "axios";
-import { extractErrorMessage } from "../../utils/error";
+import { extractErrorMessage } from "../../utils/extractErrorMessage";
 import { useTheme } from "../../hooks/useTheme";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 
