@@ -2,7 +2,7 @@ import {Icon} from "@iconify/react";
 import { IconifyIcons } from "../../icons";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 const NoFilteredQuizzes = ({ filter }: { filter: "all" | "completed" | "incomplete" }) => {
   const navigate = useNavigate();

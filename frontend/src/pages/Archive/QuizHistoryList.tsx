@@ -5,7 +5,7 @@ import { Quiz } from "../../types/quiz";
 import QuizCard from "../../components/quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import Loader from "../../components/common/Loader";
 import React from "react";
 import { ScoreFilter } from "./ScoreFilter";

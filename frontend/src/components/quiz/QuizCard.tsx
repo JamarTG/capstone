@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import Card from "../ui/Card";
 import QuizCardHeader from "./QuizCardHeader";
 import QuizCardBody from "./QuizCardBody";

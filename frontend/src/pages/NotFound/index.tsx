@@ -1,5 +1,4 @@
-
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import { Link } from "react-router-dom";
 import routes from "../../data/routes";
 

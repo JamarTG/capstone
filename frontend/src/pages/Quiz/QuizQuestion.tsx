@@ -1,5 +1,5 @@
 import RenderList from "../../components/common/RenderList";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {

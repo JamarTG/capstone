@@ -62,7 +62,7 @@ const otherRoutes: Record<string, RouteConfig> = {
   },
   SETTINGS: {
     path: "/settings",
-    element: <Settings />,
+    element: <Settings  />,
     layout: SidebarLayout,
     text: "Settings",
     icon: IconifyIcons.cog,

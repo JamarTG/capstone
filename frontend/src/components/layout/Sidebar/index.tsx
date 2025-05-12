@@ -2,7 +2,7 @@ import { ReactNode, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import routes, { mainRoutes, otherRoutes, RouteConfig } from "../../../data/routes";
 import { AuthContext } from "../../../context/AuthContext";
-import { useTheme } from "../../../context/ThemeContext";
+import { useTheme } from "../../../hooks/useTheme";
 import { Icon } from "@iconify/react"; 
 import { IconifyIcons } from "../../../icons";
 import logo from "/logo.png";

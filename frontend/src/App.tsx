@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./data/routes";
-import AuthProvider from "./context/AuthContext";
+import AuthProvider from "./context/AuthProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
 import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   const queryClient = new QueryClient();

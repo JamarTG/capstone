@@ -44,7 +44,7 @@ export default function Settings() {
 
   useEffect(() => {
     if (data) {
-      setUser(data.user);
+      setUser(data.data);
     }
   }, [data]);
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { personalInfoSchema } from "../../schemas/personalInfoSchema";
 import Button from "../../components/ui/Button";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 interface ChangePersonalInfoProps {
   user: {
