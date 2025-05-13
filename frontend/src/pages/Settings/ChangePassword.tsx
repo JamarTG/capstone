@@ -1,38 +1,32 @@
 import React, { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
-import { passwordSchema } from "../../schemas/passwordSchema";
-
+import { passwordSchema } from "../../schemas/password";
+import { voidFn, voidHandleChangeFn } from "../../types/functions";
+import { PasswordUpdateFieldErrors, PasswordUpdatePayload } from "./types";
 
 interface ChangePasswordProps {
-  user: {
-    password: string;
-    currentPassword: string;
-  };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  savePassword: () => void;
+  passwordUpdatePayload: PasswordUpdatePayload;
+  handleChange: voidHandleChangeFn;
+  savePassword: voidFn;
 }
 
-const ChangePassword: React.FC<ChangePasswordProps> = ({
-  user,
-  handleChange,
-  savePassword,
-}) => {
-  const [errors, setErrors] = useState<{ currentPassword?: string; password?: string }>({});
-   const { isDark } = useTheme();
+const ChangePassword: React.FC<ChangePasswordProps> = ({ passwordUpdatePayload, handleChange, savePassword }) => {
+  const [errors, setErrors] = useState<PasswordUpdateFieldErrors>({} as PasswordUpdateFieldErrors);
+  const { isDark } = useTheme();
 
   const validateAndSave = () => {
-    const result = passwordSchema.safeParse(user);
+    const result = passwordSchema.safeParse(passwordUpdatePayload);
 
     if (!result.success) {
-      const fieldErrors: { currentPassword?: string; password?: string } = {};
+      const fieldErrors: PasswordUpdateFieldErrors = {};
       result.error.errors.forEach((error) => {
-        const field = error.path[0] as keyof typeof fieldErrors;
+        const field = error.path[0] as keyof PasswordUpdateFieldErrors;
         fieldErrors[field] = error.message;
       });
       setErrors(fieldErrors);
     } else {
-      setErrors({});
+      setErrors({} as PasswordUpdateFieldErrors);
       savePassword();
     }
   };
@@ -47,15 +41,13 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
             type="password"
             name="currentPassword"
             placeholder="Enter current password"
-            value={user.currentPassword}
+            value={passwordUpdatePayload.currentPassword}
             onChange={handleChange}
             className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
               errors.currentPassword ? "border-red-500" : isDark ? "border-gray-700 text-white" : "border-slate-200 text-slate-700"
             } border`}
           />
-          {errors.currentPassword && (
-            <p className="text-red-500 text-sm mt-1">{errors.currentPassword}</p>
-          )}
+          {errors.currentPassword && <p className="text-red-500 text-sm mt-1">{errors.currentPassword}</p>}
         </div>
         <div className="mt-4">
           <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>New Password</label>
@@ -63,15 +55,13 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
             type="password"
             name="password"
             placeholder="Enter new password"
-            value={user.password}
+            value={passwordUpdatePayload.password}
             onChange={handleChange}
             className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
               errors.password ? "border-red-500" : isDark ? "border-gray-700 text-white" : "border-slate-200 text-slate-700"
             } border`}
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-          )}
+          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
         </div>
 
         <Button

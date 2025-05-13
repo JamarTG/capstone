@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
 import { useFormValidation } from "./useFormValidation";
-import { loginSchema } from "../schemas/loginSchema";
+import { loginSchema } from "../schemas/login";
 import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "../utils/api";
 import { AxiosError } from "axios";

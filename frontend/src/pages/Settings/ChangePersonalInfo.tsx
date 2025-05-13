@@ -1,30 +1,28 @@
 import React, { useState } from "react";
-import { personalInfoSchema } from "../../schemas/personalInfoSchema";
+import { personalInfoSchema } from "../../schemas/personalInfo";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
+import { voidFn, voidHandleChangeFn } from "../../types/functions";
+import { PersInfoUpdateFieldErrors, PersInfoUpdatePayload } from "./types";
 
 interface ChangePersonalInfoProps {
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  savePersonalInfo: () => void;
+  persInfoUpdatePayload: PersInfoUpdatePayload;
+  handleChange: voidHandleChangeFn;
+  savePersonalInfo: voidFn;
 }
 
-const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ user, handleChange, savePersonalInfo }) => {
+const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ persInfoUpdatePayload, handleChange, savePersonalInfo }) => {
+  
   const { isDark } = useTheme();
-
-  const [errors, setErrors] = useState<Partial<Record<keyof typeof user, string>>>({});
+  const [errors, setErrors] = useState<PersInfoUpdateFieldErrors>({});
 
   const validateAndSave = () => {
-    const result = personalInfoSchema.safeParse(user);
+    const result = personalInfoSchema.safeParse(persInfoUpdatePayload);
 
     if (!result.success) {
-      const fieldErrors: Partial<Record<keyof typeof user, string>> = {};
+      const fieldErrors: Partial<Record<keyof PersInfoUpdatePayload, string>> = {};
       result.error.issues.forEach((issue) => {
-        const field = issue.path[0] as keyof typeof user;
+        const field = issue.path[0] as keyof PersInfoUpdatePayload;
         fieldErrors[field] = issue.message;
       });
       setErrors(fieldErrors);
@@ -45,7 +43,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ user, handleCha
               type="text"
               name="firstName"
               placeholder="Enter first name"
-              value={user.firstName}
+              value={persInfoUpdatePayload.firstName}
               onChange={handleChange}
               className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
                 isDark ? "text-gray-100" : "text-slate-700"
@@ -59,7 +57,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ user, handleCha
               type="text"
               name="lastName"
               placeholder="Enter last name"
-              value={user.lastName}
+              value={persInfoUpdatePayload.lastName}
               onChange={handleChange}
               className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
                 isDark ? "text-gray-100" : "text-slate-700"
@@ -74,7 +72,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ user, handleCha
             type="email"
             name="email"
             placeholder="Enter new email"
-            value={user.email}
+            value={persInfoUpdatePayload.email}
             onChange={handleChange}
             className={`w-full bg-transparent placeholder:text-slate-400 text-md rounded-md px-4 py-2 focus:outline-none ${
               isDark ? "text-gray-100" : "text-slate-700"

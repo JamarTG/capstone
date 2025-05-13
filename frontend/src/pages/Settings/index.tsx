@@ -15,7 +15,7 @@ import ChangePersonalInfo from "./ChangePersonalInfo";
 
 export default function Settings() {
   useAuthRedirect();
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark } = useTheme();
 
   const [user, setUser] = useState<UserSettings>({
     firstName: "",
@@ -52,11 +52,6 @@ export default function Settings() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleToggleTheme = () => {
-    toggleTheme();
-    setUser((prev) => ({ ...prev, darkMode: !prev.darkMode }));
-  };
-
   const savePersonalInfo = () => {
     mutate({ firstName: user.firstName, lastName: user.lastName, email: user.email });
   };
@@ -65,26 +60,28 @@ export default function Settings() {
     mutate({ password: user.password, currentPassword: user.currentPassword });
   };
 
+  const persInfoUpdatePayload = { firstName: user.firstName, lastName: user.lastName, email: user.email };
+  const passwordUpdatePayload = { password: user.password, currentPassword: user.currentPassword };
+
   return (
     <PageContent title="Settings">
       <div className="w-full flex flex-col gap-2 justify-center gap-3 rounded-xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full justify-center">
           <ChangePersonalInfo
-            user={user}
             handleChange={handleChange}
             savePersonalInfo={savePersonalInfo}
+            persInfoUpdatePayload={persInfoUpdatePayload}
           />
           <ChangePassword
-            user={user}
             handleChange={handleChange}
             savePassword={savePassword}
+            passwordUpdatePayload={passwordUpdatePayload}
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           <ChangeTheme
             darkMode={user.darkMode}
-            toggleDarkMode={handleToggleTheme}
           />
         </div>
       </div>

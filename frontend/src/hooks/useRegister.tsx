@@ -1,5 +1,5 @@
 import { useFormValidation } from "./useFormValidation";
-import { registerSchema } from "../schemas/registerSchema";
+import { registerSchema } from "../schemas/register";
 import {  FORM_CONSTANTS } from "../constants";
 import { RegisterFormFields } from "../types/form";
 import { useMutation } from "@tanstack/react-query";

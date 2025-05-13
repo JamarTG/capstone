@@ -10,8 +10,9 @@ import Register from "../components/auth/register";
 import QuizSelection from "../pages/Quiz";
 import QuizReview from "../pages/Review";
 import Settings from "../pages/Settings";
+import { RouteConfigObject } from "./types";
 
-export const mainRoutes: Record<string, RouteConfig> = {
+export const mainRoutes: RouteConfigObject = {
   HOME: {
     path: "/",
     element: <Dashboard/>,
@@ -35,7 +36,7 @@ export const mainRoutes: Record<string, RouteConfig> = {
   },
 };
 
-export const otherRoutes: Record<string, RouteConfig> = {
+export const otherRoutes: RouteConfigObject = {
   LOGIN: {
     path: "/login",
     element: <Login />,
