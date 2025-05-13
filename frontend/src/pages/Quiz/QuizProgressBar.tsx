@@ -1,14 +1,12 @@
 import { useTheme } from "../../hooks/useTheme";
 
-const QuizProgressBar = ({
-  currentProgress,
-  totalQuestions,
-  progressPercentage,
-}: {
+interface QuizProgressBarProps {
   currentProgress: number;
   totalQuestions: number;
   progressPercentage: number;
-}) => {
+}
+
+const QuizProgressBar: React.FC<QuizProgressBarProps> = ({ currentProgress, totalQuestions, progressPercentage }) => {
   const { isDark } = useTheme();
 
   return (

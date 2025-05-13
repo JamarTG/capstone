@@ -1,16 +1,16 @@
 import { useTheme } from "../../hooks/useTheme";
+import { OnSelectFn } from "../../types/functions";
 
-const QuizAnswerOption = ({
-  answer,
-  index,
-  selectedAnswer,
-  onSelect,
-}: {
+interface QuizAnswerOptionProps {
   answer: string;
   index: number;
   selectedAnswer: number | null;
-  onSelect: (index: number) => void;
-}) => {
+  onSelect: OnSelectFn;
+}
+
+
+
+const QuizAnswerOption: React.FC<QuizAnswerOptionProps> = ({ answer, index, selectedAnswer, onSelect }) => {
   const { isDark } = useTheme();
 
   const setSelectedAnswer = () => onSelect(index);

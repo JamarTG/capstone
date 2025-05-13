@@ -1,11 +1,9 @@
 import Card from "../../components/ui/Card";
 import { useTheme } from "../../hooks/useTheme";
+import { Section } from "./types";
 
 interface QuizSectionProps {
-  section: {
-    name: string;
-    bgSrc: string;
-  };
+  section: Section;
   onClick: () => void;
   isLoading: boolean;
 }

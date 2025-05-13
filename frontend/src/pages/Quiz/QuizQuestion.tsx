@@ -1,13 +1,14 @@
 import RenderList from "../../components/common/RenderList";
 import { useTheme } from "../../hooks/useTheme";
+import { OnSelectFn, voidFn } from "../../types/functions";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {
   question: string;
   answers: string[];
   selectedAnswer: number | null;
-  onAnswerSelect: (index: number) => void;
-  onNextQuestion: () => void;
+  onAnswerSelect: OnSelectFn;
+  onNextQuestion: voidFn;
   isLastQuestion: boolean;
 }
 

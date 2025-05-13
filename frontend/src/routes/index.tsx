@@ -1,5 +1,4 @@
 import SidebarLayout from "../components/layout/Sidebar";
-import { RouteConfig } from "../types/routes";
 import Dashboard from "../pages/Dashboard";
 import { IconifyIcons } from "../icons";
 import Archive from "../pages/Archive";

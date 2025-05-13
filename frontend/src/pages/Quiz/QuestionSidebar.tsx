@@ -4,16 +4,18 @@ import RenderList from "../../components/common/RenderList";
 import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../icons";
 
-const QuestionSidebar = ({
-  isDark,
-  questions,
-  currentQuestionIndex,
-  setCurrentQuestionIndex,
-}: {
+interface QuestionSidebarProps  {
   questions: Question[];
   isDark: boolean;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const QuestionSidebar:React.FC<QuestionSidebarProps> = ({
+  isDark,
+  questions,
+  currentQuestionIndex,
+  setCurrentQuestionIndex,
 }) => {
   const [page, setPage] = useState(0);
   const pageSize = 6;
