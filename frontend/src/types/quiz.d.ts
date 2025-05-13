@@ -6,7 +6,6 @@ export interface Quiz {
   startTime: Date;
   endTime?: Date;
   completed: boolean;
-  tags: string[];
   section: number;
 }
 
@@ -18,7 +17,6 @@ interface Session {
   score: number;
   startTime: string;
   completed: boolean;
-  tags: string[];
   questions: Question[];
   createdAt: string;
   updatedAt: string;
@@ -57,7 +55,6 @@ export interface Session {
   score: number;
   startTime: string;
   completed: boolean;
-  tags: string[];
   questions: Question[];
   createdAt: string;
   updatedAt: string;

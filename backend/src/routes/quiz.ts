@@ -2,7 +2,6 @@ import express from "express";
 import {
   createQuizSession,
   getQuizSession,
-  // answerQuizQuestion,
   completeQuiz,
   deleteQuizSession,
   getUserQuizSessions,

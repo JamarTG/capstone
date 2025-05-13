@@ -81,7 +81,11 @@ def get_similarity_scores(query, embedding_path, k=1):
         list: Top matching similarity scores
     """
     try:
-        with open(f"C://Users//Admin//Desktop//School//COMP3901//capstone//backend//rag//{embedding_path}.pkl", "rb") as f:
+        
+        base_path = os.path.dirname(os.path.realpath(__file__))
+        full_path = os.path.join(base_path, f"{embedding_path}.pkl")
+        
+        with open(full_path, "rb") as f:
             loaded_data = pickle.load(f)
         
         embeddings = loaded_data["embeddings"]

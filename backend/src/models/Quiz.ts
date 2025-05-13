@@ -22,7 +22,6 @@ export interface IQuiz extends Document {
   startTime: Date;
   endTime?: Date;
   completed: boolean;
-  tags: string[];
   questions: IQuestion[];
 }
 
@@ -60,12 +59,7 @@ const QuizSchema = new Schema<IQuiz>(
       type: Boolean,
       default: false,
     },
-    tags: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+  
     questions: [
       {
         question: {
