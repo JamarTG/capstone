@@ -14,7 +14,10 @@ import QuestionIndex from "./QuestionIndex";
 import { getScorePercentage } from "../../utils/score";
 
 const QuizReview = () => {
-  const { id } = useParams<{ id: string }>();
+  
+
+  
+  const { id } = useParams();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-quizzes", id],

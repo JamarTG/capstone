@@ -1,12 +1,15 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import { IconifyIcons } from "../../icons";
+import { QuestionObject } from "./types";
 
 export interface ReviewNavigationProps {
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
-  questions: Array<{ question: string; options: string[] }>;
+  questions: Array<QuestionObject>;
 }
+
+
 
 const ReviewNavigation: React.FC<ReviewNavigationProps> = ({  currentQuestionIndex, setCurrentQuestionIndex, questions }) => {
   const handleNext = () => {

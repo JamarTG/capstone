@@ -1,5 +1,6 @@
 import React from "react";
 import { Question } from "../../types/quiz";
+import { QuizOption, QuizOptionPostFix } from "./types";
 
 interface QuestionFeedbackProps {
   question: Question & {user_answer: string };
@@ -8,10 +9,13 @@ interface QuestionFeedbackProps {
 }
 
 const QuestionFeedback: React.FC<QuestionFeedbackProps> = ({question, isDark}) => {
+  
+  const quizOptions:QuizOption[] = ["A", "B", "C", "D"]; 
+  
   return (
     <ul className="space-y-3">
-      {["A", "B", "C", "D"].map((key) => {
-        const option = question[`option_${key.toLowerCase() as 'a' | 'b' | 'c' | 'd'}`];
+      {quizOptions.map((key) => {
+        const option = question[`option_${key.toLowerCase() as QuizOptionPostFix }`];
         const isCorrect = question.correct_answer === key;
         const isSelected = question.user_answer === key;
         const gotItRight = isCorrect && isSelected;
