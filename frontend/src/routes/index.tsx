@@ -10,6 +10,7 @@ import QuizSelection from "../pages/Quiz";
 import QuizReview from "../pages/Review";
 import Settings from "../pages/Settings";
 import { RouteConfigObject } from "./types";
+import QuizSession from "../pages/Quiz/QuizSession";
 
 export const mainRoutes: RouteConfigObject = {
   HOME: {
@@ -48,7 +49,7 @@ export const otherRoutes: RouteConfigObject = {
   },
   ASSESSMENT: {
     path: "/quiz/:id",
-    element: <QuizSelection />,
+    element: <QuizSession />,
     layout: SidebarLayout,
     text: "Assessment",
   },
