@@ -6,7 +6,7 @@ import sectionFive from "./assets/images/quiz/5.webp";
 import sectionSix from "./assets/images/quiz/6.webp";
 import sectionSeven from "./assets/images/quiz/7.webp";
 import sectionEight from "./assets/images/quiz/8.webp";
-import { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "./types/form";
+import type { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "./types/form";
 
 export const BASE_URL = "http://localhost:5000/api";
 

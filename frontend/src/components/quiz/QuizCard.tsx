@@ -9,7 +9,7 @@ import QuizCardBody from "./QuizCardBody";
 import extractErrorMessage from "../../utils/extractErrorMessage";
 import toast from "react-hot-toast";
 import { formatDate } from "../../utils/formatDate";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 interface QuizCardProps {
   score: number;

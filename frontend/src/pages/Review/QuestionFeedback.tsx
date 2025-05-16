@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { Question } from "../../types/quiz";
-import { QuizOption, QuizOptionPostFix } from "./types";
+import type { Question } from "../../types/quiz";
+import type { QuizOption, QuizOptionPostFix } from "./types";
 
 interface QuestionFeedbackProps {
   question: Question & {user_answer: string };

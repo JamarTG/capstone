@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import extractErrorMessage from "../../utils/extractErrorMessage";
 import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";

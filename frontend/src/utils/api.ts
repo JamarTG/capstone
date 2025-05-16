@@ -1,7 +1,7 @@
 import axios from "axios";
-import { CreateQuizPayload, UserUpdatePayload } from "../types/auth";
-import { QuizAnswerPayload } from "../types/quiz";
-import { LoginFormFields, RegisterFormFields } from "../types/form";
+import type { CreateQuizPayload, UserUpdatePayload } from "../types/auth";
+import type { QuizAnswerPayload } from "../types/quiz";
+import type { LoginFormFields, RegisterFormFields } from "../types/form";
 
 export const BASE_URL = "http://localhost:5000/api";
 

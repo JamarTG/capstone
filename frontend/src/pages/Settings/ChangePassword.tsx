@@ -3,8 +3,8 @@ import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 import { passwordSchema } from "../../schemas/password";
-import { voidFn, voidHandleChangeFn } from "../../types/functions";
-import { PasswordUpdateFieldErrors, PasswordUpdatePayload } from "./types";
+import type { voidFn, voidHandleChangeFn } from "../../types/functions";
+import type { PasswordUpdateFieldErrors, PasswordUpdatePayload } from "./types";
 
 interface ChangePasswordProps {
   passwordUpdatePayload: PasswordUpdatePayload;

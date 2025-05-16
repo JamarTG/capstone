@@ -1,5 +1,5 @@
 import useRegister from "../../../hooks/useRegister";
-import { RegisterFormErrors } from "../../../types/form";
+import type { RegisterFormErrors } from "../../../types/form";
 import InputField from "../../ui/Input";
 import RegisterButton from "./RegisterButton";
 

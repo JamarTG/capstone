@@ -1,7 +1,7 @@
 import { UseMutateFunction } from "@tanstack/react-query";
 import { Section_Map } from "../../constants";
 import { CreateQuizPayload } from "../../types/auth";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import QuizSection from "./QuizSection";
 import type { Dispatch, SetStateAction } from "react";
 

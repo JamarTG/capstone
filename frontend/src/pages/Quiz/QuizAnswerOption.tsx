@@ -1,5 +1,5 @@
 import { useTheme } from "../../hooks/useTheme";
-import { OnSelectFn } from "../../types/functions";
+import type { OnSelectFn } from "../../types/functions";
 import type { FC } from "react";
 
 interface QuizAnswerOptionProps {

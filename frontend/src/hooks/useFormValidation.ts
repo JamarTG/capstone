@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent } from "react";
 import * as z from "zod";
-import { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "../types/form";
+import type { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "../types/form";
 
 type ValidationResult = {
   isValid: boolean;

@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { IconProps } from "@tabler/icons-react";
+import type { IconProps } from "@tabler/icons-react";
 import { useTheme } from "../hooks/useTheme";
 import type { FC } from "react";
 

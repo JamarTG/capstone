@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Icon } from "@iconify/react";
-import { Question } from "../../types/quiz";
+import type { Question } from "../../types/quiz";
 import { IconifyIcons } from "../../icons";
 
 interface ExplanationSectionProps {

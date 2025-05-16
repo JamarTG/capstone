@@ -8,7 +8,7 @@ import Login from "../components/auth/login";
 import Register from "../components/auth/register";
 import QuizReview from "../pages/Review";
 import Settings from "../pages/Settings";
-import { RouteConfigObject } from "./types";
+import type { RouteConfigObject } from "./types";
 import QuizSession from "../pages/Quiz/QuizSession";
 
 export const mainRoutes: RouteConfigObject = {

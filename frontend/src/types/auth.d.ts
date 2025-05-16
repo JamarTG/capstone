@@ -1,4 +1,4 @@
-import { User } from "./context";
+import type { User } from "./context";
 
 export interface SuccessfulAuthResponse {
   token: string;

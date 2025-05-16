@@ -1,3 +1,3 @@
-import { RouteConfig } from "../types/routes";
+import type { RouteConfig } from "../types/routes";
 
 export type RouteConfigObject = Record<string, RouteConfig>

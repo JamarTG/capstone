@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Section_Map } from "../../constants";
 import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../icons";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   section: number;

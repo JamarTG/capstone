@@ -8,7 +8,7 @@ import { IconifyIcons } from "../../../icons";
 import { capitalize } from "../../../utils/capitalize";
 import useSidebarState from "../../../hooks/useSidebarExpanded";
 import RenderList from "../../common/RenderList";
-import { RouteConfig } from "../../../types/routes";
+import type { RouteConfig } from "../../../types/routes";
 import { mainRoutes, otherRoutes} from "../../../routes";
 import routes from "../../../routes";
 

@@ -1,6 +1,6 @@
 import RenderList from "../../components/common/RenderList";
 import { useTheme } from "../../hooks/useTheme";
-import { OnSelectFn, voidFn } from "../../types/functions";
+import type { OnSelectFn, voidFn } from "../../types/functions";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {

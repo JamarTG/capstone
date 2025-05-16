@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction,FC } from "react";
 import { useState } from "react";
-import { Question } from "../../types/quiz";
+import type { Question } from "../../types/quiz";
 import RenderList from "../../components/common/RenderList";
 import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../icons";

@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
 import Cookies from "js-cookie";
 import { AUTH_TOKEN_CONFIG } from "../constants";
-import { User } from "../types/context";
+import type { User } from "../types/context";
 
 interface AuthProviderProps {
   children: ReactNode;

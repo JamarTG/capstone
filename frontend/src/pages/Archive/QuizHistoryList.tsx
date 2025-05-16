@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import { Quiz } from "../../types/quiz";
+import type { Quiz } from "../../types/quiz";
 import QuizCard from "../../components/quiz/QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";

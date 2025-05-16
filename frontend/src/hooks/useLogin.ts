@@ -9,12 +9,12 @@ import useFormValidation from "./useFormValidation";
 import { loginSchema } from "../schemas/login";
 import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "../utils/api";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { AuthContext } from "../context/AuthContext";
-import { SuccessfulAuthResponse } from "../types/auth";
+import type { SuccessfulAuthResponse } from "../types/auth";
 import { JwtPayload } from "jwt-decode";
-import { User } from "../types/context";
-import { LoginFormFields } from "../types/form";
+import type { User } from "../types/context";
+import type { LoginFormFields } from "../types/form";
 import { AUTH_TOKEN_CONFIG } from "../constants";
 
 export default function useLogin() {
