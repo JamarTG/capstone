@@ -1,6 +1,22 @@
 # Retrieval-Augmented Generation (RAG)-Based Quiz Application  
 
-![image](https://github.com/user-attachments/assets/aaf0df32-bee2-41a5-b737-1a66e6e633a8)
+![image](https://github.com/user-attachments/assets/8c27cf25-2298-4490-8bc1-72a4c8b5c873)
+
+
+Video 1 
+https://github.com/user-attachments/assets/d3af12d2-2787-41be-b6b7-908b1f922fa4
+
+Video 2
+https://github.com/user-attachments/assets/f2be65bc-9808-41a8-b203-947e30751664
+
+Video 3
+https://github.com/user-attachments/assets/413b35cc-3b3d-4a49-bc2a-c74370ed4a19
+
+Video 4
+https://github.com/user-attachments/assets/5557a925-b001-4a23-9f8b-8963824fe736
+
+
+
 
 ## Abstract  
 This system is an intelligent, interactive quiz platform designed to support personalized learning using Retrieval-Augmented Generation (RAG). It applies advanced natural language processing and adaptive assessment techniques to evaluate student performance and provide feedback only on unmet learning objectives. The application was developed with a focus on the CSEC Information Technology syllabus.  
