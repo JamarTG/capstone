@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
@@ -11,7 +12,7 @@ interface ChangePasswordProps {
   savePassword: voidFn;
 }
 
-const ChangePassword: React.FC<ChangePasswordProps> = ({ passwordUpdatePayload, handleChange, savePassword }) => {
+const ChangePassword: FC<ChangePasswordProps> = ({ passwordUpdatePayload, handleChange, savePassword }) => {
   const [errors, setErrors] = useState<PasswordUpdateFieldErrors>({} as PasswordUpdateFieldErrors);
   const { isDark } = useTheme();
 

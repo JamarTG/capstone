@@ -1,5 +1,6 @@
 import { useTheme } from "../../hooks/useTheme";
 import { OnSelectFn } from "../../types/functions";
+import type { FC } from "react";
 
 interface QuizAnswerOptionProps {
   answer: string;
@@ -16,7 +17,7 @@ const mapping:Record<number,string> = {
   3: "D. ",
 };
 
-const QuizAnswerOption: React.FC<QuizAnswerOptionProps> = ({ answer, index, selectedAnswer, onSelect }) => {
+const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({ answer, index, selectedAnswer, onSelect }) => {
   const { isDark } = useTheme();
 
   const setSelectedAnswer = () => onSelect(index);

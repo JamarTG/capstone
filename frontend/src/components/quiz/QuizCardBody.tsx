@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Section_Map } from "../../constants";
 import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../icons";
+import { FC } from "react";
 
 interface Props {
   section: number;
@@ -14,7 +15,7 @@ interface Props {
   numberOfQuestions: number;
 }
 
-const QuizCardBody: React.FC<Props> = ({ section, formattedDate, score, completed, quizId, isDark, numberOfQuestions }) => {
+const QuizCardBody: FC<Props> = ({ section, formattedDate, score, completed, quizId, isDark, numberOfQuestions }) => {
   const navigate = useNavigate();
 
   const scorePercentage = Math.ceil((score / numberOfQuestions) * 100);

@@ -3,6 +3,7 @@ import ConfirmDeletion from "./ConfirmDeletion";
 import {Icon} from "@iconify/react";
 import { Section_Map } from "../../constants";
 import { IconifyIcons } from "../../icons";
+import type { FC } from "react";
 
 interface Props {
   section: number;
@@ -13,7 +14,7 @@ interface Props {
   onDeleteClick: () => void;
 }
 
-const QuizCardHeader: React.FC<Props> = ({
+const QuizCardHeader: FC<Props> = ({
   section,
   isConfirming,
   isPending,

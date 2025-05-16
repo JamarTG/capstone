@@ -1,10 +1,11 @@
+import { FC } from "react";
 import { useTheme } from "../../hooks/useTheme";
 
 interface ChangeThemeProps {
   darkMode: boolean;
 }
 
-const ChangeTheme: React.FC<ChangeThemeProps> = ({ darkMode}) => {
+const ChangeTheme: FC<ChangeThemeProps> = ({ darkMode}) => {
   const { isDark ,toggleTheme } = useTheme();
   
 

@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { Question } from "../../types/quiz";
 
 interface QuestionIndexProps {
@@ -5,7 +6,7 @@ interface QuestionIndexProps {
   question: Question;
 }
 
-const QuestionIndex: React.FC<QuestionIndexProps> = ({ currentQuestionIndex, question }) => {
+const QuestionIndex: FC<QuestionIndexProps> = ({ currentQuestionIndex, question }) => {
   return (
     <h3 className="text-xl mb-4 h-16">
       Question {currentQuestionIndex + 1}: {question.question}

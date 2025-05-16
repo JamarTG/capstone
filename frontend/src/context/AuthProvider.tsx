@@ -1,4 +1,5 @@
-import { ReactNode, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { FC, ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
@@ -10,7 +11,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+const AuthProvider: FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;

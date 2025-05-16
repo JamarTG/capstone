@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { Icon } from "@iconify/react";
 import { Question } from "../../types/quiz";
 import { IconifyIcons } from "../../icons";
@@ -8,7 +9,7 @@ interface ExplanationSectionProps {
 }
 
 
-const ExplanationSection:React.FC<ExplanationSectionProps> = ({ question, isDark }) => {
+const ExplanationSection:FC<ExplanationSectionProps> = ({ question, isDark }) => {
   return (
     <div className="mt-6 h-32">
       {question && question.explanation ? (

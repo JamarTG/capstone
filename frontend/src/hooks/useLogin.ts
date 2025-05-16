@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import type { FormEvent } from "react";
+import {useContext} from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
-import { useFormValidation } from "./useFormValidation";
+import useFormValidation from "./useFormValidation";
 import { loginSchema } from "../schemas/login";
 import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "../utils/api";
@@ -47,7 +48,7 @@ export default function useLogin() {
     onError,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const { isValid } = validate(formData);
     if (isValid) {

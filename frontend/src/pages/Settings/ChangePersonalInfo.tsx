@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import { personalInfoSchema } from "../../schemas/personalInfo";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
@@ -11,7 +12,7 @@ interface ChangePersonalInfoProps {
   savePersonalInfo: voidFn;
 }
 
-const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ persInfoUpdatePayload, handleChange, savePersonalInfo }) => {
+const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({ persInfoUpdatePayload, handleChange, savePersonalInfo }) => {
   
   const { isDark } = useTheme();
   const [errors, setErrors] = useState<PersInfoUpdateFieldErrors>({});
@@ -37,7 +38,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ persInfoUpdateP
       <h3 className={`text-md  mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Personal Information</h3>
       <form>
         <div className="grid grid-cols-2 gap-4">
-          <React.Fragment>
+          <>
             <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>First Name</label>
             <input
               type="text"
@@ -50,8 +51,8 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ persInfoUpdateP
               } border ${errors.firstName ? "border-red-500" : isDark ? "border-gray-700" : "border-slate-200"}`}
             />
             {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
-          </React.Fragment>
-          <React.Fragment>
+          </>
+          <>
             <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Last Name</label>
             <input
               type="text"
@@ -64,7 +65,7 @@ const ChangePersonalInfo: React.FC<ChangePersonalInfoProps> = ({ persInfoUpdateP
               } border ${errors.lastName ? "border-red-500" : isDark ? "border-gray-700" : "border-slate-200"}`}
             />
             {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
-          </React.Fragment>
+          </>
         </div>
         <div className="mt-4">
           <label className={`block mt-2 text-md font-medium ${isDark ? "text-gray-200" : "text-slate-600"}`}>Email</label>

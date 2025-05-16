@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import type { FC } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { Icon } from "@iconify/react";
 import { Section_Map } from "../../constants";
@@ -15,7 +16,7 @@ interface FeedbackListProps {
   feedbacks: Feedback[];
 }
 
-const FeedbackList: React.FC<FeedbackListProps> = ({ feedbacks = [] }) => {
+const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
   const { isDark } = useTheme();
 
   const [page, setPage] = useState(0);

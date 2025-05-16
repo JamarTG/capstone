@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { Question } from "../../types/quiz";
 import { QuizOption, QuizOptionPostFix } from "./types";
 
@@ -7,7 +8,7 @@ interface QuestionFeedbackProps {
 
 }
 
-const QuestionFeedback: React.FC<QuestionFeedbackProps> = ({question, isDark}) => {
+const QuestionFeedback: FC<QuestionFeedbackProps> = ({question, isDark}) => {
   
   const quizOptions:QuizOption[] = ["A", "B", "C", "D"]; 
   

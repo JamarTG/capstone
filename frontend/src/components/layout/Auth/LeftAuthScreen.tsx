@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode, FC} from "react";
 import AuthHeader from "./AuthHeader";
 
 interface LeftAuthScreenProps {
@@ -6,7 +6,7 @@ interface LeftAuthScreenProps {
     title: string;
 }
 
-const LeftAuthScreen: React.FC<LeftAuthScreenProps> = ({ title, children }) => {
+const LeftAuthScreen: FC<LeftAuthScreenProps> = ({ title, children }) => {
     return (
         <div className="w-2/3 flex flex-col justify-center items-center px-6 py-12 space-y-10">
             <AuthHeader title={title} />

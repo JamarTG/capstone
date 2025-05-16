@@ -10,12 +10,13 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AUTH_TOKEN_CONFIG } from "../constants";
+import type { FormEvent} from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { User } from "../types/context";
 import { SuccessfulAuthResponse } from "../types/auth";
 
-export function useRegister() {
+const useRegister = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
 
@@ -51,7 +52,7 @@ export function useRegister() {
     onError,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const { isValid } = validate(formData);
     if (isValid) {
@@ -67,3 +68,5 @@ export function useRegister() {
     handleSubmit,
   };
 }
+
+export default useRegister

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ChangeEvent } from "react";
 import * as z from "zod";
 import { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "../types/form";
 
@@ -32,7 +33,7 @@ function useFormValidation<T extends RegisterFormFields | LoginFormFields>(
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };

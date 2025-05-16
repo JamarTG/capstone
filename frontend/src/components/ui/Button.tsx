@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { FC, ReactNode} from "react";
 import clsx from "clsx";
 
 interface ButtonProps {
@@ -10,7 +10,7 @@ interface ButtonProps {
   size?: "sm" | "md" | "lg";
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button: FC<ButtonProps> = ({
   children,
   variant = "primary",
   onClick,

@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import PageContent from "../../components/layout/Page";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -9,7 +10,7 @@ import { UserSettings } from "../../types/settings";
 import toast from "react-hot-toast";
 import { SuccessfulAuthResponse } from "../../types/auth";
 import { AxiosError } from "axios";
-import { extractErrorMessage } from "../../utils/extractErrorMessage";
+import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useTheme } from "../../hooks/useTheme";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 
@@ -48,7 +49,7 @@ export default function Settings() {
     }
   }, [data]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -80,9 +81,7 @@ export default function Settings() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          <ChangeTheme
-            darkMode={user.darkMode}
-          />
+          <ChangeTheme darkMode={user.darkMode} />
         </div>
       </div>
     </PageContent>

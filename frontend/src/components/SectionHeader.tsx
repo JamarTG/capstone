@@ -1,13 +1,14 @@
 import { Icon } from "@iconify/react";
 import { IconProps } from "@tabler/icons-react";
 import { useTheme } from "../hooks/useTheme";
+import type { FC } from "react";
 
 interface SectionHeaderProps {
   iconPath: IconProps["path"];
   title: string;
 }
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({ iconPath, title }) => {
+const SectionHeader: FC<SectionHeaderProps> = ({ iconPath, title }) => {
   const { isDark } = useTheme();
 
   return (

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 interface ModalProps {
@@ -7,7 +7,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return createPortal(

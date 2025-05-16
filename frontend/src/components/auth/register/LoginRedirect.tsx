@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import routes from "../../../routes";
+import type { FC } from "react";
 
-const LoginRedirect: React.FC = () => (
+const LoginRedirect: FC = () => (
   <p className="mt-10 text-center text-lg text-gray-500">
     Already a member?{" "}
     <Link

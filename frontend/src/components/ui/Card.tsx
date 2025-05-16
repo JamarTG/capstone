@@ -1,14 +1,14 @@
-import { ReactNode } from "react";
+import type { FC, ReactNode, CSSProperties } from "react";
 
 interface CardProps {
   className?: string;
   children?: ReactNode;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   onClick?: () => void;
   animateOnHover?: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ children, className, style, onClick, animateOnHover = false }) => {
+const Card: FC<CardProps> = ({ children, className, style, onClick, animateOnHover = false }) => {
   return (
     <div
       onClick={onClick}

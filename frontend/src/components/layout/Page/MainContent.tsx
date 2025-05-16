@@ -1,4 +1,4 @@
-import { ReactNode, FC } from "react";
+import type { FC, ReactNode } from "react";
 import { useTheme } from "../../../hooks/useTheme";
 
 interface MainContentProps {

@@ -1,12 +1,12 @@
-import React from "react";
+import type { FC, InputHTMLAttributes } from "react";
 
-interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   label: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, error, ...inputProps }) => (
-  <React.Fragment>
+const InputField: FC<InputFieldProps> = ({ label, error, ...inputProps }) => (
+  <>
     <label
       htmlFor={inputProps.id}
       className="block text-lg font-medium text-gray-600"
@@ -20,7 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, error, ...inputProps }) 
       />
       {error && <p className="text-red-500 text-lg">{error}</p>}
     </div>
-  </React.Fragment>
+  </>
 );
 
 export default InputField;

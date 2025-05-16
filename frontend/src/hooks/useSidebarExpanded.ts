@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const useSidebarState = (localStorageKey: string, defaultState: boolean = true): [boolean, () => void] => {
+const useSidebarState = (localStorageKey: string, defaultState: boolean = true): [boolean, () => void] => {
   
     const getExpandedState = () => {
     const savedState = localStorage.getItem(localStorageKey);
@@ -18,3 +18,5 @@ export const useSidebarState = (localStorageKey: string, defaultState: boolean =
 
   return [isExpanded, toggleSidebar];
 };
+
+export default useSidebarState;

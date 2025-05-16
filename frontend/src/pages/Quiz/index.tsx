@@ -7,7 +7,7 @@ import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
 import { QuizAPI } from "../../utils/api";
-import { extractErrorMessage } from "../../utils/extractErrorMessage";
+import extractErrorMessage from "../../utils/extractErrorMessage";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
 import { IconifyIcons } from "../../icons";

@@ -1,4 +1,4 @@
-import { Fragment, JSX } from "react";
+import { JSX } from "react";
 
 interface RenderListProps<T> {
   data: T[];
@@ -6,7 +6,7 @@ interface RenderListProps<T> {
 }
 
 const RenderList = <T,>({ data, renderFn }: RenderListProps<T>) => {
-  return <Fragment>{data.map(renderFn)}</Fragment>;
+  return <>{data.map(renderFn)}</>;
 };
 
 export default RenderList;

@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction,FC } from "react";
 import { useState } from "react";
 import { Question } from "../../types/quiz";
 import RenderList from "../../components/common/RenderList";
@@ -8,10 +9,10 @@ interface QuestionSidebarProps  {
   questions: Question[];
   isDark: boolean;
   currentQuestionIndex: number;
-  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentQuestionIndex: Dispatch<SetStateAction<number>>;
 }
 
-const QuestionSidebar:React.FC<QuestionSidebarProps> = ({
+const QuestionSidebar:FC<QuestionSidebarProps> = ({
   isDark,
   questions,
   currentQuestionIndex,

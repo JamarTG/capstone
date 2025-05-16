@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
@@ -21,7 +22,7 @@ interface QuizCardProps {
   quizRefetch: () => void;
 }
 
-const QuizCard: React.FC<QuizCardProps> = ({
+const QuizCard: FC<QuizCardProps> = ({
   quizRefetch,
   section,
   completed,

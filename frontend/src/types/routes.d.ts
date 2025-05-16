@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 type MainNavPath = "/" | "/quiz" | "/archive" | "/feedback";
 type MainNavName = "home" | "quiz" | "archive" | "feedback" | "profile" | "settings" | "logout";
 
@@ -9,7 +11,7 @@ export interface MainNavItem {
 export interface RouteConfig {
   path: string;
   element?: JSX.Element;
-  layout?: React.FC<{ children: ReactNode }>;
+  layout?: FC<{ children: ReactNode }>;
   text: string;
   icon?: string;
 }

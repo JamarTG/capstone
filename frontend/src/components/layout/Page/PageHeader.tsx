@@ -1,10 +1,11 @@
+import type { FC } from "react";
 import { useTheme } from "../../../hooks/useTheme";
 
 interface PageHeaderProps {
   title: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title }) => {
+const PageHeader: FC<PageHeaderProps> = ({ title }) => {
   const { isDark } = useTheme();
 
   return (

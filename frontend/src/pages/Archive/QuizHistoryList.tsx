@@ -7,7 +7,6 @@ import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../hooks/useTheme";
 import Loader from "../../components/common/Loader";
-import React from "react";
 import { ScoreFilter } from "./ScoreFilter";
 import CompleteFilter from "./CompleteFilter";
 
@@ -29,18 +28,15 @@ const QuizHistoryList = () => {
   });
 
   if (isLoading) return <Loader text={"Loading Quizzes"} />;
-  if (error) return <React.Fragment>Failed to load quiz history.</React.Fragment>;
+  if (error) return <>Failed to load quiz history.</>;
 
   const sessions = quizzes?.sessions || [];
 
   const filtered = sessions.filter((quiz: Quiz) => {
-    // Calculate score percentage
+  
     const scorePercentage = quiz.currentQuestionIndex > 0 ? (quiz.score / quiz.currentQuestionIndex) * 100 : 0;
-
-    // Filter by completion status
     const statusMatch = filter === "all" ? true : filter === "completed" ? quiz.completed : !quiz.completed;
 
-    // Filter by score ranges
     let scoreMatch = true;
     if (scoreRanges.length > 0) {
       scoreMatch = scoreRanges.some((range) => {

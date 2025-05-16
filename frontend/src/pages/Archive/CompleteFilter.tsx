@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 interface CompleteFilterProps {
   filter: string;
   setFilterToAll: () => void;
@@ -6,7 +8,7 @@ interface CompleteFilterProps {
   isDark: boolean;
 }
 
-const CompleteFilter: React.FC<CompleteFilterProps> = ({ setFilterToAll, filter, isDark, setFilterToCompleted, setFilterToIncomplete }) => {
+const CompleteFilter: FC<CompleteFilterProps> = ({ setFilterToAll, filter, isDark, setFilterToCompleted, setFilterToIncomplete }) => {
   return (
     <div className="flex justify-center items-center gap-3">
       <button

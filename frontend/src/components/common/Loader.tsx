@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { useTheme } from "../../hooks/useTheme";
 import { FadeLoader } from "react-spinners";
 
@@ -5,7 +6,7 @@ interface LoaderProps {
   text: string;
 }
 
-const Loader: React.FC<LoaderProps> = ({ text }) => {
+const Loader: FC<LoaderProps> = ({ text }) => {
   const { isDark } = useTheme();
 
   return (
