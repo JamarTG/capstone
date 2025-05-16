@@ -1,11 +1,12 @@
-import { ReactNode, useContext } from "react";
+import type { ReactNode, FC } from "react";
+import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useTheme } from "../../../hooks/useTheme";
 import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../../icons";
 import { capitalize } from "../../../utils/capitalize";
-import { useSidebarState } from "../../../hooks/useSidebarExpanded";
+import useSidebarState from "../../../hooks/useSidebarExpanded";
 import RenderList from "../../common/RenderList";
 import { RouteConfig } from "../../../types/routes";
 import { mainRoutes, otherRoutes} from "../../../routes";
@@ -15,7 +16,7 @@ interface HomeLayoutProps {
   children?: ReactNode;
 }
 
-const SidebarLayout: React.FC<HomeLayoutProps> = ({ children }) => {
+const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext)!;
   const { isDark } = useTheme();

@@ -7,7 +7,7 @@ type ValidationResult = {
   errors: RegisterFormErrors | LoginFormErrors;
 };
 
-export function useFormValidation<T extends RegisterFormFields | LoginFormFields>(
+function useFormValidation<T extends RegisterFormFields | LoginFormFields>(
   schema: z.ZodSchema<T>,
   initialFields: T,
   initialErrors: RegisterFormErrors | LoginFormErrors
@@ -44,3 +44,5 @@ export function useFormValidation<T extends RegisterFormFields | LoginFormFields
     validate,
   };
 }
+
+export default useFormValidation;
