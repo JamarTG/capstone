@@ -26,11 +26,8 @@ const QuizReview = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  if (isLoading) {
-    return <LoadingPage text={"Loading Answers..."} />;
-  } else if (error) {
-    return <div className="text-white">Error loading quiz data</div>;
-  }
+  isLoading && <LoadingPage text="Loading Answers..." />;
+  error && <div className="text-white">Error loading quiz data</div>;
 
   const { session } = data || {};
   const questions = session?.questions || [];
