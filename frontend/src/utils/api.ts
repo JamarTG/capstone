@@ -35,7 +35,6 @@ export const UserAPI = {
   fetchUserInfo: () => handleRequest(axiosInstanceWithCredentials.get("/settings/user-info")),
   updateUserInfo: (userInfoPayload: Record<string, UserData[keyof UserData]>) =>
     handleRequest(axiosInstanceWithCredentials.put("/settings/user-info", userInfoPayload)),
-  // deleteAccount: () => handleRequest(axiosInstanceWithCredentials.post("settings/delete-account", {})),
 };
 
 export const QuizAPI = {

@@ -2,14 +2,19 @@ import type { FC } from "react";
 import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
-import { passwordSchema } from "../../schemas/password";
 import type { PasswordUpdateFieldErrors, PasswordUpdatePayload, VoidHandleChangeFn } from "./types";
+import { z } from "zod";
 
 interface ChangePasswordProps {
   passwordUpdatePayload: PasswordUpdatePayload;
   handleChange: VoidHandleChangeFn;
   savePassword: VoidFunction;
 }
+
+export const passwordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  password: z.string().min(6, "New password must be at least 6 characters"),
+});
 
 const ChangePassword: FC<ChangePasswordProps> = ({ passwordUpdatePayload, handleChange, savePassword }) => {
   const [errors, setErrors] = useState<PasswordUpdateFieldErrors>({} as PasswordUpdateFieldErrors);

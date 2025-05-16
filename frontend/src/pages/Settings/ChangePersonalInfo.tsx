@@ -1,15 +1,21 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { personalInfoSchema } from "../../schemas/personalInfo";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 import type { PersInfoUpdateFieldErrors, PersInfoUpdatePayload, VoidHandleChangeFn } from "./types";
+import { z } from "zod";
 
 interface ChangePersonalInfoProps {
   persInfoUpdatePayload: PersInfoUpdatePayload;
   handleChange: VoidHandleChangeFn;
   savePersonalInfo: VoidFunction;
 }
+
+export const personalInfoSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Enter a valid email address"),
+});
 
 const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({ persInfoUpdatePayload, handleChange, savePersonalInfo }) => {
   

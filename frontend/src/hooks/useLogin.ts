@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
 import useFormValidation from "./useFormValidation";
-import { loginSchema } from "../schemas/login";
 import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "../utils/api";
 import type { AxiosError } from "axios";
@@ -16,6 +15,13 @@ import { JwtPayload } from "jwt-decode";
 import type { AuthUser } from "../types/auth";
 import type { LoginFormFields } from "../types/form";
 import { AUTH_TOKEN_CONFIG } from "../constants";
+import { z } from "zod";
+
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 export default function useLogin() {
   const { formData, errors, handleChange, validate } = useFormValidation<LoginFormFields>(

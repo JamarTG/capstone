@@ -1,5 +1,4 @@
 import useFormValidation from "./useFormValidation";
-import { registerSchema } from "../schemas/register";
 import { FORM_CONSTANTS } from "../constants";
 import type { RegisterFormFields } from "../types/form";
 import { useMutation } from "@tanstack/react-query";
@@ -15,6 +14,14 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import type { AuthUser } from "../types/auth";
 import type { APISuccessResponse } from "../types/api";
+import { z } from "zod";
+
+export const registerSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 const useRegister = () => {
   const navigate = useNavigate();
