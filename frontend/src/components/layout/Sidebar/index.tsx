@@ -40,7 +40,7 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
           onClick={goToHome}
         >
           <img
-            src={"/logo.png"}
+            src="/logo.png"
             width={60}
             alt="Logo"
           />

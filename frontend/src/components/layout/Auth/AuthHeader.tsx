@@ -9,7 +9,7 @@ const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
     <section className="w-full text-center">
       <div className="w-full flex justify-center items-center space-x-4">
         <img
-          src={"/logo.png"}
+          src="/logo.png"
           width={50}
           alt="CSEC IT TUTOR"
         />

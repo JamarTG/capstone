@@ -12,7 +12,7 @@ const QuizHistory = () => {
       <div className="flex flex-col justify-center gap-3">
         <SectionHeader
           iconPath={IconifyIcons.history}
-          title={"History List"}
+          title="History List"
         />
         <QuizHistoryList />
       </div>

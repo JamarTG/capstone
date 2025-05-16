@@ -26,7 +26,7 @@ const QuizHistoryList = () => {
     queryFn: QuizAPI.getQuizzes,
   });
 
-  if (isLoading) return <Loader text={"Loading Quizzes"} />;
+  if (isLoading) return <Loader text="Loading Quizzes" />;
   if (error) return <>Failed to load quiz history.</>;
 
   const sessions = quizzes?.sessions || [];

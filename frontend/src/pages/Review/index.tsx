@@ -38,7 +38,7 @@ const QuizReview = () => {
   const scorePercentage = getScorePercentage(totalScore, totalQuestions);
 
   return (
-    <PageLayout title={"Quiz Review"}>
+    <PageLayout title="Quiz Review">
       <div className="flex flex-wrap space-x-8 gap-8">
         <QuestionSidebar
           isDark={isDark}
