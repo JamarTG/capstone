@@ -14,7 +14,6 @@ import QuestionIndex from "./QuestionIndex";
 import { getScorePercentage } from "../../utils/score";
 
 const QuizReview = () => {
-
   const { id } = useParams();
 
   const { data, isLoading, error } = useQuery({
@@ -26,8 +25,8 @@ const QuizReview = () => {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  isLoading && <LoadingPage text="Loading Answers..." />;
-  error && <div className="text-white">Error loading quiz data</div>;
+  if (isLoading) return <LoadingPage text="Loading Answers..." />;
+  if (error) return <div>Error</div>;
 
   const { session } = data || {};
   const questions = session?.questions || [];

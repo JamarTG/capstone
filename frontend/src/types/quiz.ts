@@ -1,40 +1,4 @@
-export interface Quiz {
-  _id: string;
-  user: string;
-  currentQuestionIndex: number;
-  score: number;
-  startTime: Date;
-  endTime?: Date;
-  completed: boolean;
-  section: number;
-}
-
-export interface Session {
-  _id: string;
-  section: number;
-  user: string;
-  currentQuestionIndex: number;
-  score: number;
-  startTime: string;
-  completed: boolean;
-  questions: Question[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-export interface QuizSessionResponse {
-  message: string;
-  session: Session;
-}
-
-export interface QuizAnswerPayload {
-  quiz: string;
-  selectedOption: string;
-  question: string;
-  score: number;
-  is_correct: boolean;
-}
+type MCQAnswer = "A" | "B" | "C" | "D";
 
 export interface Question {
   _id: string;
@@ -43,40 +7,7 @@ export interface Question {
   option_b: string;
   option_c: string;
   option_d: string;
-  correct_answer: "A" | "B" | "C" | "D";
+  correct_answer: MCQAnswer ;
   explanation: string;
   is_correct: boolean | null;
-}
-export interface Session {
-  _id: string;
-  topic: string;
-  user: string;
-  currentQuestionIndex: number;
-  score: number;
-  startTime: string;
-  completed: boolean;
-  questions: Question[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-export interface Question {
-  questionId: QuestionDetails;
-  selectedOption: string;
-  isCorrect: boolean;
-  _id: string;
-  answeredAt: string;
-}
-
-export interface QuestionDetails {
-  _id: string;
-  text: string;
-  options: Record<string, string>; // Keys like A, B, C, D
-  correctAnswer: string;
-  explanation: string;
-  objective: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }

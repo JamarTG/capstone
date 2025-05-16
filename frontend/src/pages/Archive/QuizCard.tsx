@@ -1,11 +1,11 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useMutation, useQuery} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { useTheme } from "../../hooks/useTheme";
-import Card from "../ui/Card";
-import QuizCardHeader from "./QuizCardHeader";
-import QuizCardBody from "./QuizCardBody";
+import Card from "../../components/ui/Card";
+import QuizCardHeader from "../../components/quiz/QuizCardHeader";
+import QuizCardBody from "../../components/quiz/QuizCardBody";
 import extractErrorMessage from "../../utils/extractErrorMessage";
 import toast from "react-hot-toast";
 import { formatDate } from "../../utils/formatDate";

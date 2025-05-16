@@ -1,30 +1,25 @@
 import { useTheme } from "../../hooks/useTheme";
-import type { OnSelectFn } from "../../types/functions";
 import type { FC } from "react";
 
 interface QuizAnswerOptionProps {
   answer: string;
   index: number;
   selectedAnswer: number | null;
-  onSelect: OnSelectFn;
+  onSelect: (index: number) => void;
 }
-
-
-const mapping:Record<number,string> = {
-  0: "A. ",
-  1: "B. ",
-  2: "C. ",
-  3: "D. ",
-};
 
 const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({ answer, index, selectedAnswer, onSelect }) => {
   const { isDark } = useTheme();
 
-  const setSelectedAnswer = () => onSelect(index);
-
+  const mapping: Record<number, string> = {
+    0: "A. ",
+    1: "B. ",
+    2: "C. ",
+    3: "D. ",
+  };
   return (
     <button
-      onClick={setSelectedAnswer}
+      onClick={() => onSelect(index)}
       className={`relative flex items-start p-4 rounded-lg border transition-all
           ${
             selectedAnswer === index
@@ -42,7 +37,10 @@ const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({ answer, index, selectedAn
           {selectedAnswer === index && <div className="rounded-full bg-white" />}
         </div>
       </div>
-      <span className={`font-medium text-left ${isDark ? "text-white" : "text-gray-700"}`}>{mapping[index]}{answer}</span>
+      <span className={`font-medium text-left ${isDark ? "text-white" : "text-gray-700"}`}>
+        {mapping[index]}
+        {answer}
+      </span>
     </button>
   );
 };

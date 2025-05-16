@@ -4,7 +4,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI, UserAPI } from "../../utils/api";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
-import type { UserProfileData } from "../../types/settings";
+import type { UserData } from "../../types/user";
 import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
 import { Typewriter } from "react-simple-typewriter";
@@ -14,17 +14,16 @@ const Dashboard = () => {
   useAuthRedirect();
   const { isDark } = useTheme();
 
-  const [user, setUser] = useState<UserProfileData>({
+  const [user, setUser] = useState<UserData>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     currentPassword: "",
-    darkMode: isDark,
-    createdAt: "",
+    darkMode: isDark
   });
 
-  const { data } = useQuery<{ data: UserProfileData }>({
+  const { data } = useQuery<{ data: UserData }>({
     queryKey: ["get-profile-data"],
     queryFn: UserAPI.fetchUserInfo,
   });

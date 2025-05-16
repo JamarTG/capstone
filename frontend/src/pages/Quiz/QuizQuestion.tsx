@@ -1,19 +1,21 @@
+import type { Dispatch, SetStateAction } from "react";
 import RenderList from "../../components/common/RenderList";
 import { useTheme } from "../../hooks/useTheme";
-import type { OnSelectFn } from "../../types/functions";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {
   question: string;
   answers: string[];
   selectedAnswer: number | null;
-  onAnswerSelect: OnSelectFn;
+  setSelectedAnswer:Dispatch<SetStateAction<number | null>>
   onNextQuestion: VoidFunction;
   isLastQuestion: boolean;
 }
 
-const QuizQuestion = ({ question, answers, selectedAnswer, onAnswerSelect, onNextQuestion, isLastQuestion }: QuizQuestionProps) => {
+const QuizQuestion = ({ question, answers, selectedAnswer,setSelectedAnswer,  onNextQuestion, isLastQuestion }: QuizQuestionProps) => {
   const { isDark } = useTheme();
+
+  const OnSelect = (index: number) => setSelectedAnswer(index);
 
   const renderAnswer = (answer: string, index: number) => (
     <QuizAnswerOption
@@ -21,7 +23,7 @@ const QuizQuestion = ({ question, answers, selectedAnswer, onAnswerSelect, onNex
       answer={answer}
       index={index}
       selectedAnswer={selectedAnswer}
-      onSelect={onAnswerSelect}
+      onSelect={OnSelect}
     />
   );
   

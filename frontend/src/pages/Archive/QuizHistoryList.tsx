@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
-import type { Quiz } from "../../types/quiz";
-import QuizCard from "../../components/quiz/QuizCard";
+import type { Quiz } from "./types";
+import QuizCard from "./QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
 import { useTheme } from "../../hooks/useTheme";
@@ -60,14 +60,12 @@ const QuizHistoryList = () => {
     />
   );
 
-
   const filterSetters: FilterSetters = {
     toAll: () => setFilter("all"),
     toCompleted: () => setFilter("completed"),
     toIncompleted: () => setFilter("incomplete"),
   };
 
-  
   const handleScoreRangeChange = (ranges: ScoreRange[]) => {
     setScoreRanges(ranges);
   };

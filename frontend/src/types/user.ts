@@ -1,4 +1,4 @@
-export interface UserSettings {
+export interface UserData {
   firstName: string;
   lastName: string;
   email: string;
@@ -6,6 +6,3 @@ export interface UserSettings {
   currentPassword: string;
   darkMode: boolean;
 }
-
-
-export type UserProfileData = UserSettings & { createdAt:string};

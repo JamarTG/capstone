@@ -1,3 +1,13 @@
+export interface Quiz {
+  _id: string;
+  user: string;
+  currentQuestionIndex: number;
+  score: number;
+  startTime: Date;
+  endTime?: Date;
+  completed: boolean;
+  section: number;
+}
 
 export interface FilterSetters {
   toAll: VoidFunction;

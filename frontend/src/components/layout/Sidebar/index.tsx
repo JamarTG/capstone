@@ -8,7 +8,6 @@ import { IconifyIcons } from "../../../icons";
 import { capitalize } from "../../../utils/capitalize";
 import useSidebarState from "../../../hooks/useSidebarExpanded";
 import RenderList from "../../common/RenderList";
-import type { RouteConfig } from "../../../types/routes";
 import { mainRoutes, otherRoutes} from "../../../routes";
 import routes from "../../../routes";
 
@@ -52,7 +51,7 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
             <ul className="flex flex-col gap-2 space-y-2">
               <RenderList
                 data={Object.values(mainRoutes)}
-                renderFn={({ path, icon, text }: RouteConfig) => (
+                renderFn={({ path, icon, text }) => (
                   <li
                     className="sm:text-md"
                     key={text}

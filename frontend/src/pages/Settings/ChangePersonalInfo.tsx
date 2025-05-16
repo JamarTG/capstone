@@ -3,8 +3,7 @@ import { useState } from "react";
 import { personalInfoSchema } from "../../schemas/personalInfo";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
-import type { VoidHandleChangeFn } from "../../types/functions";
-import type { PersInfoUpdateFieldErrors, PersInfoUpdatePayload } from "./types";
+import type { PersInfoUpdateFieldErrors, PersInfoUpdatePayload, VoidHandleChangeFn } from "./types";
 
 interface ChangePersonalInfoProps {
   persInfoUpdatePayload: PersInfoUpdatePayload;

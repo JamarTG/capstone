@@ -7,7 +7,6 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 // import { QuizSessionResponse } from "../../types/quiz";
-import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";
 import extractErrorMessage from "../../utils/extractErrorMessage";
@@ -29,7 +28,7 @@ const QuizSession = () => {
     isLoading,
     error,
     refetch,
-  } = useQuery<QuizSessionResponse>({
+  } = useQuery({
     queryKey: ["quizSession", id],
     queryFn: () => QuizAPI.getQuizById(id!),
     initialData: sessionFromState,
@@ -100,8 +99,6 @@ const QuizSession = () => {
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
 
-  const handleAnswerSelect = (index: number) => setSelectedAnswer(index);
-
   const handleSubmitQuiz = () => {
     autoSubmitMutation(session.session._id);
   };
@@ -152,7 +149,7 @@ const QuizSession = () => {
                 question={`${currentIndex + 1}. ${currentQuestion.question}`}
                 answers={Object.values(currentQuestion.options)}
                 selectedAnswer={selectedAnswer}
-                onAnswerSelect={handleAnswerSelect}
+                setSelectedAnswer={setSelectedAnswer}
                 onNextQuestion={handleNextQuestion}
                 isLastQuestion={isLastQuestion}
               />

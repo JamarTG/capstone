@@ -5,14 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthAPI } from "../utils/api";
 import Cookies from "js-cookie";
 import { AUTH_TOKEN_CONFIG } from "../constants";
-import type { User } from "../types/context";
+import type { AuthUser } from "../types/auth";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(() => {
+  const [user, setUser] = useState<AuthUser | null>(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
@@ -38,11 +38,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }: AuthProviderProps) =>
     }
   }, [isSuccess, data]);
 
-  return (
-    <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout: handleLogout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, setUser, isAuthenticated, logout: handleLogout }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

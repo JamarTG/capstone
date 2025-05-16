@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import type { FormEvent } from "react";
-import {useContext} from "react";
+import { useContext } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
@@ -11,9 +11,9 @@ import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "../utils/api";
 import type { AxiosError } from "axios";
 import { AuthContext } from "../context/AuthContext";
-import type { SuccessfulAuthResponse } from "../types/auth";
+import type { APISuccessResponse } from "../types/api";
 import { JwtPayload } from "jwt-decode";
-import type { User } from "../types/context";
+import type { AuthUser } from "../types/auth";
 import type { LoginFormFields } from "../types/form";
 import { AUTH_TOKEN_CONFIG } from "../constants";
 
@@ -27,10 +27,10 @@ export default function useLogin() {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
 
-  const onSuccess = ({ token, message }: SuccessfulAuthResponse) => {
+  const onSuccess = ({ token, message }: APISuccessResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
-    const decodedUser = jwtDecode<JwtPayload & User>(token);
+    const decodedUser = jwtDecode<JwtPayload & AuthUser>(token);
     localStorage.setItem("user", JSON.stringify(decodedUser));
     setUser(decodedUser);
     navigate("/", { replace: true });

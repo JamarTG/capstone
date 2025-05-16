@@ -6,9 +6,9 @@ import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { UserAPI } from "../../utils/api";
 import ChangePassword from "./ChangePassword";
 import ChangeTheme from "./ChangeTheme";
-import type { UserSettings } from "../../types/settings";
+import { UserSettings } from "./types";
 import toast from "react-hot-toast";
-import type { SuccessfulAuthResponse } from "../../types/auth";
+import type { APISuccessResponse } from "../../types/api";
 import type { AxiosError } from "axios";
 import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useTheme } from "../../hooks/useTheme";
@@ -29,7 +29,7 @@ export default function Settings() {
 
   const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
 
-  const onSuccess = ({ message }: SuccessfulAuthResponse) => {
+  const onSuccess = ({ message }: APISuccessResponse) => {
     toast.success(message);
   };
 
