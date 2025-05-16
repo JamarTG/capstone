@@ -1,18 +1,18 @@
 import type { FC } from "react";
+import type { FilterSetters, StatusFilter } from "./types";
+import { ThemeContextProps } from "../../context/ThemeContext";
 
 interface CompleteFilterProps {
-  filter: string;
-  setFilterToAll: () => void;
-  setFilterToCompleted: () => void;
-  setFilterToIncomplete: () => void;
-  isDark: boolean;
+  filter: StatusFilter;
+  filterSetters: FilterSetters
+  isDark: ThemeContextProps["isDark"];
 }
 
-const CompleteFilter: FC<CompleteFilterProps> = ({ setFilterToAll, filter, isDark, setFilterToCompleted, setFilterToIncomplete }) => {
+const CompleteFilter: FC<CompleteFilterProps> = ({  filter, isDark, filterSetters }) => {
   return (
     <div className="flex justify-center items-center gap-3">
       <button
-        onClick={setFilterToAll}
+        onClick={filterSetters.toAll}
         className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
           filter === "all"
             ? isDark
@@ -26,7 +26,7 @@ const CompleteFilter: FC<CompleteFilterProps> = ({ setFilterToAll, filter, isDar
         All
       </button>
       <button
-        onClick={setFilterToCompleted}
+        onClick={filterSetters.toCompleted}
         className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
           filter === "completed"
             ? isDark
@@ -40,7 +40,7 @@ const CompleteFilter: FC<CompleteFilterProps> = ({ setFilterToAll, filter, isDar
         Completed
       </button>
       <button
-        onClick={setFilterToIncomplete}
+        onClick={filterSetters.toIncompleted}
         className={`px-3 py-1 rounded-full text-sm cursor-pointer ${
           filter === "incomplete"
             ? isDark

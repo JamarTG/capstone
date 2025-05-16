@@ -2,10 +2,11 @@ import type { FC, ReactNode } from "react";
 import { useTheme } from "../../../hooks/useTheme";
 import PageHeader from "./PageHeader";
 import MainContent from "./MainContent";
+import type { AuthProps } from "../Auth";
 
 interface PageLayoutProps {
   children: ReactNode;
-  title: string;
+  title: AuthProps["title"];
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ children, title }) => {

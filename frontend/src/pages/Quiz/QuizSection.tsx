@@ -4,7 +4,7 @@ import { Section } from "./types";
 
 interface QuizSectionProps {
   section: Section;
-  onClick: () => void;
+  onClick: VoidFunction;
   isLoading: boolean;
 }
 

@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: VoidFunction;
   children: ReactNode;
 }
 

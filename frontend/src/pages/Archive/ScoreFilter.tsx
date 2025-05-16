@@ -1,11 +1,10 @@
 import { useState } from "react";
 import RenderList from "../../components/common/RenderList";
+import type { ScoreRange } from "./types";
 
 interface ScoreFilterProps {
   onFilterChange: (ranges: ScoreRange[]) => void;
 }
-
-type ScoreRange = "0-49" | "50-79" | "80-100";
 
 export const ScoreFilter = ({ onFilterChange }: ScoreFilterProps) => {
   const [selectedRanges, setSelectedRanges] = useState<ScoreRange[]>([]);

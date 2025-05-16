@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery} from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
 import { useTheme } from "../../hooks/useTheme";
 import Card from "../ui/Card";
@@ -10,16 +10,17 @@ import extractErrorMessage from "../../utils/extractErrorMessage";
 import toast from "react-hot-toast";
 import { formatDate } from "../../utils/formatDate";
 import type { AxiosError } from "axios";
+import type { Quiz } from "../../types/quiz";
 
 interface QuizCardProps {
-  score: number;
-  lastAttempt: string | Date;
-  section: number;
-  completed: boolean;
-  currentQuestionIndex: number;
+  score: Quiz["score"];
+  lastAttempt: Quiz["endTime"] | Quiz["startTime"];
+  section: Quiz["section"];
+  completed: Quiz["completed"];
+  currentQuestionIndex: Quiz["currentQuestionIndex"];
   className?: string;
-  quizId: string;
-  quizRefetch: () => void;
+  quizId: Quiz["_id"];
+  quizRefetch: ReturnType<typeof useQuery>["refetch"];
 }
 
 const QuizCard: FC<QuizCardProps> = ({
@@ -34,7 +35,7 @@ const QuizCard: FC<QuizCardProps> = ({
 }) => {
   const [isConfirming, setIsConfirming] = useState(false);
   const { isDark } = useTheme();
-  const formattedDate = formatDate(lastAttempt);
+  const formattedDate = lastAttempt ? formatDate(lastAttempt) : "N/A";
 
   const handleError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error) || "Failed to delete quiz");

@@ -4,7 +4,7 @@ interface CardProps {
   className?: string;
   children?: ReactNode;
   style?: CSSProperties;
-  onClick?: () => void;
+  onClick?: VoidFunction;
   animateOnHover?: boolean;
 }
 

@@ -3,13 +3,13 @@ import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 import { passwordSchema } from "../../schemas/password";
-import type { voidFn, voidHandleChangeFn } from "../../types/functions";
+import type { VoidHandleChangeFn } from "../../types/functions";
 import type { PasswordUpdateFieldErrors, PasswordUpdatePayload } from "./types";
 
 interface ChangePasswordProps {
   passwordUpdatePayload: PasswordUpdatePayload;
-  handleChange: voidHandleChangeFn;
-  savePassword: voidFn;
+  handleChange: VoidHandleChangeFn;
+  savePassword: VoidFunction;
 }
 
 const ChangePassword: FC<ChangePasswordProps> = ({ passwordUpdatePayload, handleChange, savePassword }) => {

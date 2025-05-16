@@ -6,7 +6,7 @@ export interface AuthContextType {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
   isAuthenticated: boolean;
-  logout: () => void;
+  logout: VoidFunction;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

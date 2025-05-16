@@ -1,6 +1,6 @@
 import RenderList from "../../components/common/RenderList";
 import { useTheme } from "../../hooks/useTheme";
-import type { OnSelectFn, voidFn } from "../../types/functions";
+import type { OnSelectFn } from "../../types/functions";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {
@@ -8,7 +8,7 @@ interface QuizQuestionProps {
   answers: string[];
   selectedAnswer: number | null;
   onAnswerSelect: OnSelectFn;
-  onNextQuestion: voidFn;
+  onNextQuestion: VoidFunction;
   isLastQuestion: boolean;
 }
 

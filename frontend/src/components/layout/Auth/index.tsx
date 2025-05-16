@@ -2,7 +2,7 @@ import RightAuthScreen from "./RightAuthScreen";
 import LeftAuthScreen from "./LeftAuthScreen";
 import type { ReactNode, FC } from "react";
 
-interface AuthProps {
+export interface AuthProps {
   children?: ReactNode;
   title: string;
 }

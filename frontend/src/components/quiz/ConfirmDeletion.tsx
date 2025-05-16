@@ -1,8 +1,8 @@
 import type { FC } from "react";
 
 interface ConfirmDeletionProps {
-  onConfirm: () => void;
-  onCancel: () => void;
+  onConfirm: VoidFunction;
+  onCancel: VoidFunction;
   isPending: boolean;
 }
 

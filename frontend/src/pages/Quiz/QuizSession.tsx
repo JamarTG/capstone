@@ -6,6 +6,7 @@ import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { QuizAPI } from "../../utils/api";
+// import { QuizSessionResponse } from "../../types/quiz";
 import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import type { AxiosError } from "axios";

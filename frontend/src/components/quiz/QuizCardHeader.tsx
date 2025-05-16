@@ -9,9 +9,9 @@ interface Props {
   section: number;
   isConfirming: boolean;
   isPending: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-  onDeleteClick: () => void;
+  onConfirm: VoidFunction;
+  onCancel: VoidFunction;
+  onDeleteClick: VoidFunction;
 }
 
 const QuizCardHeader: FC<Props> = ({

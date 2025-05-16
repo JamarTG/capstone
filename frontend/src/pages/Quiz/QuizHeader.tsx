@@ -8,7 +8,7 @@ import { Section_Map } from "../../constants";
 interface QuizHeaderProps {
   currentProgress: number;
   totalQuestions: number;
-  onSubmitQuiz: () => void;
+  onSubmitQuiz: VoidFunction;
   isSubmitting: boolean;
   topic: number;
 }

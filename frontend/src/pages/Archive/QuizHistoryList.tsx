@@ -9,11 +9,10 @@ import { useTheme } from "../../hooks/useTheme";
 import Loader from "../../components/common/Loader";
 import { ScoreFilter } from "./ScoreFilter";
 import CompleteFilter from "./CompleteFilter";
-
-type ScoreRange = "0-49" | "50-79" | "80-100";
+import type { FilterSetters, ScoreRange, StatusFilter } from "./types";
 
 const QuizHistoryList = () => {
-  const [filter, setFilter] = useState<"all" | "completed" | "incomplete">("all");
+  const [filter, setFilter] = useState<StatusFilter>("all");
   const [scoreRanges, setScoreRanges] = useState<ScoreRange[]>([]);
   const { isDark } = useTheme();
 
@@ -33,7 +32,6 @@ const QuizHistoryList = () => {
   const sessions = quizzes?.sessions || [];
 
   const filtered = sessions.filter((quiz: Quiz) => {
-  
     const scorePercentage = quiz.currentQuestionIndex > 0 ? (quiz.score / quiz.currentQuestionIndex) * 100 : 0;
     const statusMatch = filter === "all" ? true : filter === "completed" ? quiz.completed : !quiz.completed;
 
@@ -62,18 +60,14 @@ const QuizHistoryList = () => {
     />
   );
 
-  const setFilterToAll = () => {
-    setFilter("all");
+
+  const filterSetters: FilterSetters = {
+    toAll: () => setFilter("all"),
+    toCompleted: () => setFilter("completed"),
+    toIncompleted: () => setFilter("incomplete"),
   };
 
-  const setFilterToCompleted = () => {
-    setFilter("completed");
-  };
-
-  const setFilterToIncomplete = () => {
-    setFilter("incomplete");
-  };
-
+  
   const handleScoreRangeChange = (ranges: ScoreRange[]) => {
     setScoreRanges(ranges);
   };
@@ -83,9 +77,7 @@ const QuizHistoryList = () => {
       <div className="flex gap-16">
         <CompleteFilter
           filter={filter}
-          setFilterToAll={setFilterToAll}
-          setFilterToCompleted={setFilterToCompleted}
-          setFilterToIncomplete={setFilterToIncomplete}
+          filterSetters={filterSetters}
           isDark={false}
         />
         <ScoreFilter onFilterChange={handleScoreRangeChange} />

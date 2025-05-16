@@ -29,6 +29,6 @@ export interface UserUpdatePayload {
   darkMode?: boolean;
 }
 
-interface CreateQuizPayload {
+export interface CreateQuizPayload {
   section: number;
 }

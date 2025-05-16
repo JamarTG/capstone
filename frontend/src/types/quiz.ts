@@ -9,7 +9,7 @@ export interface Quiz {
   section: number;
 }
 
-interface Session {
+export interface Session {
   _id: string;
   section: number;
   user: string;
@@ -23,7 +23,7 @@ interface Session {
   __v: number;
 }
 
-interface QuizSessionResponse {
+export interface QuizSessionResponse {
   message: string;
   session: Session;
 }
@@ -49,7 +49,7 @@ export interface Question {
 }
 export interface Session {
   _id: string;
-  topic: Topic;
+  topic: string;
   user: string;
   currentQuestionIndex: number;
   score: number;

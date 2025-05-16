@@ -3,13 +3,13 @@ import { useState } from "react";
 import { personalInfoSchema } from "../../schemas/personalInfo";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
-import type { voidFn, voidHandleChangeFn } from "../../types/functions";
+import type { VoidHandleChangeFn } from "../../types/functions";
 import type { PersInfoUpdateFieldErrors, PersInfoUpdatePayload } from "./types";
 
 interface ChangePersonalInfoProps {
   persInfoUpdatePayload: PersInfoUpdatePayload;
-  handleChange: voidHandleChangeFn;
-  savePersonalInfo: voidFn;
+  handleChange: VoidHandleChangeFn;
+  savePersonalInfo: VoidFunction;
 }
 
 const ChangePersonalInfo: FC<ChangePersonalInfoProps> = ({ persInfoUpdatePayload, handleChange, savePersonalInfo }) => {
