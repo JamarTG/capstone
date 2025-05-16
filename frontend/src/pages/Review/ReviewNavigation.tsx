@@ -6,7 +6,7 @@ import { QuestionObject } from "./types";
 export interface ReviewNavigationProps {
   currentQuestionIndex: number;
   setCurrentQuestionIndex: Dispatch<SetStateAction<number>>;
-  questions: Array<QuestionObject>;
+  questions: QuestionObject[];
 }
 
 
