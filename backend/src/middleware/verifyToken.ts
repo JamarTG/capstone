@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { verify, JwtPayload } from "jsonwebtoken";
 import { CustomRequest } from "../types/middleware";
 
@@ -23,4 +23,4 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): voi
   }
 };
 
-export { verifyToken };
+export default verifyToken;

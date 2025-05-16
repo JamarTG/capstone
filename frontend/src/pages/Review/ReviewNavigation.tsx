@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react";
-import React from "react";
 import { IconifyIcons } from "../../icons";
 import { QuestionObject } from "./types";
 

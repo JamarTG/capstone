@@ -1,11 +1,11 @@
-import React, { ReactNode } from "react";
+import { ReactNode, FC } from "react";
 import { useTheme } from "../../../hooks/useTheme";
 
 interface MainContentProps {
   children: ReactNode;
 }
 
-const MainContent: React.FC<MainContentProps> = ({ children }) => {
+const MainContent: FC<MainContentProps> = ({ children }) => {
   const { isDark } = useTheme();
 
   return (

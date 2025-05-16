@@ -1,10 +1,10 @@
-import React from "react";
+import { FC } from "react";
 
 interface AuthHeaderProps {
-    title: string
+  title: string;
 }
 
-const AuthHeader: React.FC<AuthHeaderProps> = ({title}) => {
+const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
   return (
     <section className="w-full text-center">
       <div className="w-full flex justify-center items-center space-x-4">

@@ -1,4 +1,4 @@
-import React from "react";
+
 import ConfirmDeletion from "./ConfirmDeletion";
 import {Icon} from "@iconify/react";
 import { Section_Map } from "../../constants";

@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import User from "../models/User";
-import jwt from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import { CustomRequest } from "../types/middleware";
 
 export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
@@ -39,7 +39,7 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
       return;
     }
 
-    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+    const token = sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
 
     res.status(201).json({ message: "User Created Successfully", token });
   } catch (error) {
@@ -59,7 +59,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
   try {
     const userWithEmail = await User.findOne({ email }).select("+password");
 
-    if (!userWithEmail|| userWithEmail.status === "inactive") {
+    if (!userWithEmail || userWithEmail.status === "inactive") {
       res.status(404).json({ message: "User Not Found" });
       return;
     }
@@ -71,7 +71,7 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
       return;
     }
 
-    const token = jwt.sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+    const token = sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
 
     res.status(200).json({ message: "Login Successful", token });
   } catch (error) {
@@ -97,4 +97,3 @@ export const checkAuth = async (req: CustomRequest, res: Response): Promise<void
     res.status(500).json({ message: "Server Error" });
   }
 };
-

@@ -16,7 +16,7 @@ import { User } from "../types/context";
 import { LoginFormFields } from "../types/form";
 import { AUTH_TOKEN_CONFIG } from "../constants";
 
-export function useLogin() {
+export default function useLogin() {
   const { formData, errors, handleChange, validate } = useFormValidation<LoginFormFields>(
     loginSchema,
     FORM_CONSTANTS.LOGIN.initialLoginFields,

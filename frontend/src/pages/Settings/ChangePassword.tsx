@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { useTheme } from "../../hooks/useTheme";
 import { passwordSchema } from "../../schemas/password";

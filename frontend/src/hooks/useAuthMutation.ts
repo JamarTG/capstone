@@ -3,7 +3,7 @@ import { AuthAPI } from "../utils/api";
 import { SuccessfulAuthResponse } from "../types/auth";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { extractErrorMessage } from "../utils/extractErrorMessage";
+import extractErrorMessage from "../utils/extractErrorMessage";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../context/AuthContext";

@@ -6,7 +6,6 @@ import Quiz from "../pages/Quiz";
 import NotFound from "../pages/NotFound";
 import Login from "../components/auth/login";
 import Register from "../components/auth/register";
-import QuizSelection from "../pages/Quiz";
 import QuizReview from "../pages/Review";
 import Settings from "../pages/Settings";
 import { RouteConfigObject } from "./types";

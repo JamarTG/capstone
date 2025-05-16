@@ -1,26 +1,16 @@
-import express from "express";
-import {
-  createQuizSession,
-  getQuizSession,
-  completeQuiz,
-  deleteQuizSession,
-  getUserQuizSessions,
-  submitQuizAnswer,
-  getUserFeedbacks
-} from "../controllers/quiz";
-import { verifyToken } from "../middleware/auth";
-import { checkActiveQuizSession } from "../controllers/quiz";
+import { Router } from "express";
+import * as quizControllers from "../controllers/quiz";
+import verifyToken from "../middleware/verifyToken";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/active", verifyToken, checkActiveQuizSession);
-router.get("/all", verifyToken, getUserQuizSessions)
-router.get("/feedbacks", verifyToken, getUserFeedbacks);
-router.post("/create", verifyToken,createQuizSession);
-router.get("/:sessionId", verifyToken, getQuizSession);
-router.patch("/:sessionId/answer",verifyToken, submitQuizAnswer);
-router.put("/:sessionId/auto-submit", verifyToken, completeQuiz);
-router.delete("/:sessionId", deleteQuizSession);
-
+router.get("/active", verifyToken, quizControllers.checkActiveQuizSession);
+router.get("/all", verifyToken, quizControllers.getUserQuizSessions);
+router.get("/feedbacks", verifyToken, quizControllers.getUserFeedbacks);
+router.post("/create", verifyToken, quizControllers.createQuizSession);
+router.get("/:sessionId", verifyToken, quizControllers.getQuizSession);
+router.patch("/:sessionId/answer", verifyToken, quizControllers.submitQuizAnswer);
+router.put("/:sessionId/auto-submit", verifyToken, quizControllers.completeQuiz);
+router.delete("/:sessionId", quizControllers.deleteQuizSession);
 
 export default router;

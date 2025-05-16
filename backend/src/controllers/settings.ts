@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { CustomRequest } from "../types/middleware";
 import User from "../models/User";
-import crypto from "crypto";
+import { randomBytes, pbkdf2Sync } from "crypto";
 
 const getUserInformation = async (req: CustomRequest, res: Response) => {
   const { _id } = req.user;
@@ -58,8 +58,8 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
         return;
       }
 
-      const newSalt = crypto.randomBytes(16).toString("hex");
-      const newHashedPassword = crypto.pbkdf2Sync(password, newSalt, 1000, 64, "sha512").toString("hex");
+      const newSalt = randomBytes(16).toString("hex");
+      const newHashedPassword = pbkdf2Sync(password, newSalt, 1000, 64, "sha512").toString("hex");
 
       dataToBeUpdated = {
         ...dataToBeUpdated,

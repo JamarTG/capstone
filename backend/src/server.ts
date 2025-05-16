@@ -2,10 +2,10 @@ import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import http from "http";
+import {createServer} from "http";
 import compression from "compression";
 import { config } from "dotenv";
-import connectDB from "./db";
+import connectDB from "./connectDB";
 import authRoutes from "./routes/auth";
 import settingsRoutes from "./routes/settings";
 import quizRoutes from "./routes/quiz";
@@ -34,6 +34,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/quiz", quizRoutes);
 
-http.createServer(app).listen(process.env.PORT, () => {
+createServer(app).listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);
 });

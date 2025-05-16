@@ -3,7 +3,6 @@ import { IQuestion, Quiz } from "../models/Quiz";
 import { CustomRequest } from "../types/middleware";
 import { spawn } from "child_process";
 import Feedback from "../models/Feedback";
-import fs from "fs";
 
 export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
   try {

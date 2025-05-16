@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 import { Section_Map } from "../../constants";
 import { Icon } from "@iconify/react";

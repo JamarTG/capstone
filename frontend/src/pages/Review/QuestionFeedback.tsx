@@ -1,4 +1,3 @@
-import React from "react";
 import { Question } from "../../types/quiz";
 import { QuizOption, QuizOptionPostFix } from "./types";
 

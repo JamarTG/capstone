@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import RightAuthScreen from "./RightAuthScreen";
 import LeftAuthScreen from "./LeftAuthScreen";
 
@@ -7,7 +7,7 @@ interface AuthProps {
   title: string;
 }
 
-const AuthLayout: React.FC<AuthProps> = ({ children, title }) => {
+const AuthLayout: FC<AuthProps> = ({ children, title }) => {
   return (
     <div className="flex min-h-screen bg-gray-100">
       <LeftAuthScreen title={title}>

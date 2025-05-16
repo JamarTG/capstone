@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import { Schema, Document, Types, model } from "mongoose";
 import { IUser } from "./User";
 
 export interface IFeedback extends Document {
@@ -10,7 +10,7 @@ export interface IFeedback extends Document {
 
 const FeedbackSchema: Schema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
@@ -28,4 +28,4 @@ const FeedbackSchema: Schema = new Schema({
   },
 });
 
-export default mongoose.model<IFeedback>("Feedback", FeedbackSchema);
+export default model<IFeedback>("Feedback", FeedbackSchema);
