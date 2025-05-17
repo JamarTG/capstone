@@ -44,7 +44,7 @@ The system provides precise feedback by identifying only the objectives the stud
 RAG powers the generation of both quiz items and feedback. The system retrieves relevant syllabus content using vector-based search before passing it to a language model for generating curriculum-aligned questions and explanations.  
 
 ### Adaptive Reinforcement  
-Follow-up quizzes are dynamically generated with new questions that specifically target the student’s unmet objectives or areas of weakness, promoting mastery through focused practice.  
+Follow-up quizzes are dynamically generated with new questions that specifically target the student's unmet objectives or areas of weakness, promoting mastery through focused practice.  
 
 
 ![image](https://github.com/user-attachments/assets/16add320-e0af-4778-86e1-d2d4356ad62f)
