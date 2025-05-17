@@ -1,4 +1,4 @@
-import { axiosInstance, axiosInstanceWithCredentials } from "./axios";
+import { axiosInstance, axiosInstanceWithCredentials } from "./instance";
 import { handleRequest } from "./request";
 import { formTypes } from "@/types";
 

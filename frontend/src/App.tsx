@@ -1,10 +1,18 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SidebarLayout from "./components/layout/Sidebar";
 import { ThemeProvider } from "./context/ThemeProvider";
+import QuizSession from "./pages/Quiz/QuizSession";
+import Register from "./components/auth/register";
 import AuthProvider from "./context/AuthProvider";
+import Login from "./components/auth/login";
+import Dashboard from "./pages/Dashboard";
 import { Toaster } from "react-hot-toast";
-import { otherRoutes } from "./routes";
-import { mainRoutes } from "./routes";
+import Settings from "./pages/Settings";
+import NotFound from "./pages/NotFound";
+import QuizReview from "./pages/Review";
+import Archive from "./pages/Archive";
+import Quiz from "./pages/Quiz";
 
 function App() {
   const queryClient = new QueryClient();
@@ -15,18 +23,20 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <ThemeProvider>
-              <Routes location={location} key={location.pathname}>
-                {Object.values({ ...mainRoutes, ...otherRoutes }).map(
-                  ({ path, element, layout: Layout }) => {
-                    return (
-                      <Route
-                        key={path}
-                        path={path}
-                        element={Layout ? <Layout>{element}</Layout> : element}
-                      />
-                    );
-                  },
-                )}
+              <Routes>
+                <Route element={<SidebarLayout />}>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/archive" element={<Archive />} />
+                  <Route path="/quiz" element={<Quiz />} />
+                  <Route path="/quiz/:id" element={<QuizSession />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/review/:id" element={<QuizReview />} />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+
+                <Route path="/login" element={<Login />} />
+
+                <Route path="/register" element={<Register />} />
               </Routes>
             </ThemeProvider>
           </BrowserRouter>

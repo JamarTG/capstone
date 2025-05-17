@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks";
-import routes from "../../routes";
+import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -13,8 +13,10 @@ const NotFound = () => {
     >
       <h1 className="text-6xl font-bold mb-4">404</h1>
       <p className="text-xl mb-6">Oops! Page not found.</p>
-      <Link
-        to={routes.NOT_FOUND.path}
+      <button
+        onClick={() => {
+          navigate("/");
+        }}
         className={`px-4 py-2 rounded-md shadow text-sm font-medium ${
           isDark
             ? "bg-gray-700 text-white hover:bg-gray-600"
@@ -22,7 +24,7 @@ const NotFound = () => {
         }`}
       >
         Go Back Home
-      </Link>
+      </button>
     </div>
   );
 };

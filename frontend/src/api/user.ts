@@ -1,4 +1,4 @@
-import { axiosInstanceWithCredentials } from "./axios";
+import { axiosInstanceWithCredentials } from "./instance";
 import { handleRequest } from "./request";
 import { UserData } from "@/types/user";
 

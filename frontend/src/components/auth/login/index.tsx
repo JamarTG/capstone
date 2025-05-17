@@ -1,10 +1,10 @@
 import RegisterRedirect from "./RegisterRedirect";
-import AuthLayout from "../../layout/Auth";
 import LoginForm from "./LoginForm";
+import AuthLayout from "@/components/layout/Auth";
 
 export default function Login() {
   return (
-    <AuthLayout title="Sign in to your account">
+    <AuthLayout>
       <LoginForm />
       <RegisterRedirect />
     </AuthLayout>

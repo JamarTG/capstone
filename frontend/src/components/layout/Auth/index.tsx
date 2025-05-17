@@ -1,13 +1,19 @@
 import RightAuthScreen from "./RightAuthScreen";
 import LeftAuthScreen from "./LeftAuthScreen";
-import type { ReactNode, FC } from "react";
+import type { FC, ReactNode } from "react";
 
-export interface AuthProps {
-  children?: ReactNode;
-  title: string;
+interface AuthLayoutProps {
+  children: ReactNode;
 }
 
-const AuthLayout: FC<AuthProps> = ({ children, title }) => {
+const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
+  const title =
+    location.pathname === "/login"
+      ? "Sign into your account"
+      : location.pathname === "/register"
+        ? "Create an account"
+        : "";
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <LeftAuthScreen title={title}>{children}</LeftAuthScreen>

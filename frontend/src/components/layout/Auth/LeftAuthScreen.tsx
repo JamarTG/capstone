@@ -1,10 +1,10 @@
 import type { ReactNode, FC } from "react";
 import AuthHeader from "./AuthHeader";
-import type { AuthProps } from ".";
+
 
 interface LeftAuthScreenProps {
   children: ReactNode;
-  title: AuthProps["title"];
+  title: string;
 }
 
 const LeftAuthScreen: FC<LeftAuthScreenProps> = ({ title, children }) => {
