@@ -57,7 +57,7 @@ const Dashboard = () => {
             />
           </h1>
           <p className="text-md mt-2 text-gray-400">
-            Let’s level up your skills and tackle those tricky topics together
+            Let's level up your skills and tackle those tricky topics together
           </p>
         </div>
 
