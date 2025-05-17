@@ -4,7 +4,6 @@ import useAuthRedirect from "@/hooks/useAuthRedirect";
 import { Typewriter } from "react-simple-typewriter";
 import { useQuery } from "@tanstack/react-query";
 import type { UserData } from "../../types/user";
-import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
 import FeedbackList from "./FeedbackList";
 import { useTheme } from "@/hooks";
@@ -15,16 +14,7 @@ const Dashboard = () => {
   useAuthRedirect();
   const { isDark } = useTheme();
 
-  const [user, setUser] = useState<UserData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    currentPassword: "",
-    darkMode: isDark,
-  });
-
-  const { data } = useQuery<{ data: UserData }>({
+  const { data : user } = useQuery<{ data: UserData }>({
     queryKey: ["get-profile-data"],
     queryFn: UserAPI.fetchUserInfo,
   });
@@ -33,10 +23,6 @@ const Dashboard = () => {
     queryKey: ["user-feedbacks"],
     queryFn: () => QuizAPI.getUserFeedbacks().then((res) => res.data),
   });
-
-  useEffect(() => {
-    if (data) setUser(data.data);
-  }, [data]);
 
   return (
     <PageLayout title="Dashboard">
@@ -47,7 +33,7 @@ const Dashboard = () => {
           <h1 className="text-4xl font-bold flex">
             <Typewriter
               words={[
-                `Hey ${user.firstName || "champ"}, ready to crush some IT today?`,
+                `Hey ${user?.data.firstName || "champ"}, ready to crush some IT today?`,
               ]}
               loop={1}
               cursor={false}
