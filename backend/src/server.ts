@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth";
 import settingsRoutes from "./routes/settings";
 import quizRoutes from "./routes/quiz";
 import cookieParser from "cookie-parser";
+import { shutdown } from "./utils";
 
 config();
 
@@ -34,6 +35,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/quiz", quizRoutes);
 
-createServer(app).listen(process.env.PORT, () => {
+const server = createServer(app)
+
+server.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT} 🚀`);
 });
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
