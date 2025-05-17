@@ -1,16 +1,12 @@
 import RenderList from "../../components/common/RenderList";
+import FeedbackEntries from "./FeedbackEntries";
 import { Section_Map } from "../../constants";
 import { IconifyIcons } from "../../icons";
 import { Icon } from "@iconify/react";
 import { useTheme } from "@/hooks";
+import { Feedback } from "./types";
 import { useState } from "react";
 import type { FC } from "react";
-
-interface Feedback {
-  _id: string;
-  feedback: string;
-  section: number;
-}
 
 interface FeedbackListProps {
   feedbacks: Feedback[];
@@ -40,17 +36,6 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
   const closeSection = () => {
     setOpenSection(null);
   };
-
-  const renderEntries = (feedbackEntry: Feedback) => (
-    <div
-      key={feedbackEntry._id}
-      className={`border border-gray-700 pl-5 p-2  rounded-md bg-opacity-20 ${
-        isDark ? "bg-gray-800 text-gray-200" : "border-slate-300 text-slate-700"
-      }`}
-    >
-      <p className="text-sm leading-relaxed">{feedbackEntry.feedback}</p>
-    </div>
-  );
 
   const renderSectionNumbers = (section: string) => {
     const entries = grouped[section] || [];
@@ -140,7 +125,9 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
             <>
               <RenderList
                 data={entries.slice(page * 5, (page + 1) * 5)}
-                renderFn={renderEntries}
+                renderFn={(feedbackEntry: Feedback) => (
+                  <FeedbackEntries feedbackEntry={feedbackEntry} />
+                )}
               />
               <div className="flex justify-between mt-2">
                 <button

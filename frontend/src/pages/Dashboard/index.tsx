@@ -7,8 +7,8 @@ import type { UserData } from "../../types/user";
 import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
 import FeedbackList from "./FeedbackList";
-import { UserAPI } from "@/api/user";
 import { useTheme } from "@/hooks";
+import { UserAPI } from "@/api";
 import { QuizAPI } from "@/api";
 
 const Dashboard = () => {
