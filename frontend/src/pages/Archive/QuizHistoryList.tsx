@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { QuizAPI } from "../../utils/api";
+import { QuizAPI } from "@/api";
 import type { Quiz } from "./types";
 import QuizCard from "./QuizCard";
 import RenderList from "../../components/common/RenderList";
 import NoFilteredQuizzes from "./NoFilteredQuizzes";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import Loader from "../../components/common/Loader";
 import { ScoreFilter } from "./ScoreFilter";
 import CompleteFilter from "./CompleteFilter";

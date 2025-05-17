@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import type { IconProps } from "@tabler/icons-react";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import type { FC } from "react";
 
 interface SectionHeaderProps {

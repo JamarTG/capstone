@@ -1,5 +1,5 @@
-import useRegister from "../../../hooks/useRegister";
-import type { RegisterFormErrors } from "../../../types/form";
+import useRegister from "@/hooks/useRegister";
+import type { formTypes } from "@/types";
 import InputField from "../../ui/Input";
 import RegisterButton from "./RegisterButton";
 
@@ -19,7 +19,7 @@ export default function RegisterForm() {
           type="text"
           value={formData.firstName}
           onChange={handleChange}
-          error={(errors as RegisterFormErrors).firstName}
+          error={(errors as formTypes.RegisterFormErrors).firstName}
           placeholder="Enter your first name"
         />
         <InputField
@@ -29,7 +29,7 @@ export default function RegisterForm() {
           type="text"
           value={formData.lastName}
           onChange={handleChange}
-          error={(errors as RegisterFormErrors).lastName}
+          error={(errors as formTypes.RegisterFormErrors).lastName}
           placeholder="Enter your last name"
         />
       </div>

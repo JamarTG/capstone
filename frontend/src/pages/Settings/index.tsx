@@ -2,16 +2,16 @@ import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import PageContent from "../../components/layout/Page";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
-import { UserAPI } from "../../utils/api";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
+import { UserAPI } from "@/api/user";
 import ChangePassword from "./ChangePassword";
 import ChangeTheme from "./ChangeTheme";
 import { UserSettings } from "./types";
 import toast from "react-hot-toast";
-import type { APISuccessResponse } from "../../types/api";
+import type { apiTypes } from "@/types";
 import type { AxiosError } from "axios";
 import extractErrorMessage from "../../utils/extractErrorMessage";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 
 export default function Settings() {
@@ -29,7 +29,7 @@ export default function Settings() {
 
   const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
 
-  const onSuccess = ({ message }: APISuccessResponse) => {
+  const onSuccess = ({ message }: apiTypes.APISuccessResponse) => {
     toast.success(message);
   };
 

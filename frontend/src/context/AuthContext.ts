@@ -1,10 +1,10 @@
 import { createContext } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { AuthUser } from "../types/auth";
+import type { authTypes } from "@/types";
 
 export interface AuthContextType {
-  user: AuthUser | null;
-  setUser: Dispatch<SetStateAction<AuthUser | null>>;
+  user: authTypes.AuthUser | null;
+  setUser: Dispatch<SetStateAction<authTypes.AuthUser | null>>;
   isAuthenticated: boolean;
   logout: VoidFunction;
 }

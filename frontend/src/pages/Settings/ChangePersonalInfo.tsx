@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import Button from "../../components/ui/Button";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import type { PersInfoUpdateFieldErrors, PersInfoUpdatePayload, VoidHandleChangeFn } from "./types";
 import { z } from "zod";
 

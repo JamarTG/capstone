@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import { IconifyIcons } from "../../icons";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import { getFilterMessage } from "../../utils/getFilterMessage";
 import type { StatusFilter } from "./types";
 import type { FC } from "react";

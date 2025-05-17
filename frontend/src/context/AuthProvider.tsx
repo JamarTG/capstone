@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import type { FC, ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { AuthAPI } from "../utils/api";
+import { AuthAPI} from "@/api";
+
 import Cookies from "js-cookie";
 import { AUTH_TOKEN_CONFIG } from "../constants";
-import type { AuthUser } from "../types/auth";
-
+import type { authTypes } from "@/types";
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<AuthUser | null>(() => {
+  const [user, setUser] = useState<authTypes.AuthUser | null>(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });

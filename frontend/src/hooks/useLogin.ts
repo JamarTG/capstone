@@ -7,16 +7,15 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
 import useFormValidation from "./useFormValidation";
 import { FORM_CONSTANTS } from "../constants";
-import { AuthAPI } from "../utils/api";
+import { AuthAPI } from "@/api";
 import type { AxiosError } from "axios";
 import { AuthContext } from "../context/AuthContext";
-import type { APISuccessResponse } from "../types/api";
+import type { apiTypes } from "@/types";
 import { JwtPayload } from "jwt-decode";
-import type { AuthUser } from "../types/auth";
-import type { LoginFormFields } from "../types/form";
+import type { authTypes } from "@/types";
+import { formTypes } from "@/types";
 import { AUTH_TOKEN_CONFIG } from "../constants";
 import { z } from "zod";
-
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -24,7 +23,7 @@ export const loginSchema = z.object({
 });
 
 export default function useLogin() {
-  const { formData, errors, handleChange, validate } = useFormValidation<LoginFormFields>(
+  const { formData, errors, handleChange, validate } = useFormValidation<formTypes.LoginFormFields>(
     loginSchema,
     FORM_CONSTANTS.LOGIN.initialLoginFields,
     FORM_CONSTANTS.LOGIN.initialLoginErrors
@@ -33,10 +32,10 @@ export default function useLogin() {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
 
-  const onSuccess = ({ token, message }: APISuccessResponse) => {
+  const onSuccess = ({ token, message }: apiTypes.APISuccessResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
-    const decodedUser = jwtDecode<JwtPayload & AuthUser>(token);
+    const decodedUser = jwtDecode<JwtPayload & authTypes.AuthUser>(token);
     localStorage.setItem("user", JSON.stringify(decodedUser));
     setUser(decodedUser);
     navigate("/", { replace: true });

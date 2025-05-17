@@ -1,6 +1,6 @@
 import PageLayout from "../../components/layout/Page";
 import QuizHistoryList from "./QuizHistoryList";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 import SectionHeader from "../../components/SectionHeader";
 import { IconifyIcons } from "../../icons";
 

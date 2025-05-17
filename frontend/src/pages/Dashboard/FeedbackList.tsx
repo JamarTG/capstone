@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FC } from "react";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import { Icon } from "@iconify/react";
 import { Section_Map } from "../../constants";
 import RenderList from "../../components/common/RenderList";

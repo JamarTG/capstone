@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import { FadeLoader } from "react-spinners";
 
 interface LoaderProps {

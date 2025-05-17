@@ -6,14 +6,14 @@ import sectionFive from "./assets/images/quiz/5.webp";
 import sectionSix from "./assets/images/quiz/6.webp";
 import sectionSeven from "./assets/images/quiz/7.webp";
 import sectionEight from "./assets/images/quiz/8.webp";
-import type { LoginFormErrors, LoginFormFields, RegisterFormErrors, RegisterFormFields } from "./types/form";
+import type { formTypes } from "@/types";
 
 export const BASE_URL = "http://localhost:5000/api";
 
 export const FORM_CONSTANTS = {
   LOGIN: {
-    initialLoginFields: { email: "", password: "" } as LoginFormFields,
-    initialLoginErrors: { email: "", password: "" } as LoginFormErrors,  
+    initialLoginFields: { email: "", password: "" } as formTypes.LoginFormFields,
+    initialLoginErrors: { email: "", password: "" } as formTypes.LoginFormErrors,  
   },
   REGISTER: {
     initialRegisterFields: {
@@ -21,13 +21,13 @@ export const FORM_CONSTANTS = {
       lastName: "",
       email: "",
       password: "",
-    } as RegisterFormFields,
+    } as formTypes.RegisterFormFields,
     initialRegisterErrors: {
       firstName: "",
       lastName: "",
       email: "",
       password: "",
-    } as RegisterFormErrors,  
+    } as formTypes.RegisterFormErrors,  
   },
 };
 export const Section_Map: Record<number, { bgSrc: string; name: string }> = {

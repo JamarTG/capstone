@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useTheme } from "../../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 
 interface PageHeaderProps {
   title: string;

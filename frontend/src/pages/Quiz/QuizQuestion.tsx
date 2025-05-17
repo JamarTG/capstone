@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import RenderList from "../../components/common/RenderList";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import QuizAnswerOption from "./QuizAnswerOption";
 
 interface QuizQuestionProps {

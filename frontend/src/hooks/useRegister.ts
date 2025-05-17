@@ -1,8 +1,7 @@
 import useFormValidation from "./useFormValidation";
 import { FORM_CONSTANTS } from "../constants";
-import type { RegisterFormFields } from "../types/form";
 import { useMutation } from "@tanstack/react-query";
-import { AuthAPI } from "../utils/api";
+import { AuthAPI } from "@/api";
 import { toast } from "react-hot-toast";
 import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,9 +11,10 @@ import { AUTH_TOKEN_CONFIG } from "../constants";
 import type { FormEvent } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import type { AuthUser } from "../types/auth";
-import type { APISuccessResponse } from "../types/api";
+import type { authTypes } from "@/types";
+import type { apiTypes } from "@/types";
 import { z } from "zod";
+import type { formTypes } from "@/types";
 
 export const registerSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -27,16 +27,16 @@ const useRegister = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
 
-  const { formData, errors, handleChange, validate } = useFormValidation<RegisterFormFields>(
+  const { formData, errors, handleChange, validate } = useFormValidation<formTypes.RegisterFormFields>(
     registerSchema,
     FORM_CONSTANTS.REGISTER.initialRegisterFields,
     FORM_CONSTANTS.REGISTER.initialRegisterErrors
   );
 
-  const onSuccess = ({ token, message }: APISuccessResponse) => {
+  const onSuccess = ({ token, message }: apiTypes.APISuccessResponse) => {
     toast.success(message);
     Cookies.set("token", token, AUTH_TOKEN_CONFIG);
-    const decodedUser = jwtDecode<JwtPayload & AuthUser>(token);
+    const decodedUser = jwtDecode<JwtPayload & authTypes.AuthUser>(token);
     localStorage.setItem("user", JSON.stringify(decodedUser));
     setUser(decodedUser);
     navigate("/", { replace: true });

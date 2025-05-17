@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import PageLayout from "../../components/layout/Page";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
-import { QuizAPI, UserAPI } from "../../utils/api";
-import useAuthRedirect from "../../hooks/useAuthRedirect";
+import { UserAPI } from "@/api/user";
+import { QuizAPI } from "@/api";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 import type { UserData } from "../../types/user";
 import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
@@ -20,7 +21,7 @@ const Dashboard = () => {
     email: "",
     password: "",
     currentPassword: "",
-    darkMode: isDark
+    darkMode: isDark,
   });
 
   const { data } = useQuery<{ data: UserData }>({

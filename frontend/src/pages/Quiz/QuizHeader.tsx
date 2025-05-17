@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import Button from "../../components/ui/Button";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import QuizProgressBar from "./QuizProgressBar";
 import { IconifyIcons } from "../../icons";
 import { Section_Map } from "../../constants";

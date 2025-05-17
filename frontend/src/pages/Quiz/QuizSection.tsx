@@ -1,5 +1,5 @@
 import Card from "../../components/ui/Card";
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks";
 import { Section } from "./types";
 
 interface QuizSectionProps {
