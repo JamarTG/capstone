@@ -1,18 +1,18 @@
-import type { ChangeEvent } from "react";
-import { useEffect, useState } from "react";
-import PageContent from "../../components/layout/Page";
+import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
-import { UserAPI } from "@/api/user";
+import ChangePersonalInfo from "./ChangePersonalInfo";
 import ChangePassword from "./ChangePassword";
+import { useEffect, useState } from "react";
+import type { ChangeEvent } from "react";
 import ChangeTheme from "./ChangeTheme";
-import { UserSettings } from "./types";
-import toast from "react-hot-toast";
 import type { apiTypes } from "@/types";
 import type { AxiosError } from "axios";
-import extractErrorMessage from "../../utils/extractErrorMessage";
+import { UserSettings } from "./types";
+import { UserAPI } from "@/api/user";
+import toast from "react-hot-toast";
 import { useTheme } from "@/hooks";
-import ChangePersonalInfo from "./ChangePersonalInfo";
 
 export default function Settings() {
   useAuthRedirect();
@@ -27,7 +27,10 @@ export default function Settings() {
     darkMode: isDark,
   });
 
-  const { data } = useQuery({ queryKey: ["get-profile-data"], queryFn: UserAPI.fetchUserInfo });
+  const { data } = useQuery({
+    queryKey: ["get-profile-data"],
+    queryFn: UserAPI.fetchUserInfo,
+  });
 
   const onSuccess = ({ message }: apiTypes.APISuccessResponse) => {
     toast.success(message);
@@ -54,15 +57,26 @@ export default function Settings() {
   };
 
   const savePersonalInfo = () => {
-    mutate({ firstName: user.firstName, lastName: user.lastName, email: user.email });
+    mutate({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    });
   };
 
   const savePassword = () => {
     mutate({ password: user.password, currentPassword: user.currentPassword });
   };
 
-  const persInfoUpdatePayload = { firstName: user.firstName, lastName: user.lastName, email: user.email };
-  const passwordUpdatePayload = { password: user.password, currentPassword: user.currentPassword };
+  const persInfoUpdatePayload = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+  };
+  const passwordUpdatePayload = {
+    password: user.password,
+    currentPassword: user.currentPassword,
+  };
 
   return (
     <PageContent title="Settings">

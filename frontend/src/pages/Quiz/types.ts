@@ -1,4 +1,4 @@
 export interface Section {
-  name:string;
-  bgSrc : string
+  name: string;
+  bgSrc: string;
 }

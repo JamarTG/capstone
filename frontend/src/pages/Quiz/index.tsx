@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import type { AxiosError } from "axios";
+import SectionHeader from "../../components/SectionHeader";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
-import SectionHeader from "../../components/SectionHeader";
-import { QuizAPI } from "@/api";
-import extractErrorMessage from "../../utils/extractErrorMessage";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
+import type { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { QuizAPI } from "@/api";
 
 const QuizSelection = () => {
   const navigate = useNavigate();

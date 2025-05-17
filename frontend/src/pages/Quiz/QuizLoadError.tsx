@@ -1,6 +1,5 @@
-import {Icon} from "@iconify/react";
 import { IconifyIcons } from "../../icons";
-
+import { Icon } from "@iconify/react";
 
 const QuizLoadError = () => (
   <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
@@ -8,7 +7,9 @@ const QuizLoadError = () => (
       <Icon icon={IconifyIcons.alert} className="text-red-500" />
     </div>
     <h3 className="text-xl font-medium text-red-700">Failed to load quiz.</h3>
-    <p className="text-gray-500 max-w-md">There was an issue loading the quiz. Please try again.</p>
+    <p className="text-gray-500 max-w-md">
+      There was an issue loading the quiz. Please try again.
+    </p>
   </div>
 );
 

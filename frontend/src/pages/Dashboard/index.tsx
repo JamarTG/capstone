@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import PageLayout from "../../components/layout/Page";
-import { useTheme } from "@/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { UserAPI } from "@/api/user";
-import { QuizAPI } from "@/api";
-import useAuthRedirect from "@/hooks/useAuthRedirect";
-import type { UserData } from "../../types/user";
-import FeedbackList from "./FeedbackList";
 import SectionHeader from "../../components/SectionHeader";
+import PageLayout from "../../components/layout/Page";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 import { Typewriter } from "react-simple-typewriter";
+import { useQuery } from "@tanstack/react-query";
+import type { UserData } from "../../types/user";
+import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
+import FeedbackList from "./FeedbackList";
+import { UserAPI } from "@/api/user";
+import { useTheme } from "@/hooks";
+import { QuizAPI } from "@/api";
 
 const Dashboard = () => {
   useAuthRedirect();
@@ -41,10 +41,14 @@ const Dashboard = () => {
   return (
     <PageLayout title="Dashboard">
       <div className={`p-2 flex flex-col`}>
-        <div className={`p-2 rounded-xl ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200"}`}>
+        <div
+          className={`p-2 rounded-xl ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200"}`}
+        >
           <h1 className="text-4xl font-bold flex">
             <Typewriter
-              words={[`Hey ${user.firstName || "champ"}, ready to crush some IT today?`]}
+              words={[
+                `Hey ${user.firstName || "champ"}, ready to crush some IT today?`,
+              ]}
               loop={1}
               cursor={false}
               typeSpeed={30}
@@ -52,14 +56,15 @@ const Dashboard = () => {
               delaySpeed={2000}
             />
           </h1>
-          <p className="text-md mt-2 text-gray-400">Let’s level up your skills and tackle those tricky topics together</p>
+          <p className="text-md mt-2 text-gray-400">
+            Let’s level up your skills and tackle those tricky topics together
+          </p>
         </div>
 
-        <div className={`rounded-xl flex flex-col gap-1 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
-          <SectionHeader
-            iconPath={IconifyIcons.clipboard}
-            title="Feedback"
-          />
+        <div
+          className={`rounded-xl flex flex-col gap-1 ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
+        >
+          <SectionHeader iconPath={IconifyIcons.clipboard} title="Feedback" />
           <FeedbackList feedbacks={feedbackData} />
         </div>
       </div>

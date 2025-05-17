@@ -1,21 +1,20 @@
-import type { FC } from "react";
-import type { Question } from "../../types/quiz";
 import type { QuizOption, QuizOptionPostFix } from "./types";
+import type { Question } from "../../types/quiz";
+import type { FC } from "react";
 
 interface QuestionFeedbackProps {
-  question: Question & {user_answer: string };
+  question: Question & { user_answer: string };
   isDark: boolean;
-
 }
 
-const QuestionFeedback: FC<QuestionFeedbackProps> = ({question, isDark}) => {
-  
-  const quizOptions:QuizOption[] = ["A", "B", "C", "D"]; 
-  
+const QuestionFeedback: FC<QuestionFeedbackProps> = ({ question, isDark }) => {
+  const quizOptions: QuizOption[] = ["A", "B", "C", "D"];
+
   return (
     <ul className="space-y-3">
       {quizOptions.map((key) => {
-        const option = question[`option_${key.toLowerCase() as QuizOptionPostFix }`];
+        const option =
+          question[`option_${key.toLowerCase() as QuizOptionPostFix}`];
         const isCorrect = question.correct_answer === key;
         const isSelected = question.user_answer === key;
         const gotItRight = isCorrect && isSelected;
@@ -49,7 +48,10 @@ const QuestionFeedback: FC<QuestionFeedbackProps> = ({question, isDark}) => {
             {key}. {option}
             {gotItRight && " ✅"}
             {gotItWrong && " ❌"}
-            {!isSelected && isCorrect && question.user_answer && " (Correct Answer)"}
+            {!isSelected &&
+              isCorrect &&
+              question.user_answer &&
+              " (Correct Answer)"}
             {!question.user_answer && isCorrect && " (Unanswered)"}
           </li>
         );

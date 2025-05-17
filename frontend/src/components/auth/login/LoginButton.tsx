@@ -19,4 +19,3 @@ const LoginButton = ({ isPending }: LoginButtonProps) => {
 };
 
 export default LoginButton;
-

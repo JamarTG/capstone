@@ -1,8 +1,8 @@
 import type { FC, ReactNode } from "react";
-import { useTheme } from "@/hooks";
-import PageHeader from "./PageHeader";
-import MainContent from "./MainContent";
 import type { AuthProps } from "../Auth";
+import MainContent from "./MainContent";
+import PageHeader from "./PageHeader";
+import { useTheme } from "@/hooks";
 
 interface PageLayoutProps {
   children: ReactNode;

@@ -1,16 +1,16 @@
-import type { FC } from "react";
-import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { QuizAPI } from "@/api";
-import { useTheme } from "@/hooks";
-import Card from "../../components/ui/Card";
 import QuizCardHeader from "../../components/quiz/QuizCardHeader";
-import QuizCardBody from "../../components/quiz/QuizCardBody";
 import extractErrorMessage from "../../utils/extractErrorMessage";
-import toast from "react-hot-toast";
+import QuizCardBody from "../../components/quiz/QuizCardBody";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDate } from "../../utils/formatDate";
+import Card from "../../components/ui/Card";
 import type { AxiosError } from "axios";
+import toast from "react-hot-toast";
 import type { Quiz } from "./types";
+import { useTheme } from "@/hooks";
+import { useState } from "react";
+import type { FC } from "react";
+import { QuizAPI } from "@/api";
 
 interface QuizCardProps {
   score: Quiz["score"];

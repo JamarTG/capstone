@@ -8,7 +8,13 @@ interface CardProps {
   animateOnHover?: boolean;
 }
 
-const Card: FC<CardProps> = ({ children, className, style, onClick, animateOnHover = false }) => {
+const Card: FC<CardProps> = ({
+  children,
+  className,
+  style,
+  onClick,
+  animateOnHover = false,
+}) => {
   return (
     <div
       onClick={onClick}
@@ -21,5 +27,3 @@ const Card: FC<CardProps> = ({ children, className, style, onClick, animateOnHov
 };
 
 export default Card;
-
-

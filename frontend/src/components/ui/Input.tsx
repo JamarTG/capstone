@@ -1,8 +1,10 @@
-import type { FC, InputHTMLAttributes } from "react";
 import type { LoginFormErrors, RegisterFormErrors } from "../../types/form";
+import type { FC, InputHTMLAttributes } from "react";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: LoginFormErrors[keyof LoginFormErrors] | RegisterFormErrors[keyof RegisterFormErrors];
+  error?:
+    | LoginFormErrors[keyof LoginFormErrors]
+    | RegisterFormErrors[keyof RegisterFormErrors];
   label: string;
 }
 

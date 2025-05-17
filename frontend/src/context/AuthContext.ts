@@ -1,6 +1,6 @@
-import { createContext } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { authTypes } from "@/types";
+import { createContext } from "react";
 
 export interface AuthContextType {
   user: authTypes.AuthUser | null;
@@ -9,4 +9,6 @@ export interface AuthContextType {
   logout: VoidFunction;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);

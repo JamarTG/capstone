@@ -1,7 +1,7 @@
-import type { Dispatch,FC,SetStateAction } from "react";
-import { Icon } from "@iconify/react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { IconifyIcons } from "../../icons";
 import { QuestionObject } from "./types";
+import { Icon } from "@iconify/react";
 
 export interface ReviewNavigationProps {
   currentQuestionIndex: number;
@@ -9,9 +9,11 @@ export interface ReviewNavigationProps {
   questions: QuestionObject[];
 }
 
-
-
-const ReviewNavigation: FC<ReviewNavigationProps> = ({  currentQuestionIndex, setCurrentQuestionIndex, questions }) => {
+const ReviewNavigation: FC<ReviewNavigationProps> = ({
+  currentQuestionIndex,
+  setCurrentQuestionIndex,
+  questions,
+}) => {
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);

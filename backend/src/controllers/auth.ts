@@ -3,7 +3,10 @@ import User from "../models/User";
 import { sign } from "jsonwebtoken";
 import { CustomRequest } from "../types/middleware";
 
-export const register: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+export const register: RequestHandler = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const { email, password, firstName, lastName } = req.body;
 
   if (!email || !password || !firstName || !lastName) {
@@ -14,7 +17,9 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
     if (!lastName) missingFields.push("last name");
 
     if (missingFields.length > 0) {
-      res.status(400).json({ message: `The following fields are required: ${missingFields.join(", ")}` });
+      res.status(400).json({
+        message: `The following fields are required: ${missingFields.join(", ")}`,
+      });
       return;
     }
     return;
@@ -39,7 +44,9 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
       return;
     }
 
-    const token = sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+    const token = sign({ _id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: parseInt(process.env.LOGIN_DURATION!),
+    });
 
     res.status(201).json({ message: "User Created Successfully", token });
   } catch (error) {
@@ -48,7 +55,10 @@ export const register: RequestHandler = async (req: Request, res: Response): Pro
   }
 };
 
-export const login: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+export const login: RequestHandler = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const { email, password: plainTextPassword } = req.body;
 
   if (!email || !plainTextPassword) {
@@ -71,7 +81,9 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
       return;
     }
 
-    const token = sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, { expiresIn: parseInt(process.env.LOGIN_DURATION!) });
+    const token = sign({ _id: userWithEmail._id }, process.env.JWT_SECRET!, {
+      expiresIn: parseInt(process.env.LOGIN_DURATION!),
+    });
 
     res.status(200).json({ message: "Login Successful", token });
   } catch (error) {
@@ -79,7 +91,10 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
   }
 };
 
-export const checkAuth = async (req: CustomRequest, res: Response): Promise<void> => {
+export const checkAuth = async (
+  req: CustomRequest,
+  res: Response,
+): Promise<void> => {
   try {
     if (!req.user || !req.user._id) {
       res.status(401).json({ message: "Unauthorized" });

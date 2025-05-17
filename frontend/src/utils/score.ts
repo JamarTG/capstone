@@ -7,6 +7,11 @@ export const getScoreMessage = (percentage: number) => {
   return "Room for improvement!";
 };
 
-export const getScorePercentage = (totalScore: number, totalQuestions: number) => {
-  return totalQuestions > 0 ? Math.ceil((totalScore / totalQuestions) * 100) : 0;
+export const getScorePercentage = (
+  totalScore: number,
+  totalQuestions: number,
+) => {
+  return totalQuestions > 0
+    ? Math.ceil((totalScore / totalQuestions) * 100)
+    : 0;
 };

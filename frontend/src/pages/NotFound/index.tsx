@@ -1,5 +1,5 @@
-import { useTheme } from "@/hooks";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/hooks";
 import routes from "../../routes";
 
 const NotFound = () => {
@@ -16,7 +16,9 @@ const NotFound = () => {
       <Link
         to={routes.NOT_FOUND.path}
         className={`px-4 py-2 rounded-md shadow text-sm font-medium ${
-          isDark ? "bg-gray-700 text-white hover:bg-gray-600" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          isDark
+            ? "bg-gray-700 text-white hover:bg-gray-600"
+            : "bg-gray-200 text-gray-800 hover:bg-gray-300"
         }`}
       >
         Go Back Home

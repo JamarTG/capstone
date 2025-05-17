@@ -11,7 +11,8 @@ const filterMessages = {
   },
   default: {
     title: "No quiz history yet",
-    description: "Your completed quizzes will appear here. Take your first quiz to get started!",
+    description:
+      "Your completed quizzes will appear here. Take your first quiz to get started!",
   },
 };
 

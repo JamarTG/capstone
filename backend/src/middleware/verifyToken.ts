@@ -2,7 +2,11 @@ import { Response, NextFunction } from "express";
 import { verify, JwtPayload } from "jsonwebtoken";
 import { CustomRequest } from "../types/middleware";
 
-const verifyToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
+const verifyToken = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+): void => {
   const token = req.cookies.token;
 
   if (!token) {

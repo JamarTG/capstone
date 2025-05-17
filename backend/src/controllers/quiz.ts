@@ -4,7 +4,10 @@ import { CustomRequest } from "../types/middleware";
 import { spawn } from "child_process";
 import Feedback from "../models/Feedback";
 
-export const checkActiveQuizSession = async (req: CustomRequest, res: Response) => {
+export const checkActiveQuizSession = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   try {
     if (!req.user?._id) {
       res.status(401).json({
@@ -19,7 +22,7 @@ export const checkActiveQuizSession = async (req: CustomRequest, res: Response) 
         user: req.user._id,
         completed: false,
       },
-      { _id: 1 }
+      { _id: 1 },
     );
 
     if (!activeSession) {
@@ -116,7 +119,9 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
             reject(`Failed to parse JSON: ${err}`);
           }
         } else {
-          reject(`Python script failed with code ${code}:\nError: ${error || "No error message"}\nOutput: ${data || "No output received"}`);
+          reject(
+            `Python script failed with code ${code}:\nError: ${error || "No error message"}\nOutput: ${data || "No output received"}`,
+          );
         }
       });
 
@@ -127,7 +132,9 @@ export const createQuizSession = async (req: CustomRequest, res: Response) => {
     const questions: IQuestion[] = Array.isArray(result) ? result : [result];
 
     if (!questions || questions.length === 0) {
-      res.status(400).json({ error: "No questions generated for the selected topic." });
+      res
+        .status(400)
+        .json({ error: "No questions generated for the selected topic." });
       return;
     }
 
@@ -186,16 +193,23 @@ export const deleteQuizSession = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserQuizSessions = async (req: CustomRequest, res: Response) => {
+export const getUserQuizSessions = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   try {
-    const sessions = await Quiz.find({ user: req.user._id }).sort({ startTime: -1 });
+    const sessions = await Quiz.find({ user: req.user._id }).sort({
+      startTime: -1,
+    });
 
     res.status(200).json({
       message: "User quiz sessions fetched successfully",
       sessions,
     });
   } catch (err) {
-    res.status(500).json({ error: `Failed to fetch user quiz sessions: ${err}` });
+    res
+      .status(500)
+      .json({ error: `Failed to fetch user quiz sessions: ${err}` });
   }
 };
 
@@ -236,7 +250,9 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
         const actionFlag = "feedback";
         const python = spawn("python", ["./rag/main.py", section, actionFlag]);
 
-        python.stdin.write(JSON.stringify({ feedback: [{ Feedback: questionText }] }));
+        python.stdin.write(
+          JSON.stringify({ feedback: [{ Feedback: questionText }] }),
+        );
         python.stdin.end();
 
         let data = "";
@@ -266,7 +282,7 @@ export const submitQuizAnswer = async (req: CustomRequest, res: Response) => {
 
               await Quiz.updateOne(
                 { _id: quiz, "questions._id": currentQuestion._id },
-                { $set: { "questions.$.feedbackId": createdFeedback._id } }
+                { $set: { "questions.$.feedbackId": createdFeedback._id } },
               );
 
               createdFeedback.save();
@@ -315,7 +331,7 @@ export const completeQuiz = async (req: Request, res: Response) => {
         completedAt: new Date(),
         currentQuestionIndex,
       },
-      { new: true }
+      { new: true },
     );
 
     res.status(200).json({
@@ -338,7 +354,9 @@ export const getUserFeedbacks = async (req: CustomRequest, res: Response) => {
       return;
     }
 
-    const feedbacks = await Feedback.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const feedbacks = await Feedback.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json({
       success: true,

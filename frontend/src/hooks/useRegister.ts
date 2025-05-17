@@ -1,20 +1,20 @@
-import useFormValidation from "./useFormValidation";
-import { FORM_CONSTANTS } from "../constants";
+import { AuthContext } from "../context/AuthContext";
 import { useMutation } from "@tanstack/react-query";
-import { AuthAPI } from "@/api";
-import { toast } from "react-hot-toast";
-import type { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import useFormValidation from "./useFormValidation";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { AUTH_TOKEN_CONFIG } from "../constants";
+import { useNavigate } from "react-router-dom";
+import { FORM_CONSTANTS } from "../constants";
+import type { authTypes } from "@/types";
+import type { formTypes } from "@/types";
+import { toast } from "react-hot-toast";
+import type { apiTypes } from "@/types";
+import type { AxiosError } from "axios";
 import type { FormEvent } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import type { authTypes } from "@/types";
-import type { apiTypes } from "@/types";
+import Cookies from "js-cookie";
+import { AuthAPI } from "@/api";
 import { z } from "zod";
-import type { formTypes } from "@/types";
 
 export const registerSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -27,11 +27,12 @@ const useRegister = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
 
-  const { formData, errors, handleChange, validate } = useFormValidation<formTypes.RegisterFormFields>(
-    registerSchema,
-    FORM_CONSTANTS.REGISTER.initialRegisterFields,
-    FORM_CONSTANTS.REGISTER.initialRegisterErrors
-  );
+  const { formData, errors, handleChange, validate } =
+    useFormValidation<formTypes.RegisterFormFields>(
+      registerSchema,
+      FORM_CONSTANTS.REGISTER.initialRegisterFields,
+      FORM_CONSTANTS.REGISTER.initialRegisterErrors,
+    );
 
   const onSuccess = ({ token, message }: apiTypes.APISuccessResponse) => {
     toast.success(message);
@@ -43,7 +44,9 @@ const useRegister = () => {
   };
 
   const onError = (error: AxiosError) => {
-    const errorMessage = (error.response?.data as { message?: string })?.message || "Registration failed!";
+    const errorMessage =
+      (error.response?.data as { message?: string })?.message ||
+      "Registration failed!";
     toast.error(errorMessage);
   };
 

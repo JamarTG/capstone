@@ -1,4 +1,4 @@
-import type { FC, ReactNode} from "react";
+import type { FC, ReactNode } from "react";
 import clsx from "clsx";
 
 interface ButtonProps {
@@ -20,7 +20,7 @@ const Button: FC<ButtonProps> = ({
 }) => {
   const baseStyles =
     "cursor-pointer rounded-lg transition duration-300 flex justify-center items-center";
-  
+
   const variantStyles = {
     primary: "bg-slate-600 text-white hover:bg-slate-700",
     secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
@@ -35,7 +35,12 @@ const Button: FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={clsx(baseStyles, variantStyles[variant], sizeStyles[size], className)}
+      className={clsx(
+        baseStyles,
+        variantStyles[variant],
+        sizeStyles[size],
+        className,
+      )}
       type={type}
     >
       {children}

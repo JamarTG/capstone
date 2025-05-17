@@ -8,7 +8,12 @@ interface QuizAnswerOptionProps {
   onSelect: (index: number) => void;
 }
 
-const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({ answer, index, selectedAnswer, onSelect }) => {
+const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({
+  answer,
+  index,
+  selectedAnswer,
+  onSelect,
+}) => {
   const { isDark } = useTheme();
 
   const mapping: Record<number, string> = {
@@ -34,10 +39,14 @@ const QuizAnswerOption: FC<QuizAnswerOptionProps> = ({ answer, index, selectedAn
           className={`flex items-center justify-center
             ${selectedAnswer === index ? "border-blue-500 bg-blue-500" : "border-gray-300"}`}
         >
-          {selectedAnswer === index && <div className="rounded-full bg-white" />}
+          {selectedAnswer === index && (
+            <div className="rounded-full bg-white" />
+          )}
         </div>
       </div>
-      <span className={`font-medium text-left ${isDark ? "text-white" : "text-gray-700"}`}>
+      <span
+        className={`font-medium text-left ${isDark ? "text-white" : "text-gray-700"}`}
+      >
         {mapping[index]}
         {answer}
       </span>

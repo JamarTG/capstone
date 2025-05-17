@@ -1,26 +1,33 @@
-import { useState } from "react";
-import type { ChangeEvent } from "react";
-import * as z from "zod";
 import type { formTypes } from "@/types";
+import type { ChangeEvent } from "react";
+import { useState } from "react";
+import * as z from "zod";
 
 interface ValidationResult {
   isValid: boolean;
   errors: formTypes.RegisterFormErrors | formTypes.LoginFormErrors;
-};
+}
 
-const useFormValidation = <T extends formTypes.RegisterFormFields | formTypes.LoginFormFields>(
+const useFormValidation = <
+  T extends formTypes.RegisterFormFields | formTypes.LoginFormFields,
+>(
   schema: z.ZodSchema<T>,
   initialFields: T,
-  initialErrors: formTypes.RegisterFormErrors | formTypes.LoginFormErrors
+  initialErrors: formTypes.RegisterFormErrors | formTypes.LoginFormErrors,
 ) => {
   const [formData, setFormData] = useState<T>(initialFields);
-  const [errors, setErrors] = useState<formTypes.RegisterFormErrors | formTypes.LoginFormErrors>(initialErrors);
+  const [errors, setErrors] = useState<
+    formTypes.RegisterFormErrors | formTypes.LoginFormErrors
+  >(initialErrors);
 
   const validate = (data: T): ValidationResult => {
     try {
       schema.parse(data);
       setErrors({} as formTypes.RegisterFormErrors | formTypes.LoginFormErrors);
-      return { isValid: true, errors: {} as formTypes.RegisterFormErrors | formTypes.LoginFormErrors };
+      return {
+        isValid: true,
+        errors: {} as formTypes.RegisterFormErrors | formTypes.LoginFormErrors,
+      };
     } catch (err) {
       const fieldErrors: Record<string, string> = {};
       if (err instanceof z.ZodError) {

@@ -1,10 +1,11 @@
 import useRegister from "@/hooks/useRegister";
+import RegisterButton from "./RegisterButton";
 import type { formTypes } from "@/types";
 import InputField from "../../ui/Input";
-import RegisterButton from "./RegisterButton";
 
 export default function RegisterForm() {
-  const { formData, errors, isPending, handleChange, handleSubmit } = useRegister();
+  const { formData, errors, isPending, handleChange, handleSubmit } =
+    useRegister();
 
   return (
     <form

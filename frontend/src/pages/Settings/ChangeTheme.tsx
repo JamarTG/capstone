@@ -1,19 +1,26 @@
-import type { FC } from "react";
 import { useTheme } from "@/hooks";
+import type { FC } from "react";
 
 interface ChangeThemeProps {
   darkMode: boolean;
 }
 
-const ChangeTheme: FC<ChangeThemeProps> = ({ darkMode}) => {
-  const { isDark ,toggleTheme } = useTheme();
-  
+const ChangeTheme: FC<ChangeThemeProps> = ({ darkMode }) => {
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <div className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}>
-      <h3 className={`text-md mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}>Preferences</h3>
+    <div
+      className={`p-6 min-w-90 border rounded-md ${isDark ? "border-gray-700" : "border-gray-200"}`}
+    >
+      <h3
+        className={`text-md mb-3 ${isDark ? "text-gray-100" : "text-slate-600"}`}
+      >
+        Preferences
+      </h3>
       <div className="mb-4 flex justify-between items-center">
-        <span className={`text-md ${isDark ? "text-gray-200" : ""}`}>Dark Mode</span>
+        <span className={`text-md ${isDark ? "text-gray-200" : ""}`}>
+          Dark Mode
+        </span>
         <div className="relative inline-block w-14 h-6">
           <label className="relative inline-flex cursor-pointer items-center">
             <input

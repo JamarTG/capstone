@@ -1,20 +1,20 @@
+import { AuthContext } from "../context/AuthContext";
 import { useMutation } from "@tanstack/react-query";
+import useFormValidation from "./useFormValidation";
+import { AUTH_TOKEN_CONFIG } from "../constants";
 import { useNavigate } from "react-router-dom";
+import { FORM_CONSTANTS } from "../constants";
+import type { authTypes } from "@/types";
+import { toast } from "react-hot-toast";
+import { JwtPayload } from "jwt-decode";
+import type { apiTypes } from "@/types";
+import type { AxiosError } from "axios";
+import { jwtDecode } from "jwt-decode";
 import type { FormEvent } from "react";
+import { formTypes } from "@/types";
 import { useContext } from "react";
 import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
-import { toast } from "react-hot-toast";
-import useFormValidation from "./useFormValidation";
-import { FORM_CONSTANTS } from "../constants";
 import { AuthAPI } from "@/api";
-import type { AxiosError } from "axios";
-import { AuthContext } from "../context/AuthContext";
-import type { apiTypes } from "@/types";
-import { JwtPayload } from "jwt-decode";
-import type { authTypes } from "@/types";
-import { formTypes } from "@/types";
-import { AUTH_TOKEN_CONFIG } from "../constants";
 import { z } from "zod";
 
 export const loginSchema = z.object({
@@ -23,11 +23,12 @@ export const loginSchema = z.object({
 });
 
 export default function useLogin() {
-  const { formData, errors, handleChange, validate } = useFormValidation<formTypes.LoginFormFields>(
-    loginSchema,
-    FORM_CONSTANTS.LOGIN.initialLoginFields,
-    FORM_CONSTANTS.LOGIN.initialLoginErrors
-  );
+  const { formData, errors, handleChange, validate } =
+    useFormValidation<formTypes.LoginFormFields>(
+      loginSchema,
+      FORM_CONSTANTS.LOGIN.initialLoginFields,
+      FORM_CONSTANTS.LOGIN.initialLoginErrors,
+    );
 
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext)!;
@@ -42,7 +43,9 @@ export default function useLogin() {
   };
 
   const onError = (error: AxiosError) => {
-    const errorMessage = (error.response?.data as { message?: string })?.message || "Login failed!";
+    const errorMessage =
+      (error.response?.data as { message?: string })?.message ||
+      "Login failed!";
     toast.error(errorMessage);
   };
 

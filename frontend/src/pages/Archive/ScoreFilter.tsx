@@ -1,6 +1,6 @@
-import { useState } from "react";
 import RenderList from "../../components/common/RenderList";
 import type { ScoreRange } from "./types";
+import { useState } from "react";
 
 interface ScoreFilterProps {
   onFilterChange: (ranges: ScoreRange[]) => void;
@@ -10,17 +10,16 @@ export const ScoreFilter = ({ onFilterChange }: ScoreFilterProps) => {
   const [selectedRanges, setSelectedRanges] = useState<ScoreRange[]>([]);
 
   const handleRangeToggle = (range: ScoreRange) => {
-    const newRanges = selectedRanges.includes(range) ? selectedRanges.filter((r) => r !== range) : [...selectedRanges, range];
+    const newRanges = selectedRanges.includes(range)
+      ? selectedRanges.filter((r) => r !== range)
+      : [...selectedRanges, range];
 
     setSelectedRanges(newRanges);
     onFilterChange(newRanges);
   };
 
   const renderRanges = (range: { label: string; value: ScoreRange }) => (
-    <label
-      key={range.value}
-      className="flex items-center gap-2 cursor-pointer"
-    >
+    <label key={range.value} className="flex items-center gap-2 cursor-pointer">
       <input
         type="checkbox"
         checked={selectedRanges.includes(range.value)}
@@ -40,10 +39,7 @@ export const ScoreFilter = ({ onFilterChange }: ScoreFilterProps) => {
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-3">
-        <RenderList
-          data={ranges}
-          renderFn={renderRanges}
-        />
+        <RenderList data={ranges} renderFn={renderRanges} />
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
+import RenderList from "../../components/common/RenderList";
+import { Section_Map } from "../../constants";
+import { IconifyIcons } from "../../icons";
+import { Icon } from "@iconify/react";
+import { useTheme } from "@/hooks";
 import { useState } from "react";
 import type { FC } from "react";
-import { useTheme } from "@/hooks";
-import { Icon } from "@iconify/react";
-import { Section_Map } from "../../constants";
-import RenderList from "../../components/common/RenderList";
-import { IconifyIcons } from "../../icons";
 
 interface Feedback {
   _id: string;
@@ -61,7 +61,9 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
       <div
         key={section}
         className={`border rounded-lg transition-all duration-200 ${
-          isDark ? "border-gray-700 bg-gray-800 hover:border-gray-600" : "border-gray-200 bg-white hover:border-gray-300"
+          isDark
+            ? "border-gray-700 bg-gray-800 hover:border-gray-600"
+            : "border-gray-200 bg-white hover:border-gray-300"
         }`}
       >
         <button
@@ -83,17 +85,27 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
           </span>
           <div
             className={`mt-2 text-xs ${
-              feedbackCount > 0 ? (isDark ? "text-blue-300" : "text-blue-600") : isDark ? "text-gray-500" : "text-gray-400"
+              feedbackCount > 0
+                ? isDark
+                  ? "text-blue-300"
+                  : "text-blue-600"
+                : isDark
+                  ? "text-gray-500"
+                  : "text-gray-400"
             }`}
           >
-            {feedbackCount > 0 ? `${feedbackCount} feedback items` : "No feedback"}
+            {feedbackCount > 0
+              ? `${feedbackCount} feedback items`
+              : "No feedback"}
           </div>
         </button>
       </div>
     );
   };
 
-  const sectionNumbers = Array.from({ length: 8 }, (_, i) => (i + 1).toString());
+  const sectionNumbers = Array.from({ length: 8 }, (_, i) =>
+    (i + 1).toString(),
+  );
 
   if (openSection) {
     const entries = grouped[openSection] || [];
@@ -105,18 +117,21 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
       >
         <div className="sticky top-0 px-5 py-4 flex items-center justify-between ${isDark ? 'border-gray-700' : 'border-gray-200'}">
           <div className="flex items-center gap-2">
-            <h3 className={`font-bold text-lg ${isDark ? "text-gray-100" : "text-slate-700"}`}>{`Section ${openSection}`}</h3>
-            <p className={`text-lg ${isDark ? "text-gray-400" : "text-slate-500"}`}>{sectionName}</p>
+            <h3
+              className={`font-bold text-lg ${isDark ? "text-gray-100" : "text-slate-700"}`}
+            >{`Section ${openSection}`}</h3>
+            <p
+              className={`text-lg ${isDark ? "text-gray-400" : "text-slate-500"}`}
+            >
+              {sectionName}
+            </p>
           </div>
           <button
             onClick={closeSection}
             className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${isDark ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-100 text-slate-500"}`}
             aria-label="Close section"
           >
-            <Icon
-              icon={IconifyIcons.close}
-              color="currentColor"
-            />
+            <Icon icon={IconifyIcons.close} color="currentColor" />
           </button>
         </div>
 
@@ -131,7 +146,9 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
                 <button
                   onClick={() => setPage(Math.max(page - 1, 0))}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
+                    isDark
+                      ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                      : "bg-gray-200 text-slate-700 hover:bg-gray-300"
                   } ${page === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={page === 0}
                 >
@@ -143,7 +160,9 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
                 <button
                   onClick={() => setPage(page + 1)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isDark ? "bg-gray-700 text-gray-200 hover:bg-gray-600" : "bg-gray-200 text-slate-700 hover:bg-gray-300"
+                    isDark
+                      ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                      : "bg-gray-200 text-slate-700 hover:bg-gray-300"
                   } ${(page + 1) * 5 >= entries.length ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={(page + 1) * 5 >= entries.length}
                 >
@@ -156,7 +175,11 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
             </>
           ) : (
             <div className="flex items-center justify-center">
-              <p className={`text-sm italic ${isDark ? "text-gray-500" : "text-gray-400"}`}>No feedback for this section.</p>
+              <p
+                className={`text-sm italic ${isDark ? "text-gray-500" : "text-gray-400"}`}
+              >
+                No feedback for this section.
+              </p>
             </div>
           )}
         </div>
@@ -166,10 +189,7 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      <RenderList
-        data={sectionNumbers}
-        renderFn={renderSectionNumbers}
-      />
+      <RenderList data={sectionNumbers} renderFn={renderSectionNumbers} />
     </div>
   );
 };

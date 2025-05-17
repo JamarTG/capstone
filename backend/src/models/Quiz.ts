@@ -9,9 +9,9 @@ export interface IQuestion {
   option_d: string;
   explanation: string;
   correct_answer: "A" | "B" | "C" | "D";
-  user_answer: "A" | "B" | "C" | "D"; 
+  user_answer: "A" | "B" | "C" | "D";
   is_correct?: boolean;
-  feedbackId?:string;
+  feedbackId?: string;
 }
 
 export interface IQuiz extends Document {
@@ -24,7 +24,6 @@ export interface IQuiz extends Document {
   completed: boolean;
   questions: IQuestion[];
 }
-
 
 const QuizSchema = new Schema<IQuiz>(
   {
@@ -59,7 +58,7 @@ const QuizSchema = new Schema<IQuiz>(
       type: Boolean,
       default: false,
     },
-  
+
     questions: [
       {
         question: {
@@ -108,7 +107,7 @@ const QuizSchema = new Schema<IQuiz>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Quiz = model<IQuiz>("Quiz", QuizSchema);

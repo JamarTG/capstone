@@ -5,4 +5,6 @@ export interface ThemeContextProps {
   toggleTheme: VoidFunction;
 }
 
-export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextProps | undefined>(
+  undefined,
+);

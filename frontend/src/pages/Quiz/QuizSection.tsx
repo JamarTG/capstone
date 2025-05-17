@@ -25,7 +25,9 @@ const QuizSection = ({ section, onClick, isLoading }: QuizSectionProps) => {
         {isLoading ? (
           <div className="flex flex-col justify-center items-center h-full space-y-2">
             <div className="w-5 h-5 border-4 border-t-transparent border-blue-500 border-solid rounded-full animate-spin"></div>
-            <p className="text-white text-sm">Loading quiz for {section.name}...</p>
+            <p className="text-white text-sm">
+              Loading quiz for {section.name}...
+            </p>
           </div>
         ) : (
           <>

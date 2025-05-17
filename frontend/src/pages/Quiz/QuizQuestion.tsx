@@ -1,18 +1,25 @@
-import type { Dispatch, SetStateAction } from "react";
 import RenderList from "../../components/common/RenderList";
-import { useTheme } from "@/hooks";
+import type { Dispatch, SetStateAction } from "react";
 import QuizAnswerOption from "./QuizAnswerOption";
+import { useTheme } from "@/hooks";
 
 interface QuizQuestionProps {
   question: string;
   answers: string[];
   selectedAnswer: number | null;
-  setSelectedAnswer:Dispatch<SetStateAction<number | null>>
+  setSelectedAnswer: Dispatch<SetStateAction<number | null>>;
   onNextQuestion: VoidFunction;
   isLastQuestion: boolean;
 }
 
-const QuizQuestion = ({ question, answers, selectedAnswer,setSelectedAnswer,  onNextQuestion, isLastQuestion }: QuizQuestionProps) => {
+const QuizQuestion = ({
+  question,
+  answers,
+  selectedAnswer,
+  setSelectedAnswer,
+  onNextQuestion,
+  isLastQuestion,
+}: QuizQuestionProps) => {
   const { isDark } = useTheme();
 
   const OnSelect = (index: number) => setSelectedAnswer(index);
@@ -26,20 +33,21 @@ const QuizQuestion = ({ question, answers, selectedAnswer,setSelectedAnswer,  on
       onSelect={OnSelect}
     />
   );
-  
+
   return (
-    <div className={`p-8 w-full rounded-lg border ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}>
+    <div
+      className={`p-8 w-full rounded-lg border ${isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-white"}`}
+    >
       <div className="relative mb-4 pt-2">
-        <h2 className={`text-sm font-medium uppercase tracking-wider text-center ${isDark ? "text-gray-300" : "text-black"}`}>
+        <h2
+          className={`text-sm font-medium uppercase tracking-wider text-center ${isDark ? "text-gray-300" : "text-black"}`}
+        >
           {question}
         </h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        <RenderList
-          data={answers}
-          renderFn={renderAnswer}
-        />
+        <RenderList data={answers} renderFn={renderAnswer} />
       </div>
 
       <div className="flex justify-center">

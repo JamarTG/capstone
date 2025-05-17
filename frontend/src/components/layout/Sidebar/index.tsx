@@ -1,15 +1,15 @@
-import type { ReactNode, FC } from "react";
-import { useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
-import { useTheme } from "@/hooks";
-import { Icon } from "@iconify/react";
-import { IconifyIcons } from "../../../icons";
-import { capitalize } from "../../../utils/capitalize";
+import { mainRoutes, otherRoutes } from "../../../routes";
 import useSidebarState from "@/hooks/useSidebarExpanded";
+import { NavLink, useNavigate } from "react-router-dom";
+import { capitalize } from "../../../utils/capitalize";
 import RenderList from "../../common/RenderList";
-import { mainRoutes, otherRoutes} from "../../../routes";
+import { IconifyIcons } from "../../../icons";
+import type { ReactNode, FC } from "react";
+import { Icon } from "@iconify/react";
 import routes from "../../../routes";
+import { useTheme } from "@/hooks";
+import { useContext } from "react";
 
 interface HomeLayoutProps {
   children?: ReactNode;
@@ -38,13 +38,11 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
           className={`flex items-center pointer-img justify-center p-2 ${isDark ? "bg-gray-800" : "bg-white"} hover:opacity-80 transition-opacity`}
           onClick={goToHome}
         >
-          <img
-            src="/logo.png"
-            width={60}
-            alt="Logo"
-          />
+          <img src="/logo.png" width={60} alt="Logo" />
         </div>
-        <div className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`} />
+        <div
+          className={`border-b ${isDark ? "border-gray-700" : "border-gray-200"}`}
+        />
 
         <div className="flex flex-col h-full justify-between py-5">
           <div className="overflow-y-auto overflow-x-hidden">
@@ -52,10 +50,7 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
               <RenderList
                 data={Object.values(mainRoutes)}
                 renderFn={({ path, icon, text }) => (
-                  <li
-                    className="sm:text-md"
-                    key={text}
-                  >
+                  <li className="sm:text-md" key={text}>
                     <NavLink
                       to={path}
                       title={capitalize(text)}
@@ -68,13 +63,13 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
                       }
                     >
                       <span className="inline-flex justify-center items-center">
-                        <Icon
-                          icon={icon!}
-                          width={24}
-                          height={24}
-                        />
+                        <Icon icon={icon!} width={24} height={24} />
                       </span>
-                      {isExpanded && <span className="ml-1 text-md tracking-wide truncate">{text}</span>}
+                      {isExpanded && (
+                        <span className="ml-1 text-md tracking-wide truncate">
+                          {text}
+                        </span>
+                      )}
                     </NavLink>
                   </li>
                 )}
@@ -102,7 +97,11 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
                     />
                   )}
                 </span>
-                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{otherRoutes.SETTINGS?.text || "Settings"}</span>}
+                {isExpanded && (
+                  <span className="ml-3 text-md tracking-wide truncate">
+                    {otherRoutes.SETTINGS?.text || "Settings"}
+                  </span>
+                )}
               </NavLink>
             </li>
 
@@ -117,13 +116,13 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
                 } ${isExpanded ? "pr-6 pl-3" : "justify-center px-3"}`}
               >
                 <span className="inline-flex justify-center items-center">
-                  <Icon
-                    icon={routes.LOGOUT.icon!}
-                    width={24}
-                    height={24}
-                  />
+                  <Icon icon={routes.LOGOUT.icon!} width={24} height={24} />
                 </span>
-                {isExpanded && <span className="ml-3 text-md tracking-wide truncate">{routes.LOGOUT.text}</span>}
+                {isExpanded && (
+                  <span className="ml-3 text-md tracking-wide truncate">
+                    {routes.LOGOUT.text}
+                  </span>
+                )}
               </button>
             </li>
           </ul>
@@ -136,7 +135,11 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
               }`}
             >
               <Icon
-                icon={isExpanded ? IconifyIcons.chevronDoubleLeft : IconifyIcons.chevronDoubleRight}
+                icon={
+                  isExpanded
+                    ? IconifyIcons.chevronDoubleLeft
+                    : IconifyIcons.chevronDoubleRight
+                }
                 width={24}
                 height={24}
               />
@@ -145,7 +148,9 @@ const SidebarLayout: FC<HomeLayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      <main className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}>
+      <main
+        className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${isExpanded ? "ml-64" : "ml-20"}`}
+      >
         {children}
       </main>
     </div>

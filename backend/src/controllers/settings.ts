@@ -59,7 +59,13 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
       }
 
       const newSalt = randomBytes(16).toString("hex");
-      const newHashedPassword = pbkdf2Sync(password, newSalt, 1000, 64, "sha512").toString("hex");
+      const newHashedPassword = pbkdf2Sync(
+        password,
+        newSalt,
+        1000,
+        64,
+        "sha512",
+      ).toString("hex");
 
       dataToBeUpdated = {
         ...dataToBeUpdated,
@@ -68,7 +74,9 @@ const updateUserInformation = async (req: CustomRequest, res: Response) => {
       };
     }
 
-    const updatedUser = await User.findByIdAndUpdate(_id, dataToBeUpdated, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(_id, dataToBeUpdated, {
+      new: true,
+    });
     await updatedUser?.save();
 
     res.status(200).json({ message: "Update Successful" });

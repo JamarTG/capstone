@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 
-import QuizQuestion from "./QuizQuestion";
-import QuizHeader from "./QuizHeader";
-import PageLayout from "../../components/layout/Page";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { QuizAPI } from "@/api";
-// import { QuizSessionResponse } from "../../types/quiz";
-import toast from "react-hot-toast";
-import type { AxiosError } from "axios";
 import extractErrorMessage from "../../utils/extractErrorMessage";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import PageLayout from "../../components/layout/Page";
 import Loader from "../../components/common/Loader";
 import QuizLoadError from "./QuizLoadError";
+import QuizQuestion from "./QuizQuestion";
+import type { AxiosError } from "axios";
+import QuizHeader from "./QuizHeader";
+// import { QuizSessionResponse } from "../../types/quiz";
+import toast from "react-hot-toast";
+import { QuizAPI } from "@/api";
 
 const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -60,7 +60,8 @@ const QuizSession = () => {
     }
   }, [session]);
 
-  if (isLoading || !session?.session) return <Loader text="Loading Quiz Session" />;
+  if (isLoading || !session?.session)
+    return <Loader text="Loading Quiz Session" />;
   if (error) return <QuizLoadError />;
 
   const renderQuestion = (q: {
@@ -94,7 +95,8 @@ const QuizSession = () => {
     };
   };
 
-  const questions: ReturnType<typeof renderQuestion>[] = session.session.questions.map(renderQuestion);
+  const questions: ReturnType<typeof renderQuestion>[] =
+    session.session.questions.map(renderQuestion);
 
   const currentQuestion = questions[currentIndex];
   const isLastQuestion = currentIndex === questions.length - 1;
@@ -104,7 +106,10 @@ const QuizSession = () => {
   };
 
   const handleNextQuestion = () => {
-    const selectedKey = selectedAnswer !== null ? Object.keys(currentQuestion.options)[selectedAnswer] : "";
+    const selectedKey =
+      selectedAnswer !== null
+        ? Object.keys(currentQuestion.options)[selectedAnswer]
+        : "";
 
     const isCorrect = selectedKey === currentQuestion.correctAnswer;
 

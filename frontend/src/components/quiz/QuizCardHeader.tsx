@@ -1,8 +1,7 @@
-
 import ConfirmDeletion from "./ConfirmDeletion";
-import {Icon} from "@iconify/react";
 import { Section_Map } from "../../constants";
 import { IconifyIcons } from "../../icons";
+import { Icon } from "@iconify/react";
 import type { FC } from "react";
 
 interface Props {
@@ -41,7 +40,11 @@ const QuizCardHeader: FC<Props> = ({
           <Icon icon={IconifyIcons.trash} />
         </button>
       ) : (
-        <ConfirmDeletion onConfirm={onConfirm} onCancel={onCancel} isPending={isPending} />
+        <ConfirmDeletion
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          isPending={isPending}
+        />
       )}
     </section>
   );

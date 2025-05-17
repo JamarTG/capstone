@@ -1,14 +1,18 @@
-import type { FC } from "react";
-import type { FilterSetters, StatusFilter } from "./types";
 import { ThemeContextProps } from "../../context/ThemeContext";
+import type { FilterSetters, StatusFilter } from "./types";
+import type { FC } from "react";
 
 interface CompleteFilterProps {
   filter: StatusFilter;
-  filterSetters: FilterSetters
+  filterSetters: FilterSetters;
   isDark: ThemeContextProps["isDark"];
 }
 
-const CompleteFilter: FC<CompleteFilterProps> = ({  filter, isDark, filterSetters }) => {
+const CompleteFilter: FC<CompleteFilterProps> = ({
+  filter,
+  isDark,
+  filterSetters,
+}) => {
   return (
     <div className="flex justify-center items-center gap-3">
       <button

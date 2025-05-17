@@ -1,19 +1,25 @@
-import sectionOne from "./assets/images/quiz/1.webp";
-import sectionTwo from "./assets/images/quiz/2.webp";
 import sectionThree from "./assets/images/quiz/3.webp";
-import sectionFour from "./assets/images/quiz/4.webp";
-import sectionFive from "./assets/images/quiz/5.webp";
-import sectionSix from "./assets/images/quiz/6.webp";
 import sectionSeven from "./assets/images/quiz/7.webp";
 import sectionEight from "./assets/images/quiz/8.webp";
+import sectionFour from "./assets/images/quiz/4.webp";
+import sectionFive from "./assets/images/quiz/5.webp";
+import sectionOne from "./assets/images/quiz/1.webp";
+import sectionTwo from "./assets/images/quiz/2.webp";
+import sectionSix from "./assets/images/quiz/6.webp";
 import type { formTypes } from "@/types";
 
 export const BASE_URL = "http://localhost:5000/api";
 
 export const FORM_CONSTANTS = {
   LOGIN: {
-    initialLoginFields: { email: "", password: "" } as formTypes.LoginFormFields,
-    initialLoginErrors: { email: "", password: "" } as formTypes.LoginFormErrors,  
+    initialLoginFields: {
+      email: "",
+      password: "",
+    } as formTypes.LoginFormFields,
+    initialLoginErrors: {
+      email: "",
+      password: "",
+    } as formTypes.LoginFormErrors,
   },
   REGISTER: {
     initialRegisterFields: {
@@ -27,13 +33,19 @@ export const FORM_CONSTANTS = {
       lastName: "",
       email: "",
       password: "",
-    } as formTypes.RegisterFormErrors,  
+    } as formTypes.RegisterFormErrors,
   },
 };
 export const Section_Map: Record<number, { bgSrc: string; name: string }> = {
-  1: { bgSrc: sectionOne, name: "Computer Fundamentals & Information Processing" },
+  1: {
+    bgSrc: sectionOne,
+    name: "Computer Fundamentals & Information Processing",
+  },
   2: { bgSrc: sectionTwo, name: "Computer Networks & Web Technologies" },
-  3: { bgSrc: sectionThree, name: "Social and Economic Impact of Information and Communication Technology (ICT)" },
+  3: {
+    bgSrc: sectionThree,
+    name: "Social and Economic Impact of Information and Communication Technology (ICT)",
+  },
   4: { bgSrc: sectionFour, name: "Word Processing and Web Page Design" },
   5: { bgSrc: sectionFive, name: "Spreadsheets" },
   6: { bgSrc: sectionSix, name: "Database Management" },

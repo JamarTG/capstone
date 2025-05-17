@@ -25,13 +25,23 @@ const userSchema = new Schema<IUser>({
 userSchema.pre("save", function (next) {
   if (!this.isModified("password")) return next();
   this.salt = randomBytes(16).toString("hex");
-  this.password = pbkdf2Sync(this.password, this.salt, 1000, 64, "sha512").toString("hex");
+  this.password = pbkdf2Sync(
+    this.password,
+    this.salt,
+    1000,
+    64,
+    "sha512",
+  ).toString("hex");
 
   return next();
 });
 
-userSchema.methods.comparePassword = function (password: IUser["password"]): boolean {
-  const hash = pbkdf2Sync(password, this.salt, 1000, 64, "sha512").toString("hex");
+userSchema.methods.comparePassword = function (
+  password: IUser["password"],
+): boolean {
+  const hash = pbkdf2Sync(password, this.salt, 1000, 64, "sha512").toString(
+    "hex",
+  );
   return hash == this.password;
 };
 

@@ -1,21 +1,34 @@
 @import "tailwindcss";
 
-html, body {
-  cursor: url('../src/assets/cursors/default.png') 6 6, auto;
+html,
+body {
+  cursor:
+    url("../src/assets/cursors/default.png") 6 6,
+    auto;
 }
 
-
-a, button, input[type="submit"], select, 
-.clickable, [role="button"], label, 
-details summary, .pointer-img {
-  cursor: url('../src/assets/cursors/clickable.png') 6 6, pointer;
+a,
+button,
+input[type="submit"],
+select,
+.clickable,
+[role="button"],
+label,
+details summary,
+.pointer-img {
+  cursor:
+    url("../src/assets/cursors/clickable.png") 6 6,
+    pointer;
 }
 
-input[type="text"], input[type="email"], 
-input[type="password"], textarea, 
-[contenteditable="true"]{
-  cursor: url('../src/assets/cursors/editable.png') 6 6, text;
-
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+[contenteditable="true"] {
+  cursor:
+    url("../src/assets/cursors/editable.png") 6 6,
+    text;
 }
 
 * {

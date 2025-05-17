@@ -11,9 +11,12 @@ export interface PersInfoUpdatePayload {
   email: string;
 }
 
-export type PasswordUpdateFieldErrors = Partial<Record<keyof PasswordUpdatePayload,string>>
-export type PersInfoUpdateFieldErrors = Partial<Record<keyof PersInfoUpdatePayload, string>>
-
+export type PasswordUpdateFieldErrors = Partial<
+  Record<keyof PasswordUpdatePayload, string>
+>;
+export type PersInfoUpdateFieldErrors = Partial<
+  Record<keyof PersInfoUpdatePayload, string>
+>;
 
 export interface UserSettings {
   firstName: string;

@@ -9,7 +9,9 @@ const MainContent: FC<MainContentProps> = ({ children }) => {
   const { isDark } = useTheme();
 
   return (
-    <main className={`flex flex-col gap-2 p-4 rounded-lg ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-700"}`}>
+    <main
+      className={`flex flex-col gap-2 p-4 rounded-lg ${isDark ? "bg-gray-800 text-white" : "bg-white text-slate-700"}`}
+    >
       {children}
     </main>
   );

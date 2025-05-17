@@ -1,20 +1,20 @@
 import SidebarLayout from "../components/layout/Sidebar";
+import QuizSession from "../pages/Quiz/QuizSession";
+import Register from "../components/auth/register";
+import type { RouteConfigObject } from "./types";
+import Login from "../components/auth/login";
 import Dashboard from "../pages/Dashboard";
+import NotFound from "../pages/NotFound";
+import Settings from "../pages/Settings";
+import QuizReview from "../pages/Review";
 import { IconifyIcons } from "../icons";
 import Archive from "../pages/Archive";
 import Quiz from "../pages/Quiz";
-import NotFound from "../pages/NotFound";
-import Login from "../components/auth/login";
-import Register from "../components/auth/register";
-import QuizReview from "../pages/Review";
-import Settings from "../pages/Settings";
-import type { RouteConfigObject } from "./types";
-import QuizSession from "../pages/Quiz/QuizSession";
 
 export const mainRoutes: RouteConfigObject = {
   HOME: {
     path: "/",
-    element: <Dashboard/>,
+    element: <Dashboard />,
     layout: SidebarLayout,
     text: "Dashboard",
     icon: IconifyIcons.viewDashboard,
@@ -54,7 +54,7 @@ export const otherRoutes: RouteConfigObject = {
   },
   SETTINGS: {
     path: "/settings",
-    element: <Settings  />,
+    element: <Settings />,
     layout: SidebarLayout,
     text: "Settings",
     icon: IconifyIcons.cog,
@@ -79,6 +79,5 @@ export const otherRoutes: RouteConfigObject = {
   },
 };
 
-
-const routes = {...mainRoutes,...otherRoutes};
+const routes = { ...mainRoutes, ...otherRoutes };
 export default routes;
