@@ -14,9 +14,7 @@ const NotFound = () => {
       <h1 className="text-6xl font-bold mb-4">404</h1>
       <p className="text-xl mb-6">Oops! Page not found.</p>
       <button
-        onClick={() => {
-          navigate("/");
-        }}
+        onClick={() => navigate("/")}
         className={`px-4 py-2 rounded-md shadow text-sm font-medium ${
           isDark
             ? "bg-gray-700 text-white hover:bg-gray-600"
