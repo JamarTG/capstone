@@ -1,9 +1,9 @@
-import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 import ChangePassword from "./ChangePassword";
+import { extractErrorMessage } from "@/utils";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import ChangeTheme from "./ChangeTheme";

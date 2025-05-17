@@ -2,12 +2,12 @@ import { AuthContext } from "../../../context/AuthContext";
 import { mainRoutes, otherRoutes } from "../../../routes";
 import useSidebarState from "@/hooks/useSidebarExpanded";
 import { NavLink, useNavigate } from "react-router-dom";
-import { capitalize } from "../../../utils/capitalize";
 import RenderList from "../../common/RenderList";
 import { IconifyIcons } from "../../../icons";
 import type { ReactNode, FC } from "react";
 import { Icon } from "@iconify/react";
 import routes from "../../../routes";
+import { capitalize } from "@/utils";
 import { useTheme } from "@/hooks";
 import { useContext } from "react";
 

@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
-
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PageLayout from "../../components/layout/Page";
 import Loader from "../../components/common/Loader";
+import { extractErrorMessage } from "@/utils";
 import QuizLoadError from "./QuizLoadError";
+import { useEffect, useState } from "react";
 import QuizQuestion from "./QuizQuestion";
 import type { AxiosError } from "axios";
 import QuizHeader from "./QuizHeader";
-// import { QuizSessionResponse } from "../../types/quiz";
 import toast from "react-hot-toast";
 import { QuizAPI } from "@/api";
 

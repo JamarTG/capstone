@@ -1,10 +1,10 @@
 import QuizCardHeader from "../../components/quiz/QuizCardHeader";
-import extractErrorMessage from "../../utils/extractErrorMessage";
 import QuizCardBody from "../../components/quiz/QuizCardBody";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { formatDate } from "../../utils/formatDate";
+import { extractErrorMessage } from "@/utils";
 import Card from "../../components/ui/Card";
 import type { AxiosError } from "axios";
+import { formatDate } from "@/utils";
 import toast from "react-hot-toast";
 import type { Quiz } from "./types";
 import { useTheme } from "@/hooks";

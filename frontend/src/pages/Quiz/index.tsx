@@ -1,4 +1,3 @@
-import extractErrorMessage from "../../utils/extractErrorMessage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import SectionHeader from "../../components/SectionHeader";
 import PageContent from "../../components/layout/Page";
@@ -6,6 +5,7 @@ import useAuthRedirect from "@/hooks/useAuthRedirect";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
 import { useNavigate } from "react-router-dom";
+import { extractErrorMessage } from "@/utils";
 import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
 import type { AxiosError } from "axios";

@@ -1,3 +1,4 @@
+import { calculateStart, getPageQuestions, getPageTotalPages } from "@/utils";
 import RenderList from "../../components/common/RenderList";
 import type { Dispatch, SetStateAction, FC } from "react";
 import type { Question } from "../../types/quiz";
@@ -19,11 +20,11 @@ const QuestionSidebar: FC<QuestionSidebarProps> = ({
   setCurrentQuestionIndex,
 }) => {
   const [page, setPage] = useState(0);
+
   const pageSize = 6;
-  const start = page * pageSize;
-  const end = start + pageSize;
-  const totalPages = Math.ceil(questions.length / pageSize);
-  const pageQuestions = questions.slice(start, end);
+  const start = calculateStart(pageSize, page);
+  const totalPages = getPageTotalPages(questions, pageSize);
+  const pageQuestions = getPageQuestions(questions, pageSize, page);
 
   const renderPageQuestion = (question: Question, index: number) => {
     const globalIndex = start + index;

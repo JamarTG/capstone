@@ -1,8 +1,8 @@
-import { getFilterMessage } from "../../utils/getFilterMessage";
 import Button from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import type { StatusFilter } from "./types";
 import { IconifyIcons } from "../../icons";
+import { getFilterMessage } from "@/utils";
 import { Icon } from "@iconify/react";
 import { useTheme } from "@/hooks";
 import type { FC } from "react";
