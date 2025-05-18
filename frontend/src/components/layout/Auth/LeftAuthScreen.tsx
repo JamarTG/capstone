@@ -1,7 +1,6 @@
 import type { ReactNode, FC } from "react";
 import AuthHeader from "./AuthHeader";
 
-
 interface LeftAuthScreenProps {
   children: ReactNode;
   title: string;

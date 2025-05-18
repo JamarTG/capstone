@@ -1,20 +1,18 @@
+import useRedirectToActiveSession from "@/hooks/useRedirectToActiveSession";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import SectionHeader from "../../components/SectionHeader";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import Loader from "../../components/common/Loader";
 import SectionContainer from "./SectionContainer";
-import { useNavigate } from "react-router-dom";
 import { extractErrorMessage } from "@/utils";
-import { useEffect, useState } from "react";
 import { IconifyIcons } from "../../icons";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
 import { QuizAPI } from "@/api";
 
 const QuizSelection = () => {
-  const navigate = useNavigate();
-
   useAuthRedirect();
 
   const { data: activeSession, isLoading: isSessionLoading } = useQuery({
@@ -25,11 +23,7 @@ const QuizSelection = () => {
 
   const [loadingSection, setLoadingSection] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (activeSession?.data?.hasActiveSession && activeSession.data.sessionId) {
-      navigate(`/quiz/${activeSession.data.sessionId}`);
-    }
-  }, [activeSession, navigate]);
+  useRedirectToActiveSession(activeSession);
 
   const onError = (error: AxiosError) => {
     toast.error(extractErrorMessage(error));

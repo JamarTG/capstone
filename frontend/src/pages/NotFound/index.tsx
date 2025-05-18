@@ -1,5 +1,5 @@
-import { useTheme } from "@/hooks";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/hooks";
 
 const NotFound = () => {
   const { isDark } = useTheme();

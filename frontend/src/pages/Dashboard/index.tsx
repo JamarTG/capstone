@@ -14,7 +14,7 @@ const Dashboard = () => {
   useAuthRedirect();
   const { isDark } = useTheme();
 
-  const { data : user } = useQuery<{ data: UserData }>({
+  const { data: user } = useQuery<{ data: UserData }>({
     queryKey: ["get-profile-data"],
     queryFn: UserAPI.fetchUserInfo,
   });

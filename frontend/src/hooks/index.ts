@@ -4,3 +4,4 @@ export * from "./useLogin";
 export * from "./useRegister";
 export * from "./useSidebarExpanded";
 export * from "./useTheme";
+export * from "./useRedirectToActiveSession";

@@ -25,7 +25,6 @@ const QuizSession = () => {
     data: session,
     isLoading,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["quizSession", id],
     queryFn: () => QuizAPI.getQuizById(id!),
@@ -45,12 +44,6 @@ const QuizSession = () => {
     mutationFn: QuizAPI.submitAnswer,
     onError: (error: AxiosError) => toast.error(extractErrorMessage(error)),
   });
-
-  useEffect(() => {
-    if (!session?.session?.createdAt) {
-      refetch();
-    }
-  }, [session, refetch]);
 
   useEffect(() => {
     if (session?.session?.currentQuestionIndex !== undefined) {
