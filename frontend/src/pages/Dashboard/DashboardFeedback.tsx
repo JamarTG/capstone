@@ -2,11 +2,11 @@ import { Feedback } from "./types";
 import { useTheme } from "@/hooks";
 import { FC } from "react";
 
-interface FeedbackEntriesProps {
+interface DashboardFeedbackProps {
   feedbackEntry: Feedback;
 }
 
-const FeedbackEntries: FC<FeedbackEntriesProps> = ({ feedbackEntry }) => {
+const DashboardFeedback: FC<DashboardFeedbackProps> = ({ feedbackEntry }) => {
   const { isDark } = useTheme();
   return (
     <div
@@ -20,4 +20,4 @@ const FeedbackEntries: FC<FeedbackEntriesProps> = ({ feedbackEntry }) => {
   );
 };
 
-export default FeedbackEntries;
+export default DashboardFeedback;

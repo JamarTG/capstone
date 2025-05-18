@@ -1,11 +1,11 @@
-import SectionHeader from "../../components/SectionHeader";
+import SectionHeader from "../../components/common/SectionHeader";
 import PageLayout from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import { Typewriter } from "react-simple-typewriter";
+import FeedbackList from "./DashboardFeedbackList";
 import { useQuery } from "@tanstack/react-query";
 import type { UserData } from "../../types/user";
 import { IconifyIcons } from "../../icons";
-import FeedbackList from "./FeedbackList";
 import { useTheme } from "@/hooks";
 import { UserAPI } from "@/api";
 import { QuizAPI } from "@/api";

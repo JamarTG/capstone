@@ -1,5 +1,5 @@
 import RenderList from "../../components/common/RenderList";
-import FeedbackEntries from "./FeedbackEntries";
+import DashboardFeedback from "./DashboardFeedback";
 import { Section_Map } from "../../constants";
 import { IconifyIcons } from "../../icons";
 import { Icon } from "@iconify/react";
@@ -8,11 +8,11 @@ import { Feedback } from "./types";
 import { useState } from "react";
 import type { FC } from "react";
 
-interface FeedbackListProps {
+interface DashboardFeedbackListProps {
   feedbacks: Feedback[];
 }
 
-const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
+const FeedbackList: FC<DashboardFeedbackListProps> = ({ feedbacks = [] }) => {
   const { isDark } = useTheme();
 
   const [page, setPage] = useState(0);
@@ -126,7 +126,7 @@ const FeedbackList: FC<FeedbackListProps> = ({ feedbacks = [] }) => {
               <RenderList
                 data={entries.slice(page * 5, (page + 1) * 5)}
                 renderFn={(feedbackEntry: Feedback) => (
-                  <FeedbackEntries feedbackEntry={feedbackEntry} />
+                  <DashboardFeedback feedbackEntry={feedbackEntry} />
                 )}
               />
               <div className="flex justify-between mt-2">
