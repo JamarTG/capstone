@@ -1,12 +1,12 @@
 import type { FC } from "react";
 
-interface ConfirmDeletionProps {
+interface QuizDeletionPromptProps {
   onConfirm: VoidFunction;
   onCancel: VoidFunction;
   isPending: boolean;
 }
 
-const ConfirmDeletion: FC<ConfirmDeletionProps> = ({
+const QuizDeletionPrompt: FC<QuizDeletionPromptProps> = ({
   onConfirm,
   onCancel,
   isPending,
@@ -32,4 +32,4 @@ const ConfirmDeletion: FC<ConfirmDeletionProps> = ({
   </div>
 );
 
-export default ConfirmDeletion;
+export default QuizDeletionPrompt;

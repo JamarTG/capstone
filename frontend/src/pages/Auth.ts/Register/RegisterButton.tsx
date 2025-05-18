@@ -1,4 +1,4 @@
-import Button from "../../ui/Button";
+import Button from "../../../components/ui/Button";
 
 interface RegisterButtonProps {
   isPending: boolean;

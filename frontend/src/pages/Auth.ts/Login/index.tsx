@@ -1,6 +1,6 @@
 import AuthLayout from "@/components/layout/Auth";
-import RegisterRedirect from "./RegisterRedirect";
 import LoginForm from "./LoginForm";
+import RegisterRedirect from "./RegisterRedirect";
 
 export default function Login() {
   return (

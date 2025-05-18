@@ -1,4 +1,5 @@
-import ConfirmDeletion from "./ConfirmDeletion";
+import QuizDeletionPrompt from "./QuizDeletionPrompt";
+import QuizDeletionButton from "./QuizDeletionButton";
 import { Section_Map } from "../../constants";
 import { IconifyIcons } from "../../icons";
 import { Icon } from "@iconify/react";
@@ -23,24 +24,13 @@ const QuizCardHeader: FC<Props> = ({
 }) => {
   return (
     <section
-      className="relative h-32 sm:h-32"
-      style={{
-        backgroundImage: `url(${Section_Map[section]?.bgSrc})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="relative h-32 bg-cover bg-no-repeat"
+      style={{ backgroundImage: `url(${Section_Map[section]?.bgSrc})` }}
     >
       {!isConfirming ? (
-        <button
-          onClick={onDeleteClick}
-          disabled={isPending}
-          className="cursor-pointer absolute top-3 left-3 z-10 text-white bg-black/30 hover:bg-black/50 p-1.5 rounded-full"
-          title="Delete quiz"
-        >
-          <Icon icon={IconifyIcons.trash} />
-        </button>
+        <QuizDeletionButton onDeleteClick={onDeleteClick} isPending={false} />
       ) : (
-        <ConfirmDeletion
+        <QuizDeletionPrompt
           onConfirm={onConfirm}
           onCancel={onCancel}
           isPending={isPending}

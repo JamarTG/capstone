@@ -1,7 +1,7 @@
+import InputField from "../../../components/ui/Input";
 import useRegister from "@/hooks/useRegister";
 import RegisterButton from "./RegisterButton";
 import type { formTypes } from "@/types";
-import InputField from "../../ui/Input";
 
 export default function RegisterForm() {
   const { formData, errors, isPending, handleChange, handleSubmit } =
