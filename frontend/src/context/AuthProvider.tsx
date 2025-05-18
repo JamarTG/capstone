@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "./AuthContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { FC, ReactNode } from "react";
 import { AuthAPI } from "@/api";
 
