@@ -5,7 +5,7 @@ interface SidebarContentProps {
   isExpanded: boolean;
 }
 
-const SidebarContent:FC<SidebarContentProps> = ({isExpanded}) => {
+const SidebarContent: FC<SidebarContentProps> = ({ isExpanded }) => {
   return (
     <main
       className={`flex flex-col flex-grow transition-all duration-300 ease-in-out ${

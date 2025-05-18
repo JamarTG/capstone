@@ -1,20 +1,19 @@
 import RenderList from "@/components/common/RenderList";
-import type { FC } from "react";
-import { mainRoutes } from "./routes";
-import { NavLink } from "react-router-dom";
-import { capitalize } from "@/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { NavLink } from "react-router-dom";
+import { mainRoutes } from "./routes";
+import { capitalize } from "@/utils";
 import { useTheme } from "@/hooks";
+import type { FC } from "react";
 
 interface SidebarMainRoutesProps {
-    isExpanded: boolean;
+  isExpanded: boolean;
 }
 
-const SidebarMainRoutes:FC<SidebarMainRoutesProps> = ({isExpanded}) => {
+const SidebarMainRoutes: FC<SidebarMainRoutesProps> = ({ isExpanded }) => {
+  const { isDark } = useTheme();
 
-    const {isDark} = useTheme();
-    
-    return (
+  return (
     <div className="overflow-y-auto overflow-x-hidden">
       <ul className="flex flex-col gap-2 space-y-2">
         <RenderList

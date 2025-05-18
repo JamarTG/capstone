@@ -1,16 +1,15 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { AuthContext } from "@/context/AuthContext";
+import { useContext, type FC } from "react";
 import { otherRoutes } from "./routes";
 import { useTheme } from "@/hooks";
-import { useContext, type FC } from "react";
-import { AuthContext } from "@/context/AuthContext";
 
 interface SidebarOtherRoutesProps {
   isExpanded: boolean;
 }
 
-const SidebarOtherRoutes: FC<SidebarOtherRoutesProps> = ({ isExpanded}) => {
-
+const SidebarOtherRoutes: FC<SidebarOtherRoutesProps> = ({ isExpanded }) => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext)!;
 
