@@ -3,7 +3,7 @@
 html,
 body {
   cursor:
-    url("../src/assets/cursors/default.png") 6 6,
+    url("../src/assets/images/cursors/default.png") 6 6,
     auto;
 }
 
@@ -17,7 +17,7 @@ label,
 details summary,
 .pointer-img {
   cursor:
-    url("../src/assets/cursors/clickable.png") 6 6,
+    url("../src/assets/images/cursors/clickable.png") 6 6,
     pointer;
 }
 
@@ -27,7 +27,7 @@ input[type="password"],
 textarea,
 [contenteditable="true"] {
   cursor:
-    url("../src/assets/cursors/editable.png") 6 6,
+    url("../src/assets/images/cursors/editable.png") 6 6,
     text;
 }
 
