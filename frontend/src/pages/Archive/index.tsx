@@ -1,4 +1,4 @@
-import SectionHeader from "../../components/SectionHeader";
+import SectionHeader from "../../components/common/SectionHeader";
 import PageLayout from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import QuizHistoryList from "./QuizHistoryList";

@@ -1,6 +1,6 @@
+import AuthLeftHeader from "./AuthLeftHeader";
 import type { ReactNode, FC } from "react";
 import AuthLeftBody from "./AuthLeftBody";
-import AuthLeftHeader from "./AuthLeftHeader";
 
 interface AuthLeftProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ const AuthLeft: FC<AuthLeftProps> = ({ title, children }) => {
   return (
     <div className="w-2/3 flex flex-col justify-center items-center px-6 py-12 space-y-10">
       <AuthLeftHeader title={title} />
-      <AuthLeftBody children={children}/>
+      <AuthLeftBody children={children} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import useRedirectToActiveSession from "@/hooks/useRedirectToActiveSession";
+import SectionHeader from "../../components/common/SectionHeader";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import SectionHeader from "../../components/SectionHeader";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import Loader from "../../components/common/Loader";

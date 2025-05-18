@@ -1,5 +1,5 @@
-import { IconifyIcons } from "@/icons";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { IconifyIcons } from "@/icons";
 import type { FC } from "react";
 
 interface QuizDeletionButtonProps {
@@ -7,7 +7,10 @@ interface QuizDeletionButtonProps {
   isPending: boolean;
 }
 
-const QuizDeletionButton:FC<QuizDeletionButtonProps> = ({onDeleteClick, isPending}) => {
+const QuizDeletionButton: FC<QuizDeletionButtonProps> = ({
+  onDeleteClick,
+  isPending,
+}) => {
   return (
     <button
       onClick={onDeleteClick}

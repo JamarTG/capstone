@@ -1,7 +1,7 @@
-import AuthScreenRight from "./AuthRight";
-import AuthScreenLeft from "./AuthLeft";
 import { getTitleFromPath } from "@/utils";
 import type { FC, ReactNode } from "react";
+import AuthScreenRight from "./AuthRight";
+import AuthScreenLeft from "./AuthLeft";
 
 interface AuthLayoutProps {
   children: ReactNode;
