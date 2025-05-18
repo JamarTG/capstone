@@ -1,4 +1,4 @@
-const RightAuthScreen = () => {
+const AuthRight = () => {
   return (
     <div className="hidden lg:flex w-1/2 items-center justify-center bg-white">
       <div className="flex flex-col items-center text-center px-10">
@@ -15,4 +15,4 @@ const RightAuthScreen = () => {
   );
 };
 
-export default RightAuthScreen;
+export default AuthRight;

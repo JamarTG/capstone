@@ -1,6 +1,6 @@
-import PageContainer from "./PageContainer";
 import type { FC, ReactNode } from "react";
 import PageHeader from "./PageHeader";
+import { useTheme } from "@/hooks";
 import PageBody from "./PageBody";
 
 interface PageLayoutProps {
@@ -9,11 +9,12 @@ interface PageLayoutProps {
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ children, title }) => {
+  const { isDark } = useTheme();
   return (
-    <PageContainer>
+    <div className={`min-h-screen ${isDark ? "bg-gray-800" : "bg-white"}`}>
       <PageHeader title={title} />
       <PageBody>{children}</PageBody>
-    </PageContainer>
+    </div>
   );
 };
 

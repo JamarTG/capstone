@@ -1,5 +1,6 @@
-import RightAuthScreen from "./RightAuthScreen";
-import LeftAuthScreen from "./LeftAuthScreen";
+import AuthScreenRight from "./AuthRight";
+import AuthScreenLeft from "./AuthLeft";
+import { getTitleFromPath } from "@/utils";
 import type { FC, ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -7,17 +8,11 @@ interface AuthLayoutProps {
 }
 
 const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
-  const title =
-    location.pathname === "/login"
-      ? "Sign into your account"
-      : location.pathname === "/register"
-        ? "Create an account"
-        : "";
-
+  const title = getTitleFromPath(location.pathname);
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <LeftAuthScreen title={title}>{children}</LeftAuthScreen>
-      <RightAuthScreen />
+      <AuthScreenLeft title={title}>{children}</AuthScreenLeft>
+      <AuthScreenRight />
     </div>
   );
 };

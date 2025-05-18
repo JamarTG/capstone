@@ -1,10 +1,10 @@
 import type { FC } from "react";
 
-interface AuthHeaderProps {
+interface AuthContainerProps {
   title: string;
 }
 
-const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
+const AuthLeftHeader: FC<AuthContainerProps> = ({ title }) => {
   return (
     <section className="w-full text-center">
       <div className="w-full flex justify-center items-center space-x-4">
@@ -21,4 +21,4 @@ const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
   );
 };
 
-export default AuthHeader;
+export default AuthLeftHeader;

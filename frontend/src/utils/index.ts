@@ -4,3 +4,4 @@ export * from "./formatDate";
 export * from "./getFilterMessage";
 export * from "./pagination";
 export * from "./score";
+export * from "./getTitleFromPath";
