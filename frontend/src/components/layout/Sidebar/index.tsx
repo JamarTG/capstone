@@ -5,6 +5,7 @@ import SidebarMainRoutes from "./SidebarMainRoutes";
 import SidebarSeparator from "./SidebarSeparator";
 import SidebarContainer from "./SidebarContainer";
 import SidebarContent from "./SidebarContent";
+import SidebarWrapper from "./SidebarWrapper";
 import SidebarHeader from "./SidebarHeader";
 import type { ReactNode, FC } from "react";
 import SidebarBody from "./SidebarBody";
@@ -18,7 +19,7 @@ const SidebarLayout: FC<HomeLayoutProps> = () => {
   const [isExpanded, toggleSidebar] = useSidebarState("sidebarExpanded");
 
   return (
-    <>
+    <SidebarWrapper>
       <SidebarContainer isExpanded={isExpanded}>
         <SidebarHeader>
           <SidebarLogo />
@@ -38,7 +39,7 @@ const SidebarLayout: FC<HomeLayoutProps> = () => {
       </SidebarContainer>
 
       <SidebarContent isExpanded={isExpanded} />
-    </>
+    </SidebarWrapper>
   );
 };
 

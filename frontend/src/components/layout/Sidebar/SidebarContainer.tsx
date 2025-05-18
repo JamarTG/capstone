@@ -1,5 +1,6 @@
-import type { FC, ReactNode } from "react";
+
 import { useTheme } from "@/hooks";
+import type { FC, ReactNode } from "react";
 
 interface SidebarContainerProps {
   children: ReactNode;
