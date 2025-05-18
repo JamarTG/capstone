@@ -1,11 +1,11 @@
 import type { FC, ReactNode } from "react";
 import { useTheme } from "@/hooks";
 
-interface MainContentProps {
+interface PageBodyProps {
   children: ReactNode;
 }
 
-const MainContent: FC<MainContentProps> = ({ children }) => {
+const PageBody: FC<PageBodyProps> = ({ children }) => {
   const { isDark } = useTheme();
 
   return (
@@ -17,4 +17,4 @@ const MainContent: FC<MainContentProps> = ({ children }) => {
   );
 };
 
-export default MainContent;
+export default PageBody;
