@@ -4,12 +4,13 @@ import PageLayout from "../../components/layout/Page";
 import Loader from "../../components/common/Loader";
 import { extractErrorMessage } from "@/utils";
 import QuizLoadError from "./QuizLoadError";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import QuizQuestion from "./QuizQuestion";
 import type { AxiosError } from "axios";
 import QuizHeader from "./QuizHeader";
 import toast from "react-hot-toast";
 import { QuizAPI } from "@/api";
+import useResumeProgress from "@/hooks/useResumeProgress";
 
 const QuizSession = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -45,11 +46,7 @@ const QuizSession = () => {
     onError: (error: AxiosError) => toast.error(extractErrorMessage(error)),
   });
 
-  useEffect(() => {
-    if (session?.session?.currentQuestionIndex !== undefined) {
-      setCurrentIndex(session.session.currentQuestionIndex);
-    }
-  }, [session]);
+  useResumeProgress(session, setCurrentIndex);
 
   if (isLoading || !session?.session)
     return <Loader text="Loading Quiz Session" />;

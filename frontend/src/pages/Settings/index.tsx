@@ -1,31 +1,19 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PageContent from "../../components/layout/Page";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
+import useSettingsUser from "@/hooks/useSettingsUser";
 import ChangePersonalInfo from "./ChangePersonalInfo";
 import ChangePassword from "./ChangePassword";
 import { extractErrorMessage } from "@/utils";
-import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import ChangeTheme from "./ChangeTheme";
 import type { apiTypes } from "@/types";
 import type { AxiosError } from "axios";
-import { UserSettings } from "./types";
 import { UserAPI } from "@/api/user";
 import toast from "react-hot-toast";
-import { useTheme } from "@/hooks";
 
 export default function Settings() {
   useAuthRedirect();
-  const { isDark } = useTheme();
-
-  const [user, setUser] = useState<UserSettings>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    currentPassword: "",
-    darkMode: isDark,
-  });
 
   const { data } = useQuery({
     queryKey: ["get-profile-data"],
@@ -46,11 +34,7 @@ export default function Settings() {
     onError,
   });
 
-  useEffect(() => {
-    if (data) {
-      setUser(data.data);
-    }
-  }, [data]);
+  const { user, setUser } = useSettingsUser(data);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value });

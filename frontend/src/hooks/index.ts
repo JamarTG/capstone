@@ -5,3 +5,5 @@ export * from "./useRegister";
 export * from "./useSidebarExpanded";
 export * from "./useTheme";
 export * from "./useRedirectToActiveSession";
+export * from "./useResumeProgress";
+export * from "./useSetUser";
