@@ -7,6 +7,7 @@ import { AuthAPI } from "@/api";
 import { AUTH_TOKEN_CONFIG } from "../constants";
 import type { authTypes } from "@/types";
 import Cookies from "js-cookie";
+import useSetUser from "@/hooks/useSetUser";
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -33,12 +34,7 @@ const AuthProvider: FC<AuthProviderProps> = ({
     enabled: isAuthenticated,
   });
 
-  useEffect(() => {
-    if (isSuccess && data?.user) {
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
-    }
-  }, [isSuccess, data]);
+  useSetUser(isSuccess, setUser, data);
 
   return (
     <AuthContext.Provider
